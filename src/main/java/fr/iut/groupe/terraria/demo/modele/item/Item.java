@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele;
+package fr.iut.groupe.terraria.demo.modele.item;
 
 public class Item {
     private String nom;

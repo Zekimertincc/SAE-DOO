@@ -3,10 +3,10 @@ package fr.iut.groupe.terraria.demo.modele;
 public class Joueur {
     private double x, y;
     private double vitesseY = 0;
-    private final double largeur = 40, hauteur = 40;
-    private final double GRAVITE = 0.5;
-    private final double SAUT_FORCE = -10;
-    private final double SOL_Y = 300;
+    private double largeur = 40, hauteur = 40;
+    private double GRAVITE = 0.5;
+    private double SAUT_FORCE = -10;
+    private double SOL_Y = 300;
 
     public Joueur(double x, double y) {
         this.x = x;

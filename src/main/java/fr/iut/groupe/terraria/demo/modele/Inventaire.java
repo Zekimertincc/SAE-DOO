@@ -1,15 +1,14 @@
 package fr.iut.groupe.terraria.demo.modele;
 
+import fr.iut.groupe.terraria.demo.modele.item.Item;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Inventaire {
-    private String nom;
-    private String type;
     private ArrayList<Item> inventaire;
 
-    public Inventaire(String nom, String type, ArrayList<Item> inventaire) {
-        this.nom = nom;
-        this.type = type;
+    public Inventaire(ArrayList<Item> inventaire) {
         this.inventaire = new ArrayList<>();
     }
 
@@ -17,20 +16,26 @@ public class Inventaire {
         inventaire.add(item);
     }
 
+    // regarde si le personnage a l'item retourne true si oui sinon false.
+    public boolean possede (String nomItem) {
+        for (Item i : inventaire) {
+            if (i.getNom().equals(nomItem)){
+                return true;
+            }
+        }
+        return false;
+    }
+    // envoie un item en parametre est s'il est dans l'inventaire alors il s'enleve de l'inventaire (retourne true) sinon false
+    public boolean utiliser(String nomItem){
+        for (Item i : inventaire) {
+            if (i.getNom().equals(nomItem)){
+                inventaire.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
 
-
-    public String getNom() {
-        return nom;
-    }
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-    public String getType() {
-        return type;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
     public ArrayList<Item> getInventaire() {
         return inventaire;
     }

@@ -1,0 +1,9 @@
+package fr.iut.groupe.terraria.demo.modele.item.equipement;
+
+public class Couteau extends Equipement {
+
+    public Couteau() {
+        super("Couteau", 1);
+    }
+
+}
