@@ -1,13 +1,14 @@
 package fr.iut.groupe.terraria.demo.controller;
-import fr.iut.groupe.terraria.demo.modele.*;
-import fr.iut.groupe.terraria.demo.vue.VueJeu;
 
+
+import fr.iut.groupe.terraria.demo.modele.Joueur;
+import fr.iut.groupe.terraria.demo.vue.VueJeu;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
 public class ControleurJeu {
-    private boolean gauche = false, droite = false, saute = false;
+    private boolean gauche = false, droite = false;
     private Joueur joueur;
     private VueJeu vue;
 
@@ -21,13 +22,12 @@ public class ControleurJeu {
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.Q || e.getCode() == KeyCode.LEFT) gauche = true;
             if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) droite = true;
-            if (e.getCode() == KeyCode.SPACE) saute = true;
+            if (e.getCode() == KeyCode.SPACE) joueur.sauter();
         });
 
         scene.setOnKeyReleased(e -> {
             if (e.getCode() == KeyCode.Q || e.getCode() == KeyCode.LEFT) gauche = false;
             if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) droite = false;
-            if (e.getCode() == KeyCode.SPACE) saute = false;
         });
 
         // Boucle de jeu
@@ -35,12 +35,11 @@ public class ControleurJeu {
             public void handle(long now) {
                 if (gauche) joueur.gauche();
                 if (droite) joueur.droite();
-                if (saute) joueur.sauter();
+                joueur.appliquerGravite();
 
                 // Mise à jour de la vue
                 vue.getJoueurVue().setTranslateX(joueur.getX());
                 vue.getJoueurVue().setTranslateY(joueur.getY());
-
             }
         }.start();
     }

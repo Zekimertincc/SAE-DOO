@@ -26,7 +26,7 @@ public class HelloController {
         switch (event.getCode()) {
             case RIGHT -> joueur.droite();
             case LEFT -> joueur.gauche();
-            case SPACE -> joueur.sauter() ;
+            case UP -> joueur.sauter();
             default -> {}
         }
 

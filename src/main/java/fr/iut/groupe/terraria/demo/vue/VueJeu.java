@@ -5,26 +5,25 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class VueJeu extends Pane {
-    private Rectangle playerView;
-    private Rectangle ground;
+    private Rectangle joueurVue;
+    private Rectangle sol;
 
     public VueJeu() {
         setPrefSize(800, 600);
 
-        // Sol
-        ground = new Rectangle(800, 100);
-        ground.setTranslateY(500); // Position Y du sol
-        ground.setFill(Color.DARKGREEN);
+        sol = new Rectangle(800, 50);
+        sol.setTranslateY(300);
+        sol.setFill(Color.DARKGREEN);
 
-        // Joueur
-        playerView = new Rectangle(40, 40, Color.RED);
-
-        getChildren().addAll(ground, playerView);
+        joueurVue = new Rectangle(40, 40, Color.RED);
+        getChildren().addAll(sol, joueurVue);
     }
 
-    public Rectangle getPlayerView() {
-        return playerView;
+    public Rectangle getJoueurVue() {
+        return joueurVue;
     }
 }
+
+
 
 
