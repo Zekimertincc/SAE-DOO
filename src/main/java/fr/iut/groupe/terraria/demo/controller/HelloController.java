@@ -1,6 +1,6 @@
 package fr.iut.groupe.terraria.demo.controller;
 
-import fr.iut.groupe.terraria.demo.modele.Joueur;
+import fr.iut.groupe.terraria.demo.modele.Personnage.Joueur;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
@@ -17,7 +17,7 @@ public class HelloController {
 
     @FXML
     public void initialize() {
-        joueur = new Joueur(100, 300);
+        joueur = new Joueur(100, 300, 5);
         joueurRect.setLayoutX(joueur.getX());
         joueurRect.setLayoutY(joueur.getY());
     }
