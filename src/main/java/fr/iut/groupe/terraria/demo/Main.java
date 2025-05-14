@@ -1,3 +1,5 @@
+
+
 package fr.iut.groupe.terraria.demo;
 
 import fr.iut.groupe.terraria.demo.controller.ControleurJeu;
@@ -9,12 +11,19 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
-    @Override
-    public void start(Stage primaryStage) {
-        VueJeu vue = new VueJeu();
-        Joueur joueur = new Joueur(100, 260);
-        ControleurJeu controleur = new ControleurJeu(vue, joueur);
 
+    public void start(Stage primaryStage) {
+        VueJeu vue = new VueJeu(); // View
+        Joueur joueur = new Joueur(100, 260); // Model
+
+        try {
+            vue.drawSimpleMap("/fr/iut/groupe/terraria/demo/map.csv", "/fr/iut/groupe/terraria/demo/tileset.png", 32);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        ControleurJeu controleur = new ControleurJeu(vue, joueur); // Controller
         Scene scene = new Scene(vue);
         controleur.demarrer(scene);
 
@@ -23,8 +32,8 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+
     public static void main(String[] args) {
         launch(args);
     }
 }
-

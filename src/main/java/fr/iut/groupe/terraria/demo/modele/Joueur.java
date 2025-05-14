@@ -36,4 +36,3 @@ public class Joueur {
     public double getLargeur() { return largeur; }
     public double getHauteur() { return hauteur; }
 }
-
