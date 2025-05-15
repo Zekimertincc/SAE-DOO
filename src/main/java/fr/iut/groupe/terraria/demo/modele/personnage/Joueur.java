@@ -1,7 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele.personnage;
 
-import fr.iut.groupe.terraria.demo.modele.equipement.Couteau;
-import fr.iut.groupe.terraria.demo.modele.equipement.Equipement;
+import fr.iut.groupe.terraria.demo.modele.item.equipement.Couteau;
+import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 
 public class Joueur extends Personnage{
 

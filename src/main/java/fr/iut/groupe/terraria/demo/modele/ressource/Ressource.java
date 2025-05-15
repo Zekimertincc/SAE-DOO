@@ -1,7 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele.ressource;
 
-import fr.iut.groupe.terraria.demo.modele.Item;
-import fr.iut.groupe.terraria.demo.modele.equipement.Equipement;
+import fr.iut.groupe.terraria.demo.modele.item.Item;
+import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 
 public abstract class Ressource {
     protected double x, y;
@@ -18,6 +18,8 @@ public abstract class Ressource {
         this.estRecoltable = true;
         this.outilRequis = outilRequis;
     }
+    // recuperer objet bois, pierre..
+    public abstract Item getItemProduit();
 
     // verifie si la ressource peut être récoltée avec l'outil fourni
     public boolean peutEtreRecolteeAvec(Equipement outil) {
@@ -33,31 +35,23 @@ public abstract class Ressource {
         }
         return false;
     }
+    public void recolter() {
+        this.estRecoltable = false;
+    }
 
 
     public boolean estRecoltable() {
         return estRecoltable;
     }
-
-    public void recolter() {
-        this.estRecoltable = false;
-    }
-
     public double getX() {
         return x;
     }
-
     public double getY() {
         return y;
     }
-
-    public abstract Item getItemProduit();
-
-
     public String getType() {
         return type;
     }
-
     public int getQuantite() {
         return quantite;
     }

@@ -1,6 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele;
 
-import fr.iut.groupe.terraria.demo.modele.nourriture.Nourriture;
+import fr.iut.groupe.terraria.demo.modele.item.Item;
+import fr.iut.groupe.terraria.demo.modele.item.nourriture.Nourriture;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 
 import java.util.ArrayList;

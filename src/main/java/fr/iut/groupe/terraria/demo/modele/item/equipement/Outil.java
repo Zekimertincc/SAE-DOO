@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.equipement;
+package fr.iut.groupe.terraria.demo.modele.item.equipement;
 
 public class Outil extends Equipement {
     public Outil(String nom, int degats, int portee) {

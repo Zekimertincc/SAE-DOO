@@ -1,5 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele.monde;
 
+import fr.iut.groupe.terraria.demo.modele.item.Coffre;
+import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Ennemi;
 import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
@@ -11,11 +13,13 @@ import java.util.ArrayList;
 public class Monde {
     private ArrayList<Ennemi> listEnnemis;
     private ArrayList<Ressource> listRessources;
+    private ArrayList<Coffre> listCoffres;
     private double distanceRecup;
 
     public Monde() {
         listEnnemis = new ArrayList<>();
         listRessources = new ArrayList<>();
+        listCoffres = new ArrayList<>();
         this.distanceRecup = 5;
     }
 
@@ -56,14 +60,33 @@ public class Monde {
         return proches;
     }
 
-    // ajoute la list dans son inventaire
+    // ajoute la list dans son inventaire et reduit la durabilité de l'arme.
     public void collecterRessourcesProches(Joueur joueur, Inventaire inventaire) {
-        ArrayList<Ressource> ressourcesProches = getRessourcesProches(joueur);
-        for (Ressource ressource : ressourcesProches) {
-            for (int i = 0; i < ressource.getQuantite(); i++) {
-                inventaire.ajouter(ressource.getItemProduit());
+        Equipement outil = joueur.getEquipementActuel();
+
+        ArrayList<Ressource> proches = getRessourcesProches(joueur);
+
+        for (Ressource r : proches) {
+            if (r.peutEtreRecolteeAvec(outil)) {
+                // Ajoute les items à l'inventaire
+                for (int i = 0; i < r.getQuantite(); i++) {
+                    inventaire.ajouter(r.getItemProduit());
+                }
+                r.recolter();
+
+                if (outil != null) {
+                    outil.utiliser();
+                    if (outil.estCasse()) {
+                        System.out.println("Ton " + outil.getNom() + " est cassé pendant la récolte !");
+                        joueur.setEquipementActuel(null); // ou retirer de l’inventaire
+                    }
+                }
             }
-            ressource.recolter();
+        }
+    }
+    public void verifierCoffresProches(Joueur joueur, Inventaire inventaire) {
+        for (Coffre coffre : listCoffres) {
+            coffre.interactionAvecCoffre(joueur, inventaire);
         }
     }
 

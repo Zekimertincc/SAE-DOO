@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.nourriture;
+package fr.iut.groupe.terraria.demo.modele.item.nourriture;
 
 public class Poulet extends Nourriture {
     public Poulet() {

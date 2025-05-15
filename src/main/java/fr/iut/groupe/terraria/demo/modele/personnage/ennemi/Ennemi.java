@@ -2,6 +2,7 @@ package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
 
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.personnage.PersonnageJeu;
+import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 
 public class Ennemi extends PersonnageJeu {
     private String typeDeplacement;
@@ -18,16 +19,12 @@ public class Ennemi extends PersonnageJeu {
     }
     // retourne true si un enemi est proche du joueur (distance de 20)
     public boolean estProcheDe(Joueur joueur) {
-        double dx = this.x - joueur.getX();
-        double dy = this.y - joueur.getY();
-        double d = Math.sqrt(dx * dx + dy * dy);
+        double d = Maths.distance(joueur.getX(), joueur.getY(), this.getX(), this.getY());
         return d < 50;
     }
-    // surcharge
+    // surcharge de la methode du haut methode pour attaquer (utiliser dans monde)
     public boolean estProcheDe(Joueur joueur, int distance) {
-        double dx = this.x - joueur.getX();
-        double dy = this.y - joueur.getY();
-        double d = Math.sqrt(dx * dx + dy * dy);
+        double d = Maths.distance(joueur.getX(), joueur.getY(), this.getX(), this.getY());
         return d < distance;
     }
 

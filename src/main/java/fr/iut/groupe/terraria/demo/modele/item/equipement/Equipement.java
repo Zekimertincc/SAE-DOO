@@ -1,7 +1,7 @@
-package fr.iut.groupe.terraria.demo.modele.equipement;
-import fr.iut.groupe.terraria.demo.modele.*;
+package fr.iut.groupe.terraria.demo.modele.item.equipement;
+import fr.iut.groupe.terraria.demo.modele.item.Item;
 
-public class Equipement extends Item{
+public class Equipement extends Item {
     private int degats, durabilite, portee;
     private String type; // ex: "outil", "arme"
 

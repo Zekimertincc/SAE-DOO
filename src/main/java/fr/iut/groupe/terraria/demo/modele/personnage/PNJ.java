@@ -1,5 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele.personnage;
 
+import fr.iut.groupe.terraria.demo.modele.monde.Maths;
+
 public class PNJ extends PersonnageJeu{
     private String nom;
     private Quete quete;
@@ -12,9 +14,7 @@ public class PNJ extends PersonnageJeu{
 
     // retourne true si un enemi est proche du joueur (distance de 20)
     public boolean estProcheDe(Joueur joueur) {
-        double dx = joueur.getX() - this.x;
-        double dy = joueur.getY() - this.y;
-        double d = Math.sqrt(dx * dx + dy * dy);
+        double d = Maths.distance(joueur.getX(), joueur.getY(), this.getX(), this.getY());
         return d < 20;
     }
 
