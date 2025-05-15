@@ -1,5 +1,8 @@
 package fr.iut.groupe.terraria.demo.modele;
 
+import fr.iut.groupe.terraria.demo.modele.nourriture.Nourriture;
+import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
+
 import java.util.ArrayList;
 
 public class Inventaire {
@@ -18,6 +21,21 @@ public class Inventaire {
         }
         listItems.add(item);
         return true;
+    }
+    public boolean utiliserItem(String nomItem, Joueur joueur) {
+        boolean utiliser = false;
+        for (int i = 0; i < listItems.size() && !utiliser; i++) {
+            Item item = listItems.get(i);
+            if (item.getNom().equals(nomItem)) {
+                if (item instanceof Nourriture) {
+                    Nourriture nourriture = (Nourriture) item;
+                    nourriture.utiliserSur(joueur);
+                    retirer(nomItem);
+                    utiliser = true;
+                }
+            }
+        }
+        return utiliser;
     }
 
     // retire un item par nom

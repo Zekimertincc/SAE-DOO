@@ -1,7 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele.equipement;
 
-public class Hache extends Equipement {
+public class Hache extends Outil {
     public Hache() {
-        super(2);
+        super("Hache", 3);
     }
 }

@@ -5,7 +5,6 @@ public abstract class Personnage {
     protected int vie, vieMax;
     protected int degats;
 
-
     public Personnage(double y, double x, int vie, int vieMax, int degats) {
         this.y = y;
         this.x = x;

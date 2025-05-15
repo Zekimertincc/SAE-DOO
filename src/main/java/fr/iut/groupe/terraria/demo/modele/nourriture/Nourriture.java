@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.equipement.nourriture;
+package fr.iut.groupe.terraria.demo.modele.nourriture;
 
 import fr.iut.groupe.terraria.demo.modele.Item;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;

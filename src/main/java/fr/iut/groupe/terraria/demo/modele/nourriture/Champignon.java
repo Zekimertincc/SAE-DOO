@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.equipement.nourriture;
+package fr.iut.groupe.terraria.demo.modele.nourriture;
 
 public class Champignon extends Nourriture {
     public Champignon() {
