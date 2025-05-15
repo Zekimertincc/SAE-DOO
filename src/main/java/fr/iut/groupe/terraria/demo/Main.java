@@ -16,12 +16,6 @@ public class Main extends Application {
         VueJeu vue = new VueJeu(); // View
         Joueur joueur = new Joueur(100, 260); // Model
 
-        try {
-            vue.drawSimpleMap("/fr/iut/groupe/terraria/demo/map.csv", "/fr/iut/groupe/terraria/demo/tileset.png", 32);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         ControleurJeu controleur = new ControleurJeu(vue, joueur); // Controller
         Scene scene = new Scene(vue);
