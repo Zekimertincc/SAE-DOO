@@ -50,9 +50,7 @@ public class Monde {
     public ArrayList<Ressource> getRessourcesProches(Joueur joueur) {
         ArrayList<Ressource> proches = new ArrayList<>();
         for (Ressource r : listRessources) {
-            double dx = r.getX() - joueur.getX();
-            double dy = r.getY() - joueur.getY();
-            double d = Math.sqrt(dx * dx + dy * dy);
+            double d = Maths.distance(joueur.getX(), joueur.getY(), r.getX(), r.getY());
             if (d <= distanceRecup && r.estRecoltable()) {
                 proches.add(r);
             }
