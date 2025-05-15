@@ -34,7 +34,7 @@ public class Monde {
     */
     public void mettreAJour(Joueur joueur) {
         for (Ennemi ennemi : listEnnemis) {
-            if (ennemi.estProcheDe(joueur, 50)) {
+            if (ennemi.estProcheDe(joueur)) {
                 ennemi.seDeplacerVers(joueur);
             }
             if (ennemi.estProcheDe(joueur, 10)) {

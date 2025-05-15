@@ -1,7 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele.equipement;
 
 public class Arme extends Equipement {
-    public Arme(String nom, int degats) {
-        super(nom, degats, "arme");
+    public Arme(String nom, int degats, int portee) {
+        super(nom, degats, "arme", 10, portee);
     }
 }

@@ -4,6 +4,8 @@ import fr.iut.groupe.terraria.demo.modele.equipement.Couteau;
 import fr.iut.groupe.terraria.demo.modele.equipement.Equipement;
 
 public class Joueur extends Personnage{
+    // utilisation de la methode estProcheDe chez Personnage
+
     private double vitesseY = 0; // plus y est grand plus le personnage tombe rapidement
     private double largeur = 40, hauteur = 40; // taille du personnage
     private double GRAVITE = 0.5;
@@ -40,6 +42,30 @@ public class Joueur extends Personnage{
             vitesseY = SAUT_FORCE;
         }
     }
+
+    public void utiliserEquipementSur(String cible) {
+        if (equipementActuel != null) {
+            int degats = equipementActuel.getDegatsContre(cible);
+            equipementActuel.utiliser(); // réduit la durabilité
+
+            System.out.println("Tu as utilisé " + equipementActuel.getNom() + " sur " + cible + " (dégâts = " + degats + ")");
+
+            if (equipementActuel.estCasse()) {
+                System.out.println("Ton " + equipementActuel.getNom() + " est cassé !");
+                equipementActuel = null;
+            }
+        } else {
+            System.out.println("Aucun équipement sélectionné !");
+        }
+    }
+    // faire une nouvelle class pour eviter ca (donner cette fonction à joueur)
+    public boolean estProcheDe(Joueur joueur) {
+        double dx = this.x - joueur.getX();
+        double dy = this.y - joueur.getY();
+        double d = Math.sqrt(dx * dx + dy * dy);
+        return d >0;
+    }
+
 
     public double getLargeur() { return largeur; }
     public double getHauteur() { return hauteur; }

@@ -41,14 +41,9 @@ public abstract class Personnage {
         this.y = y;
     }
 
-    // retourne true si un enemi est proche du joueur
-    // par exemple si le parametre distance = 50, retourne true si le joueur est à moins de 50 pixels de l’ennemi.
-    public boolean estProcheDe(Joueur joueur, double distance) {
-        double dx = this.x - joueur.getX();
-        double dy = this.y - joueur.getY();
-        double d = Math.sqrt(dx * dx + dy * dy);
-        return d <= distance;
-    }
+    // retourne true si un enemi est proche du joueur mais ne fait rien c'est juste une detection
+    public abstract boolean estProcheDe(Joueur joueur);
+
 
     public int getVie() {
         return vie;
