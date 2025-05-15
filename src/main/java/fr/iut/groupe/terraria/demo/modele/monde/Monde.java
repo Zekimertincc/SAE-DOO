@@ -24,16 +24,7 @@ public class Monde {
      si oui alors il va se deplacer vers le personnage
      et si il est assez proche du personnage il le met des degats
     */
-    public void mettreAJour(Joueur joueur) {
-        for (Ennemi ennemi : ennemis) {
-            if (ennemi.estProcheDe(joueur, 50)) {
-                ennemi.seDeplacerVers(joueur);
-            }
-            if (ennemi.estProcheDe(joueur, 10)) {
-                ennemi.attaquer(joueur);
-            }
-        }
-    }
+
     // Supprimer un ennemi
     public void supprimerEnnemi(Ennemi ennemi) {
         ennemis.remove(ennemi);
