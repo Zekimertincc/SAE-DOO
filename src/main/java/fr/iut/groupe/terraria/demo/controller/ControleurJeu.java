@@ -1,16 +1,18 @@
 package fr.iut.groupe.terraria.demo.controller;
 
-
-import fr.iut.groupe.terraria.demo.modele.Joueur;
-import fr.iut.groupe.terraria.demo.vue.VueJeu;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import fr.iut.groupe.terraria.demo.modele.Joueur;
+import fr.iut.groupe.terraria.demo.vue.VueJeu;
 
 public class ControleurJeu {
-    private boolean gauche = false, droite = false;
-    private Joueur joueur;
-    private VueJeu vue;
+
+    private final Joueur joueur;
+    private final VueJeu vue;
+
+    private boolean gauche = false;
+    private boolean droite = false;
 
     public ControleurJeu(VueJeu vue, Joueur joueur) {
         this.vue = vue;
@@ -18,26 +20,26 @@ public class ControleurJeu {
     }
 
     public void demarrer(Scene scene) {
-        // Gestion clavier
         scene.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.Q || e.getCode() == KeyCode.LEFT) gauche = true;
-            if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) droite = true;
-            if (e.getCode() == KeyCode.SPACE) joueur.sauter();
+            KeyCode code = e.getCode();
+            if (code == KeyCode.Q || code == KeyCode.LEFT) gauche = true;
+            if (code == KeyCode.D || code == KeyCode.RIGHT) droite = true;
+            if (code == KeyCode.SPACE) joueur.sauter();
         });
 
         scene.setOnKeyReleased(e -> {
-            if (e.getCode() == KeyCode.Q || e.getCode() == KeyCode.LEFT) gauche = false;
-            if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) droite = false;
+            KeyCode code = e.getCode();
+            if (code == KeyCode.Q || code == KeyCode.LEFT) gauche = false;
+            if (code == KeyCode.D || code == KeyCode.RIGHT) droite = false;
         });
 
-        // Boucle de jeu
         new AnimationTimer() {
+            @Override
             public void handle(long now) {
-                if (gauche) joueur.gauche();
-                if (droite) joueur.droite();
+                if (gauche) joueur.allerAGauche();
+                if (droite) joueur.allerADroite();
                 joueur.appliquerGravite();
 
-                // Mise à jour de la vue
                 vue.getJoueurVue().setTranslateX(joueur.getX());
                 vue.getJoueurVue().setTranslateY(joueur.getY());
             }

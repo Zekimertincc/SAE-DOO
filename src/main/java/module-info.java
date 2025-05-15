@@ -8,4 +8,6 @@ module fr.iut.groupe.terraria.demo {
     exports fr.iut.groupe.terraria.demo;
     exports fr.iut.groupe.terraria.demo.controller;
     opens fr.iut.groupe.terraria.demo.controller to javafx.fxml;
+    exports fr.iut.groupe.terraria.demo.vue;
+    opens fr.iut.groupe.terraria.demo.vue to javafx.fxml;
 }

@@ -1,38 +1,57 @@
 package fr.iut.groupe.terraria.demo.modele;
 
 public class Joueur {
-    private double x, y;
-    private double vitesseY = 0;
-    private double largeur = 40, hauteur = 40;
-    private double GRAVITE = 0.5;
-    private double SAUT_FORCE = -10;
-    private double SOL_Y = 300;
+    private double positionX, positionY;
+    private double vitesseVerticale = 0;
+    private final double largeur = 40;
+    private final double hauteur = 40;
 
-    public Joueur(double x, double y) {
-        this.x = x;
-        this.y = y;
+    private final double GRAVITE = 0.5;
+    private final double FORCE_SAUT = -10;
+    private final double SOL_Y = 300;
+
+    public Joueur(double positionX, double positionY) {
+        this.positionX = positionX;
+        this.positionY = positionY;
     }
 
-    public void gauche() { x -= 5; }
-    public void droite() { x += 5; }
+    public void allerAGauche() {
+        positionX -= 5;
+    }
+
+    public void allerADroite() {
+        positionX += 5;
+    }
 
     public void appliquerGravite() {
-        vitesseY += GRAVITE;
-        y += vitesseY;
-        if (y > SOL_Y - hauteur) {
-            y = SOL_Y - hauteur;
-            vitesseY = 0;
+        vitesseVerticale += GRAVITE;
+        positionY += vitesseVerticale;
+
+        if (positionY > SOL_Y - hauteur) {
+            positionY = SOL_Y - hauteur;
+            vitesseVerticale = 0;
         }
     }
 
     public void sauter() {
-        if (y >= SOL_Y - hauteur) {
-            vitesseY = SAUT_FORCE;
+        if (positionY >= SOL_Y - hauteur) {
+            vitesseVerticale = FORCE_SAUT;
         }
     }
 
-    public double getX() { return x; }
-    public double getY() { return y; }
-    public double getLargeur() { return largeur; }
-    public double getHauteur() { return hauteur; }
+    public double getX() {
+        return positionX;
+    }
+
+    public double getY() {
+        return positionY;
+    }
+
+    public double getLargeur() {
+        return largeur;
+    }
+
+    public double getHauteur() {
+        return hauteur;
+    }
 }
