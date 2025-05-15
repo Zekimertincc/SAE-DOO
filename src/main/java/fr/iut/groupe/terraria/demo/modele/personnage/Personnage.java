@@ -31,6 +31,7 @@ public abstract class Personnage {
     public void subirDegats(int degats) {
         gagnerVie(-degats);
     }
+
     // verifie si le personnage est mort
     public boolean estMort() {
         return vie <= 0;

@@ -17,7 +17,6 @@ public class Monde {
         ennemis.add(ennemi);
     }
 
-
     /*
      boucle qui gere les ennemis et leurs comportement
      le premier if c'est pour voir si le personnage est dans la zone des ennemis
@@ -26,17 +25,14 @@ public class Monde {
     */
     public void mettreAJour(Joueur joueur) {
         for (Ennemi ennemi : ennemis) {
-            if (ennemi.estDansZone(ennemi.getX() - 50, ennemi.getX() + 50)) {
-                if (ennemi.estProcheDe(joueur, 100)) {
-                    ennemi.seDeplacerVers(joueur);
-                }
-                if (ennemi.estProcheDe(joueur, 10)) {
-                    ennemi.attaquer(joueur);
-                }
+            if (ennemi.estProcheDe(joueur, 50)) {
+                ennemi.seDeplacerVers(joueur);
+            }
+            if (ennemi.estProcheDe(joueur, 10)) {
+                ennemi.attaquer(joueur);
             }
         }
     }
-
     public ArrayList<Ennemi> getEnnemis() {
         return ennemis;
     }
