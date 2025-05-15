@@ -3,28 +3,32 @@ package fr.iut.groupe.terraria.demo.vue;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class VueJeu extends Pane {
+public class VueJeu extends TilePane {
     private Rectangle joueurVue;
 
     public VueJeu() {
-        setPrefSize(960, 640);
+        setPrefColumns(20); // map.csv'deki sütun sayısına göre sabit
+        setPrefRows(12);    // map.csv'deki satır sayısına göre sabit
+        setPrefTileWidth(32);
+        setPrefTileHeight(32);
+        setHgap(0);
+        setVgap(0);
 
         joueurVue = new Rectangle(40, 40, Color.RED);
         joueurVue.setTranslateX(100);
         joueurVue.setTranslateY(0);
 
         try {
-            System.out.println("Tileset: " + getClass().getResource("/fr/iut/groupe/terraria/demo/tileset.png"));
-            System.out.println("Map: " + getClass().getResource("/fr/iut/groupe/terraria/demo/map.csv"));
+            drawSimpleMap("/fr/iut/groupe/terraria/demo/map.csv", "/fr/iut/groupe/terraria/demo/tileset.png", 32);
         } catch (Exception e) {
-            System.out.println("MAP DRAW ERROR:");
+            System.out.println("Erreur de chargement de la map :");
             e.printStackTrace();
         }
 
@@ -35,31 +39,25 @@ public class VueJeu extends Pane {
         BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(csvPath)));
         Image tileset = new Image(getClass().getResourceAsStream(tilesetPath));
 
-        java.util.List<String[]> lines = new java.util.ArrayList<>();
         String line;
         while ((line = reader.readLine()) != null) {
-            lines.add(line.split(","));
-        }
-
-        int totalRows = lines.size();
-        double offsetY = getPrefHeight() - (totalRows * tileSize);
-
-        for (int row = 0; row < totalRows; row++) {
-            String[] cols = lines.get(row);
-            for (int col = 0; col < cols.length; col++) {
-                String cell = cols[col].trim();
-                if (cell.equals("0") || cell.isEmpty()) continue;
+            String[] cols = line.split(",");
+            for (String cell : cols) {
+                cell = cell.trim();
+                if (cell.equals("0") || cell.isEmpty()) {
+                    getChildren().add(new Rectangle(tileSize, tileSize, Color.TRANSPARENT));
+                    continue;
+                }
 
                 int tileId = Integer.parseInt(cell) - 1;
                 int tilesPerRow = (int) (tileset.getWidth() / tileSize);
-
                 int sx = (tileId % tilesPerRow) * tileSize;
                 int sy = (tileId / tilesPerRow) * tileSize;
 
                 ImageView tileView = new ImageView(tileset);
+                tileView.setFitWidth(tileSize);
+                tileView.setFitHeight(tileSize);
                 tileView.setViewport(new Rectangle2D(sx, sy, tileSize, tileSize));
-                tileView.setTranslateX(col * tileSize);
-                tileView.setTranslateY(offsetY + row * tileSize); // ekranın altına oturt
 
                 getChildren().add(tileView);
             }
