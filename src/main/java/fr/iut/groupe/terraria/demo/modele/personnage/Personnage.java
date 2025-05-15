@@ -5,9 +5,9 @@ public abstract class Personnage {
     protected int vie, vieMax;
     protected int degats;
 
-    public Personnage(double y, double x, int vie, int vieMax, int degats) {
-        this.y = y;
+    public Personnage(double x, double y, int vie, int vieMax, int degats) {
         this.x = x;
+        this.y = y;
         this.vie = vie;
         this.vieMax = vieMax;
         this.degats = degats;
@@ -41,14 +41,9 @@ public abstract class Personnage {
         this.y = y;
     }
 
-    // retourne true si un enemi est proche du joueur mais ne fait rien c'est juste une detection
-    public abstract boolean estProcheDe(Joueur joueur);
-
-
     public int getVie() {
         return vie;
     }
-
     public int getVieMax() {
         return vieMax;
     }

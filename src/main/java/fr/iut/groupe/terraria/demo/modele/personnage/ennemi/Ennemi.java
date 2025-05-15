@@ -1,11 +1,9 @@
 package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
 
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
-import fr.iut.groupe.terraria.demo.modele.personnage.Personnage;
+import fr.iut.groupe.terraria.demo.modele.personnage.PersonnageJeu;
 
-public class Ennemi extends Personnage {
-    // utilisation de la methode estProcheDe chez Personnage
-
+public class Ennemi extends PersonnageJeu {
     private String typeDeplacement;
     private String attaque; // "morsure", "coup de poing", etc...
 
@@ -15,23 +13,15 @@ public class Ennemi extends Personnage {
         this.attaque = attaque;
     }
 
-    public String getTypeDeplacement() {
-        return typeDeplacement;
-    }
-
-    public String getAttaque() {
-        return attaque;
-    }
-
     public void attaquer(Joueur joueur) {
         joueur.subirDegats(this.degats);
     }
-    // retourne true si un enemi est proche du joueur mais ne fait rien c'est juste une detection
+    // retourne true si un enemi est proche du joueur (distance de 20)
     public boolean estProcheDe(Joueur joueur) {
         double dx = this.x - joueur.getX();
         double dy = this.y - joueur.getY();
         double d = Math.sqrt(dx * dx + dy * dy);
-        return d >= 50;
+        return d < 50;
     }
     // surcharge
     public boolean estProcheDe(Joueur joueur, int distance) {
@@ -54,6 +44,14 @@ public class Ennemi extends Personnage {
     // regarde si le personnage est dans la zone, si oui true
     public boolean estDansZone(double xMin, double xMax) {
         return this.x >= xMin && this.x <= xMax;
+    }
+
+    public String getTypeDeplacement() {
+        return typeDeplacement;
+    }
+
+    public String getAttaque() {
+        return attaque;
     }
 
 }
