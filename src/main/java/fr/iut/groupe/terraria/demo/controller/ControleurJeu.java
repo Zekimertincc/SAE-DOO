@@ -1,6 +1,5 @@
 package fr.iut.groupe.terraria.demo.controller;
 
-
 import fr.iut.groupe.terraria.demo.modele.Joueur;
 import fr.iut.groupe.terraria.demo.vue.VueJeu;
 import javafx.animation.AnimationTimer;
@@ -18,7 +17,6 @@ public class ControleurJeu {
     }
 
     public void demarrer(Scene scene) {
-        // Gestion clavier
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.Q || e.getCode() == KeyCode.LEFT) gauche = true;
             if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) droite = true;
@@ -30,14 +28,15 @@ public class ControleurJeu {
             if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) droite = false;
         });
 
-        // Boucle de jeu
         new AnimationTimer() {
             public void handle(long now) {
-                if (gauche) joueur.gauche();
-                if (droite) joueur.droite();
-                joueur.appliquerGravite();
+                int[][] map = vue.getCollisionMap();
+                int mapWidthPx = map[0].length * 32;
 
-                // Mise à jour de la vue
+                if (gauche) joueur.gauche(map);
+                if (droite) joueur.droite(map, mapWidthPx);
+                joueur.appliquerGravite(map);
+
                 vue.getJoueurVue().setTranslateX(joueur.getX());
                 vue.getJoueurVue().setTranslateY(joueur.getY());
             }

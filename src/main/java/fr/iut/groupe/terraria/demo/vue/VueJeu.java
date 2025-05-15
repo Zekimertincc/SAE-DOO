@@ -16,6 +16,7 @@ public class VueJeu extends Pane {
     private ImageView joueurVue;
     private TilePane tilePane;
     private int nombreDeLignes = 0;
+    private int[][] collisionMap;
 
     public VueJeu() {
         tilePane = new TilePane();
@@ -25,7 +26,6 @@ public class VueJeu extends Pane {
         try {
             drawSimpleMap("/fr/iut/groupe/terraria/demo/map.csv", "/fr/iut/groupe/terraria/demo/tileset.png", 32);
         } catch (IOException e) {
-            System.out.println("Erreur de chargement de la map :");
             e.printStackTrace();
         }
 
@@ -59,16 +59,21 @@ public class VueJeu extends Pane {
         }
 
         nombreDeLignes = rows.size();
+        collisionMap = new int[nombreDeLignes][maxCols];
 
         tilePane.setPrefColumns(maxCols);
-        tilePane.setPrefRows(rows.size());
+        tilePane.setPrefRows(nombreDeLignes);
         tilePane.setPrefTileWidth(tileSize);
         tilePane.setPrefTileHeight(tileSize);
 
-        for (String[] cols : rows) {
-            for (int col = 0; col < maxCols; col++) {
-                String cell = (col < cols.length) ? cols[col].trim() : "0";
-                if (cell.equals("0") || cell.isEmpty()) {
+        for (int y = 0; y < nombreDeLignes; y++) {
+            String[] cols = rows.get(y);
+            for (int x = 0; x < maxCols; x++) {
+                String cell = (x < cols.length) ? cols[x].trim() : "0";
+                int val = cell.equals("0") || cell.isEmpty() ? 0 : 1;
+                collisionMap[y][x] = val;
+
+                if (val == 0) {
                     tilePane.getChildren().add(new Rectangle(tileSize, tileSize, Color.TRANSPARENT));
                     continue;
                 }
@@ -89,5 +94,9 @@ public class VueJeu extends Pane {
 
     public ImageView getJoueurVue() {
         return joueurVue;
+    }
+
+    public int[][] getCollisionMap() {
+        return collisionMap;
     }
 }
