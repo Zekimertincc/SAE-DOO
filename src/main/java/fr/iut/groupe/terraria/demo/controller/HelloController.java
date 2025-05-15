@@ -1,6 +1,6 @@
 package fr.iut.groupe.terraria.demo.controller;
 
-import fr.iut.groupe.terraria.demo.modele.Personnage.Joueur;
+import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;

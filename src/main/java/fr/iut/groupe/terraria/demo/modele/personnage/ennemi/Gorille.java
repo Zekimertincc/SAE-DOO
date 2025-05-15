@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.Personnage.ennemi;
+package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
 
 public class Gorille extends Ennemi {
 

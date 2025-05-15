@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.Personnage;
+package fr.iut.groupe.terraria.demo.modele.personnage;
 
 public class Joueur extends Personnage{
     private double vitesseY = 0; // plus y est grand plus le personnage tombe rapidement
@@ -34,15 +34,7 @@ public class Joueur extends Personnage{
             vitesseY = SAUT_FORCE;
         }
     }
-    public int getVie() {
-        return vie;
-    }
 
-    public int getVieMax() {
-        return vieMax;
-    }
-    public double getX() { return x; }
-    public double getY() { return y; }
     public double getLargeur() { return largeur; }
     public double getHauteur() { return hauteur; }
 }

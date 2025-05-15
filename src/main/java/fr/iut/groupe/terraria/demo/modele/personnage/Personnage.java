@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.Personnage;
+package fr.iut.groupe.terraria.demo.modele.personnage;
 
 public abstract class Personnage {
     protected double x, y;
@@ -41,11 +41,22 @@ public abstract class Personnage {
         this.y = y;
     }
 
-    // la distance entre le personnage, et c'est si on fait une boucle for, si le joueur est proche de la liste de PNJ alors il parle un ou plusieurs PNJ parlent
+    // retourne true si un enemi est proche du joueur
+    // par exemple si le parametre distance = 50, retourne true si le joueur est à moins de 50 pixels de l’ennemi.
     public boolean estProcheDe(Joueur joueur, double distance) {
         double dx = this.x - joueur.getX();
         double dy = this.y - joueur.getY();
         double d = Math.sqrt(dx * dx + dy * dy);
         return d <= distance;
     }
+
+    public int getVie() {
+        return vie;
+    }
+
+    public int getVieMax() {
+        return vieMax;
+    }
+    public double getX() { return x; }
+    public double getY() { return y; }
 }

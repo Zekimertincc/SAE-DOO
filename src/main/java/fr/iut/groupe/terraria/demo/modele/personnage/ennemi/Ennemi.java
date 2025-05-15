@@ -1,7 +1,7 @@
-package fr.iut.groupe.terraria.demo.modele.Personnage.ennemi;
+package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
 
-import fr.iut.groupe.terraria.demo.modele.Personnage.Joueur;
-import fr.iut.groupe.terraria.demo.modele.Personnage.Personnage;
+import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
+import fr.iut.groupe.terraria.demo.modele.personnage.Personnage;
 
 public class Ennemi extends Personnage {
     private String typeDeplacement;

@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.Personnage;
+package fr.iut.groupe.terraria.demo.modele.personnage;
 
 public class PNJ extends Personnage {
     private String message;
