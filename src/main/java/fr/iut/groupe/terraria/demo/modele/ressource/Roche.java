@@ -4,7 +4,7 @@ import fr.iut.groupe.terraria.demo.modele.Item;
 
 public class Roche extends Ressource {
     public Roche(double x, double y) {
-        super("pierre", 5, x, y);
+        super("pierre", 5, x, y,"outil");
     }
 
     @Override

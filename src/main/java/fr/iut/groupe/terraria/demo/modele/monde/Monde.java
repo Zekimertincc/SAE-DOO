@@ -61,7 +61,7 @@ public class Monde {
         ArrayList<Ressource> ressourcesProches = getRessourcesProches(joueur);
         for (Ressource ressource : ressourcesProches) {
             for (int i = 0; i < ressource.getQuantite(); i++) {
-                inventaire.ajouterItem(ressource.getItemProduit());
+                inventaire.ajouter(ressource.getItemProduit());
             }
             ressource.recolter();
         }
