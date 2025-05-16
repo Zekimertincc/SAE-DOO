@@ -3,7 +3,7 @@ package fr.iut.groupe.terraria.demo.modele;
 public class Joueur {
     private double x, y;
     private double vitesseY = 0;
-    private double vitesseX = 4;
+    private double vitesseX = 2;
     private boolean enLair = false;
     private final int tileSize = 32;
 
@@ -15,14 +15,14 @@ public class Joueur {
     public void gauche(int[][] map) {
         double nextX = x - vitesseX;
         if (!collisionHorizontale(map, nextX)) {
-            x = Math.max(0, nextX); // ekran sol dışına çıkma
+            x = Math.max(0, nextX);
         }
     }
 
     public void droite(int[][] map, int mapWidthPx) {
         double nextX = x + vitesseX;
         if (!collisionHorizontale(map, nextX)) {
-            x = Math.min(mapWidthPx - getLargeur(), nextX); // ekran sağ dışına çıkma
+            x = Math.min(mapWidthPx - getLargeur(), nextX);
         }
     }
 
@@ -37,18 +37,23 @@ public class Joueur {
         vitesseY += 0.5;
         double nextY = y + vitesseY;
 
-        int tileX = (int) (x + getLargeur() / 2) / tileSize;
-        int tileY = (int) (nextY + getHauteur()) / tileSize;
+        int leftTile = (int) x / tileSize;
+        int rightTile = (int) (x + getLargeur() - 1) / tileSize;
+        int footTile = (int) (nextY + getHauteur()) / tileSize;
 
-        if (tileY >= map.length || tileX < 0 || tileX >= map[0].length) {
-            y = nextY;
-            return;
+        boolean collisionSol = false;
+        for (int tx = leftTile; tx <= rightTile; tx++) {
+            if (footTile >= map.length || tx < 0 || tx >= map[0].length) continue;
+            if (map[footTile][tx] == 1) {
+                collisionSol = true;
+                break;
+            }
         }
 
-        if (map[tileY][tileX] == 1) {
+        if (collisionSol) {
             vitesseY = 0;
             enLair = false;
-            y = tileY * tileSize - getHauteur();
+            y = footTile * tileSize - getHauteur();
         } else {
             y = nextY;
             enLair = true;
@@ -56,15 +61,21 @@ public class Joueur {
     }
 
     private boolean collisionHorizontale(int[][] map, double nextX) {
+        int topTile = (int) y / tileSize;
+        int bottomTile = (int) (y + getHauteur() - 1) / tileSize;
+
         int leftTile = (int) nextX / tileSize;
         int rightTile = (int) (nextX + getLargeur() - 1) / tileSize;
-        int footTile = (int) (y + getHauteur() - 1) / tileSize;
-        int headTile = (int) y / tileSize;
 
-        for (int ty = headTile; ty <= footTile; ty++) {
-            if (leftTile < 0 || rightTile >= map[0].length || ty < 0 || ty >= map.length) return true;
-            if (map[ty][leftTile] == 1 || map[ty][rightTile] == 1) return true;
+        for (int ty = topTile; ty <= bottomTile; ty++) {
+            if (leftTile >= 0 && leftTile < map[0].length && ty >= 0 && ty < map.length) {
+                if (map[ty][leftTile] == 1) return true;
+            }
+            if (rightTile >= 0 && rightTile < map[0].length && ty >= 0 && ty < map.length) {
+                if (map[ty][rightTile] == 1) return true;
+            }
         }
+
         return false;
     }
 

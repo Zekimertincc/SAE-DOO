@@ -15,7 +15,6 @@ import java.io.InputStreamReader;
 public class VueJeu extends Pane {
     private ImageView joueurVue;
     private TilePane tilePane;
-    private int nombreDeLignes = 0;
     private int[][] collisionMap;
 
     public VueJeu() {
@@ -37,7 +36,7 @@ public class VueJeu extends Pane {
 
         double offset = joueurSprite.getFitHeight() - 32;
         joueurSprite.setTranslateX(3 * 32);
-        joueurSprite.setTranslateY((nombreDeLignes - 1) * 32 - offset);
+        joueurSprite.setTranslateY((collisionMap.length - 1) * 32 - offset);
 
         this.joueurVue = joueurSprite;
         getChildren().addAll(tilePane, joueurVue);
@@ -58,15 +57,14 @@ public class VueJeu extends Pane {
             rows.add(cols);
         }
 
-        nombreDeLignes = rows.size();
-        collisionMap = new int[nombreDeLignes][maxCols];
+        collisionMap = new int[rows.size()][maxCols];
 
         tilePane.setPrefColumns(maxCols);
-        tilePane.setPrefRows(nombreDeLignes);
+        tilePane.setPrefRows(rows.size());
         tilePane.setPrefTileWidth(tileSize);
         tilePane.setPrefTileHeight(tileSize);
 
-        for (int y = 0; y < nombreDeLignes; y++) {
+        for (int y = 0; y < rows.size(); y++) {
             String[] cols = rows.get(y);
             for (int x = 0; x < maxCols; x++) {
                 String cell = (x < cols.length) ? cols[x].trim() : "0";
