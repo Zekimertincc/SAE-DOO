@@ -28,15 +28,15 @@ public class VueJeu extends Pane {
             e.printStackTrace();
         }
 
-        Image spriteSheet = new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/char_a_p1_0bas_humn_v01.png"));
+        Image spriteSheet = new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/testSprite.png"));
         ImageView joueurSprite = new ImageView(spriteSheet);
-        joueurSprite.setFitWidth(64);
-        joueurSprite.setFitHeight(96);
-        joueurSprite.setViewport(new Rectangle2D(0, 0, 64, 64));
+//        joueurSprite.setFitWidth(64);
+//        joueurSprite.setFitHeight(96);
+        joueurSprite.setViewport(new Rectangle2D(0, 0, 0, 0));
 
-        double offset = joueurSprite.getFitHeight() - 32;
-        joueurSprite.setTranslateX(3 * 32);
-        joueurSprite.setTranslateY((collisionMap.length - 1) * 32 - offset);
+//        double offset = joueurSprite.getFitHeight() - 32;
+////        joueurSprite.setTranslateX(3 * 32);
+//        joueurSprite.setTranslateY((collisionMap.length - 1) * 32 - offset);
 
         this.joueurVue = joueurSprite;
         getChildren().addAll(tilePane, joueurVue);
