@@ -5,66 +5,99 @@ import fr.iut.groupe.terraria.demo.modele.item.nourriture.Nourriture;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Inventaire {
-    private ArrayList<Item> listItems; // list de item, on a le droit d'avoir qu'un exemplaire par item.
+    private ArrayList<Item> itemsUniques; // les armes on a le droit d'avoir un exemplaire d'arme max
+    private HashMap<String, Integer> ressources; // le bois par exemple avec sa quantité
+    private final int LIMITE_PAR_RESSOURCE = 50;
 
     public Inventaire() {
-        listItems = new ArrayList<>();
+        this.itemsUniques = new ArrayList<>();
+        this.ressources = new HashMap<>();
     }
-
-    // ajoute un item s'il n'est pas déjà présent
-    public boolean ajouter(Item item) {
-        for (Item i : listItems) {
+    public boolean ajouterItem(Item item) {
+        for (Item i : itemsUniques) {
             if (i.getNom().equals(item.getNom())) {
-                return false;
+                return false; // déjà présent
             }
         }
-        listItems.add(item);
+        itemsUniques.add(item);
         return true;
     }
+
+    public boolean retirerItem(String nom) {
+        for (Item i : itemsUniques) {
+            if (i.getNom().equals(nom)) {
+                itemsUniques.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean contientItem(String nom) {
+        for (Item i : itemsUniques) {
+            if (i.getNom().equals(nom)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean utiliserItem(String nomItem, Joueur joueur) {
-        boolean utiliser = false;
-        for (int i = 0; i < listItems.size() && !utiliser; i++) {
-            Item item = listItems.get(i);
+        for (int i = 0; i < itemsUniques.size(); i++) {
+            Item item = itemsUniques.get(i);
             if (item.getNom().equals(nomItem)) {
                 if (item instanceof Nourriture) {
-                    Nourriture nourriture = (Nourriture) item;
-                    nourriture.utiliserSur(joueur);
-                    retirer(nomItem);
-                    utiliser = true;
+                    ((Nourriture) item).utiliserSur(joueur);
+                    retirerItem(nomItem);
+                    return true;
                 }
             }
         }
-        return utiliser;
-    }
-
-    // retire un item par nom
-    public boolean retirer(String nom) {
-        for (Item i : listItems) {
-            if (i.getNom().equals(nom)) {
-                listItems.remove(i);
-                return true;
-            }
-        }
         return false;
     }
 
-    // verifie si un item est présent
-    public boolean contient(String nom) {
-        for (Item i : listItems) {
-            if (i.getNom().equals(nom)) {
-                return true;
-            }
+    public boolean ajouterRessource(String nom, int quantite) {
+        int actuel = ressources.getOrDefault(nom, 0);
+        if (actuel + quantite > LIMITE_PAR_RESSOURCE) {
+            System.out.println("Limite atteinte pour : " + nom);
+            return false;
         }
-        return false;
+        ressources.put(nom, actuel + quantite);
+        return true;
     }
 
-    // affiche le contenu de l'inventaire
+    public boolean retirerRessource(String nom, int quantite) {
+        int actuel = ressources.getOrDefault(nom, 0);
+        if (actuel < quantite) return false;
+
+        ressources.put(nom, actuel - quantite);
+        return true;
+    }
+
+    public boolean contientRessource(String nom, int quantite) {
+        return ressources.getOrDefault(nom, 0) >= quantite;
+    }
+
     public void afficher() {
-        System.out.println("Inventaire :");
-        for (Item i : listItems) {
-            System.out.println(" ,"+i.getNom());
+        System.out.println("Objets uniques :");
+        for (Item i : itemsUniques) {
+            System.out.println(" - " + i.getNom());
         }
+
+        System.out.println("Ressources :");
+        for (String nom : ressources.keySet()) {
+            System.out.println(" - " + nom + " × " + ressources.get(nom));
+        }
+    }
+
+    public ArrayList<Item> getItemsUniques() {
+        return itemsUniques;
+    }
+
+    public HashMap<String, Integer> getRessources() {
+        return ressources;
     }
 }

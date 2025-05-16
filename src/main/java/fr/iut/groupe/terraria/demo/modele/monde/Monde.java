@@ -69,7 +69,7 @@ public class Monde {
             if (r.peutEtreRecolteeAvec(outil)) {
                 // Ajoute les items à l'inventaire
                 for (int i = 0; i < r.getQuantite(); i++) {
-                    inventaire.ajouter(r.getItemProduit());
+                    inventaire.ajouterItem(r.getItemProduit());
                 }
                 r.recolter();
 

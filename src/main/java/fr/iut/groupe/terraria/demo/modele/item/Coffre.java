@@ -35,7 +35,7 @@ public class Coffre {
                 if (item instanceof Nourriture) {
                     ((Nourriture) item).utiliserSur(joueur);
                 } else {
-                    inventaire.ajouter(item);
+                    inventaire.ajouterItem(item);
                 }
             }
         }
