@@ -2,6 +2,7 @@ package fr.iut.groupe.terraria.demo.modele.personnage;
 
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Couteau;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
+import fr.iut.groupe.terraria.demo.modele.monde.Monde;
 
 public class Joueur extends Personnage{
 
@@ -10,7 +11,7 @@ public class Joueur extends Personnage{
     private double GRAVITE = 0.5;
     private double SAUT_FORCE = -10;
     private double SOL_Y = 300; // hauteur du sol
-    private final double VITESSE_X = 1.5; // vitesse de deplacement gauche et droite
+    private double vitesseH = 1.5; // vitesse de deplacement gauche et droite
 
     private Equipement equipementActuel;
 
@@ -19,12 +20,13 @@ public class Joueur extends Personnage{
         this.equipementActuel = new Couteau();
     }
 
-    public void gauche() {
-        x -= VITESSE_X;
+    public void gauche(Monde monde) {
+        x -= vitesseH;
+        monde.mettreAJourCycle();
     }
-
-    public void droite() {
-        x += VITESSE_X;
+    public void droite(Monde monde) {
+        x += vitesseH;
+        monde.mettreAJourCycle();
     }
 
     public void appliquerGravite() {
@@ -67,6 +69,11 @@ public class Joueur extends Personnage{
     public void setEquipementActuel(Equipement equipement) {
         this.equipementActuel = equipement;
     }
+
+    public void setVitesseX(double vitesseH) {
+        this.vitesseH = vitesseH;
+    }
+
 
 }
 

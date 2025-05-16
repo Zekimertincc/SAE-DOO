@@ -16,20 +16,21 @@ public class Monde {
     private ArrayList<Coffre> listCoffres;
     private double distanceRecup;
 
+    // gestion du jour et de la nuit
+    private boolean estNuit;
+    private int compteurPas;
+    private final int CYCLE = 50; // change après 50 déplacements
+
+
     public Monde() {
         listEnnemis = new ArrayList<>();
         listRessources = new ArrayList<>();
         listCoffres = new ArrayList<>();
         this.distanceRecup = 5;
+        this.estNuit = false;
+        this.compteurPas = 0;
     }
 
-    // Ajouter un ennemi
-    public void ajouterEnnemi(Ennemi ennemi) {
-        listEnnemis.add(ennemi);
-    }
-    public void ajouterRessource(Ressource ressource) {
-        listRessources.add(ressource);
-    }
     /*
      boucle qui gere les ennemis et leurs comportement
      le premier if c'est pour voir si le personnage est dans la zone des ennemis
@@ -101,6 +102,21 @@ public class Monde {
         return true;
     }
 
+    public void mettreAJourCycle() {
+        compteurPas++;
+        if (compteurPas >= CYCLE) {
+            estNuit = !estNuit; // bascule jour ↔ nuit
+            compteurPas = 0;
+        }
+    }
+
+    // Ajouter un ennemi
+    public void ajouterEnnemi(Ennemi ennemi) {
+        listEnnemis.add(ennemi);
+    }
+    public void ajouterRessource(Ressource ressource) {
+        listRessources.add(ressource);
+    }
     // Retourne la liste des ennemis
     public ArrayList<Ennemi> getListEnnemis() {
         return listEnnemis;
