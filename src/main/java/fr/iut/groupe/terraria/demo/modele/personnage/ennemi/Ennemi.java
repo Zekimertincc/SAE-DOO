@@ -1,12 +1,14 @@
 package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
 
+import fr.iut.groupe.terraria.demo.modele.Ciblable;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.personnage.PersonnageJeu;
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 
-public class Ennemi extends PersonnageJeu {
+public class Ennemi extends PersonnageJeu implements Ciblable {
     private String typeDeplacement;
     private String attaque; // "morsure", "coup de poing", etc...
+
 
     public Ennemi(double x, double y, int vieMax, int degats, String typeDeplacement, String attaque) {
         super(x, y, vieMax, vieMax, degats);
@@ -41,6 +43,18 @@ public class Ennemi extends PersonnageJeu {
     // regarde si le personnage est dans la zone, si oui true
     public boolean estDansZone(double xMin, double xMax) {
         return this.x >= xMin && this.x <= xMax;
+    }
+
+    @Override
+    public void subirDegats(int degats) {
+        this.vie -= degats;
+        if (estMort()) {
+            System.out.println("L'ennemi est mort !");
+        }
+    }
+    @Override
+    public String getNom() {
+        return "Ennemi";
     }
 
     public String getTypeDeplacement() {

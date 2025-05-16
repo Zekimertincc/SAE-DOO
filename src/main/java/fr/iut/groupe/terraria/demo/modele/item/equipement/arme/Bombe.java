@@ -1,11 +1,11 @@
-package fr.iut.groupe.terraria.demo.modele.item.equipement;
+package fr.iut.groupe.terraria.demo.modele.item.equipement.arme;
 
 import fr.iut.groupe.terraria.demo.modele.Inventaire;
+import fr.iut.groupe.terraria.demo.modele.item.equipement.ArmeCraft;
 
 import java.util.HashMap;
-import java.util.Map;
 
-public class Bombe extends ArmeCraft {
+public class Bombe extends Arme implements ArmeCraft {
     public Bombe() {
         super("Bombe", 10, 5);
     }
@@ -23,7 +23,7 @@ public class Bombe extends ArmeCraft {
         inventaire.retirerRessource("Bois", 20);
         inventaire.retirerRessource("Pierre", 15);
         inventaire.retirerRessource("Fil", 5);
-        inventaire.ajouterItem(new Bombe());
+        inventaire.ajouterEquipement(new Bombe());
         return true;
     }
 

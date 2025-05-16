@@ -1,6 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele.item;
 
 import fr.iut.groupe.terraria.demo.modele.Inventaire;
+import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 import fr.iut.groupe.terraria.demo.modele.item.nourriture.Nourriture;
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
@@ -34,8 +35,9 @@ public class Coffre {
             if (item != null) {
                 if (item instanceof Nourriture) {
                     ((Nourriture) item).utiliserSur(joueur);
-                } else {
-                    inventaire.ajouterItem(item);
+                } else{
+                    Equipement equipement = ((Equipement) item);
+                    inventaire.ajouterEquipement(equipement);
                 }
             }
         }

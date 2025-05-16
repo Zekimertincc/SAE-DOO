@@ -1,5 +1,6 @@
 package fr.iut.groupe.terraria.demo.modele.personnage;
 
+import fr.iut.groupe.terraria.demo.modele.Ciblable;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Couteau;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 import fr.iut.groupe.terraria.demo.modele.monde.Monde;
@@ -44,19 +45,15 @@ public class Joueur extends Personnage{
         }
     }
 
-    public void utiliserEquipementSur(String cible) {
-        if (equipementActuel != null) {
-            int degats = equipementActuel.getDegatsContre(cible);
-            equipementActuel.utiliser(); // réduit la durabilité
+    public void utiliserEquipementSur(Ciblable cible) {
+        if (equipementActuel == null) return;
 
-            System.out.println("Tu as utilisé " + equipementActuel.getNom() + " sur " + cible + " (dégâts = " + degats + ")");
+        int degats = equipementActuel.degatsContre(cible.getNom());
+        cible.subirDegats(degats);
 
-            if (equipementActuel.estCasse()) {
-                System.out.println("Ton " + equipementActuel.getNom() + " est cassé !");
-                equipementActuel = null;
-            }
-        } else {
-            System.out.println("Aucun équipement sélectionné !");
+        equipementActuel.utiliser();
+        if (equipementActuel.estCasse()) {
+            equipementActuel = null;
         }
     }
 

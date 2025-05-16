@@ -24,8 +24,8 @@ public class HelloController {
 
     public void handleKeyPressed(KeyEvent event) {
         switch (event.getCode()) {
-            case RIGHT -> joueur.droite();
-            case LEFT -> joueur.gauche();
+//            case RIGHT -> joueur.droite();
+//            case LEFT -> joueur.gauche();
             case SPACE -> joueur.sauter() ;
             default -> {}
         }

@@ -1,8 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele;
 
 import fr.iut.groupe.terraria.demo.modele.item.Item;
-import fr.iut.groupe.terraria.demo.modele.item.nourriture.Nourriture;
-import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
+import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,26 +15,41 @@ public class Inventaire {
         this.listArmes = new ArrayList<>();
         this.mapRessources = new HashMap<>();
     }
+    // permet d'ajouter une arme
+    public boolean ajouterEquipement(Equipement equipement) {
+        boolean ajouter = false;
+        for (Item i : listArmes) {
+            if (!i.getNom().equals(equipement.getNom())) {
+                listArmes.add(equipement);
+                ajouter = true;
+            }
+        }
+        return ajouter;
+    }
+
+    // ajouter un item
     public boolean ajouterItem(Item item) {
+        boolean ajouter = false;
+        for (Item i : listArmes) {
+            if (!i.getNom().equals(item.getNom())) {
+                ajouter = true;
+            }
+        }
+        return ajouter;
+    }
+    // retire un item
+    public boolean retirerItem(Item item) {
+        boolean retirer = false;
         for (Item i : listArmes) {
             if (i.getNom().equals(item.getNom())) {
-                return false; // déjà présent
-            }
-        }
-        listArmes.add(item);
-        return true;
-    }
-
-    public boolean retirerItem(String nom) {
-        for (Item i : listArmes) {
-            if (i.getNom().equals(nom)) {
                 listArmes.remove(i);
-                return true;
+                retirer = true;
             }
         }
-        return false;
+        return retirer;
     }
 
+    // permet de regarder si un item à partir de son nom est dans la liste
     public boolean contientItem(String nom) {
         for (Item i : listArmes) {
             if (i.getNom().equals(nom)) {
@@ -44,30 +58,16 @@ public class Inventaire {
         }
         return false;
     }
-
-    public boolean utiliserItem(String nomItem, Joueur joueur) {
-        for (int i = 0; i < listArmes.size(); i++) {
-            Item item = listArmes.get(i);
-            if (item.getNom().equals(nomItem)) {
-                if (item instanceof Nourriture) {
-                    ((Nourriture) item).utiliserSur(joueur);
-                    retirerItem(nomItem);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
+    // recupere la ressource actuel et regarde si ca depasse
     public boolean ajouterRessource(String nom, int quantite) {
         int actuel = mapRessources.getOrDefault(nom, 0);
         if (actuel + quantite > LIMITE_PAR_RESSOURCE) {
-            System.out.println("Limite atteinte pour : " + nom);
             return false;
         }
         mapRessources.put(nom, actuel + quantite);
         return true;
     }
+
     public boolean retirerRessource(String nom, int quantite) {
         int actuel = mapRessources.getOrDefault(nom, 0);
         if (actuel < quantite) return false;

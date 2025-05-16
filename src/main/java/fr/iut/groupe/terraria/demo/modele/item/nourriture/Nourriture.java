@@ -16,7 +16,8 @@ public abstract class Nourriture extends Item {
     public void utiliserSur(Joueur joueur) {
         joueur.gagnerVie(vie);
     }
-    // donne la quantité de vie que donne la nourriture
+
+
     public int getVie() {
         return vie;
     }

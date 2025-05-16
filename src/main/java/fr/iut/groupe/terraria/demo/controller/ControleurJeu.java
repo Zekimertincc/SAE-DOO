@@ -33,8 +33,8 @@ public class ControleurJeu {
         // Boucle de jeu
         new AnimationTimer() {
             public void handle(long now) {
-                if (gauche) joueur.gauche();
-                if (droite) joueur.droite();
+//                if (gauche) joueur.gauche();
+//                if (droite) joueur.droite();
                 joueur.appliquerGravite();
 
                 // Mise à jour de la vue

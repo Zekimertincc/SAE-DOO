@@ -1,7 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele.item.equipement;
 import fr.iut.groupe.terraria.demo.modele.item.Item;
 
-public class Equipement extends Item {
+public abstract class Equipement extends Item {
     private int degats, durabilite, portee;
     private String type; // ex: "outil", "arme"
 
@@ -14,8 +14,9 @@ public class Equipement extends Item {
     }
 
     // Retourne les dégâts modifiés selon la cible x2 sur Arbre/Hache ou Roche/Pioche
-    public int getDegatsContre(String cible) {
+    public int degatsContre(String cible) {
         int degatsFinal = degats;
+        // retrouve l'arme avec get
         if (cible.equals("Arbre") && getNom().equals("Hache")) {
             degatsFinal = degats * 2;
         } else if (cible.equals("Roche") && getNom().equals("Pioche")) {
@@ -34,6 +35,7 @@ public class Equipement extends Item {
     public boolean estCasse() {
         return durabilite <= 0;
     }
+
 
     public int getDegats() {
         return this.degats;
