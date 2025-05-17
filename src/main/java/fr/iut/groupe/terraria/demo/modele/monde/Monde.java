@@ -1,6 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele.monde;
 
 import fr.iut.groupe.terraria.demo.modele.item.Coffre;
+import fr.iut.groupe.terraria.demo.modele.item.equipement.Couteau;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Ennemi;
@@ -50,42 +51,31 @@ public class Monde {
             }
         }
     }
-    // recupere toutes les ressources proches du joueur et met ca dans une list temporaire (pas dans son inventaire encore)
-    public ArrayList<Ressource> getRessourcesProches(Joueur joueur) {
-        ArrayList<Ressource> proches = new ArrayList<>();
-        for (Ressource r : listRessources) {
-            double d = Maths.distance(joueur.getX(), joueur.getY(), r.getX(), r.getY());
-            if (d <= distanceRecup && r.estRecoltable()) {
-                proches.add(r);
-            }
-        }
-        return proches;
-    }
-
-    // ajoute la list dans son inventaire et reduit la durabilité de l'arme.
     public void collecterRessourcesProches(Joueur joueur, Inventaire inventaire) {
         Equipement outil = joueur.getEquipementActuel();
+        for (Ressource r : listRessources) {
+            double distance = Maths.distance(joueur.getX(), joueur.getY(), r.getX(), r.getY());
+            if (distance <= distanceRecup && r.peutEtreRecolteeAvec(outil)) {
+                int degats = outil.degatsContre(joueur.getX(), joueur.getY(), r);
+                r.subirDegats(degats); // inflige les dégâts à la ressource
 
-        ArrayList<Ressource> proches = getRessourcesProches(joueur);
-
-        for (Ressource r : proches) {
-            if (r.peutEtreRecolteeAvec(outil)) {
-                // Ajoute les items à l'inventaire
-                for (int i = 0; i < r.getQuantite(); i++) {
-                    inventaire.ajouterItem(r.getItemProduit());
+                if (r.estRecoltee()) { // la ressource est détruite
+                    for (int i = 0; i < r.getQuantite(); i++) {
+                        inventaire.ajouterItem(r.getItemProduit());
+                    }
                 }
-                r.recolter();
-
                 if (outil != null) {
                     outil.utiliser();
                     if (outil.estCasse()) {
-                        System.out.println("Ton " + outil.getNom() + " est cassé pendant la récolte !");
-                        joueur.setEquipementActuel(null); // ou retirer de l’inventaire
+                        joueur.setEquipementActuel(null);
+                        System.out.println("Ton " + outil.getNom() + " est cassé !");
                     }
                 }
             }
         }
     }
+
+
     public void verifierCoffresProches(Joueur joueur, Inventaire inventaire) {
         for (Coffre coffre : listCoffres) {
             coffre.interactionAvecCoffre(joueur, inventaire);

@@ -30,9 +30,7 @@ public abstract class Ressource implements Ciblable {
     public boolean peutEtreRecolteeAvec(Equipement outil) {
         if (outilRequis == null) return true;  // pas besoin d'outil
         if (outil == null) return false;       // pas d'outil, pas possible
-
         String nomOutil = outil.getNom();
-
         if (nomOutil.equals("Couteau") || nomOutil.equals("couteau") ||
                 nomOutil.equals("Hache") || nomOutil.equals("hache") ||
                 nomOutil.equals("Pioche") || nomOutil.equals("pioche")) {
@@ -45,6 +43,10 @@ public abstract class Ressource implements Ciblable {
     }
     public boolean estRecoltable() {
         return estRecoltable;
+    }
+
+    public boolean estRecoltee() {
+        return recoltee;
     }
 
     // dit si une ressource est recolté ou pas

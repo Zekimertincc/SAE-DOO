@@ -6,7 +6,6 @@ public class Item {
     public Item(String nom) {
         this.nom = nom;
     }
-
     public String getNom() {
         return nom;
     }
