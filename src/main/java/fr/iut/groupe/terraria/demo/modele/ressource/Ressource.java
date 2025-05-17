@@ -11,7 +11,7 @@ public abstract class Ressource implements Ciblable {
     protected boolean estRecoltable;
     protected String outilRequis; // couteau, hache, pioche
     protected int vie;
-    protected boolean recoltee;
+    protected boolean recoltee; // on a tout pris ou pas
 
     public Ressource(String type, int quantite, double x, double y, String outilRequis, int vie) {
         this.type = type;
@@ -50,9 +50,9 @@ public abstract class Ressource implements Ciblable {
     // dit si une ressource est recolté ou pas
     @Override
     public void subirDegats(int degats) {
-        if (recoltee) return;
-        vie -= degats;
-        System.out.println("degagagagag");
+        if (!recoltee){
+            vie -= degats;
+        }
         if (vie <= 0) {
             recoltee = true;
         }
@@ -69,6 +69,10 @@ public abstract class Ressource implements Ciblable {
     }
     public int getQuantite() {
         return quantite;
+    }
+
+    public int getVie() {
+        return vie;
     }
 }
 

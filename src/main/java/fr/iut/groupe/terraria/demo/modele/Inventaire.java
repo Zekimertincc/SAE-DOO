@@ -17,36 +17,28 @@ public class Inventaire {
     }
     // permet d'ajouter une arme
     public boolean ajouterEquipement(Equipement equipement) {
-        boolean ajouter = false;
+        boolean existeDeja = false;
         for (Item i : listArmes) {
-            if (!i.getNom().equals(equipement.getNom())) {
-                listArmes.add(equipement);
-                ajouter = true;
+            if (i.getNom().equals(equipement.getNom())) {
+                existeDeja = true;
             }
         }
-        return ajouter;
+        if (!existeDeja) {
+            listArmes.add(equipement);
+        }
+        return !existeDeja;
     }
-
-    // ajouter un item
     public boolean ajouterItem(Item item) {
-        boolean ajouter = false;
-        for (Item i : listArmes) {
-            if (!i.getNom().equals(item.getNom())) {
-                ajouter = true;
-            }
+        boolean ajoute = false;
+
+        // On suppose que c'est une ressource (nom générique + quantité)
+        int quantiteActuelle = mapRessources.getOrDefault(item.getNom(), 0);
+
+        if (quantiteActuelle + 1 <= LIMITE_PAR_RESSOURCE) {
+            mapRessources.put(item.getNom(), quantiteActuelle + 1);
+            ajoute = true;
         }
-        return ajouter;
-    }
-    // retire un item
-    public boolean retirerItem(Item item) {
-        boolean retirer = false;
-        for (Item i : listArmes) {
-            if (i.getNom().equals(item.getNom())) {
-                listArmes.remove(i);
-                retirer = true;
-            }
-        }
-        return retirer;
+        return ajoute;
     }
 
     // permet de regarder si un item à partir de son nom est dans la liste

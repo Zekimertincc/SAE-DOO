@@ -6,6 +6,7 @@ import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Ennemi;
 import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
 import fr.iut.groupe.terraria.demo.modele.Inventaire;
+import fr.iut.groupe.terraria.demo.modele.zone.Zone;
 
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Monde {
     private ArrayList<Ressource> listRessources;
     private ArrayList<Coffre> listCoffres;
     private double distanceRecup;
+    private ArrayList<Zone> listZones;
 
     // gestion du jour et de la nuit
     private boolean estNuit;
@@ -23,10 +25,11 @@ public class Monde {
 
 
     public Monde() {
-        listEnnemis = new ArrayList<>();
-        listRessources = new ArrayList<>();
-        listCoffres = new ArrayList<>();
-        this.distanceRecup = 5;
+        this.listEnnemis = new ArrayList<>();
+        this.listRessources = new ArrayList<>();
+        this.listCoffres = new ArrayList<>();
+        this.listZones = new ArrayList<>();
+        this.distanceRecup = 5; // recuperer distance 5
         this.estNuit = false;
         this.compteurPas = 0;
     }
@@ -109,7 +112,11 @@ public class Monde {
             compteurPas = 0;
         }
     }
-
+    public void appliquerEffetsZones(Joueur joueur) {
+        for (Zone zone : listZones) {
+            zone.appliquerEffet(joueur);
+        }
+    }
     // Ajouter un ennemi
     public void ajouterEnnemi(Ennemi ennemi) {
         listEnnemis.add(ennemi);

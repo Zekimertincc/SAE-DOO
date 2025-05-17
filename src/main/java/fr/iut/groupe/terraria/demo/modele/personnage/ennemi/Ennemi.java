@@ -57,12 +57,11 @@ public class Ennemi extends PersonnageJeu implements Ciblable {
         return "Ennemi";
     }
 
+
     public String getTypeDeplacement() {
         return typeDeplacement;
     }
-
     public String getAttaque() {
         return attaque;
     }
-
 }

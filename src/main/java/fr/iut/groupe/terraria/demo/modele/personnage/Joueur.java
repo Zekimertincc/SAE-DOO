@@ -1,9 +1,13 @@
 package fr.iut.groupe.terraria.demo.modele.personnage;
 
 import fr.iut.groupe.terraria.demo.modele.Ciblable;
+import fr.iut.groupe.terraria.demo.modele.item.equipement.ArmeCraft;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Couteau;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 import fr.iut.groupe.terraria.demo.modele.monde.Monde;
+import fr.iut.groupe.terraria.demo.modele.Inventaire;
+
+import java.util.HashMap;
 
 public class Joueur extends Personnage{
 
@@ -15,10 +19,12 @@ public class Joueur extends Personnage{
     private double vitesseH = 1.5; // vitesse de deplacement gauche et droite
 
     private Equipement equipementActuel;
+    private Inventaire inventaire;
 
     public Joueur(double x, double y, int vieMax) {
         super(x, y, vieMax, vieMax, 0);
         this.equipementActuel = new Couteau();
+        this.inventaire = new Inventaire();
     }
 
     public void gauche(Monde monde) {
@@ -33,7 +39,7 @@ public class Joueur extends Personnage{
     public void appliquerGravite() {
         vitesseY += GRAVITE;
         y += vitesseY;
-        if (y > SOL_Y - hauteur) {
+        if (y > SOL_Y - hauteur) {// au sol?
             y = SOL_Y - hauteur;
             vitesseY = 0;
         }
@@ -46,16 +52,29 @@ public class Joueur extends Personnage{
     }
 
     public void utiliserEquipementSur(Ciblable cible) {
-        if (equipementActuel == null) return;
+        if (equipementActuel != null || equipementActuel.estCasse()){
+            int degats = equipementActuel.degatsContre(this.x, this.y, cible);
+            cible.subirDegats(degats);
 
-        int degats = equipementActuel.degatsContre(cible.getNom());
-        cible.subirDegats(degats);
-
-        equipementActuel.utiliser();
-        if (equipementActuel.estCasse()) {
-            equipementActuel = null;
+            equipementActuel.utiliser();
+            if (equipementActuel.estCasse()) {
+                equipementActuel = null;
+            }
         }
     }
+
+    public boolean craftArme(ArmeCraft armeCraftable) {
+        boolean estConstruit = false;
+        HashMap<String, Integer> ressources = inventaire.getMapRessources();
+
+        if (armeCraftable.materiauxRequis(ressources)) {
+            if (armeCraftable.construire(inventaire, ressources)){
+                estConstruit = true;
+            }
+        }
+        return estConstruit;
+    }
+
 
     public double getLargeur() { return largeur; }
     public double getHauteur() { return hauteur; }
@@ -66,11 +85,16 @@ public class Joueur extends Personnage{
     public void setEquipementActuel(Equipement equipement) {
         this.equipementActuel = equipement;
     }
-
     public void setVitesseX(double vitesseH) {
         this.vitesseH = vitesseH;
     }
 
+    public double getVitesseY() {
+        return vitesseY;
+    }
 
+    public Inventaire getInventaire() {
+        return inventaire;
+    }
 }
 

@@ -12,9 +12,23 @@ public class Main1 {
         Hache hache = new Hache();
         Arc arc = new Arc();
         joueur.setEquipementActuel(hache);
-        Arbre arbre = new Arbre(2, 2);
 
+        // 20hp
+        Arbre arbre = new Arbre(2, 2);
         joueur.utiliserEquipementSur(arbre);
+        // 14hp
+        System.out.println(arbre.getVie());
+
+        joueur.setEquipementActuel(arc);
+        joueur.utiliserEquipementSur(arbre);
+        //4hp
+        System.out.println(arbre.getVie());
+        System.out.println("dura :" +arc.getDurabilite());
+
+
+        Arbre arbre2 = new Arbre(100, 100);
+        joueur.utiliserEquipementSur(arbre2);
+        System.out.println(arbre2.getVie());
 
     }
 }

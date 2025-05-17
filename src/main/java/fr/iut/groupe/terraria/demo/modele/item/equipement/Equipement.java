@@ -1,9 +1,10 @@
 package fr.iut.groupe.terraria.demo.modele.item.equipement;
+import fr.iut.groupe.terraria.demo.modele.Ciblable;
 import fr.iut.groupe.terraria.demo.modele.item.Item;
 
 public abstract class Equipement extends Item {
-    private int degats, durabilite, portee;
-    private String type; // ex: "outil", "arme"
+    protected int degats, durabilite, portee;
+    protected String type; // ex: "outil", "arme"
 
     public Equipement(String nom, int degats, String type, int durabilite, int portee) {
         super(nom);
@@ -12,42 +13,16 @@ public abstract class Equipement extends Item {
         this.durabilite = durabilite;
         this.portee = portee;
     }
+    // retourne les degats selon la situation
+    public abstract int degatsContre(double x1, double y2, Ciblable cible);
 
-    // Retourne les dégâts modifiés selon la cible x2 sur Arbre/Hache ou Roche/Pioche
-    public int degatsContre(String cible) {
-        int degatsFinal = degats;
-        // retrouve l'arme avec get
-        if (cible.equals("Arbre") && getNom().equals("Hache")) {
-            degatsFinal = degats * 2;
-        } else if (cible.equals("Roche") && getNom().equals("Pioche")) {
-            degatsFinal = degats * 2;
-        }
-        return degatsFinal;
-    }
-
-    // reduit la durabilité de 1 à chaque utilisation
-    public void utiliser() {
-        if (durabilite > 0) {
-            durabilite--;
-        }
-    }
-
+    // reduit la durabilité de l'equipement
+    public abstract void utiliser();
     public boolean estCasse() {
         return durabilite <= 0;
     }
 
-
-    public int getDegats() {
-        return this.degats;
-    }
-    public String getType() {
-        return type;
-    }
     public int getDurabilite() {
         return durabilite;
-    }
-
-    public int getPortee() {
-        return portee;
     }
 }
