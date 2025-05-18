@@ -7,4 +7,9 @@ public class Pierre extends Item{
     public Pierre() {
         super("Pierre");
     }
+
+    @Override
+    public int getQuantiteMax() {
+        return -1;
+    }
 }

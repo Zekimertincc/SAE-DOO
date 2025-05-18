@@ -13,8 +13,9 @@ public abstract class Ressource extends Item implements Ciblable {
     protected boolean recoltee; // on a tout pris ou pas
     private int quantiteMax; // 50 max par type dans l'inventaire
 
-    public Ressource(String nom, String type, int quantite, double x, double y, String outilRequis, int vie) {
+    public Ressource(String nom, int quantite, double x, double y, String outilRequis, int vie) {
         super(nom);
+        this.nom = nom;
         this.quantite = quantite;
         this.x = x;
         this.y = y;
@@ -63,6 +64,7 @@ public abstract class Ressource extends Item implements Ciblable {
     public int getQuantiteMax() {
         return this.quantiteMax;
     }
+// -----------------------------------------------------------------------------------------------------------
 
     public double getX() {
         return x;

@@ -114,20 +114,15 @@ public class Monde {
     public void ajouterRessource(Ressource ressource) {
         listRessources.add(ressource);
     }
+
+// ----------------------------------------------------------------------------------------------------------------------
+
     // Retourne la liste des ennemis
     public ArrayList<Ennemi> getListEnnemis() {
         return listEnnemis;
     }
-
     public ArrayList<Ressource> getListRessources() {
         return listRessources;
-    }
-
-    // Afficher les ennemis (console)
-    public void afficherEnnemis() {
-        for (Ennemi e : listEnnemis) {
-            System.out.println("Ennemi : x=" + e.getX() + " y=" + e.getY() + " PV=" + e.getVie());
-        }
     }
 
 }

@@ -23,7 +23,7 @@ public class Inventaire {
         return ajouter;
     }
     public boolean retirerItem(String nom) {
-        boolean retirer = false; 
+        boolean retirer = false;
         int actuel = mapItems.getOrDefault(nom, 0);
         if (actuel > 0) {
             mapItems.put(nom, actuel - 1);

@@ -7,4 +7,9 @@ public class File extends Item{
     public File() {
         super("File");
     }
+
+    @Override
+    public int getQuantiteMax() {
+        return -1;
+    }
 }

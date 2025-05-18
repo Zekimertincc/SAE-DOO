@@ -4,8 +4,8 @@ import fr.iut.groupe.terraria.demo.modele.item.Item;
 import fr.iut.groupe.terraria.demo.modele.ressource.farm.File;
 
 public class CanneSucre extends Ressource {
-    public CanneSucre(String nom, double x, double y) {
-        super(nom,"fil", 5, x, y, "outil", 15);
+    public CanneSucre(double x, double y) {
+        super("CanneSucre", 5, x, y, "Outil", 15);
     }
     @Override
     public Item getItemProduit() {

@@ -4,8 +4,8 @@ import fr.iut.groupe.terraria.demo.modele.item.Item;
 import fr.iut.groupe.terraria.demo.modele.ressource.farm.Pierre;
 
 public class Roche extends Ressource {
-    public Roche(String nom, double x, double y) {
-        super(nom,"pierre", 5, x, y,"outil", 25);
+    public Roche(double x, double y) {
+        super("Roche", 5, x, y,"Outil", 25);
     }
     @Override
     public Item getItemProduit() {
