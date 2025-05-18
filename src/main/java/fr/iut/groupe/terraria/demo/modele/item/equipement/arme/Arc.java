@@ -37,10 +37,10 @@ public class Arc extends Arme implements ArmeCraft {
         if (!materiauxRequis(mapRessouces)) {
             return false;
         }
-        inventaire.retirerRessource("Bois", 30);
-        inventaire.retirerRessource("Pierre", 5);
-        inventaire.retirerRessource("Fil", 10);
-        inventaire.ajouterEquipement(new Arc());
+        inventaire.retirerItem("Bois", 30);
+        inventaire.retirerItem("Pierre", 5);
+        inventaire.retirerItem("Fil", 10);
+        inventaire.ajouterItem(new Arc());
         return true;
     }
 }

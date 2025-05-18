@@ -4,17 +4,17 @@ import fr.iut.groupe.terraria.demo.modele.Ciblable;
 import fr.iut.groupe.terraria.demo.modele.item.Item;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 
-public abstract class Ressource implements Ciblable {
+public abstract class Ressource extends Item implements Ciblable {
     protected double x, y;
-    protected String type;
-    protected int quantite;
+    protected int quantite; // farm que contient une ressource
     protected boolean estRecoltable;
     protected String outilRequis; // couteau, hache, pioche
     protected int vie;
     protected boolean recoltee; // on a tout pris ou pas
+    private int quantiteMax; // 50 max par type dans l'inventaire
 
-    public Ressource(String type, int quantite, double x, double y, String outilRequis, int vie) {
-        this.type = type;
+    public Ressource(String nom, String type, int quantite, double x, double y, String outilRequis, int vie) {
+        super(nom);
         this.quantite = quantite;
         this.x = x;
         this.y = y;
@@ -22,6 +22,7 @@ public abstract class Ressource implements Ciblable {
         this.outilRequis = outilRequis;
         this.vie = vie;
         this.recoltee = false;
+        this.quantiteMax = 50;
     }
     // recuperer objet bois, pierre..
     public abstract Item getItemProduit();
@@ -48,7 +49,6 @@ public abstract class Ressource implements Ciblable {
     public boolean estRecoltee() {
         return recoltee;
     }
-
     // dit si une ressource est recolté ou pas
     @Override
     public void subirDegats(int degats) {
@@ -59,6 +59,10 @@ public abstract class Ressource implements Ciblable {
             recoltee = true;
         }
     }
+    @Override
+    public int getQuantiteMax() {
+        return this.quantiteMax;
+    }
 
     public double getX() {
         return x;
@@ -66,13 +70,9 @@ public abstract class Ressource implements Ciblable {
     public double getY() {
         return y;
     }
-    public String getType() {
-        return type;
-    }
     public int getQuantite() {
         return quantite;
     }
-
     public int getVie() {
         return vie;
     }

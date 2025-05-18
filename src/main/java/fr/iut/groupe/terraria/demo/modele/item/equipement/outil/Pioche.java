@@ -38,10 +38,10 @@ public class Pioche extends Outil implements ArmeCraft {
         if (!materiauxRequis(mapRessouces)) {
             return false;
         }
-        inventaire.retirerRessource("Bois", 10);
-        inventaire.retirerRessource("Pierre", 5);
-        inventaire.retirerRessource("Fil", 2);
-        inventaire.ajouterEquipement(new Pioche());
+        inventaire.retirerItem("Bois", 10);
+        inventaire.retirerItem("Pierre", 5);
+        inventaire.retirerItem("Fil", 2);
+        inventaire.ajouterItem(new Pioche());
         return true;
     }
 

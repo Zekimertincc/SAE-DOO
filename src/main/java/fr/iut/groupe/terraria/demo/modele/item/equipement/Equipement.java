@@ -5,6 +5,7 @@ import fr.iut.groupe.terraria.demo.modele.item.Item;
 public abstract class Equipement extends Item {
     protected int degats, durabilite, portee;
     protected String type; // ex: "outil", "arme"
+    private int quantiteMax; // 1 max par type dans l'inventaire
 
     public Equipement(String nom, int degats, String type, int durabilite, int portee) {
         super(nom);
@@ -12,6 +13,7 @@ public abstract class Equipement extends Item {
         this.type = type;
         this.durabilite = durabilite;
         this.portee = portee;
+        this.quantiteMax = 1;
     }
     // retourne les degats selon la situation
     public abstract int degatsContre(double x1, double y2, Ciblable cible);
@@ -20,6 +22,11 @@ public abstract class Equipement extends Item {
     public abstract void utiliser();
     public boolean estCasse() {
         return durabilite <= 0;
+    }
+
+    @Override
+    public int getQuantiteMax() {
+        return this.quantiteMax;
     }
 
     public int getDurabilite() {

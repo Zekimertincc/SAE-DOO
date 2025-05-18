@@ -37,7 +37,7 @@ public class Coffre {
                     ((Nourriture) item).utiliserSur(joueur);
                 } else{
                     Equipement equipement = ((Equipement) item);
-                    inventaire.ajouterEquipement(equipement);
+                    inventaire.ajouterItem(equipement);
                 }
             }
         }

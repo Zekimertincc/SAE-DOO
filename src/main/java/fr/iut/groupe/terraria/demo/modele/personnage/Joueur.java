@@ -65,7 +65,7 @@ public class Joueur extends Personnage{
 
     public boolean craftArme(ArmeCraft armeCraftable) {
         boolean estConstruit = false;
-        HashMap<String, Integer> ressources = inventaire.getMapRessources();
+        HashMap<String, Integer> ressources = inventaire.getMapItems();
 
         if (armeCraftable.materiauxRequis(ressources)) {
             if (armeCraftable.construire(inventaire, ressources)){

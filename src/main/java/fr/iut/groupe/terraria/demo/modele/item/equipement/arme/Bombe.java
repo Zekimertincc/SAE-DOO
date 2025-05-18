@@ -37,10 +37,10 @@ public class Bombe extends Arme implements ArmeCraft {
         if (!materiauxRequis(mapRessouces)) {
             return false;
         }
-        inventaire.retirerRessource("Bois", 20);
-        inventaire.retirerRessource("Pierre", 15);
-        inventaire.retirerRessource("Fil", 5);
-        inventaire.ajouterEquipement(new Bombe());
+        inventaire.retirerItem("Bois", 20);
+        inventaire.retirerItem("Pierre", 15);
+        inventaire.retirerItem("Fil", 5);
+        inventaire.ajouterItem(new Bombe());
         return true;
     }
 
