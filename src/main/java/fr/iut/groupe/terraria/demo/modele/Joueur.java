@@ -4,36 +4,41 @@ public class Joueur {
     private double x, y;
     private double vitesseY = 0;
     private double largeur = 40, hauteur = 40;
-    private double GRAVITE = 0.5;
-    private double SAUT_FORCE = -10;
-    private double SOL_Y = 300;
+
+    private double gravite = -0.5;
+    private double hauteurSaut = 10;
+    private double hauteurSol = 50;
 
     public Joueur(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    public void gauche() { x -= 5; }
-    public void droite() { x += 5; }
+    public void gauche() { x -= 3; }
+    public void droite() { x += 3; }
 
     public void appliquerGravite() {
-        vitesseY += GRAVITE;
+        vitesseY += gravite;
         y += vitesseY;
-        if (y > SOL_Y - hauteur) {
-            y = SOL_Y - hauteur;
+        if (y < hauteurSol) { // si on passe sous le sol
+            y = hauteurSol;
             vitesseY = 0;
         }
     }
 
     public void sauter() {
-        if (y >= SOL_Y - hauteur) {
-            vitesseY = SAUT_FORCE;
+        if (y <= hauteurSol) {
+            vitesseY = hauteurSaut;
         }
     }
 
-    public double getX() { return x; }
-    public double getY() { return y; }
-    public double getLargeur() { return largeur; }
-    public double getHauteur() { return hauteur; }
+    public double getY() {
+        return y;
+    }
+
+    public double getX() {
+        return x;
+    }
 }
+
 

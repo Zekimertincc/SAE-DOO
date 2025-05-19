@@ -12,7 +12,7 @@ public class VueJeu extends Pane {
         setPrefSize(800, 600);
 
         sol = new Rectangle(800, 50);
-        sol.setTranslateY(300);
+        sol.setTranslateY(550); // hauteur de ta fenêtre est 600 et sol fait 50
         sol.setFill(Color.DARKGREEN);
 
         joueurVue = new Rectangle(40, 40, Color.RED);

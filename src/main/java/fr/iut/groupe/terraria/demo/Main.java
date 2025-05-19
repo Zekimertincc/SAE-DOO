@@ -12,7 +12,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         VueJeu vue = new VueJeu();
-        Joueur joueur = new Joueur(100, 260);
+        Joueur joueur = new Joueur(100, 0);
         ControleurJeu controleur = new ControleurJeu(vue, joueur);
 
         Scene scene = new Scene(vue);

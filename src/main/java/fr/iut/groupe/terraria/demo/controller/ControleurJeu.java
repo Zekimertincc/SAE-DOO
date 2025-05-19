@@ -12,6 +12,9 @@ public class ControleurJeu {
     private Joueur joueur;
     private VueJeu vue;
 
+    private double hauteurEcran = 600;
+    private double hauteurJoueur = 40;
+
     public ControleurJeu(VueJeu vue, Joueur joueur) {
         this.vue = vue;
         this.joueur = joueur;
@@ -37,9 +40,9 @@ public class ControleurJeu {
                 if (droite) joueur.droite();
                 joueur.appliquerGravite();
 
-                // Mise à jour de la vue
+                // Mise à jour de la vue avec inversion de l’axe Y
                 vue.getJoueurVue().setTranslateX(joueur.getX());
-                vue.getJoueurVue().setTranslateY(joueur.getY());
+                vue.getJoueurVue().setTranslateY(hauteurEcran - joueur.getY() - hauteurJoueur);
             }
         }.start();
     }
