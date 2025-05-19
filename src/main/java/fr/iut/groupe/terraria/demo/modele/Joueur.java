@@ -94,4 +94,5 @@ public class Joueur {
     public int getHauteur() {
         return 96;
     }
+
 }

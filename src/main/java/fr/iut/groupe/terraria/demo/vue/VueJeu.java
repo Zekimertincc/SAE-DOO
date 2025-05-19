@@ -1,6 +1,6 @@
 package fr.iut.groupe.terraria.demo.vue;
 
-import javafx.geometry.Rectangle2D;
+import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -17,6 +17,14 @@ public class VueJeu extends Pane {
     private TilePane tilePane;
     private int[][] collisionMap;
 
+    private Image[] idleFrames;
+    private Image[] runFrames;
+    private int frameIndex = 0;
+    private long lastTime = 0;
+
+    private String currentState = "idle";
+    private boolean lookingRight = true;
+
     public VueJeu() {
         tilePane = new TilePane();
         tilePane.setHgap(0);
@@ -28,18 +36,73 @@ public class VueJeu extends Pane {
             e.printStackTrace();
         }
 
-        Image spriteSheet = new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/testSprite.png"));
-        ImageView joueurSprite = new ImageView(spriteSheet);
-//        joueurSprite.setFitWidth(64);
-//        joueurSprite.setFitHeight(96);
-        joueurSprite.setViewport(new Rectangle2D(0, 0, 0, 0));
+        // Frame’leri yükle
+        idleFrames = new Image[]{
+                new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/i1.png")),
+                new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/i2.png"))
+        };
 
-//        double offset = joueurSprite.getFitHeight() - 32;
-////        joueurSprite.setTranslateX(3 * 32);
-//        joueurSprite.setTranslateY((collisionMap.length - 1) * 32 - offset);
+        runFrames = new Image[]{
+                new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/k1.png")),
+                new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/k2.png")),
+                new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/k3.png")),
+                new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/k4.png")),
+                new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/k5.png")),
+                new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/k6.png")),
+                new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/k7.png")),
+                new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/k8.png"))
+        };
 
-        this.joueurVue = joueurSprite;
+        joueurVue = new ImageView(idleFrames[0]);
+        joueurVue.setFitWidth(64);
+        joueurVue.setFitHeight(96);
+
+        double offset = joueurVue.getFitHeight() - 32;
+        joueurVue.setTranslateX(3 * 32);
+        joueurVue.setTranslateY((collisionMap.length - 1) * 32 - offset);
+
         getChildren().addAll(tilePane, joueurVue);
+
+        // Animasyonu sürekli oynatmak için dışta başlatılıyor
+        AnimationTimer animationTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (now - lastTime > 120_000_000) { // 120ms
+                    frameIndex++;
+                    lastTime = now;
+
+                    if (currentState.equals("idle")) {
+                        frameIndex %= idleFrames.length;
+                        joueurVue.setImage(idleFrames[frameIndex]);
+                    } else if (currentState.equals("run")) {
+                        frameIndex %= runFrames.length;
+                        joueurVue.setImage(runFrames[frameIndex]);
+                    }
+                }
+            }
+        };
+        animationTimer.start();
+    }
+
+    public void updateSprite(String state, boolean isRight) {
+        if (!currentState.equals(state)) {
+            frameIndex = 0;
+            lastTime = 0;
+            currentState = state;
+        }
+
+        if (isRight != lookingRight) {
+            joueurVue.setScaleX(isRight ? 1 : -1);
+            lookingRight = isRight;
+        }
+    }
+
+    public ImageView getJoueurVue() {
+        return joueurVue;
+    }
+
+    public int[][] getCollisionMap() {
+        return collisionMap;
     }
 
     public void drawSimpleMap(String csvPath, String tilesetPath, int tileSize) throws IOException {
@@ -84,17 +147,9 @@ public class VueJeu extends Pane {
                 ImageView tileView = new ImageView(tileset);
                 tileView.setFitWidth(tileSize);
                 tileView.setFitHeight(tileSize);
-                tileView.setViewport(new Rectangle2D(sx, sy, tileSize, tileSize));
+                tileView.setViewport(new javafx.geometry.Rectangle2D(sx, sy, tileSize, tileSize));
                 tilePane.getChildren().add(tileView);
             }
         }
-    }
-
-    public ImageView getJoueurVue() {
-        return joueurVue;
-    }
-
-    public int[][] getCollisionMap() {
-        return collisionMap;
     }
 }

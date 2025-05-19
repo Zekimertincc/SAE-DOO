@@ -33,8 +33,17 @@ public class ControleurJeu {
                 int[][] map = vue.getCollisionMap();
                 int mapWidthPx = map[0].length * 32;
 
-                if (gauche) joueur.gauche(map);
-                if (droite) joueur.droite(map, mapWidthPx);
+                // Hareket kontrolü
+                if (gauche) {
+                    joueur.gauche(map);
+                    vue.updateSprite("run", false);
+                } else if (droite) {
+                    joueur.droite(map, mapWidthPx);
+                    vue.updateSprite("run", true);
+                } else {
+                    vue.updateSprite("idle", true); // varsayılan yön sağ
+                }
+
                 joueur.appliquerGravite(map);
 
                 vue.getJoueurVue().setTranslateX(joueur.getX());
