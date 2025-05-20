@@ -51,6 +51,7 @@ public class Joueur extends Personnage{
         }
     }
 
+    // mettre des degats sur les ennemis/ressources selon l'equipement actuel il y a une portée et des bonus
     public void utiliserEquipementSur(Ciblable cible) {
         if (equipementActuel != null || equipementActuel.estCasse()){
             int degats = equipementActuel.degatsContre(this.x, this.y, cible);
@@ -63,6 +64,7 @@ public class Joueur extends Personnage{
         }
     }
 
+    // joueur peut contruire une arme
     public boolean craftArme(ArmeCraft armeCraftable) {
         boolean estConstruit = false;
         HashMap<String, Integer> ressources = inventaire.getMapItems();
@@ -75,7 +77,7 @@ public class Joueur extends Personnage{
         return estConstruit;
     }
 
-
+// -------------------------------------------------------------------------------------------------------------------------------------
     public double getLargeur() { return largeur; }
     public double getHauteur() { return hauteur; }
     public Equipement getEquipementActuel() {

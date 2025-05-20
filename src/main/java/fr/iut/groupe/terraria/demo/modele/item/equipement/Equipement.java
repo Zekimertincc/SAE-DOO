@@ -29,7 +29,15 @@ public abstract class Equipement extends Item {
         return this.quantiteMax;
     }
 
+    //---------------------------------------------------------------------------------------------------------------------------------
     public int getDurabilite() {
         return durabilite;
     }
+    public int getDegats() {
+        return degats;
+    }
+    public int getPortee() {
+        return portee;
+    }
+
 }

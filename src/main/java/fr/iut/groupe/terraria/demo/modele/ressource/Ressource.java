@@ -29,26 +29,26 @@ public abstract class Ressource implements Ciblable {
 
     // verifie si la ressource peut être récoltée avec l'outil fourni
     public boolean peutEtreRecolteeAvec(Equipement outil) {
-        if (outilRequis == null) return true;  // pas besoin d'outil
-        if (outil == null) return false;       // pas d'outil, pas possible
-        String nomOutil = outil.getNom();
-        if (nomOutil.equals("Couteau") || nomOutil.equals("couteau") ||
-                nomOutil.equals("Hache") || nomOutil.equals("hache") ||
-                nomOutil.equals("Pioche") || nomOutil.equals("pioche")) {
-            return true;
+        boolean peutEtreRecoltee = false;
+        if (outil != null) {
+            String nomOutil = outil.getNom();
+            if (nomOutil.equals("Couteau") || nomOutil.equals("Hache")|| nomOutil.equals("Pioche")) {
+                peutEtreRecoltee = true;
+            }
         }
-        return false;
+        return peutEtreRecoltee;
     }
+
     public void recolter() {
         this.estRecoltable = false;
     }
     public boolean estRecoltable() {
         return estRecoltable;
     }
-
     public boolean estRecoltee() {
         return recoltee;
     }
+
     // dit si une ressource est recolté ou pas
     @Override
     public void subirDegats(int degats) {
