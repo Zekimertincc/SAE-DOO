@@ -59,6 +59,11 @@ public abstract class Ressource implements Ciblable {
             recoltee = true;
         }
     }
+    @Override
+    public String getTypeCible() {
+        return "Ressource";
+    }
+
 
 // -----------------------------------------------------------------------------------------------------------
 

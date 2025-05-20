@@ -5,7 +5,7 @@ import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 
 public abstract class Arme extends Equipement {
     public Arme(String nom, int degats, int portee) {
-        super(nom, degats, "arme", 20, portee);
+        super(nom, degats, "Arme", 20, portee);
     }
 
     // retourne les degats selon la situation

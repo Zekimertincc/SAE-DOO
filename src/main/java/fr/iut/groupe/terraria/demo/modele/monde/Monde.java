@@ -46,7 +46,7 @@ public class Monde {
             if (ennemi.estProcheDe(joueur)) {
                 ennemi.seDeplacerVers(joueur);
             }
-            if (ennemi.estProcheDe(joueur, 10)) {
+            if (ennemi.estProcheAttaque(joueur)) {
                 ennemi.attaquer(joueur);
             }
         }

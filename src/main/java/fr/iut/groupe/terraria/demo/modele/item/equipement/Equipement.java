@@ -39,5 +39,8 @@ public abstract class Equipement extends Item {
     public int getPortee() {
         return portee;
     }
+    public boolean estOutil() {
+        return this.type.equals("Outil");
+    }
 
 }

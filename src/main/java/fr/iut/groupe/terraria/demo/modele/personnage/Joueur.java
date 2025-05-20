@@ -53,13 +53,20 @@ public class Joueur extends Personnage{
 
     // mettre des degats sur les ennemis/ressources selon l'equipement actuel il y a une portée et des bonus
     public void utiliserEquipementSur(Ciblable cible) {
-        if (equipementActuel != null || equipementActuel.estCasse()){
-            int degats = equipementActuel.degatsContre(this.x, this.y, cible);
-            cible.subirDegats(degats);
+        boolean peutRecolte = true;
 
-            equipementActuel.utiliser();
-            if (equipementActuel.estCasse()) {
-                equipementActuel = null;
+        if (equipementActuel != null){
+            if (cible.getTypeCible().equals("Ressource") && !equipementActuel.estOutil()) {
+                peutRecolte = false;
+            }
+            if (peutRecolte) {
+                int degats = equipementActuel.degatsContre(this.x, this.y, cible);
+                cible.subirDegats(degats);
+
+                equipementActuel.utiliser();
+                if (equipementActuel.estCasse()) {
+                    equipementActuel = null;
+                }
             }
         }
     }

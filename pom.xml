@@ -54,6 +54,7 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -89,5 +90,6 @@
                 </executions>
             </plugin>
         </plugins>
+
     </build>
 </project>

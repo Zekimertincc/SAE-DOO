@@ -22,7 +22,6 @@ public abstract class Nourriture extends Item {
         joueur.gagnerVie(vie);
     }
 
-
     public int getVie() {
         return vie;
     }

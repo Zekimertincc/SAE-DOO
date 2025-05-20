@@ -56,7 +56,11 @@ public class Inventaire {
         return resultat;
     }
 
-
+    public void afficherMap () {
+        for (HashMap.Entry<String, Integer> item : mapItems.entrySet()) {
+            System.out.println("Item : " + item.getKey() + " | Quantité : " + item.getValue());
+        }
+    }
     public HashMap<String, Integer> getMapItems() {
         return mapItems;
     }

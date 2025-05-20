@@ -49,7 +49,7 @@ public abstract class Ennemi extends PersonnageJeu implements Ciblable {
     public void subirDegats(int degats) {
         this.vie -= degats;
         if (estMort()) {
-            System.out.println("L'ennemi est mort !");
+            this.vie = 0;
         }
     }
 
@@ -58,6 +58,11 @@ public abstract class Ennemi extends PersonnageJeu implements Ciblable {
     public String getNom() {
         return "Ennemi";
     }
+    @Override
+    public String getTypeCible() {
+        return "Ennemi";
+    }
+
 
     public int getDistanceAttaque() {
         return distanceAttaque;
