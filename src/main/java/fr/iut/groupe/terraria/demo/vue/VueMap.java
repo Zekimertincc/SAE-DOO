@@ -31,7 +31,7 @@ public class VueMap {
         }
     }
 
-    /** CSV haritayı okur, 0 → boş, 1+ → tileset’ten kare çiz */
+    /** lire le csv et apres ajout avec tileset */
     public void drawSimpleMap(String csvPath, String tilesetPath, int tileSize) throws Exception {
         BufferedReader br = new BufferedReader(
                 new InputStreamReader(getClass().getResourceAsStream(csvPath))
@@ -55,15 +55,13 @@ public class VueMap {
                 int idx = Integer.parseInt(values[x]);
                 collisionMap[y][x] = idx;
 
-                /* === 0 ise boş, sadece yer tutucu ekle === */
-                if (idx == 0) {
-                    // saydam bir Region ekleyelim ki grid düzeni bozulmasın
+
+                if (idx == 0) { // si le tile id egale a 0 ca veut dire qu'on affiche rien cest vide
                     Region placeholder = new Region();
                     placeholder.setPrefSize(tileSize, tileSize);
                     tilePane.getChildren().add(placeholder);
                     continue;
                 }
-                /* ========================================= */
 
                 int tx = idx % tilesPerRow;
                 int ty = idx / tilesPerRow;

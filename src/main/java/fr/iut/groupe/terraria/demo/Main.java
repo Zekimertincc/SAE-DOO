@@ -12,10 +12,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // === VIEW ===
-        VueJeu vue = new VueJeu();          // harita + sprite view’ları oluşturur
+        VueJeu vue = new VueJeu();
 
         // === MODEL ===
-        int[][] map = vue.getCollisionMap(); // VueMap’ten gelen collision matrisi
+        int[][] map = vue.getCollisionMap();
         Joueur joueur = new Joueur(100, 260, map);
 
         // === CONTROLLER ===
@@ -23,7 +23,7 @@ public class Main extends Application {
 
         // === SCENE & STAGE ===
         Scene scene = new Scene(vue);
-        vue.requestFocus();                 // klavye input’u alabilsin
+        vue.requestFocus();
         controleur.demarrer(scene);
 
         primaryStage.setScene(scene);

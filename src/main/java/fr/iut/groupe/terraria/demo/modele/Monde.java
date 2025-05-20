@@ -26,7 +26,7 @@ public class Monde {
         int rows = 0;
         int cols = -1;
 
-        // Önce boyutları belirle
+        // determiner les tailles
         while ((line = reader.readLine()) != null) {
             String[] values = line.split(",");
             cols = Math.max(cols, values.length);
@@ -36,7 +36,7 @@ public class Monde {
 
         map = new int[rows][cols];
 
-        // İkinci turda verileri doldur
+        // mettre les dedans les donnees de csv
         reader = new BufferedReader(
                 new InputStreamReader(getClass().getResourceAsStream(csvPath))
         );
@@ -51,9 +51,7 @@ public class Monde {
         reader.close();
     }
 
-    /**
-     * @return Harita verisi (collisionMap gibi)
-     */
+
     public int[][] getMap() {
         return map;
     }

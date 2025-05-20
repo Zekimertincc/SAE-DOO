@@ -7,27 +7,27 @@ public class VueJeu extends Pane {
     private final VueJoueur vueJoueur;
 
     public VueJeu() {
-        // Orijinal prefSize
+        // prefsize
         this.setPrefSize(960, 640);
 
-        // Harita ve karakter görünümleri
+        //map et joueur
         vueMap     = new VueMap();
         vueJoueur  = new VueJoueur();
 
-        // Ekrana ekle
+        // ajouter a lecran
         this.getChildren().addAll(
                 vueMap.getTilePane(),
                 vueJoueur.getJoueurVue()
         );
     }
 
-    /* ---- Proxy getter’lar (Controller ihtiyaç duyuyor) ---- */
 
-    public int[][] getCollisionMap() {           // harita matrisi
+
+    public int[][] getCollisionMap() {
         return vueMap.getCollisionMap();
     }
 
-    public VueJoueur getVueJoueur() {            // VueJoueur nesnesi
+    public VueJoueur getVueJoueur() {
         return vueJoueur;
     }
 }
