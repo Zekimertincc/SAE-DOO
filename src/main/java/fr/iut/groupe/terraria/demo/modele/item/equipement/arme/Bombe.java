@@ -34,14 +34,16 @@ public class Bombe extends Arme implements ArmeCraft {
 
     @Override
     public boolean construire(Inventaire inventaire, HashMap<String, Integer> mapRessouces) {
+        boolean contruire = false;
         if (!materiauxRequis(mapRessouces)) {
-            return false;
+            if (inventaire.ajouterItem(new Bombe())){
+                inventaire.retirerItem("Bois", 20);
+                inventaire.retirerItem("Pierre", 15);
+                inventaire.retirerItem("File", 5);
+                contruire = true;
+            }
         }
-        inventaire.retirerItem("Bois", 20);
-        inventaire.retirerItem("Pierre", 15);
-        inventaire.retirerItem("Fil", 5);
-        inventaire.ajouterItem(new Bombe());
-        return true;
+        return contruire;
     }
 
 }

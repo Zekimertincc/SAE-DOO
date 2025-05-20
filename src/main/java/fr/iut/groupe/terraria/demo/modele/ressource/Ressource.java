@@ -1,20 +1,20 @@
 package fr.iut.groupe.terraria.demo.modele.ressource;
 
 import fr.iut.groupe.terraria.demo.modele.Ciblable;
+import fr.iut.groupe.terraria.demo.modele.farm.Farm;
 import fr.iut.groupe.terraria.demo.modele.item.Item;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 
-public abstract class Ressource extends Item implements Ciblable {
+public abstract class Ressource implements Ciblable {
     protected double x, y;
+    protected String nom;
     protected int quantite; // farm que contient une ressource
     protected boolean estRecoltable;
     protected String outilRequis; // couteau, hache, pioche
     protected int vie;
     protected boolean recoltee; // on a tout pris ou pas
-    private int quantiteMax; // 50 max par type dans l'inventaire
 
     public Ressource(String nom, int quantite, double x, double y, String outilRequis, int vie) {
-        super(nom);
         this.nom = nom;
         this.quantite = quantite;
         this.x = x;
@@ -23,10 +23,9 @@ public abstract class Ressource extends Item implements Ciblable {
         this.outilRequis = outilRequis;
         this.vie = vie;
         this.recoltee = false;
-        this.quantiteMax = 50;
     }
     // recuperer objet bois, pierre..
-    public abstract Item getItemProduit();
+    public abstract Farm getItemProduit();
 
     // verifie si la ressource peut être récoltée avec l'outil fourni
     public boolean peutEtreRecolteeAvec(Equipement outil) {
@@ -60,10 +59,7 @@ public abstract class Ressource extends Item implements Ciblable {
             recoltee = true;
         }
     }
-    @Override
-    public int getQuantiteMax() {
-        return this.quantiteMax;
-    }
+
 // -----------------------------------------------------------------------------------------------------------
 
     public double getX() {

@@ -22,11 +22,11 @@ public class Inventaire {
         }
         return ajouter;
     }
-    public boolean retirerItem(String nom) {
+    public boolean retirerItem(Item item) {
         boolean retirer = false;
-        int actuel = mapItems.getOrDefault(nom, 0);
+        int actuel = mapItems.getOrDefault(item.getNom(), 0);
         if (actuel > 0) {
-            mapItems.put(nom, actuel - 1);
+            mapItems.put(item.getNom(), actuel - 1);
             retirer = true;
         }
         return retirer;

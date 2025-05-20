@@ -35,14 +35,16 @@ public class Pioche extends Outil implements ArmeCraft {
 
     @Override
     public boolean construire(Inventaire inventaire, HashMap<String, Integer> mapRessouces) {
+        boolean contruire = false;
         if (!materiauxRequis(mapRessouces)) {
-            return false;
+            if (inventaire.ajouterItem(new Pioche())){
+                inventaire.retirerItem("Bois", 10);
+                inventaire.retirerItem("Pierre", 5);
+                inventaire.retirerItem("File", 2);
+                contruire = true;
+            }
         }
-        inventaire.retirerItem("Bois", 10);
-        inventaire.retirerItem("Pierre", 5);
-        inventaire.retirerItem("Fil", 2);
-        inventaire.ajouterItem(new Pioche());
-        return true;
+        return contruire;
     }
 
 }

@@ -34,13 +34,15 @@ public class Arc extends Arme implements ArmeCraft {
 
     @Override
     public boolean construire(Inventaire inventaire, HashMap<String, Integer> mapRessouces) {
+        boolean contruire = false;
         if (!materiauxRequis(mapRessouces)) {
-            return false;
+            if (inventaire.ajouterItem(new Arc())){
+                inventaire.retirerItem("Bois", 30);
+                inventaire.retirerItem("Pierre", 5);
+                inventaire.retirerItem("File", 10);
+                contruire = true;
+            }
         }
-        inventaire.retirerItem("Bois", 30);
-        inventaire.retirerItem("Pierre", 5);
-        inventaire.retirerItem("Fil", 10);
-        inventaire.ajouterItem(new Arc());
-        return true;
+        return contruire;
     }
 }

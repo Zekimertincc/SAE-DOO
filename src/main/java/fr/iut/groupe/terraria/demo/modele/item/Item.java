@@ -5,8 +5,9 @@ public abstract class Item {
     public Item(String nom) {
         this.nom = nom;
     }
+    public abstract int getQuantiteMax();
+
     public String getNom() {
         return nom;
     }
-    public abstract int getQuantiteMax();
 }
