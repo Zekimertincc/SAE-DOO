@@ -40,48 +40,46 @@ public class Joueur {
         vitesseY += 0.5;
         double nextY = y + vitesseY;
 
-        int leftTile  = (int) x / tileSize;
-        int rightTile = (int) (x + getLargeur() - 1) / tileSize;
-        int footTile  = (int) (nextY + getHauteur()) / tileSize;
-
-        boolean collisionSol = false;
-        for (int tx = leftTile; tx <= rightTile; tx++) {
-            if (footTile < 0 || footTile >= map.length || tx < 0 || tx >= map[0].length) continue;
-            if (map[footTile][tx] == 1) {
-                collisionSol = true;
-                break;
-            }
-        }
-
-        if (collisionSol) {
-            vitesseY = 0;
-            enLair = false;
-            y = footTile * tileSize - getHauteur();
-        } else {
+        if (!collisionVerticale(nextY)) {
             y = nextY;
-            enLair = true;
+        } else {
+            if (vitesseY > 0) {
+                y = (int) (y / tileSize) * tileSize;
+                enLair = false;
+            }
+            vitesseY = 0;
         }
     }
 
-    private boolean collisionHorizontale(double nextX) {
-        int topTile    = (int) y / tileSize;
+    public boolean collisionHorizontale(double nextX) {
+        int leftTile = (int) nextX / tileSize;
+        int rightTile = (int) (nextX + getLargeur() - 1) / tileSize;
+        int topTile = (int) y / tileSize;
         int bottomTile = (int) (y + getHauteur() - 1) / tileSize;
-        int leftTile   = (int) nextX / tileSize;
-        int rightTile  = (int) (nextX + getLargeur() - 1) / tileSize;
 
-        for (int ty = topTile; ty <= bottomTile; ty++) {
-            if (leftTile  >= 0 && leftTile  < map[0].length && ty >= 0 && ty < map.length) {
-                if (map[ty][leftTile] == 1) return true;
-            }
-            if (rightTile >= 0 && rightTile < map[0].length && ty >= 0 && ty < map.length) {
-                if (map[ty][rightTile] == 1) return true;
-            }
-        }
-        return false;
+        return checkCollision(leftTile, topTile) || checkCollision(leftTile, bottomTile)
+                || checkCollision(rightTile, topTile) || checkCollision(rightTile, bottomTile);
     }
 
-    public double getX()       { return x; }
-    public double getY()       { return y; }
-    public int    getLargeur() { return 64; }
-    public int    getHauteur() { return 96; }
+    public boolean collisionVerticale(double nextY) {
+        int topTile = (int) nextY / tileSize;
+        int bottomTile = (int) (nextY + getHauteur() - 1) / tileSize;
+        int leftTile = (int) x / tileSize;
+        int rightTile = (int) (x + getLargeur() - 1) / tileSize;
+
+        return checkCollision(leftTile, topTile) || checkCollision(rightTile, topTile)
+                || checkCollision(leftTile, bottomTile) || checkCollision(rightTile, bottomTile);
+    }
+
+    private boolean checkCollision(int tileX, int tileY) {
+        if (tileX < 0 || tileX >= map[0].length || tileY < 0 || tileY >= map.length) {
+            return true;
+        }
+        return map[tileY][tileX] != 0;
+    }
+
+    public double getX() { return x; }
+    public double getY() { return y; }
+    public int getLargeur() { return 32; }
+    public int getHauteur() { return 32; }
 }

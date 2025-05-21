@@ -31,23 +31,23 @@ public class ControleurJeu implements Initializable {
         int[][] map = vue.getCollisionMap();
         joueur = new Joueur(100, 260, map);
 
-        // === Focus sur le jeu pour capter les touches ===
+        // === Focus sur la vue pour les événements clavier ===
         vue.setFocusTraversable(true);
         vue.requestFocus();
 
-        // === Contrôles clavier ===
+        // === Gestion clavier ===
         vue.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.Q  || e.getCode() == KeyCode.LEFT)  gauche = true;
-            if (e.getCode() == KeyCode.D  || e.getCode() == KeyCode.RIGHT) droite = true;
-            if (e.getCode() == KeyCode.SPACE)                              joueur.sauter();
+            if (e.getCode() == KeyCode.Q || e.getCode() == KeyCode.LEFT) gauche = true;
+            if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) droite = true;
+            if (e.getCode() == KeyCode.SPACE) joueur.sauter();
         });
 
         vue.setOnKeyReleased(e -> {
-            if (e.getCode() == KeyCode.Q  || e.getCode() == KeyCode.LEFT)  gauche = false;
-            if (e.getCode() == KeyCode.D  || e.getCode() == KeyCode.RIGHT) droite = false;
+            if (e.getCode() == KeyCode.Q || e.getCode() == KeyCode.LEFT) gauche = false;
+            if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) droite = false;
         });
 
-        // === Boucle du jeu ===
+        // === Boucle de jeu ===
         new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -62,11 +62,10 @@ public class ControleurJeu implements Initializable {
                     joueur.droite();
                     vj.updateSprite("run", true);
                 } else {
-                    vj.updateSprite("idle", true); // par défaut à droite
+                    vj.updateSprite("idle", true);
                 }
 
                 joueur.appliquerGravite();
-
                 vj.getJoueurVue().setTranslateX(joueur.getX());
                 vj.getJoueurVue().setTranslateY(joueur.getY());
             }

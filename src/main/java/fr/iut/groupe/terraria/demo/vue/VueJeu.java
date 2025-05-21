@@ -7,21 +7,20 @@ public class VueJeu extends Pane {
     private final VueJoueur vueJoueur;
 
     public VueJeu() {
-        // prefsize
-        this.setPrefSize(640, 383);
+        // set preferred size
+        this.setPrefSize(800, 600); // önceki 640x383 yerine daha geniş
+        this.setStyle("-fx-background-color: #000000;");
 
-        //map et joueur
-        vueMap     = new VueMap();
-        vueJoueur  = new VueJoueur();
+        // initialize map and player view
+        vueMap    = new VueMap();
+        vueJoueur = new VueJoueur();
 
-        // ajouter a lecran
+        // add both to scene
         this.getChildren().addAll(
                 vueMap.getTilePane(),
                 vueJoueur.getJoueurVue()
         );
     }
-
-
 
     public int[][] getCollisionMap() {
         return vueMap.getCollisionMap();
