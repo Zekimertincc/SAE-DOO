@@ -23,7 +23,6 @@ public class Main1 {
         joueur.utiliserEquipementSur(arbre);
         //4hp
         System.out.println(arbre.getVie());
-        System.out.println("dura :" +arc.getDurabilite());
 
 
         Arbre arbre2 = new Arbre(100, 100);

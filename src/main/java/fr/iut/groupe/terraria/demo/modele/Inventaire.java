@@ -36,33 +36,43 @@ public class Inventaire {
         return ajouter;
     }
 
-    public boolean possede(String nomItem) {
-        return mapItems.containsKey(nomItem) && mapItems.get(nomItem) > 0;
-    }
-
-    public boolean utiliser(String nomItem) {
-        if (possede(nomItem)) {
-            int quantite = mapItems.get(nomItem);
-            if (quantite == 1) {
-                mapItems.remove(nomItem);
-            } else {
-                mapItems.put(nomItem, quantite - 1);
-            }
+    // retirer un item dans inventaire
+    public boolean retirerItem(String nom) {
+        boolean retirer = false;
+        int actuel = mapItems.getOrDefault(nom, 0);
+        if (actuel > 0) {
+            mapItems.put( nom, actuel - 1);
+            retirer = true;
             modifie = true;
-            return true;
         }
-        return false;
+        return retirer;
     }
 
-    public int getQuantite(String nomItem) {
-        return mapItems.getOrDefault(nomItem, 0);
+    // retire une quantité d'items (choisi dans les parametres) dans l'inventaire
+    public boolean retirerItem(String nom, int quantite) {
+        boolean retirer = false;
+        int actuel = mapItems.getOrDefault(nom, 0);
+        if (actuel >= quantite) {
+            mapItems.put(nom, actuel - quantite);
+            retirer = true;
+
+        }
+        return retirer;
     }
 
-    public boolean isModifie() {
-        return modifie;
+    // voir les changements d'inventaire
+    public boolean mettreAJourInventaire() {
+        boolean resultat = modifie;
+        modifie = false;
+        return resultat;
     }
 
-    public void setModifie(boolean modifie) {
-        this.modifie = modifie;
+    public void afficherMap () {
+        for (HashMap.Entry<String, Integer> item : mapItems.entrySet()) {
+            System.out.println("Item : " + item.getKey() + " Quantite : " + item.getValue());
+        }
+    }
+    public HashMap<String, Integer> getMapItems() {
+        return mapItems;
     }
 }

@@ -1,13 +1,5 @@
 package fr.iut.groupe.terraria.demo.modele.item.equipement;
 
-<<<<<<< HEAD
-public class Couteau extends Arme {
-
-    public Couteau() {
-        super("Couteau", 1);
-    }
-
-=======
 import fr.iut.groupe.terraria.demo.modele.Ciblable;
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 
@@ -32,5 +24,4 @@ public class Couteau extends Equipement {
     public void utiliser() {
         durabilite -= 0;
     }
->>>>>>> antoine
 }
