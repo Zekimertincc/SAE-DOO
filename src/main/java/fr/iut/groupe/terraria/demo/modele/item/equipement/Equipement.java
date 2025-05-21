@@ -7,13 +7,21 @@ public abstract class Equipement extends Item {
     protected String type; // ex: "outil", "arme"
     private int quantiteMax; // 1 max par type dans l'inventaire
 
-    public Equipement(String nom, int degats, String type, int durabilite, int portee) {
+    // la quantité pour craft une arme
+    protected int quantiteBois;
+    protected int quantitePierre;
+    protected int quantiteFile;
+
+    public Equipement(String nom, int degats, String type, int durabilite, int portee, int quantiteBois, int quantitePierre, int quantiteFile) {
         super(nom);
         this.degats = degats;
         this.type = type;
         this.durabilite = durabilite;
         this.portee = portee;
         this.quantiteMax = 1;
+        this.quantiteBois = quantiteBois;
+        this.quantitePierre = quantitePierre;
+        this.quantiteFile = quantiteFile;
     }
     // retourne les degats selon la situation
     public abstract int degatsContre(double x1, double y2, Ciblable cible);
@@ -43,4 +51,15 @@ public abstract class Equipement extends Item {
         return this.type.equals("Outil");
     }
 
+    public int getQuantiteBois() {
+        return quantiteBois;
+    }
+
+    public int getQuantitePierre() {
+        return quantitePierre;
+    }
+
+    public int getQuantiteFile() {
+        return quantiteFile;
+    }
 }

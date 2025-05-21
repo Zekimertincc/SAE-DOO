@@ -1,7 +1,6 @@
 package fr.iut.groupe.terraria.demo.modele.personnage;
 
 import fr.iut.groupe.terraria.demo.modele.Ciblable;
-import fr.iut.groupe.terraria.demo.modele.item.equipement.ArmeCraft;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Couteau;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 import fr.iut.groupe.terraria.demo.modele.monde.Monde;
@@ -69,19 +68,6 @@ public class Joueur extends Personnage{
                 }
             }
         }
-    }
-
-    // joueur peut contruire une arme
-    public boolean craftArme(ArmeCraft armeCraftable) {
-        boolean estConstruit = false;
-        HashMap<String, Integer> ressources = inventaire.getMapItems();
-
-        if (armeCraftable.materiauxRequis(ressources)) {
-            if (armeCraftable.construire(inventaire, ressources)){
-                estConstruit = true;
-            }
-        }
-        return estConstruit;
     }
 
 // -------------------------------------------------------------------------------------------------------------------------------------

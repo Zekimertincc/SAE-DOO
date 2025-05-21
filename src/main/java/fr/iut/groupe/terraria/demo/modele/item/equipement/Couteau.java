@@ -5,7 +5,7 @@ import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 
 public class Couteau extends Equipement {
     public Couteau() {
-        super("Couteau", 10, "Arme", 100000, 1);
+        super("Couteau", 10, "Arme", 100000, 1, 0, 0, 0);
     }
 
     // retourne les degats selon la situation
