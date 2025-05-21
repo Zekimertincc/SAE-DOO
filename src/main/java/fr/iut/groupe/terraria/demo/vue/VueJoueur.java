@@ -48,7 +48,7 @@ public class VueJoueur {
         }.start();
     }
 
-    /* Orijinal metot ismi değişmedi */
+
     public void updateSprite(String state, boolean isRight) {
         if (!state.equals(currentState)) frameIndex = 0;
         currentState = state;

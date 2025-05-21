@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="fr.iut.groupe.terraria.demo.controller.ControleurJeu"
+            fx:id="root"
+            prefWidth="640" prefHeight="383">
+</AnchorPane>

@@ -7,6 +7,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.TilePane;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +27,13 @@ public class VueMap {
                     "/fr/iut/groupe/terraria/demo/tileset.png",
                     32
             );
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /** lire le csv et apres ajout avec tileset */
-    public void drawSimpleMap(String csvPath, String tilesetPath, int tileSize) throws Exception {
+    public void drawSimpleMap(String csvPath, String tilesetPath, int tileSize) throws IOException {
         BufferedReader br = new BufferedReader(
                 new InputStreamReader(getClass().getResourceAsStream(csvPath))
         );

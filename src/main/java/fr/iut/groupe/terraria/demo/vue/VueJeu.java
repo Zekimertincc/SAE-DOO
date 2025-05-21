@@ -8,7 +8,7 @@ public class VueJeu extends Pane {
 
     public VueJeu() {
         // prefsize
-        this.setPrefSize(960, 640);
+        this.setPrefSize(640, 383);
 
         //map et joueur
         vueMap     = new VueMap();
