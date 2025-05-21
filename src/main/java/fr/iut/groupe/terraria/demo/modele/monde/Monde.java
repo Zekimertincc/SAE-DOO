@@ -76,9 +76,9 @@ public class Monde {
     }
 
 
-    public void verifierCoffresProches(Joueur joueur, Inventaire inventaire) {
+    public void verifierCoffresProches(Joueur joueur) {
         for (Coffre coffre : listCoffres) {
-            coffre.interactionAvecCoffre(joueur, inventaire);
+            coffre.interactionAvecCoffre(joueur);
         }
     }
 

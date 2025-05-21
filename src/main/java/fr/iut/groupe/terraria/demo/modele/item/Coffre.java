@@ -1,45 +1,39 @@
 package fr.iut.groupe.terraria.demo.modele.item;
 
 import fr.iut.groupe.terraria.demo.modele.Inventaire;
-import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
+import fr.iut.groupe.terraria.demo.modele.farm.Farm;
 import fr.iut.groupe.terraria.demo.modele.item.nourriture.Nourriture;
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-public class Coffre {
+public class Coffre extends Recompense {
     private double x, y;
-    private boolean ouvert;
-    private ArrayList<Item> listContenu;
+    private boolean ouvert; // false si le coffre n'est pas ouvert
 
-    public Coffre(double x, double y, ArrayList<Item> contenu) {
+    public Coffre(Inventaire inventaire, double x, double y) {
+        super(inventaire);
         this.x = x;
         this.y = y;
         this.ouvert = false;
-        this.listContenu = contenu;
     }
-    // choisir un item dans le coffre
-    public Item ouvrir() {
-        if (this.ouvert || listContenu.isEmpty()) return null;
-        Random rand = new Random();
-
-        return listContenu.get(rand.nextInt(listContenu.size()));
-    }
-    // mettre effet sur la personnage.
-    public void interactionAvecCoffre(Joueur joueur, Inventaire inventaire) {
+    /**
+     * ouvre un coffre si c'est de la nourriture ca l'utilise directement sur le joueur
+     * Si c'est de du farm (bois, pierre ou file) alors 10 dans l'inventaire, sinon on met une arme
+     * @param joueur pour avoir la distance entre le joueur et le coffre
+     */
+    public void interactionAvecCoffre(Joueur joueur) {
         double distance = Maths.distance(joueur.getX(), joueur.getY(), this.getX(), this.getY());
         if (distance < 10) {
-            Item item = ouvrir();
-            if (item != null) {
-                if (item instanceof Nourriture) {
-                    ((Nourriture) item).utiliserSur(joueur);
-                } else{
-                    Equipement equipement = ((Equipement) item);
-                    inventaire.ajouterItem(equipement);
+            Item randomItem = randomItem();
+                if (ouvert && randomItem != null){
+                    if (randomItem instanceof Nourriture) {
+                        ((Nourriture) randomItem).utiliserSur(joueur);
+                    } else if (randomItem instanceof Farm){
+                        inventaire.ajouterItem(randomItem, 20);
+                    } else{
+                        inventaire.ajouterItem(randomItem);
+                    }
                 }
-            }
         }
     }
 

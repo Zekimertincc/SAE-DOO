@@ -1,20 +1,27 @@
 package fr.iut.groupe.terraria.demo.modele.personnage;
 
-public class Quete {
+import fr.iut.groupe.terraria.demo.modele.Inventaire;
+import fr.iut.groupe.terraria.demo.modele.item.Coffre;
+import fr.iut.groupe.terraria.demo.modele.item.Item;
+import fr.iut.groupe.terraria.demo.modele.item.Recompense;
+import fr.iut.groupe.terraria.demo.modele.item.equipement.arme.Arc;
+
+public class Quete extends Recompense {
     private String description;
-    private String typeObjectif; // "tuer", "ramasser", etc.
     private String cible;        // "Loup", "Pomme", etc.
     private int objectif;
     private int progression;
     private boolean terminee;
+    private boolean recompenseDonnee;
 
-    public Quete(String description, String typeObjectif, String cible, int objectif) {
+    public Quete(Inventaire inventaire, String description, String cible, int objectif) {
+        super(inventaire);
         this.description = description;
-        this.typeObjectif = typeObjectif;
         this.cible = cible;
         this.objectif = objectif;
         this.progression = 0;
         this.terminee = false;
+        this.recompenseDonnee = false;
     }
 
     public void progresser() {
@@ -26,6 +33,15 @@ public class Quete {
         }
     }
 
+    public void donnerRecompense() {
+        Item randomItem = randomItem();
+        if (terminee && !recompenseDonnee && randomItem != null) {
+            inventaire.ajouterItem(randomItem);
+            recompenseDonnee = true;
+        }
+    }
+    
+// ------------------------------------------------------------------------------------------------------------------------------------------------
     public boolean estTerminee() {
         return terminee;
     }

@@ -24,6 +24,17 @@ public class Inventaire {
         }
         return ajouter;
     }
+    public boolean ajouterItem(Item item, int quantite) {
+        boolean ajouter = false;
+        int actuel = mapItems.getOrDefault(item.getNom(), 0);
+
+        if (actuel < item.getQuantiteMax()) {
+            mapItems.put(item.getNom(), actuel + quantite);
+            ajouter = true;
+            modifie = true;
+        }
+        return ajouter;
+    }
 
     // retirer un item dans inventaire
     public boolean retirerItem(String nom) {
