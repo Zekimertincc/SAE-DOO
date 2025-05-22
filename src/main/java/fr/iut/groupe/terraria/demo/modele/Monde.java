@@ -3,6 +3,10 @@ package fr.iut.groupe.terraria.demo.modele;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Monde {
     private int[][] map;
@@ -50,6 +54,22 @@ public class Monde {
         }
         reader.close();
     }
+    private final List<Ressource> ressources = new ArrayList<>();
+
+    public void ajouterRessource(Ressource r) {
+        ressources.add(r);
+    }
+
+    public void verifierProximite(Joueur joueur) {
+        for (Ressource r : ressources) {
+            double dx = Math.abs(joueur.getX() - r.getX());
+            double dy = Math.abs(joueur.getY() - r.getY());
+            if (dx < 40 && dy < 40) {
+                System.out.println("🪓 Yakında bir " + r.getNom() + " var!");
+            }
+        }
+    }
+
 
 
     public int[][] getMap() {

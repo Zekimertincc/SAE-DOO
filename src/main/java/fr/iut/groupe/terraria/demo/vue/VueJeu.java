@@ -5,7 +5,7 @@ import javafx.scene.layout.Pane;
 public class VueJeu extends Pane {
     private final VueMap vueMap;
     private final VueJoueur vueJoueur;
-
+    private final VueArbre vueArbre;
     public VueJeu() {
         // prefsize
         this.setPrefSize(640, 383);
@@ -13,11 +13,14 @@ public class VueJeu extends Pane {
         //map et joueur
         vueMap     = new VueMap();
         vueJoueur  = new VueJoueur();
+        vueArbre   = new VueArbre(400,290);
 
         // ajouter a lecran
         this.getChildren().addAll(
                 vueMap.getTilePane(),
-                vueJoueur.getJoueurVue()
+                vueJoueur.getJoueurVue(),
+                vueArbre.getVueArbre()
+
         );
     }
 
