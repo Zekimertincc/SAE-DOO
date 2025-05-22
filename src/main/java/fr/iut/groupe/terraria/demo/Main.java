@@ -1,7 +1,6 @@
 package fr.iut.groupe.terraria.demo;
 
 import fr.iut.groupe.terraria.demo.controller.ControleurJeu;
-import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.vue.VueJeu;
 import javafx.application.Application;
 import javafx.scene.Scene;

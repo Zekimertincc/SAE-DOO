@@ -1,9 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele.monde;
 
 import fr.iut.groupe.terraria.demo.modele.item.Coffre;
-import fr.iut.groupe.terraria.demo.modele.item.equipement.Couteau;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
-import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Ennemi;
 import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
 import fr.iut.groupe.terraria.demo.modele.Inventaire;
@@ -12,7 +10,7 @@ import fr.iut.groupe.terraria.demo.modele.zone.Zone;
 
 import java.util.ArrayList;
 
-public class Monde {
+public class Environnement {
     private ArrayList<Ennemi> listEnnemis;
     private ArrayList<Ressource> listRessources;
     private ArrayList<Coffre> listCoffres;
@@ -25,7 +23,7 @@ public class Monde {
     private final int CYCLE = 50; // change après 50 déplacements
 
 
-    public Monde() {
+    public Environnement() {
         this.listEnnemis = new ArrayList<>();
         this.listRessources = new ArrayList<>();
         this.listCoffres = new ArrayList<>();

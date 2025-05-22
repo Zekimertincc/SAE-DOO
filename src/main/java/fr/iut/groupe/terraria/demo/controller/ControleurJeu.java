@@ -1,6 +1,6 @@
 package fr.iut.groupe.terraria.demo.controller;
 
-import fr.iut.groupe.terraria.demo.modele.Joueur;
+import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.vue.VueJeu;
 import fr.iut.groupe.terraria.demo.vue.VueJoueur;
 import javafx.animation.AnimationTimer;
