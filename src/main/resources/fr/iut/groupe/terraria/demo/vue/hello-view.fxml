@@ -6,4 +6,6 @@
             fx:controller="fr.iut.groupe.terraria.demo.controller.ControleurJeu"
             fx:id="root"
             prefWidth="640" prefHeight="383">
+    <fx:include source="Inventaire.fxml" />
+
 </AnchorPane>

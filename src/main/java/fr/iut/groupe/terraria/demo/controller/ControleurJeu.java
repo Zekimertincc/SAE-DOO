@@ -2,6 +2,7 @@ package fr.iut.groupe.terraria.demo.controller;
 
 import fr.iut.groupe.terraria.demo.modele.Joueur;
 import fr.iut.groupe.terraria.demo.modele.ressource.Arbre;
+import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
 import fr.iut.groupe.terraria.demo.vue.VueJeu;
 import fr.iut.groupe.terraria.demo.vue.VueJoueur;
 import javafx.animation.AnimationTimer;
@@ -28,6 +29,7 @@ public class ControleurJeu implements Initializable {
         // === Vue ===
         vue = new VueJeu();
         root.getChildren().add(vue);
+
 
         // === Modèle ===
         int[][] map = vue.getCollisionMap();
@@ -74,11 +76,13 @@ public class ControleurJeu implements Initializable {
                 vj.getJoueurVue().setTranslateY(joueur.getY());
 
 
-                double dx = Math.abs(joueur.getX() - arbre.getX());
-                double dy = Math.abs(joueur.getY() - arbre.getY());
+                for (Ressource r : vue.getRessources()) {
+                    double dx = Math.abs(joueur.getX() - r.getX());
+                    double dy = Math.abs(joueur.getY() - r.getY());
 
-                if (dx < 40 && dy < 40) {
-                    System.out.println("🌳 Yakında ağaç var!");
+                    if (dx < 40 && dy < 40) {
+                        System.out.println("proche d un arbre");
+                    }
                 }
 
             }

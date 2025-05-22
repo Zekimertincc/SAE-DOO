@@ -11,5 +11,5 @@ public abstract class Ressource {
     public double getX() { return x; }
     public double getY() { return y; }
 
-    public abstract String getNom(); // örnek: "Arbre"
+    public abstract String getNom();
 }
