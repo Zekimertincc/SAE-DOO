@@ -21,12 +21,12 @@ public class VueJeu extends Pane {
         vueJoueur = new VueJoueur();
         ressources = new ArrayList<>();
 
-        // === Kaynakları listeye ekle ===
+        // === ajout ressource ===
         ressources.add(new Arbre(300, 200));
         ressources.add(new Arbre(500, 220));
         ressources.add(new Arbre(150, 250));
 
-        // === Kaynakları sahneye çiz ===
+        // === mets ressources sur ecran ===
         for (Ressource r : ressources) {
             ImageView img = new ImageView(new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/tree.png")));
             img.setFitWidth(96);
@@ -36,7 +36,7 @@ public class VueJeu extends Pane {
             this.getChildren().add(img);
         }
 
-        // === Ekrana diğer şeyleri ekle ===
+        // === ajouter tous les autres truc ===
         this.getChildren().addAll(
                 vueMap.getTilePane(),
                 vueJoueur.getJoueurVue()
