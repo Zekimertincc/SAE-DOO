@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="fr.iut.groupe.terraria.demo.controller.HelloController"
+            prefWidth="800" prefHeight="600">
+
+    <Rectangle fx:id="joueurRect"
+               width="40" height="60"
+               fill="blue"
+               layoutX="100" layoutY="300" />
+
+</AnchorPane>

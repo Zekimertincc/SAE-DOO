@@ -5,5 +5,8 @@ public class Loup extends Ennemi {
         super(x, y, 15, 1,5);
     }
 
-
+    @Override
+    public String getNom() {
+        return "Loup";
+    }
 }

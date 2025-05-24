@@ -4,6 +4,7 @@ import fr.iut.groupe.terraria.demo.modele.Inventaire;
 import fr.iut.groupe.terraria.demo.modele.farm.Farm;
 import fr.iut.groupe.terraria.demo.modele.item.nourriture.Nourriture;
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
+import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 
 public class Coffre extends Recompense {
     private double x, y;

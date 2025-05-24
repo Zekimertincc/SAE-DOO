@@ -2,6 +2,7 @@ package fr.iut.groupe.terraria.demo;
 
 import fr.iut.groupe.terraria.demo.modele.item.equipement.arme.Arc;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.outil.Hache;
+import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Loup;
 import fr.iut.groupe.terraria.demo.modele.ressource.Arbre;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,8 +46,9 @@ class JoueurTest {
         joueur.utiliserEquipementSur(arbre2); // 20hp -> 20hp
         assertEquals(20, arbre2.getVie());
 
-        joueur.utiliserEquipementSur(loup); // 15hp -> 2hp
-        assertEquals(2, loup.getVie());
+        // Arc 10 degats, enleve 12 car ciblePreferable est bien un ennemi
+        joueur.utiliserEquipementSur(loup); // 15hp -> 3hp
+        assertEquals(3, loup.getVie());
         joueur.utiliserEquipementSur(loup);
         assertEquals(0, loup.getVie());
         assertTrue(loup.estMort());

@@ -1,5 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele.zone;
 
+import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
+
 public abstract class Zone {
     private double x, y;
     private double largeur, hauteur;

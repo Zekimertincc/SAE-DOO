@@ -4,7 +4,7 @@ import fr.iut.groupe.terraria.demo.modele.item.Item;
 import java.util.HashMap;
 
 public class Inventaire {
-    private HashMap<String, Integer> mapItems; // ex: "Bois" -> 3
+    private HashMap<String, Integer> mapItems; // le bois par exemple avec sa quantité
     private boolean modifie;
 
     public Inventaire() {
@@ -12,6 +12,7 @@ public class Inventaire {
         this.modifie = false;
     }
 
+    // ajouter un item dans inventaire
     public boolean ajouterItem(Item item) {
         boolean ajouter = false;
         int actuel = mapItems.getOrDefault(item.getNom(), 0);
@@ -23,12 +24,11 @@ public class Inventaire {
         }
         return ajouter;
     }
-
     public boolean ajouterItem(Item item, int quantite) {
         boolean ajouter = false;
         int actuel = mapItems.getOrDefault(item.getNom(), 0);
 
-        if (actuel + quantite <= item.getQuantiteMax()) {
+        if (actuel < item.getQuantiteMax()) {
             mapItems.put(item.getNom(), actuel + quantite);
             ajouter = true;
             modifie = true;
@@ -63,13 +63,13 @@ public class Inventaire {
     // voir les changements d'inventaire
     public boolean mettreAJourInventaire() {
         boolean resultat = modifie;
-        modifie = false;
+        this.modifie = false;
         return resultat;
     }
 
     public void afficherMap () {
         for (HashMap.Entry<String, Integer> item : mapItems.entrySet()) {
-            System.out.println("Item : " + item.getKey() + " Quantite : " + item.getValue());
+            System.out.println("item : " + item.getKey() + " ,quantité : " + item.getValue());
         }
     }
     public HashMap<String, Integer> getMapItems() {

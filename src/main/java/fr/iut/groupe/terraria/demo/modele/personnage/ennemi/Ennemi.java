@@ -1,6 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
 
 import fr.iut.groupe.terraria.demo.modele.Ciblable;
+import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.personnage.PersonnageJeu;
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 
@@ -42,16 +43,11 @@ public abstract class Ennemi extends PersonnageJeu implements Ciblable {
     }
 
     // --------------------------------------------------------------------------------------------------------------------------------------
-    @Override
-    public String getNom() {
-        return "Ennemi";
-    }
+
     @Override
     public String getTypeCible() {
         return "Ennemi";
     }
-
-
 
     public int getDistanceAttaque() {
         return distanceAttaque;

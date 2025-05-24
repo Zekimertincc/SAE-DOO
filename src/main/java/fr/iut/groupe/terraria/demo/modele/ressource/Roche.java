@@ -1,6 +1,5 @@
 package fr.iut.groupe.terraria.demo.modele.ressource;
 
-import fr.iut.groupe.terraria.demo.modele.item.Item;
 import fr.iut.groupe.terraria.demo.modele.farm.Pierre;
 
 public class Roche extends Ressource {

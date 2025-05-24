@@ -1,8 +1,9 @@
 package fr.iut.groupe.terraria.demo.modele.farm;
 
+import fr.iut.groupe.terraria.demo.modele.Inventaire;
 import fr.iut.groupe.terraria.demo.modele.item.Item;
 
-public class Farm extends Item {
+public abstract class Farm extends Item {
     private int quantiteMax; // 50 max par type dans l'inventaire
 
     public Farm(String nom) {

@@ -36,11 +36,6 @@ public abstract class Personnage {
         return vie <= 0;
     }
 
-    public void setPosition(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
-
     public int getVie() {
         return vie;
     }
