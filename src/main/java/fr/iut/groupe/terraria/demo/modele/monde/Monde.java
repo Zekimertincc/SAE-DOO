@@ -55,7 +55,7 @@ public class Monde {
             }
         }
     }
-  /*  public void collecterRessourcesProches(Joueur joueur, Inventaire inventaire) {
+   public void collecterRessourcesProches(Joueur joueur, Inventaire inventaire) {
         Equipement outil = joueur.getEquipementActuel();
         for (Ressource r : listRessources) {
             double distance = Maths.distance(joueur.getX(), joueur.getY(), r.getX(), r.getY());
@@ -71,7 +71,7 @@ public class Monde {
             }
         }
     }
-*/
+
     public void verifierCoffresProches(Joueur joueur) {
         for (Coffre coffre : listCoffres) {
             coffre.interactionAvecCoffre(joueur);

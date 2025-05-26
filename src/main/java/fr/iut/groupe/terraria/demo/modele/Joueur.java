@@ -12,6 +12,7 @@ public class Joueur  extends Personnage {
     private boolean enLair = false;
     private final int tileSize = 32;
     private final int[][] map;
+    
     private Equipement equipementActuel;
     private Inventaire inventaire;
     private EtatTemporaire etatTemporaire;

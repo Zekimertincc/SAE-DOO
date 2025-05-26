@@ -40,13 +40,13 @@ public class Joueur extends Personnage{
             }
         }
     }
-/*
+
     public void placerBloc(Block bloc, double x, double y, Monde monde) {
         if (inventaire.retirerItem(bloc.getNom())) {
             monde.ajouterBlocPlace(bloc, x, y);
         }
     }
-*/
+
     public boolean changerNullEquipement() {
         boolean changer = false;
         if (this.equipementActuel.estCasse()){
