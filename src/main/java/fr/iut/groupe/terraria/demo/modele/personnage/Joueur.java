@@ -24,8 +24,6 @@ public class Joueur extends Personnage{
         this.etatTemporaire = etatTemporaire;
     }
 
-
-
     // mettre des degats sur les ennemis/ressources selon l'equipement actuel il y a une portée et des bonus
     public void utiliserEquipementSur(Ciblable cible) {
         boolean peutRecolte = true;
