@@ -7,4 +7,7 @@ public class Bois extends Farm{
         super("Bois");
     }
 
+
+
+
 }

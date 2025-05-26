@@ -1,5 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele.ressource;
 
+import fr.iut.groupe.terraria.demo.modele.farm.Farm;
+import fr.iut.groupe.terraria.demo.modele.item.Item;
 import javafx.scene.image.ImageView;
 
 public abstract class Ressource {
@@ -24,4 +26,5 @@ public abstract class Ressource {
         return imageView;
     }
 
+    public abstract Farm getItemProduit();
 }

@@ -5,7 +5,7 @@ public class Aigle extends Ennemi {
         super(x, y, 20, 2, 100);
     }
 
-    @Override
+
     public String getNom() {
         return "Aigle";
     }

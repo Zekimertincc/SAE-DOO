@@ -1,6 +1,5 @@
 package fr.iut.groupe.terraria.demo.modele.item.equipement.arme;
 
-import fr.iut.groupe.terraria.demo.modele.Ciblable;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 
 public abstract class Arme extends Equipement {

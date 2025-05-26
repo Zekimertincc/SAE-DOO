@@ -1,7 +1,7 @@
     package fr.iut.groupe.terraria.demo.modele.personnage;
 
-    import fr.iut.groupe.terraria.demo.modele.Ciblable;
     import fr.iut.groupe.terraria.demo.modele.Inventaire;
+    import fr.iut.groupe.terraria.demo.modele.item.Item;
     import fr.iut.groupe.terraria.demo.modele.item.equipement.Couteau;
     import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
     import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
@@ -16,13 +16,10 @@
         private Equipement equipementActuel;
         private Inventaire inventaire;
         private EtatTemporaire etatTemporaire;
-    /*
-        public Joueur(double x, double y, int[][] map) {
-            this.x = x;
-            this.y = y;
-            this.map = map;
-        }
-    */
+
+
+
+
         public Joueur(double x, double y, int vieMax, EtatTemporaire etatTemporaire, int[][] map ) {
             super(x, y, vieMax, vieMax, 0);
             this.equipementActuel = new Couteau();
@@ -101,8 +98,24 @@
 
         public void casserRessource(Ressource r) {
             System.out.println("Tu as cassé: " + r.getNom());
-            // apres on va ajouter : inventaire.add(r.getItemProduit());
+            Item item = r.getItemProduit();
+
+            boolean ok = inventaire.ajouterItem(item);
+            if (ok) {
+                System.out.println("📦 " + item.getNom() + " ajouté à l'inventaire");
+            } else {
+                System.out.println("❌ Inventaire plein pour: " + item.getNom());
+            }
+
+            inventaire.afficherMap(); // en bas yazdır tüm envanter
+
         }
+
+
+        public Inventaire getInventaire() {
+            return inventaire;
+        }
+
 
 
         public double getX()       { return x; }
@@ -113,29 +126,7 @@
 
        // --------------------------------------------------------------------------------------------------------------
 
-        // mettre des degats sur les ennemis/ressources selon l'equipement actuel il y a une portée et des bonus
-        public void utiliserEquipementSur(Ciblable cible) {
-            boolean peutRecolte = true;
 
-            if (equipementActuel != null){
-                if (cible.getTypeCible().equals("Ressource") && !equipementActuel.estOutil()) {
-                    peutRecolte = false;
-                }
-                if (peutRecolte) {
-                    int degats = equipementActuel.degatsContre(this.x, this.y, cible, this.getEquipementActuel().getType());
-                    cible.subirDegats(degats);
-                    equipementActuel.utiliser();
-                    changerNullEquipement();
-                }
-            }
-        }
-        /*
-            public void placerBloc(Block bloc, double x, double y, Monde monde) {
-                if (inventaire.retirerItem(bloc.getNom())) {
-                    monde.ajouterBlocPlace(bloc, x, y);
-                }
-            }
-        */
         public boolean changerNullEquipement() {
             boolean changer = false;
             if (this.equipementActuel.estCasse()){
@@ -153,7 +144,6 @@
             super.subirDegats(degats);
         }
 
-        // -------------------------------------------------------------------------------------------------------------------------------------
 
         public Equipement getEquipementActuel() {
             return equipementActuel;
@@ -170,9 +160,7 @@
         public double getVitesseY() {
             return vitesseY;
         }
-        public Inventaire getInventaire() {
-            return inventaire;
-        }
+
 
         public EtatTemporaire getEtatTemporaire() {
             return etatTemporaire;

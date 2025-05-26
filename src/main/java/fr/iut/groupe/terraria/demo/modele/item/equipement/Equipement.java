@@ -1,5 +1,4 @@
 package fr.iut.groupe.terraria.demo.modele.item.equipement;
-import fr.iut.groupe.terraria.demo.modele.Ciblable;
 import fr.iut.groupe.terraria.demo.modele.item.Item;
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 
@@ -26,7 +25,7 @@ public abstract class Equipement extends Item {
         this.quantiteFile = quantiteFile;
         this.ciblePreferable = ciblePreferable;
     }
-
+/*
     // retourne les degats selon la situation
     public int degatsContre(double x1, double y1, Ciblable cible, String equipementType){
         int degatsFinal = 0;
@@ -43,7 +42,7 @@ public abstract class Equipement extends Item {
         }
         return degatsFinal;
     }
-
+*/
     // reduit la durabilité de l'equipement
     public abstract void utiliser();
     public boolean estCasse() {

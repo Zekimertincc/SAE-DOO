@@ -1,13 +1,13 @@
 package fr.iut.groupe.terraria.demo.modele.ressource;
 
 import fr.iut.groupe.terraria.demo.modele.farm.File;
-/*
+
 public class CanneSucre extends Ressource {
     public CanneSucre(double x, double y) {
-        super("CanneSucre", 5, x, y, "Outil", 15);
+        super(x,y);
     }
 
-    @Override
+   @Override
     public File getItemProduit() {
         return new File();
     }
@@ -17,4 +17,3 @@ public class CanneSucre extends Ressource {
         return "CanneSucre";
     }
 }
-*/

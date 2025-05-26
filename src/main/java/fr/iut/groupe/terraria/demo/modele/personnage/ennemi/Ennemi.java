@@ -1,11 +1,10 @@
 package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
 
-import fr.iut.groupe.terraria.demo.modele.Ciblable;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.personnage.PersonnageJeu;
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 
-public abstract class Ennemi extends PersonnageJeu implements Ciblable {
+public abstract class Ennemi extends PersonnageJeu {
     protected int distanceAttaque;
     public Ennemi(double x, double y, int vieMax, int degats, int distanceAttaque) {
         super(x, y, vieMax, vieMax, degats, 30);
@@ -43,12 +42,12 @@ public abstract class Ennemi extends PersonnageJeu implements Ciblable {
     }
 
     // --------------------------------------------------------------------------------------------------------------------------------------
-
+/*
     @Override
     public String getTypeCible() {
         return "Ennemi";
     }
-
+*/
     public int getDistanceAttaque() {
         return distanceAttaque;
     }

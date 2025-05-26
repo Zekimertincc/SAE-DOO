@@ -6,7 +6,7 @@ public class Gorille extends Ennemi {
         super(x, y, 30, 2, 10);
     }
 
-    @Override
+
     public String getNom() {
         return "Gorille";
     }
