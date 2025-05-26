@@ -13,11 +13,6 @@ public class Joueur extends Personnage{
 
     private double vitesseY = 0; // plus y est grand plus le personnage tombe rapidement
     private double largeur = 40, hauteur = 40; // taille du personnage
-    private double GRAVITE = 0.5;
-    private double SAUT_FORCE = -10;
-    private double SOL_Y = 300; // hauteur du sol
-    private double vitesseH = 1.5; // vitesse de deplacement gauche et droite
-
     private Equipement equipementActuel;
     private Inventaire inventaire;
     private EtatTemporaire etatTemporaire;
@@ -29,29 +24,7 @@ public class Joueur extends Personnage{
         this.etatTemporaire = etatTemporaire;
     }
 
-    public void gauche(Monde monde) {
-        x -= vitesseH;
-        monde.mettreAJourCycle();
-    }
-    public void droite(Monde monde) {
-        x += vitesseH;
-        monde.mettreAJourCycle();
-    }
 
-    public void appliquerGravite() {
-        vitesseY += GRAVITE;
-        y += vitesseY;
-        if (y > SOL_Y - hauteur) {// au sol?
-            y = SOL_Y - hauteur;
-            vitesseY = 0;
-        }
-    }
-    // si le joueur est au sol il peut sauter avec SAUT_FORCE
-    public void sauter() {
-        if (y >= SOL_Y - hauteur) {
-            vitesseY = SAUT_FORCE;
-        }
-    }
 
     // mettre des degats sur les ennemis/ressources selon l'equipement actuel il y a une portée et des bonus
     public void utiliserEquipementSur(Ciblable cible) {
@@ -69,13 +42,13 @@ public class Joueur extends Personnage{
             }
         }
     }
-
+/*
     public void placerBloc(Block bloc, double x, double y, Monde monde) {
         if (inventaire.retirerItem(bloc.getNom())) {
             monde.ajouterBlocPlace(bloc, x, y);
         }
     }
-
+*/
     public boolean changerNullEquipement() {
         boolean changer = false;
         if (this.equipementActuel.estCasse()){
@@ -103,10 +76,11 @@ public class Joueur extends Personnage{
     public void setEquipementActuel(Equipement equipement) {
         this.equipementActuel = equipement;
     }
+    /*
     public void setVitesseX(double vitesseH) {
         this.vitesseH = vitesseH;
     }
-
+*/
     public double getVitesseY() {
         return vitesseY;
     }

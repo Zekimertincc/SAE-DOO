@@ -33,7 +33,7 @@ public class ControleurJeu implements Initializable {
 
         // === Modèle ===
         int[][] map = vue.getCollisionMap();
-        joueur = new Joueur(100, 260, map);
+        joueur = new Joueur(100, 260,100,null, map);
         arbre = new Arbre(400,290);
 
         // === Focus sur le jeu pour capter les touches ===

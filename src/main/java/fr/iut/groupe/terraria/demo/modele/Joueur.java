@@ -1,18 +1,35 @@
 package fr.iut.groupe.terraria.demo.modele;
 
-public class Joueur {
+import fr.iut.groupe.terraria.demo.modele.item.equipement.Couteau;
+import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
+import fr.iut.groupe.terraria.demo.modele.personnage.EtatTemporaire;
+import fr.iut.groupe.terraria.demo.modele.personnage.Personnage;
+
+public class Joueur  extends Personnage {
     private double x, y;
     private double vitesseY = 0;
     private final double vitesseX = 2;
     private boolean enLair = false;
     private final int tileSize = 32;
     private final int[][] map;
-
+    private Equipement equipementActuel;
+    private Inventaire inventaire;
+    private EtatTemporaire etatTemporaire;
+/*
     public Joueur(double x, double y, int[][] map) {
         this.x = x;
         this.y = y;
         this.map = map;
     }
+*/
+    public Joueur(double x, double y, int vieMax, EtatTemporaire etatTemporaire, int[][] map ) {
+        super(x, y, vieMax, vieMax, 0);
+        this.equipementActuel = new Couteau();
+        this.inventaire = new Inventaire();
+        this.etatTemporaire = etatTemporaire;
+        this.map = map;
+    }
+
 
     public void gauche() {
         double nextX = x - vitesseX;
@@ -84,4 +101,76 @@ public class Joueur {
     public double getY()       { return y; }
     public int    getLargeur() { return 64; }
     public int    getHauteur() { return 96; }
+
+
+   // --------------------------------------------------------------------------------------------------------------
+
+    // mettre des degats sur les ennemis/ressources selon l'equipement actuel il y a une portée et des bonus
+    public void utiliserEquipementSur(Ciblable cible) {
+        boolean peutRecolte = true;
+
+        if (equipementActuel != null){
+            if (cible.getTypeCible().equals("Ressource") && !equipementActuel.estOutil()) {
+                peutRecolte = false;
+            }
+            if (peutRecolte) {
+                int degats = equipementActuel.degatsContre(this.x, this.y, cible, this.getEquipementActuel().getType());
+                cible.subirDegats(degats);
+                equipementActuel.utiliser();
+                changerNullEquipement();
+            }
+        }
+    }
+    /*
+        public void placerBloc(Block bloc, double x, double y, Monde monde) {
+            if (inventaire.retirerItem(bloc.getNom())) {
+                monde.ajouterBlocPlace(bloc, x, y);
+            }
+        }
+    */
+    public boolean changerNullEquipement() {
+        boolean changer = false;
+        if (this.equipementActuel.estCasse()){
+            setEquipementActuel(null);
+            changer = true;
+        }
+        return changer;
+    }
+
+    @Override
+    public void subirDegats(int degats) {
+        if (!this.getEtatTemporaire().isInvincible() && this.getEtatTemporaire().isVulnerable()) {
+            degats *= 2;
+        }
+        super.subirDegats(degats);
+    }
+
+    // -------------------------------------------------------------------------------------------------------------------------------------
+
+    public Equipement getEquipementActuel() {
+        return equipementActuel;
+    }
+
+    public void setEquipementActuel(Equipement equipement) {
+        this.equipementActuel = equipement;
+    }
+    /*
+    public void setVitesseX(double vitesseH) {
+        this.vitesseH = vitesseH;
+    }
+*/
+    public double getVitesseY() {
+        return vitesseY;
+    }
+    public Inventaire getInventaire() {
+        return inventaire;
+    }
+
+    public EtatTemporaire getEtatTemporaire() {
+        return etatTemporaire;
+    }
+
+    public void setEtatTemporaire(EtatTemporaire etatTemporaire) {
+        this.etatTemporaire = etatTemporaire;
+    }
 }
