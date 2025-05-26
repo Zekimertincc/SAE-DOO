@@ -1,7 +1,5 @@
 package fr.iut.groupe.terraria.demo.controller.demarrage;
 
-import fr.iut.groupe.terraria.demo.modele.Joueur;
-import fr.iut.groupe.terraria.demo.vue.VueJeu;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

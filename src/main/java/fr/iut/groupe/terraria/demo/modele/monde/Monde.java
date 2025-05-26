@@ -1,11 +1,11 @@
 package fr.iut.groupe.terraria.demo.modele.monde;
 
-import fr.iut.groupe.terraria.demo.modele.item.Coffre;
+import fr.iut.groupe.terraria.demo.modele.Inventaire;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
+import fr.iut.groupe.terraria.demo.modele.item.Coffre;
 import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Ennemi;
 import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
-import fr.iut.groupe.terraria.demo.modele.Inventaire;
 import fr.iut.groupe.terraria.demo.modele.zone.Zone;
 import fr.iut.groupe.terraria.demo.modele.item.Block;
 import fr.iut.groupe.terraria.demo.modele.item.BlockPlace;
@@ -55,7 +55,7 @@ public class Monde {
             }
         }
     }
-  /*  public void collecterRessourcesProches(Joueur joueur, Inventaire inventaire) {
+ /*  public void collecterRessourcesProches(Joueur joueur, Inventaire inventaire) {
         Equipement outil = joueur.getEquipementActuel();
         for (Ressource r : listRessources) {
             double distance = Maths.distance(joueur.getX(), joueur.getY(), r.getX(), r.getY());

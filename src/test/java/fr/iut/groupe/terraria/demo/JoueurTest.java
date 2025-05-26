@@ -1,13 +1,5 @@
 package fr.iut.groupe.terraria.demo;
 
-import fr.iut.groupe.terraria.demo.modele.item.equipement.arme.Arc;
-import fr.iut.groupe.terraria.demo.modele.item.equipement.outil.Hache;
-import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
-import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Loup;
-import fr.iut.groupe.terraria.demo.modele.ressource.Arbre;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 /*

@@ -33,6 +33,9 @@ public class VueJeu extends Pane {
             img.setFitHeight(64);
             img.setLayoutX(r.getX());
             img.setLayoutY(r.getY());
+
+            r.setImageView(img); // 💥 connect le image a le truc modele
+
             this.getChildren().add(img);
         }
 

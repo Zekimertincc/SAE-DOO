@@ -4,7 +4,6 @@ import fr.iut.groupe.terraria.demo.modele.item.nourriture.Champignon;
 import fr.iut.groupe.terraria.demo.modele.item.nourriture.Pomme;
 import fr.iut.groupe.terraria.demo.modele.item.nourriture.Poulet;
 import fr.iut.groupe.terraria.demo.modele.personnage.EtatTemporaire;
-import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
