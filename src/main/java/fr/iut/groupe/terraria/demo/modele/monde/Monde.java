@@ -107,20 +107,6 @@ public class Monde {
         blocsPlaces.add(new BlockPlace(block, x, y));
     }
 
-    public void attaquerBlocProche(Joueur joueur, int portee) {
-        for (BlockPlace blocPlace : blocsPlaces) {
-            if (joueur.changerNullEquipement()){
-                double distance = Maths.distance(blocPlace.getX(), blocPlace.getY(), joueur.getX(), joueur.getY());
-                if (distance < portee && !blocPlace.estDetruit()) {
-                    int degats = joueur.getEquipementActuel().getDegats();
-                    joueur.getEquipementActuel().utiliser();
-                    blocPlace.subirDegats(degats);
-                }
-            }
-        }
-    }
-
-
     // Ajouter un ennemi
     public void ajouterEnnemi(Ennemi ennemi) {
         listEnnemis.add(ennemi);

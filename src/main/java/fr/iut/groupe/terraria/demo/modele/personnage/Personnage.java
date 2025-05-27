@@ -2,12 +2,16 @@ package fr.iut.groupe.terraria.demo.modele.personnage;
 
 public abstract class Personnage {
     protected double x, y;
+    protected double vitesseY;
+    protected double vitesseX;
     protected int vie, vieMax;
     protected int degats;
 
-    public Personnage(double x, double y, int vie, int vieMax, int degats) {
+    public Personnage(double x, double y, double vitesseX, double vitesseY, int vie, int vieMax, int degats) {
         this.x = x;
         this.y = y;
+        this.vitesseX = vitesseX;
+        this.vitesseY = vitesseY;
         this.vie = vie;
         this.vieMax = vieMax;
         this.degats = degats;

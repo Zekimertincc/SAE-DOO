@@ -4,8 +4,8 @@ import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 
 public abstract class PersonnageJeu extends Personnage {
     protected int distanceDetection;
-    public PersonnageJeu(double x, double y, int vie, int vieMax, int degats, int distanceDetection) {
-        super(x, y, vie, vieMax, degats);
+    public PersonnageJeu(double x, double y, double vitesseX, double vitesseY, int vie, int vieMax, int degats, int distanceDetection) {
+        super(x, y, vitesseX, vitesseY, vie, vieMax, degats);
         this.distanceDetection = distanceDetection;
     }
 

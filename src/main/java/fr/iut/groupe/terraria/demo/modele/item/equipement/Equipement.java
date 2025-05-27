@@ -1,6 +1,8 @@
 package fr.iut.groupe.terraria.demo.modele.item.equipement;
+import fr.iut.groupe.terraria.demo.modele.Ciblable;
 import fr.iut.groupe.terraria.demo.modele.item.Item;
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
+import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 
 public abstract class Equipement extends Item {
     protected int degats, durabilite, portee;
@@ -25,24 +27,31 @@ public abstract class Equipement extends Item {
         this.quantiteFile = quantiteFile;
         this.ciblePreferable = ciblePreferable;
     }
-/*
-    // retourne les degats selon la situation
-    public int degatsContre(double x1, double y1, Ciblable cible, String equipementType){
+
+    /**
+     * calcule la distance entre le joueur et la cible, si la portée est vraie alors il peut faire des degats.
+     * des degats bonus sont ajoutés si la condition dans le if est true
+     * (Equipemet) getCiblePreferable retourne Ennemi pour tous les Ennemis, ressource selon la ressource.
+     * @param joueur utilse la position du joueur
+     * @param cible utilise la positon de la cible
+     */
+    public void degatsContre(Joueur joueur, Ciblable cible){
         int degatsFinal = 0;
-        if (Maths.distance(x1, y1, cible.getX(), cible.getY())< this.portee){
+        if (Maths.distance(joueur.getX(), joueur.getY(), cible.getX(), cible.getY())< this.portee){
             degatsFinal = this.degats;
-            // class fille getNom equals ciblePrefarable
-            if (cible.getNom().equals(this.getCiblePreferable()) && equipementType.equals("Outil")){
+            if (cible.getNom().equals(this.getCiblePreferable()) && this.type.equals("Outil")){
                 degatsFinal *= 2;
             }
-            // Ennemi equals Ennemi.
-            if (cible.getTypeCible().equals(getCiblePreferable()) && equipementType.equals("Arme")){
+            // getTypeCible doit retourner Ennemi pour que ca marche
+            if (cible.getTypeCible().equals(getCiblePreferable()) && this.type.equals("Arme")){
                 degatsFinal += 2;
             }
         }
-        return degatsFinal;
+        cible.subirDegats(degatsFinal);
+        this.utiliser();
+        joueur.changerNullEquipement();
     }
-*/
+
     // reduit la durabilité de l'equipement
     public abstract void utiliser();
     public boolean estCasse() {

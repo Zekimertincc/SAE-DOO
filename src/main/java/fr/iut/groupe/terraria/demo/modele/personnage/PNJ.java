@@ -7,7 +7,7 @@ public class PNJ extends PersonnageJeu{
     private Quete quete;
 
     public PNJ(String nom, double x, double y, Quete quete) {
-        super(x, y, 10000,1000,  0, 20);
+        super(x, y, 0, 0, 10000,1000,  0, 20);
         this.nom = nom;
         this.quete = quete;
     }

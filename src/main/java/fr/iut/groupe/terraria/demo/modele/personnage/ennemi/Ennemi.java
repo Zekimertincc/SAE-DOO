@@ -1,22 +1,23 @@
 package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
 
+import fr.iut.groupe.terraria.demo.modele.Ciblable;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.personnage.PersonnageJeu;
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 
-public abstract class Ennemi extends PersonnageJeu {
+public abstract class Ennemi extends PersonnageJeu implements Ciblable {
     protected int distanceAttaque;
     public Ennemi(double x, double y, int vieMax, int degats, int distanceAttaque) {
-        super(x, y, vieMax, vieMax, degats, 30);
+        super(x, y,2, 0, vieMax, vieMax, degats, 30);
         this.distanceAttaque = distanceAttaque;
     }
+    public abstract void comportement(Joueur joueur);
 
     public void attaquer(Joueur joueur) {
         if (estProcheAttaque(joueur)) {
             joueur.subirDegats(this.degats);
         }
     }
-
     // pour attaquer (utiliser dans monde) si truc alors l'ennemi attaque (dans la class monde)
     public boolean estProcheAttaque(Joueur joueur) {
         double d = Maths.distance(joueur.getX(), joueur.getY(), this.getX(), this.getY());
@@ -33,21 +34,12 @@ public abstract class Ennemi extends PersonnageJeu {
             this.x -= 1;
         }
     }
-    @Override
-    public void subirDegats(int degats) {
-        this.vie -= degats;
-        if (estMort()) {
-            this.vie = 0;
-        }
-    }
 
-    // --------------------------------------------------------------------------------------------------------------------------------------
-/*
     @Override
     public String getTypeCible() {
         return "Ennemi";
     }
-*/
+    // --------------------------------------------------------------------------------------------------------------------------------------
     public int getDistanceAttaque() {
         return distanceAttaque;
     }
