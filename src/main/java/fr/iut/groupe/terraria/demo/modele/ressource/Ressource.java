@@ -5,7 +5,7 @@ import fr.iut.groupe.terraria.demo.modele.item.Item;
 import javafx.scene.image.ImageView;
 
 public abstract class Ressource {
-    protected double x, y;
+        protected double x, y;
     private transient ImageView imageView;
 
     public Ressource(double x, double y) {
