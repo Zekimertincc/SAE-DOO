@@ -3,6 +3,7 @@ package fr.iut.groupe.terraria.demo.vue;
 import fr.iut.groupe.terraria.demo.modele.ressource.Arbre;
 import fr.iut.groupe.terraria.demo.modele.ressource.Roche;
 import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
+import fr.iut.groupe.terraria.demo.modele.ressource.CanneSucre;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -31,6 +32,10 @@ public class VueJeu extends Pane {
         ressources.add(new Roche(400, 300));
         ressources.add(new Roche(600, 350));
 
+        ressources.add(new CanneSucre(200, 250));
+        ressources.add(new CanneSucre(500, 280));
+
+
         // Affichage des ressources
         for (Ressource r : ressources) {
             Image img;
@@ -38,9 +43,12 @@ public class VueJeu extends Pane {
                 img = new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/tree.png"));
             } else if (r instanceof Roche) {
                 img = new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/roche.png"));
+            } else if (r instanceof CanneSucre) {
+                img = new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/CanneSucre.png"));  // change k3.png si besoin
             } else {
                 continue;
-            }
+
+        }
 
             ImageView imgView = new ImageView(img);
             if (r instanceof Roche) {
