@@ -36,7 +36,7 @@ public class ControleurJeu implements Initializable {
         int[][] map = vue.getCollisionMap();
         joueur = new Joueur(100, 260, 100, null, map);
 
-        // === Inventaire GUI yükle ===
+        // === Inventaire GUI ===
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr/iut/groupe/terraria/demo/vue/Inventaire.fxml"));
             AnchorPane inventairePane = loader.load();
@@ -68,11 +68,11 @@ public class ControleurJeu implements Initializable {
             if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) droite = false;
         });
 
-        // === Clic gauche → casser ressource + update inventaire
+        // === Clic gauche → casser ressource + update inventaire ===
         vue.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 Ressource cible = vue.getRessources().stream()
-                        .filter(r -> Math.abs(joueur.getX() - r.getX()) < 40 && Math.abs(joueur.getY() - r.getY()) < 40)
+                        .filter(r -> Math.abs(joueur.getX() - r.getX()) < 100 && Math.abs(joueur.getY() - r.getY()) < 100)  // Distance augmentée pour test
                         .findFirst().orElse(null);
 
                 if (cible != null) {
@@ -108,4 +108,13 @@ public class ControleurJeu implements Initializable {
             }
         }.start();
     }
+
+    public void refreshVue() {
+        root.getChildren().clear();
+        vue = new VueJeu();  // Recréation de la vue
+        root.getChildren().add(vue);
+        vue.requestFocus();
+        // Tu peux aussi relier de nouveau les événements clavier et souris si besoin
+    }
+
 }
