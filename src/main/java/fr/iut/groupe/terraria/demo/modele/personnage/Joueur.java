@@ -17,7 +17,7 @@
         private EtatTemporaire etatTemporaire;
 
         public Joueur(double x, double y, int vieMax, EtatTemporaire etatTemporaire, int[][] map ) {
-            super(x, y,2, 0, vieMax, vieMax, 0);
+            super(x, y,1.5, 0, vieMax, vieMax, 0);
             this.equipementActuel = new Couteau();
             this.inventaire = new Inventaire();
             this.etatTemporaire = etatTemporaire;

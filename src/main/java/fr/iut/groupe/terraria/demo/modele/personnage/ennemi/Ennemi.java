@@ -7,11 +7,19 @@ import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 
 public abstract class Ennemi extends PersonnageJeu implements Ciblable {
     protected int distanceAttaque;
-    public Ennemi(double x, double y, int vieMax, int degats, int distanceAttaque) {
-        super(x, y,2, 0, vieMax, vieMax, degats, 30);
+    public Ennemi(double x, double y, double vitesseX, double vitesseY, int vieMax, int degats, int distanceAttaque) {
+        super(x, y, vitesseX, vitesseY, vieMax, vieMax, degats, 30);
         this.distanceAttaque = distanceAttaque;
     }
     public abstract void comportement(Joueur joueur);
+
+    public void mettreAJour(Joueur joueur) {
+        if (!this.estMort() && estProcheDe(joueur)) {
+            seDeplacerVers(joueur);
+            attaquer(joueur);
+        }
+        comportement(joueur);
+    }
 
     public void attaquer(Joueur joueur) {
         if (estProcheAttaque(joueur)) {
@@ -24,16 +32,17 @@ public abstract class Ennemi extends PersonnageJeu implements Ciblable {
         return d < getDistanceAttaque();
     }
 
-    /* avance de 1 x vers le joueur
+    /* avance d'une vitesse vitesseX vers le joueur
         Cette fonction est à utiliser que quand le personnage est dans la zone d'un ou plusieurs enemis
      */
     public void seDeplacerVers(Joueur joueur) {
         if (joueur.getX() > this.x) {
-            this.x += 1;
+            this.x += this.vitesseX;
         } else if (joueur.getX() < this.x) {
-            this.x -= 1;
+            this.x -= this.vitesseX;
         }
     }
+
 
     @Override
     public String getTypeCible() {

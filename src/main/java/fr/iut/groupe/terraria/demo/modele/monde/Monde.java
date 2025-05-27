@@ -38,23 +38,6 @@ public class Monde {
         this.estNuit = false;
         this.compteurPas = 0;
     }
-
-    /*
-     boucle qui gere les ennemis et leurs comportement
-     le premier if c'est pour voir si le personnage est dans la zone des ennemis
-     si oui alors il va se deplacer vers le personnage
-     et si il est assez proche du personnage il le met des degats
-    */
-    public void mettreAJour(Joueur joueur) {
-        for (Ennemi ennemi : listEnnemis) {
-            if (ennemi.estProcheDe(joueur)) {
-                ennemi.seDeplacerVers(joueur);
-            }
-            if (ennemi.estProcheAttaque(joueur)) {
-                ennemi.attaquer(joueur);
-            }
-        }
-    }
  /*  public void collecterRessourcesProches(Joueur joueur, Inventaire inventaire) {
         Equipement outil = joueur.getEquipementActuel();
         for (Ressource r : listRessources) {
