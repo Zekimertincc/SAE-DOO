@@ -1,6 +1,8 @@
 package fr.iut.groupe.terraria.demo.modele.ressource;
 
 import fr.iut.groupe.terraria.demo.modele.farm.Farm;
+import fr.iut.groupe.terraria.demo.modele.monde.Maths;
+import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import javafx.scene.image.ImageView;
 import fr.iut.groupe.terraria.demo.modele.Ciblable;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
@@ -9,10 +11,8 @@ public abstract class Ressource implements Ciblable {
     protected double x, y;
     protected String nom;
     protected int quantite; // farm que contient une ressource
-    protected boolean estRecoltable;
     protected String outilRequis; // couteau, hache, pioche
     protected int vie;
-    protected boolean recoltee; // on a tout pris ou pas
     private transient ImageView imageView;
 
     public Ressource(String nom, int quantite, double x, double y, String outilRequis, int vie) {
@@ -38,13 +38,15 @@ public abstract class Ressource implements Ciblable {
         return peutEtreRecoltee;
     }
 
+    public boolean distanceRecolte(Joueur joueur) {
+        return Maths.distance(joueur.getX(), joueur.getY(), this.getX(), this.getY())<20;
+    }
+
     @Override
     public void subirDegats(int degats) {
-        if (!recoltee){
-            vie -= degats;
-        }
-        if (vie <= 0) {
-            recoltee = true;
+        vie -= degats;
+        if (vie <=0) {
+            this.vie = 0;
         }
     }
     @Override
