@@ -1,14 +1,13 @@
 package fr.iut.groupe.terraria.demo.modele.monde;
 
-import fr.iut.groupe.terraria.demo.modele.Inventaire;
-import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
+import fr.iut.groupe.terraria.demo.modele.item.Block;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.item.Coffre;
 import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Ennemi;
 import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
 import fr.iut.groupe.terraria.demo.modele.zone.Zone;
-import fr.iut.groupe.terraria.demo.modele.item.Block;
 import fr.iut.groupe.terraria.demo.modele.item.BlockPlace;
+
 
 
 import java.util.ArrayList;
@@ -17,9 +16,8 @@ public class Monde {
     private ArrayList<Ennemi> listEnnemis;
     private ArrayList<Ressource> listRessources;
     private ArrayList<Coffre> listCoffres;
-    private double distanceRecup;
     private ArrayList<Zone> listZones;
-    private ArrayList<BlockPlace> blocsPlaces;
+    private ArrayList<BlockPlace> listBlock;
 
     // gestion du jour et de la nuit
     private boolean estNuit;
@@ -32,38 +30,29 @@ public class Monde {
         this.listRessources = new ArrayList<>();
         this.listCoffres = new ArrayList<>();
         this.listZones = new ArrayList<>();
-        this.blocsPlaces = new ArrayList<>();
+        this.listBlock = new ArrayList<>();
 
-        this.distanceRecup = 5; // recuperer distance 5
         this.estNuit = false;
         this.compteurPas = 0;
     }
- /*  public void collecterRessourcesProches(Joueur joueur, Inventaire inventaire) {
-        Equipement outil = joueur.getEquipementActuel();
-        for (Ressource r : listRessources) {
-            double distance = Maths.distance(joueur.getX(), joueur.getY(), r.getX(), r.getY());
-            if (distance <= distanceRecup && r.peutEtreRecolteeAvec(outil)) {
-                int degats = outil.degatsContre(joueur.getX(), joueur.getY(), r, joueur.getEquipementActuel().getType());
-                joueur.utiliserEquipementSur(r);
-                joueur.getEquipementActuel().utiliser();
-                if (r.estRecoltee()) {
-                    for (int i = 0; i < r.getQuantite(); i++) {
-                        inventaire.ajouterItem(r.getItemProduit());
-                    }
-                }
-            }
-        }
-    }
-*/
+
     public void verifierCoffresProches(Joueur joueur) {
         for (Coffre coffre : listCoffres) {
             coffre.interactionAvecCoffre(joueur);
         }
     }
-
-    // Supprimer un ennemi
-    public void supprimerEnnemi(Ennemi ennemi) {
-        listEnnemis.remove(ennemi);
+    public void ajouterBlock (BlockPlace block) {
+        listBlock.add(block);
+    }
+    public boolean retirerBlock() {
+        boolean retirer = false;
+        for (int i = listBlock.size() - 1; i >= 0; i--) {
+            if (listBlock.get(i).getVie() <= 0) {
+                listBlock.remove(i);
+                retirer = true;
+            }
+        }
+        return retirer;
     }
 
     // Vérifie si tous les ennemis sont morts
@@ -73,7 +62,6 @@ public class Monde {
         }
         return true;
     }
-
     public void mettreAJourCycle() {
         compteurPas++;
         if (compteurPas >= CYCLE) {
@@ -86,16 +74,15 @@ public class Monde {
             zone.appliquerEffet(joueur);
         }
     }
-    public void ajouterBlocPlace(Block block, double x, double y) {
-        blocsPlaces.add(new BlockPlace(block, x, y));
-    }
 
-    // Ajouter un ennemi
     public void ajouterEnnemi(Ennemi ennemi) {
         listEnnemis.add(ennemi);
     }
     public void ajouterRessource(Ressource ressource) {
         listRessources.add(ressource);
+    }
+    public void supprimerEnnemi(Ennemi ennemi) {
+        listEnnemis.remove(ennemi);
     }
 
 // ----------------------------------------------------------------------------------------------------------------------
@@ -106,6 +93,9 @@ public class Monde {
     }
     public ArrayList<Ressource> getListRessources() {
         return listRessources;
+    }
+    public ArrayList<BlockPlace> getListBlock() {
+        return listBlock;
     }
 
 }

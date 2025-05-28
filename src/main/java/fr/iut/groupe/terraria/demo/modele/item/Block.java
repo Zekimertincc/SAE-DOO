@@ -1,13 +1,12 @@
 package fr.iut.groupe.terraria.demo.modele.item;
 
 public class Block extends Item {
-    private String type; // Bois Pierre File pour savoir de quelle ressource il vient
-    private final int quantiteMax;
+    private final String type;         // Ex: "Bois", "Pierre", "File"
+    private final int quantiteMax = 5; // Limite par stack dans l'inventaire
 
     public Block(String type) {
-        super("Bloc de " + type);
+        super("Bloc de " + type); // Nom visible : "Bloc de Bois", etc.
         this.type = type;
-        this.quantiteMax = 5;
     }
 
     public String getType() {

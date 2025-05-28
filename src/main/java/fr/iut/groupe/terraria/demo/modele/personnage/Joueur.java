@@ -2,9 +2,12 @@
 
     import fr.iut.groupe.terraria.demo.modele.Ciblable;
     import fr.iut.groupe.terraria.demo.modele.Inventaire;
+    import fr.iut.groupe.terraria.demo.modele.item.BlockPlace;
     import fr.iut.groupe.terraria.demo.modele.item.Item;
     import fr.iut.groupe.terraria.demo.modele.item.equipement.Couteau;
     import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
+    import fr.iut.groupe.terraria.demo.modele.monde.Maths;
+    import fr.iut.groupe.terraria.demo.modele.monde.Monde;
     import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
 
     public class Joueur  extends Personnage {
@@ -17,7 +20,7 @@
         private EtatTemporaire etatTemporaire;
 
         public Joueur(double x, double y, int vieMax, EtatTemporaire etatTemporaire, int[][] map ) {
-            super(x, y,1.5, 0, vieMax, vieMax, 0);
+            super(x, y,0.5, 0, vieMax, vieMax, 0);
             this.equipementActuel = new Couteau();
             this.inventaire = new Inventaire();
             this.etatTemporaire = etatTemporaire;
@@ -96,9 +99,9 @@
 
             boolean ok = inventaire.ajouterItem(item);
             if (ok) {
-                System.out.println("📦 " + item.getNom() + " ajouté à l'inventaire");
+                System.out.println(item.getNom() + " ajouté à l'inventaire");
             } else {
-                System.out.println("❌ Inventaire plein pour: " + item.getNom());
+                System.out.println(" Inventaire plein pour: " + item.getNom());
             }
 
             inventaire.afficherMap(); // en bas yazdır tüm envanter
@@ -130,6 +133,24 @@
         // mettre le joueur à 1hp (class aigle)
         public void mettreAPV(int nouvelleVie) {
             this.vie = Math.max(0, Math.min(nouvelleVie, this.vieMax));
+        }
+
+
+        public boolean construireEtPlacerBloc(String type, double x, double y, Monde monde) {
+            boolean peutPlacer = true;
+            if (inventaire.getMapItems().getOrDefault(type, 0) < 2) {
+                peutPlacer = false;
+            }
+            for (BlockPlace b : monde.getListBlock()) {
+                if (Maths.distance(b.getX(), b.getY(), x, y) < 32) {
+                    peutPlacer = false;
+                }
+            }
+            if (peutPlacer) {
+                inventaire.retirerItem(type, 2);
+                monde.ajouterBlock(new BlockPlace(type, x, y));
+            }
+            return peutPlacer;
         }
 
 // --------------------------------------------------------------------------------------------------------------------------

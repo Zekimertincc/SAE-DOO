@@ -1,15 +1,14 @@
 package fr.iut.groupe.terraria.demo.modele.item;
 
 public class BlockPlace {
-    private Block block;
+    private String type; // "Bois", "Pierre", "File"
     private double x, y;
-    private int vie;
+    private int vie = 10;
 
-    public BlockPlace(Block block, double x, double y) {
-        this.block = block;
+    public BlockPlace(String type, double x, double y) {
+        this.type = type;
         this.x = x;
         this.y = y;
-        this.vie = 10;
     }
 
     public void subirDegats(int degats) {
@@ -24,5 +23,5 @@ public class BlockPlace {
     public double getX() { return x; }
     public double getY() { return y; }
     public int getVie() { return vie; }
-    public Block getBlock() { return block; }
+    public String getType() { return type; }
 }

@@ -1,7 +1,6 @@
 package fr.iut.groupe.terraria.demo.modele.craft;
 
 import fr.iut.groupe.terraria.demo.modele.Inventaire;
-import fr.iut.groupe.terraria.demo.modele.farm.Farm;
 import fr.iut.groupe.terraria.demo.modele.item.Block;
 
 public class CraftBlock {
