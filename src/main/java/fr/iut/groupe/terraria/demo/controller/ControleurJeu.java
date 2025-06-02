@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
+import fr.iut.groupe.terraria.demo.vue.VueMap;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,7 +31,7 @@ public class ControleurJeu implements Initializable {
     public void initialize(URL url, ResourceBundle resources) {
         // === Vue ===
         vue = new VueJeu();
-        root.getChildren().add(vue);
+        root.getChildren().add(vue.getScroll);
 
         // === Modèle ===
         int[][] map = vue.getCollisionMap();
