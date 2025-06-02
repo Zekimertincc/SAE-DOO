@@ -1,8 +1,7 @@
 package fr.iut.groupe.terraria.demo;
 
 import fr.iut.groupe.terraria.demo.modele.Inventaire;
-import fr.iut.groupe.terraria.demo.modele.craft.ArmeCraft;
-import fr.iut.groupe.terraria.demo.modele.craft.CraftBlock;
+import fr.iut.groupe.terraria.demo.modele.ArmeCraft;
 import fr.iut.groupe.terraria.demo.modele.farm.Bois;
 import fr.iut.groupe.terraria.demo.modele.farm.Farm;
 import fr.iut.groupe.terraria.demo.modele.farm.File;

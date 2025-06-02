@@ -6,8 +6,6 @@ import fr.iut.groupe.terraria.demo.modele.item.Coffre;
 import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Ennemi;
 import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
 import fr.iut.groupe.terraria.demo.modele.zone.Zone;
-import fr.iut.groupe.terraria.demo.modele.item.BlockPlace;
-
 
 
 import java.util.ArrayList;
@@ -17,7 +15,7 @@ public class Monde {
     private ArrayList<Ressource> listRessources;
     private ArrayList<Coffre> listCoffres;
     private ArrayList<Zone> listZones;
-    private ArrayList<BlockPlace> listBlock;
+    private ArrayList<Block> listBlock;
 
     // gestion du jour et de la nuit
     private boolean estNuit;
@@ -41,9 +39,11 @@ public class Monde {
             coffre.interactionAvecCoffre(joueur);
         }
     }
-    public void ajouterBlock (BlockPlace block) {
+    public void ajouterBlock (Block block) {
         listBlock.add(block);
     }
+
+    // class monde pour retirer le block si le block a moins de 0 hp
     public boolean retirerBlock() {
         boolean retirer = false;
         for (int i = listBlock.size() - 1; i >= 0; i--) {
@@ -65,7 +65,7 @@ public class Monde {
     public void mettreAJourCycle() {
         compteurPas++;
         if (compteurPas >= CYCLE) {
-            estNuit = !estNuit; // bascule jour ↔ nuit
+            estNuit = !estNuit;
             compteurPas = 0;
         }
     }
@@ -94,7 +94,7 @@ public class Monde {
     public ArrayList<Ressource> getListRessources() {
         return listRessources;
     }
-    public ArrayList<BlockPlace> getListBlock() {
+    public ArrayList<Block> getListBlock() {
         return listBlock;
     }
 

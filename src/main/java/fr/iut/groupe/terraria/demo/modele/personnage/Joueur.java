@@ -2,7 +2,7 @@
 
     import fr.iut.groupe.terraria.demo.modele.Ciblable;
     import fr.iut.groupe.terraria.demo.modele.Inventaire;
-    import fr.iut.groupe.terraria.demo.modele.item.BlockPlace;
+    import fr.iut.groupe.terraria.demo.modele.item.Block;
     import fr.iut.groupe.terraria.demo.modele.item.Item;
     import fr.iut.groupe.terraria.demo.modele.item.equipement.Couteau;
     import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
@@ -135,23 +135,25 @@
             this.vie = Math.max(0, Math.min(nouvelleVie, this.vieMax));
         }
 
-
+        // class joueur pour contruire et placer un block
         public boolean construireEtPlacerBloc(String type, double x, double y, Monde monde) {
-            boolean peutPlacer = true;
             if (inventaire.getMapItems().getOrDefault(type, 0) < 2) {
-                peutPlacer = false;
+                return false;
             }
-            for (BlockPlace b : monde.getListBlock()) {
+            for (Block b : monde.getListBlock()) {
                 if (Maths.distance(b.getX(), b.getY(), x, y) < 32) {
-                    peutPlacer = false;
+                    return false;
                 }
             }
-            if (peutPlacer) {
-                inventaire.retirerItem(type, 2);
-                monde.ajouterBlock(new BlockPlace(type, x, y));
-            }
-            return peutPlacer;
+            inventaire.retirerItem(type, 2);
+
+            Block block = new Block(type);
+            block.placer(x, y);
+            monde.ajouterBlock(block);
+
+            return true;
         }
+
 
 // --------------------------------------------------------------------------------------------------------------------------
 

@@ -1,13 +1,11 @@
-package fr.iut.groupe.terraria.demo.modele.craft;
+package fr.iut.groupe.terraria.demo.modele;
 
-import fr.iut.groupe.terraria.demo.modele.Inventaire;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
-import fr.iut.groupe.terraria.demo.modele.item.equipement.outil.Pioche;
 
-public class ArmeCraft extends Craft{
-
+public class ArmeCraft {
+    private Inventaire inventaire;
     public ArmeCraft(Inventaire inventaire) {
-        super(inventaire);
+        this.inventaire = inventaire;
     }
 
     // regarde si les ressources sont suffisante pour construire l'arme
