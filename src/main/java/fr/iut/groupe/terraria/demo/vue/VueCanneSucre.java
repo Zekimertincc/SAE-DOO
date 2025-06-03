@@ -13,7 +13,7 @@ public class VueCanneSucre extends Pane {
 
         Image canneImage = new Image(getClass().getResource("/fr/iut/groupe/terraria/demo/CanneSucre.png").toExternalForm());
         ImageView imageView = new ImageView(canneImage);
-        imageView.setFitWidth(96);
+        imageView.setFitWidth(32);
         imageView.setFitHeight(64);
 
         imageView.setLayoutX(canne.getX());
@@ -21,6 +21,7 @@ public class VueCanneSucre extends Pane {
 
         this.getChildren().add(imageView);
         canne.setImageView(imageView);
+        canne.setVueNode(this); // 🔥 Bu sayede sahneden kaldırılabilir
     }
 
     public CanneSucre getCanneSucre() {

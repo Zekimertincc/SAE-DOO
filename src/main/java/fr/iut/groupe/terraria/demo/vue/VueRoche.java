@@ -13,14 +13,15 @@ public class VueRoche extends Pane {
 
         Image rocheImage = new Image(getClass().getResource("/fr/iut/groupe/terraria/demo/roche.png").toExternalForm());
         ImageView imageView = new ImageView(rocheImage);
-        imageView.setFitWidth(147);
-        imageView.setFitHeight(135);
+        imageView.setFitWidth(64);
+        imageView.setFitHeight(64);
 
         imageView.setLayoutX(roche.getX());
         imageView.setLayoutY(roche.getY());
 
         this.getChildren().add(imageView);
         roche.setImageView(imageView);
+        roche.setVueNode(this); // 🔥 Vue node olarak kaydediliyor
     }
 
     public Roche getRoche() {

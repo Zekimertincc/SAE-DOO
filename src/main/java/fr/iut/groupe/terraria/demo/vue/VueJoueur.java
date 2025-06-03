@@ -4,13 +4,11 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class VueJoueur {
     private final Group joueurGroup;
     private final ImageView joueurSprite;
-    private final Rectangle couteau;
+    private final ImageView couteauSprite;
     private final Image[] idleFrames;
     private final Image[] runFrames;
     private int frameIndex = 0;
@@ -38,12 +36,14 @@ public class VueJoueur {
         joueurSprite.setFitWidth(64);
         joueurSprite.setFitHeight(96);
 
-        // Bıçak görseli (basit kırmızı dikdörtgen)
-        couteau = new Rectangle(5, 20, Color.DARKRED);
-        couteau.setTranslateX(55); // sağ el hizası
-        couteau.setTranslateY(40);
+        // 🔥 couteau.png sprite
+        couteauSprite = new ImageView(new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/couteau.png")));
+        couteauSprite.setFitWidth(32);
+        couteauSprite.setFitHeight(32);
+        couteauSprite.setTranslateX(55); // sağ el hizası
+        couteauSprite.setTranslateY(40);
 
-        joueurGroup = new Group(joueurSprite, couteau);
+        joueurGroup = new Group(joueurSprite, couteauSprite);
 
         new AnimationTimer() {
             @Override
@@ -66,7 +66,7 @@ public class VueJoueur {
 
         if (isRight != lookingRight) {
             joueurSprite.setScaleX(isRight ? 1 : -1);
-            couteau.setScaleX(isRight ? 1 : -1);
+            couteauSprite.setScaleX(isRight ? 1 : -1);
             lookingRight = isRight;
         }
     }

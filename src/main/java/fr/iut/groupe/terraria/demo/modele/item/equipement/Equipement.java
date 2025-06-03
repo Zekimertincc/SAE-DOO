@@ -3,6 +3,8 @@ import fr.iut.groupe.terraria.demo.modele.Ciblable;
 import fr.iut.groupe.terraria.demo.modele.item.Item;
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 
 public abstract class Equipement extends Item {
     protected int degats, durabilite, portee;
@@ -14,6 +16,9 @@ public abstract class Equipement extends Item {
     protected int quantiteBois;
     protected int quantitePierre;
     protected int quantiteFile;
+    private transient ImageView imageView;
+    private transient Node vueNode;
+
 
     public Equipement(String nom, int degats, String type, int durabilite, int portee, int quantiteBois, int quantitePierre, int quantiteFile, String ciblePreferable) {
         super(nom);
@@ -92,4 +97,18 @@ public abstract class Equipement extends Item {
     public String getType() {
         return type;
     }
+    public void setImageView(ImageView iv) {
+        this.imageView = iv;
+    }
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void setVueNode(Node vueNode) {
+        this.vueNode = vueNode;
+    }
+    public Node getVueNode() {
+        return vueNode;
+    }
+
 }

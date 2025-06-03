@@ -29,15 +29,12 @@ public class ControleurJeu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {
-        // === Vue setup ===
         vue = new VueJeu();
         root.getChildren().add(vue);
 
-        // === Modèle ===
         int[][] map = vue.getCollisionMap();
-        joueur = new Joueur(100, 260, 100, null, map); // oyuncu spawn
+        joueur = new Joueur(100, 260, 100, null, map);
 
-        // === Inventaire GUI yükle ===
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr/iut/groupe/terraria/demo/vue/Inventaire.fxml"));
             AnchorPane inventairePane = loader.load();
@@ -50,7 +47,6 @@ public class ControleurJeu implements Initializable {
             e.printStackTrace();
         }
 
-        // === Klavye kontrolü ===
         vue.setFocusTraversable(true);
         vue.requestFocus();
 
@@ -65,7 +61,6 @@ public class ControleurJeu implements Initializable {
             if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) droite = false;
         });
 
-        // === Mouse: kaynak kırma ===
         vue.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 Ressource cible = vue.getRessources().stream()
@@ -77,21 +72,20 @@ public class ControleurJeu implements Initializable {
                     Equipement outil = joueur.getEquipementActuel();
 
                     if (outil != null) {
-                        joueur.utiliserEquipementSur(cible);  // aletle vur
+                        joueur.utiliserEquipementSur(cible);
                     } else {
-                        cible.subirDegats(1);  // elle vur
+                        cible.subirDegats(1);
                     }
 
-                    // LOG
                     System.out.println("Main equipement: " + (outil != null ? outil.getNom() : "Aucun"));
                     System.out.println("→ Attaque sur : " + cible.getNom() +
                             " | Dégâts: " + (vieAvant - cible.getVie()) +
                             " | Vie: " + vieAvant + " → " + cible.getVie());
 
                     if (cible.getVie() <= 0) {
-                        vue.getChildren().remove(cible.getImageView());
+                        vue.getChildren().remove(cible.getVueNode());
                         vue.getRessources().remove(cible);
-                        joueur.casserRessource(cible); // item drop
+                        joueur.casserRessource(cible);
                     }
 
                     inventaireController.updateAffichage();
@@ -99,7 +93,6 @@ public class ControleurJeu implements Initializable {
             }
         });
 
-        // === Game loop ===
         new AnimationTimer() {
             @Override
             public void handle(long now) {
