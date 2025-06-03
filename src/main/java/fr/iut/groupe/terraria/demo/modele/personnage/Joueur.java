@@ -7,7 +7,7 @@
     import fr.iut.groupe.terraria.demo.modele.item.equipement.Couteau;
     import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
     import fr.iut.groupe.terraria.demo.modele.monde.Maths;
-    import fr.iut.groupe.terraria.demo.modele.monde.Monde;
+    import fr.iut.groupe.terraria.demo.modele.monde.Environnement;
     import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
 
     public class Joueur  extends Personnage {
@@ -136,7 +136,7 @@
         }
 
         // class joueur pour contruire et placer un block
-        public boolean construireEtPlacerBloc(String type, double x, double y, Monde monde) {
+        public boolean construireEtPlacerBloc(String type, double x, double y, Environnement monde) {
             if (inventaire.getMapItems().getOrDefault(type, 0) < 2) {
                 return false;
             }

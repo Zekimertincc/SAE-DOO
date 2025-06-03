@@ -26,10 +26,12 @@ public class Block extends Item {
         return vie <= 0;
     }
 
-    public String getType()     { return type; }
-    public double getX()        { return x; }
-    public double getY()        { return y; }
-    public int getVie()         { return vie; }
+    public String getType(){
+        return type;
+    }
+    public double getX(){ return x; }
+    public double getY(){ return y; }
+    public int getVie(){ return vie; }
 
     @Override
     public int getQuantiteMax() { return quantiteMax; }

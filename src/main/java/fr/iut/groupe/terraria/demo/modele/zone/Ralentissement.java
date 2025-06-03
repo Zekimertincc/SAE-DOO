@@ -1,7 +1,9 @@
 package fr.iut.groupe.terraria.demo.modele.zone;
 
-/*
-public class Ralentissement extends Zone{
+
+import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
+
+public class Ralentissement extends Zone {
     public Ralentissement(double x, double y, double largeur, double hauteur) {
         super(x, y, largeur, hauteur);
     }
@@ -14,4 +16,4 @@ public class Ralentissement extends Zone{
             joueur.setVitesseX(1.5);
         }
     }
-*/
+}

@@ -48,4 +48,8 @@ public abstract class Personnage {
     }
     public double getX() { return x; }
     public double getY() { return y; }
+
+    public void setVitesseX(double vitesseX) {
+        this.vitesseX = vitesseX;
+    }
 }
