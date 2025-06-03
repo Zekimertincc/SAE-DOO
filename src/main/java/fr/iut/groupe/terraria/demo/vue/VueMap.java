@@ -1,5 +1,6 @@
 package fr.iut.groupe.terraria.demo.vue;
 
+import fr.iut.groupe.terraria.demo.modele.monde.carte.Carte;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -19,13 +20,14 @@ public class VueMap {
     private int[][] collisionMap;
 
     public VueMap() {
-        scrollPane = new ScrollPane(getTilePane());
-        scrollPane.setPannable(true);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setFitToHeight(true);
         tilePane = new TilePane();
         tilePane.setHgap(0);
         tilePane.setVgap(0);
+
+        scrollPane = new ScrollPane(tilePane);
+        scrollPane.setPannable(true);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
 
         try {
             drawSimpleMap(
@@ -39,10 +41,7 @@ public class VueMap {
         }
     }
 
-    }
-
-
-    /** lire les deux csv et superposer les calques avec le tileset */
+    // Correction de drawSimpleMap (avec fix sur .getChildren().add)
     public void drawSimpleMap(String csvPathLayer1, String csvPathLayer2, String tilesetPath, int tileSize) throws IOException {
         BufferedReader br1 = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(csvPathLayer1)));
         BufferedReader br2 = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(csvPathLayer2)));
@@ -70,31 +69,63 @@ public class VueMap {
                 int idx1 = Integer.parseInt(values1[x]);
                 int idx2 = Integer.parseInt(values2[x]);
 
-                // Superposition : idx2 (pont) remplace idx1 (sol) si idx2 != 0
                 int idx = (idx2 != 0) ? idx2 : idx1;
                 collisionMap[y][x] = idx;
 
                 if (idx == 0) {
                     Region placeholder = new Region();
                     placeholder.setPrefSize(tileSize, tileSize);
-                    .getChildren().add(placeholder);
+                    tilePane.getChildren().add(placeholder);  // Correction ici
                     continue;
                 }
 
                 int tx = idx % tilesPerRow;
                 int ty = idx / tilesPerRow;
-
                 ImageView img = new ImageView(tileset);
                 img.setViewport(new Rectangle2D(tx * tileSize, ty * tileSize, tileSize, tileSize));
                 img.setFitWidth(tileSize);
                 img.setFitHeight(tileSize);
-
                 tilePane.getChildren().add(img);
             }
         }
         tilePane.setPrefColumns(cols);
     }
 
+    // 🔥 Nouvelle méthode pour afficher la carte depuis le modèle
+    public void setCarte(Carte carte) {
+        tilePane.getChildren().clear();
+        Image tileset = new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/tileset.png"));
+        int tileSize = 32;
+        int tilesPerRow = (int) (tileset.getWidth() / tileSize);
+        collisionMap = new int[carte.getHauteur()][carte.getLargeur()];
+
+        for (int y = 0; y < carte.getHauteur(); y++) {
+            for (int x = 0; x < carte.getLargeur(); x++) {
+                int idx = carte.getTuile(x, y);
+                collisionMap[y][x] = idx;
+
+                if (idx == -1) {
+                    Region placeholder = new Region();
+                    placeholder.setPrefSize(tileSize, tileSize);
+                    tilePane.getChildren().add(placeholder);
+                    continue;
+                }
+
+                int tx = idx % tilesPerRow;
+                int ty = idx / tilesPerRow;
+                ImageView img = new ImageView(tileset);
+                img.setViewport(new Rectangle2D(tx * tileSize, ty * tileSize, tileSize, tileSize));
+                img.setFitWidth(tileSize);
+                img.setFitHeight(tileSize);
+                tilePane.getChildren().add(img);
+            }
+        }
+        tilePane.setPrefColumns(carte.getLargeur());
+    }
+
     public TilePane getTilePane() { return tilePane; }
+
+    public ScrollPane getScrollPane() { return scrollPane; }
+
     public int[][] getCollisionMap() { return collisionMap; }
 }
