@@ -1,5 +1,7 @@
 package fr.iut.groupe.terraria.demo.controller;
 
+import fr.iut.groupe.terraria.demo.modele.monde.carte.Carte;
+import fr.iut.groupe.terraria.demo.modele.monde.carte.ChargeurCarte;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
 import fr.iut.groupe.terraria.demo.vue.VueJeu;
@@ -11,7 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
-import fr.iut.groupe.terraria.demo.vue.VueMap;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,12 +27,23 @@ public class ControleurJeu implements Initializable {
     private Joueur joueur;
     private VueJeu vue;
     private InventaireController inventaireController;
+    private Carte carte;
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {
+        // === Chargement de la carte ===
+        carte = ChargeurCarte.charger("/fr/iut/groupe/terraria/demo/terrain_jungle.csv");
+        if (carte != null) {
+            System.out.println("Carte chargée avec succès !");
+            System.out.println("Dimensions : " + carte.getLargeur() + " x " + carte.getHauteur());
+        } else {
+            System.out.println("Erreur de chargement de la carte !");
+        }
+
         // === Vue ===
         vue = new VueJeu();
-        root.getChildren().add(vue.getScroll);
+        vue.setCarte(carte);  // On passe la carte à VueJeu
+        root.getChildren().add(vue);  // Correction : pas getScroll
 
         // === Modèle ===
         int[][] map = vue.getCollisionMap();
@@ -73,7 +85,7 @@ public class ControleurJeu implements Initializable {
         vue.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 Ressource cible = vue.getRessources().stream()
-                        .filter(r -> Math.abs(joueur.getX() - r.getX()) < 100 && Math.abs(joueur.getY() - r.getY()) < 100)  // Distance augmentée pour test
+                        .filter(r -> Math.abs(joueur.getX() - r.getX()) < 100 && Math.abs(joueur.getY() - r.getY()) < 100)
                         .findFirst().orElse(null);
 
                 if (cible != null) {
@@ -90,7 +102,6 @@ public class ControleurJeu implements Initializable {
             @Override
             public void handle(long now) {
                 VueJoueur vj = vue.getVueJoueur();
-
                 if (vj == null || joueur == null) return;
 
                 if (gauche) {
@@ -112,10 +123,9 @@ public class ControleurJeu implements Initializable {
 
     public void refreshVue() {
         root.getChildren().clear();
-        vue = new VueJeu();  // Recréation de la vue
-        root.getChildren().add(vue);
+        vue = new VueJeu();
+        vue.setCarte(carte);  // Recharge la carte
+        root.getChildren().add(vue);  // Correction ici aussi
         vue.requestFocus();
-        // Tu peux aussi relier de nouveau les événements clavier et souris si besoin
     }
-
 }
