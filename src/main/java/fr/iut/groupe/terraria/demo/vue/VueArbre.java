@@ -1,26 +1,29 @@
 package fr.iut.groupe.terraria.demo.vue;
 
+import fr.iut.groupe.terraria.demo.modele.ressource.Arbre;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
-public class VueArbre {
-    private final ImageView vueArbre;
+public class VueArbre extends Pane {
+    private final Arbre arbre;
 
+    public VueArbre(Arbre arbre) {
+        this.arbre = arbre;
 
-    public VueArbre(double x , double y) {
-        Image image = new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/tree.png"));
-        vueArbre = new ImageView(image);
-        vueArbre.setFitHeight(64);
-        vueArbre.setFitWidth(96);
-        vueArbre.setLayoutX(x);
-        vueArbre.setLayoutY(y);
+        Image arbreImage = new Image(getClass().getResource("/fr/iut/groupe/terraria/demo/tree.png").toExternalForm());
+        ImageView imageView = new ImageView(arbreImage);
+        imageView.setFitWidth(96);
+        imageView.setFitHeight(64);
 
+        imageView.setLayoutX(arbre.getX());
+        imageView.setLayoutY(arbre.getY());
+
+        this.getChildren().add(imageView);
+        arbre.setImageView(imageView);
     }
 
-
-
-    public ImageView getVueArbre() {
-        return vueArbre;
+    public Arbre getArbre() {
+        return arbre;
     }
 }
-

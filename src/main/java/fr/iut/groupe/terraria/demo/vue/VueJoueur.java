@@ -1,11 +1,16 @@
 package fr.iut.groupe.terraria.demo.vue;
 
 import javafx.animation.AnimationTimer;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class VueJoueur {
-    private final ImageView joueurVue;
+    private final Group joueurGroup;
+    private final ImageView joueurSprite;
+    private final Rectangle couteau;
     private final Image[] idleFrames;
     private final Image[] runFrames;
     private int frameIndex = 0;
@@ -29,9 +34,16 @@ public class VueJoueur {
                 new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/k8.png"))
         };
 
-        joueurVue = new ImageView(idleFrames[0]);
-        joueurVue.setFitWidth(64);
-        joueurVue.setFitHeight(96);
+        joueurSprite = new ImageView(idleFrames[0]);
+        joueurSprite.setFitWidth(64);
+        joueurSprite.setFitHeight(96);
+
+        // Bıçak görseli (basit kırmızı dikdörtgen)
+        couteau = new Rectangle(5, 20, Color.DARKRED);
+        couteau.setTranslateX(55); // sağ el hizası
+        couteau.setTranslateY(40);
+
+        joueurGroup = new Group(joueurSprite, couteau);
 
         new AnimationTimer() {
             @Override
@@ -39,7 +51,7 @@ public class VueJoueur {
                 if (now - lastTime > 120_000_000) {
                     frameIndex = (frameIndex + 1) %
                             (currentState.equals("idle") ? idleFrames.length : runFrames.length);
-                    joueurVue.setImage(currentState.equals("idle")
+                    joueurSprite.setImage(currentState.equals("idle")
                             ? idleFrames[frameIndex]
                             : runFrames[frameIndex]);
                     lastTime = now;
@@ -48,15 +60,18 @@ public class VueJoueur {
         }.start();
     }
 
-
     public void updateSprite(String state, boolean isRight) {
         if (!state.equals(currentState)) frameIndex = 0;
         currentState = state;
+
         if (isRight != lookingRight) {
-            joueurVue.setScaleX(isRight ? 1 : -1);
+            joueurSprite.setScaleX(isRight ? 1 : -1);
+            couteau.setScaleX(isRight ? 1 : -1);
             lookingRight = isRight;
         }
     }
 
-    public ImageView getJoueurVue() { return joueurVue; }
+    public Group getJoueurVue() {
+        return joueurGroup;
+    }
 }

@@ -1,22 +1,29 @@
 package fr.iut.groupe.terraria.demo.vue;
 
+import fr.iut.groupe.terraria.demo.modele.ressource.Roche;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 public class VueRoche extends Pane {
-    private ImageView imageView;
+    private final Roche roche;
 
-    public VueRoche() {
-        // Charger l'image de la roche (mets le chemin correct dans resources)
+    public VueRoche(Roche roche) {
+        this.roche = roche;
+
         Image rocheImage = new Image(getClass().getResource("/fr/iut/groupe/terraria/demo/roche.png").toExternalForm());
-        imageView = new ImageView(rocheImage);
-
-        // Configurer la taille
+        ImageView imageView = new ImageView(rocheImage);
         imageView.setFitWidth(147);
         imageView.setFitHeight(135);
 
-        // Ajouter à la vue
+        imageView.setLayoutX(roche.getX());
+        imageView.setLayoutY(roche.getY());
+
         this.getChildren().add(imageView);
+        roche.setImageView(imageView);
+    }
+
+    public Roche getRoche() {
+        return roche;
     }
 }

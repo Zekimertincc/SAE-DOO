@@ -1,5 +1,6 @@
 package fr.iut.groupe.terraria.demo.controller;
 
+import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
 import fr.iut.groupe.terraria.demo.vue.VueJeu;
@@ -28,35 +29,31 @@ public class ControleurJeu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {
-        // === Vue ===
+        // === Vue setup ===
         vue = new VueJeu();
         root.getChildren().add(vue);
 
         // === Modèle ===
         int[][] map = vue.getCollisionMap();
-        joueur = new Joueur(100, 260, 100, null, map);
+        joueur = new Joueur(100, 260, 100, null, map); // oyuncu spawn
 
-        // === Inventaire GUI ===
+        // === Inventaire GUI yükle ===
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr/iut/groupe/terraria/demo/vue/Inventaire.fxml"));
             AnchorPane inventairePane = loader.load();
-
             inventaireController = loader.getController();
             inventaireController.setInventaire(joueur.getInventaire());
-
             inventairePane.setLayoutX(10);
             inventairePane.setLayoutY(10);
             root.getChildren().add(inventairePane);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // === Focus ===
+        // === Klavye kontrolü ===
         vue.setFocusTraversable(true);
         vue.requestFocus();
 
-        // === Contrôles clavier ===
         vue.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.Q || e.getCode() == KeyCode.LEFT) gauche = true;
             if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) droite = true;
@@ -68,28 +65,45 @@ public class ControleurJeu implements Initializable {
             if (e.getCode() == KeyCode.D || e.getCode() == KeyCode.RIGHT) droite = false;
         });
 
-        // === Clic gauche → casser ressource + update inventaire ===
+        // === Mouse: kaynak kırma ===
         vue.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 Ressource cible = vue.getRessources().stream()
-                        .filter(r -> Math.abs(joueur.getX() - r.getX()) < 100 && Math.abs(joueur.getY() - r.getY()) < 100)  // Distance augmentée pour test
+                        .filter(r -> Math.abs(joueur.getX() - r.getX()) < 100 && Math.abs(joueur.getY() - r.getY()) < 100)
                         .findFirst().orElse(null);
 
                 if (cible != null) {
-                    joueur.casserRessource(cible);
-                    vue.getChildren().remove(cible.getImageView());
-                    vue.getRessources().remove(cible);
+                    int vieAvant = cible.getVie();
+                    Equipement outil = joueur.getEquipementActuel();
+
+                    if (outil != null) {
+                        joueur.utiliserEquipementSur(cible);  // aletle vur
+                    } else {
+                        cible.subirDegats(1);  // elle vur
+                    }
+
+                    // LOG
+                    System.out.println("Main equipement: " + (outil != null ? outil.getNom() : "Aucun"));
+                    System.out.println("→ Attaque sur : " + cible.getNom() +
+                            " | Dégâts: " + (vieAvant - cible.getVie()) +
+                            " | Vie: " + vieAvant + " → " + cible.getVie());
+
+                    if (cible.getVie() <= 0) {
+                        vue.getChildren().remove(cible.getImageView());
+                        vue.getRessources().remove(cible);
+                        joueur.casserRessource(cible); // item drop
+                    }
+
                     inventaireController.updateAffichage();
                 }
             }
         });
 
-        // === Boucle du jeu ===
+        // === Game loop ===
         new AnimationTimer() {
             @Override
             public void handle(long now) {
                 VueJoueur vj = vue.getVueJoueur();
-
                 if (vj == null || joueur == null) return;
 
                 if (gauche) {
@@ -111,10 +125,8 @@ public class ControleurJeu implements Initializable {
 
     public void refreshVue() {
         root.getChildren().clear();
-        vue = new VueJeu();  // Recréation de la vue
+        vue = new VueJeu();
         root.getChildren().add(vue);
         vue.requestFocus();
-        // Tu peux aussi relier de nouveau les événements clavier et souris si besoin
     }
-
 }

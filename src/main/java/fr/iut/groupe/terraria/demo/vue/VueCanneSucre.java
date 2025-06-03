@@ -1,23 +1,29 @@
 package fr.iut.groupe.terraria.demo.vue;
 
+import fr.iut.groupe.terraria.demo.modele.ressource.CanneSucre;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 public class VueCanneSucre extends Pane {
-    private ImageView imageView;
+    private final CanneSucre canne;
 
-    public VueCanneSucre() {
-        // Charge l'image associée (remplace k3.png par le bon fichier image)
+    public VueCanneSucre(CanneSucre canne) {
+        this.canne = canne;
+
         Image canneImage = new Image(getClass().getResource("/fr/iut/groupe/terraria/demo/CanneSucre.png").toExternalForm());
-        imageView = new ImageView(canneImage);
+        ImageView imageView = new ImageView(canneImage);
+        imageView.setFitWidth(96);
+        imageView.setFitHeight(64);
 
-        // Ajuste la taille (à modifier selon dimensions réelles)
-        imageView.setFitWidth(100);
-        imageView.setFitHeight(120);
+        imageView.setLayoutX(canne.getX());
+        imageView.setLayoutY(canne.getY());
 
-        // Ajoute à la vue
         this.getChildren().add(imageView);
+        canne.setImageView(imageView);
+    }
+
+    public CanneSucre getCanneSucre() {
+        return canne;
     }
 }
-
