@@ -9,12 +9,11 @@ import java.util.HashMap;
 public class Inventaire {
     private HashMap<String, Integer> mapItems;
     private HashMap<String, IntegerProperty> mapProperties;
-    private boolean modifie;
+    private Item itemActif;
 
     public Inventaire() {
         this.mapItems = new HashMap<>();
         this.mapProperties = new HashMap<>();
-        this.modifie = false;
     }
 
     public boolean ajouterItem(Item item) {
@@ -30,7 +29,6 @@ public class Inventaire {
             mapItems.put(item.getNom(), nouveau);
             getQuantiteProperty(item.getNom()).set(nouveau);
             ajouter = true;
-            modifie = true;
         }
         return ajouter;
     }
@@ -47,18 +45,11 @@ public class Inventaire {
             mapItems.put(nom, nouveau);
             getQuantiteProperty(nom).set(nouveau);
             retirer = true;
-            modifie = true;
         }
         return retirer;
     }
 
-    public boolean mettreAJourInventaire() {
-        boolean resultat = modifie;
-        this.modifie = false;
-        return resultat;
-    }
-
-    public void afficherMap () {
+    public void afficherMap() {
         for (HashMap.Entry<String, Integer> item : mapItems.entrySet()) {
             System.out.println("item : " + item.getKey() + " ,quantité : " + item.getValue());
         }
@@ -75,5 +66,13 @@ public class Inventaire {
 
     public HashMap<String, IntegerProperty> getMapProperties() {
         return mapProperties;
+    }
+
+    public void setItemActif(Item item) {
+        this.itemActif = item;
+    }
+
+    public Item getItemActif() {
+        return itemActif;
     }
 }

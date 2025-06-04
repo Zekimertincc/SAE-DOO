@@ -25,17 +25,19 @@ public class InventaireController {
         slotBar.getChildren().clear();
 
         int i = 0;
-        for (Map.Entry<String, Integer> entry : inventaire.getMapItems().entrySet()) {
-            String nom = entry.getKey();
-            int quantite = entry.getValue();
+        for (String nom : inventaire.getMapItems().keySet()) {
+            if (i >= 9) break;
 
             StackPane slot = new StackPane();
             slot.setPrefSize(48, 48);
             slot.setStyle("-fx-border-color: white; -fx-background-color: #3a3a3a;");
 
-            Label label = new Label(nom + " x" + quantite);
+            Label label = new Label();
             label.setStyle("-fx-text-fill: white; -fx-font-size: 10px;");
             StackPane.setAlignment(label, Pos.CENTER);
+
+            // ❗ binding de property de inventaire
+            label.textProperty().bind(inventaire.getQuantiteProperty(nom).asString(nom + " x %d"));
 
             slot.getChildren().add(label);
             slotBar.getChildren().add(slot);
@@ -49,4 +51,5 @@ public class InventaireController {
             slotBar.getChildren().add(emptySlot);
         }
     }
+
 }
