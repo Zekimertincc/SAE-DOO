@@ -36,11 +36,11 @@ public class VueJoueur {
         joueurSprite.setFitWidth(64);
         joueurSprite.setFitHeight(96);
 
-        // 🔥 couteau.png sprite
+        // couteau.png sprite
         couteauSprite = new ImageView(new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/couteau.png")));
         couteauSprite.setFitWidth(32);
         couteauSprite.setFitHeight(32);
-        couteauSprite.setTranslateX(55); // sağ el hizası
+        couteauSprite.setTranslateX(55); //
         couteauSprite.setTranslateY(40);
 
         joueurGroup = new Group(joueurSprite, couteauSprite);

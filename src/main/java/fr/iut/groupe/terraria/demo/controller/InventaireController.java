@@ -42,7 +42,6 @@ public class InventaireController {
             i++;
         }
 
-        // Geri kalan boş slotları göster
         for (; i < 9; i++) {
             StackPane emptySlot = new StackPane();
             emptySlot.setPrefSize(48, 48);
@@ -50,5 +49,4 @@ public class InventaireController {
             slotBar.getChildren().add(emptySlot);
         }
     }
-
 }

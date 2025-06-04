@@ -21,7 +21,7 @@ public class VueCanneSucre extends Pane {
 
         this.getChildren().add(imageView);
         canne.setImageView(imageView);
-        canne.setVueNode(this); // 🔥 Bu sayede sahneden kaldırılabilir
+        canne.setVueNode(this);
     }
 
     public CanneSucre getCanneSucre() {

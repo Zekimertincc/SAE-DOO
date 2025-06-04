@@ -21,7 +21,7 @@ public class VueArbre extends Pane {
 
         this.getChildren().add(imageView);
         arbre.setImageView(imageView);
-        arbre.setVueNode(this); // 🔥 Ekrandan kaldırabilmek için bu şart
+        arbre.setVueNode(this); // pour pouvoir enlever le image de cette truc
     }
 
     public Arbre getArbre() {

@@ -13,50 +13,7 @@
           alignment="CENTER_LEFT"
           AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
 
-        <!-- SLOT 1 -->
-        <StackPane fx:id="slot0" prefWidth="48" prefHeight="48" style="-fx-border-color: white; -fx-background-color: #5a5a5a;">
-            <Label text="" style="-fx-text-fill: white;" />
-        </StackPane>
-
-        <!-- SLOT 2 -->
-        <StackPane fx:id="slot1" prefWidth="48" prefHeight="48" style="-fx-border-color: gray; -fx-background-color: #3a3a3a;">
-            <Label text="" style="-fx-text-fill: white;" />
-        </StackPane>
-
-        <!-- SLOT 3 -->
-        <StackPane fx:id="slot2" prefWidth="48" prefHeight="48" style="-fx-border-color: gray; -fx-background-color: #3a3a3a;">
-            <Label text="" style="-fx-text-fill: white;" />
-        </StackPane>
-
-        <!-- SLOT 4 -->
-        <StackPane fx:id="slot3" prefWidth="48" prefHeight="48" style="-fx-border-color: gray; -fx-background-color: #3a3a3a;">
-            <Label text="" style="-fx-text-fill: white;" />
-        </StackPane>
-
-        <!-- SLOT 5 -->
-        <StackPane fx:id="slot4" prefWidth="48" prefHeight="48" style="-fx-border-color: gray; -fx-background-color: #3a3a3a;">
-            <Label text="" style="-fx-text-fill: white;" />
-        </StackPane>
-
-        <!-- SLOT 6 -->
-        <StackPane fx:id="slot5" prefWidth="48" prefHeight="48" style="-fx-border-color: gray; -fx-background-color: #3a3a3a;">
-            <Label text="" style="-fx-text-fill: white;" />
-        </StackPane>
-
-        <!-- SLOT 7 -->
-        <StackPane fx:id="slot6" prefWidth="48" prefHeight="48" style="-fx-border-color: gray; -fx-background-color: #3a3a3a;">
-            <Label text="" style="-fx-text-fill: white;" />
-        </StackPane>
-
-        <!-- SLOT 8 -->
-        <StackPane fx:id="slot7" prefWidth="48" prefHeight="48" style="-fx-border-color: gray; -fx-background-color: #3a3a3a;">
-            <Label text="" style="-fx-text-fill: white;" />
-        </StackPane>
-
-        <!-- SLOT 9 -->
-        <StackPane fx:id="slot8" prefWidth="48" prefHeight="48" style="-fx-border-color: gray; -fx-background-color: #3a3a3a;">
-            <Label text="" style="-fx-text-fill: white;" />
-        </StackPane>
+        <!-- SLOT 1-9 Dummy, dinamic il va etre rempli par le inventaire controller -->
 
     </HBox>
 </AnchorPane>
