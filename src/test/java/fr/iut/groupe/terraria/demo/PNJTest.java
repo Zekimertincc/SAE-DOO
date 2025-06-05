@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo;
-
-public class PNJTest {
-}
+//package fr.iut.groupe.terraria.demo;
+//
+//public class PNJTest {
+//}

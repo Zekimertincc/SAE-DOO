@@ -1,4 +1,4 @@
-package universite_paris8.iut.dagnetti.junglequest.modele.personnages;
+package fr.iut.groupe.terraria.demo.modele.personnage;
 
 import javafx.scene.image.ImageView;
 
@@ -15,9 +15,12 @@ public abstract class Personnage {
     protected boolean versGauche;
     protected boolean estAuSol;
 
+    protected int vie, vieMax;
+    protected int degats;
+
     protected final ImageView sprite;
 
-    public Personnage(ImageView sprite, double x, double y) {
+    public Personnage(ImageView sprite, double x, double y,  int vie, int vieMax, int degats) {
         this.sprite = sprite;
         this.x = x;
         this.y = y;
@@ -25,6 +28,10 @@ public abstract class Personnage {
         this.vitesseY = 0;
         this.versGauche = false;
         this.estAuSol = false;
+
+        this.vie = vie;
+        this.vieMax = vieMax;
+        this.degats = degats;
 
         this.sprite.setX(x);
         this.sprite.setY(y);
@@ -92,14 +99,32 @@ public abstract class Personnage {
         vitesseX = 0;
     }
 
-    // --- Getters utiles ---
+    //-------------------------------------------------------------------------------------------------------
+    public void gagnerVie(int quantite) {
+        vie += quantite;
+        if (vie > vieMax) {
+            vie = vieMax;
+        }
+        if (vie < 0) {
+            vie = 0;
+        }
+    }
+    // utilise la fonction gagner de la vie mais envoie un nombre negatif pour faire perdre de la vie au joueur
+    public void subirDegats(int degats) {
+        gagnerVie(-degats);
+    }
+
+    // verifie si le personnage est mort
+    public boolean estMort() {
+        return vie <= 0;
+    }
+
+
+    //-------------------------------------------------------------------------------------------------------
 
     public ImageView getSprite() { return sprite; }
-
     public double getX() { return x; }
-
     public double getY() { return y; }
-
     public double getVitesseY() { return vitesseY; }
     public double getVitesseX() { return vitesseX; }
     public boolean estAuSol() { return estAuSol; }
@@ -109,5 +134,14 @@ public abstract class Personnage {
     public void setEstAuSol(boolean auSol) {
         this.estAuSol = auSol;
     }
+    public int getVie() {
+        return vie;
+    }
+    public int getVieMax() {
+        return vieMax;
+    }
 
+    public void setVitesseX(double vitesseX) {
+        this.vitesseX = vitesseX;
+    }
 }

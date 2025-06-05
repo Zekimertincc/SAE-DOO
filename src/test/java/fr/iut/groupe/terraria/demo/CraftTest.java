@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo;
-
-public class CraftTest {
-}
+//package fr.iut.groupe.terraria.demo;
+//
+//public class CraftTest {
+//}

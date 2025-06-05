@@ -1,7 +1,7 @@
-/*package fr.iut.groupe.terraria.demo.modele.item.nourriture;
+package fr.iut.groupe.terraria.demo.modele.item.nourriture;
 
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
-
+import fr.iut.groupe.terraria.demo.modele.item.Item;
 
 public abstract class Nourriture extends Item {
     protected int vie;
@@ -31,4 +31,3 @@ public abstract class Nourriture extends Item {
     }
 }
 
-*/

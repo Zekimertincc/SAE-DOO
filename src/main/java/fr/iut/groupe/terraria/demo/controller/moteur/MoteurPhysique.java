@@ -2,7 +2,7 @@ package fr.iut.groupe.terraria.demo.controller.moteur;
 
 import fr.iut.groupe.terraria.demo.modele.carte.Carte;
 import fr.iut.groupe.terraria.demo.modele.donnees.ConstantesJeu;
-import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Personnage;
+import fr.iut.groupe.terraria.demo.modele.personnage.Personnage;
 
 /**
  * Gère les règles physiques élémentaires du jeu :
@@ -35,16 +35,12 @@ public class MoteurPhysique {
             // Si le personnage tombe et dépasse le sol : poser au sol
             if (personnage.getVitesseY() >= 0 && piedY >= ySol) {
                 personnage.poserAuSol(ySol - personnage.getSprite().getFitHeight());
-
-                //System.out.println(" Collision au sol détectée → personnage posé à y=" + personnage.getY());
             }
         } else {
-            // Aucun sol détecté
             personnage.setEstAuSol(false);
-            //System.out.println(" Personnage en l'air, gravité appliquée. y=" + personnage.getY() + ", vY=" + personnage.getVitesseY());
         }
 
-        // 🔄 Mise à jour finale de la position
+
         personnage.mettreAJourPosition();
     }
 }

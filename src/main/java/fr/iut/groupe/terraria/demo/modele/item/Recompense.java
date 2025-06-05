@@ -1,6 +1,4 @@
-/*package fr.iut.groupe.terraria.demo.modele.item;
-
-import fr.iut.groupe.terraria.demo.modele.Inventaire;
+package fr.iut.groupe.terraria.demo.modele.item;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -24,4 +22,3 @@ public class Recompense {
         return listContenu.get(rand.nextInt(listContenu.size()));
     }
 }
-*/

@@ -45,7 +45,7 @@ public class InventaireController implements Initializable {
         }
 
         afficherSlots();
-        System.out.println("📦 Inventaire appliqué au contrôleur. Contenu : " + inventaire.getItems().size() + " item(s).");
+        System.out.println("📦 Inventaire appliqué au contrôleur. Contenu : " + inventaire.getMapItems().size() + " item(s).");
     }
 
     /**
@@ -55,7 +55,7 @@ public class InventaireController implements Initializable {
         slotBar.getChildren().clear();
 
         //  Affichage des objets possédés
-        for (Map.Entry<String, Integer> entry : inventaire.getItems().entrySet()) {
+        for (Map.Entry<String, Integer> entry : inventaire.getMapItems().entrySet()) {
             String nom = entry.getKey();
             int quantite = entry.getValue();
 
@@ -64,7 +64,7 @@ public class InventaireController implements Initializable {
         }
 
         //  Complétion visuelle avec des slots vides
-        int slotsUtilisés = inventaire.getItems().size();
+        int slotsUtilisés = inventaire.getMapItems().size();
         int slotsTotaux = 9;
 
         for (int i = slotsUtilisés; i < slotsTotaux; i++) {

@@ -4,6 +4,7 @@ import fr.iut.groupe.terraria.demo.controller.interfacefx.InventaireController;
 import fr.iut.groupe.terraria.demo.modele.carte.Carte;
 import fr.iut.groupe.terraria.demo.modele.carte.ChargeurCarte;
 import fr.iut.groupe.terraria.demo.modele.donnees.ConstantesJeu;
+import fr.iut.groupe.terraria.demo.modele.farm.Bois;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.vue.CarteAffichable;
 import fr.iut.groupe.terraria.demo.vue.VueBackground;
@@ -88,11 +89,8 @@ public class LanceurJeu extends Application {
             spriteJoueur.setFitWidth(ConstantesJeu.TAILLE_SPRITE);
             spriteJoueur.setFitHeight(ConstantesJeu.TAILLE_SPRITE);
 
-            Joueur joueur = new Joueur(spriteJoueur, xInitial, yInitial);
-            joueur.getInventaire().ajouterItem("Bois", 3);
-            joueur.getInventaire().ajouterItem("Clé", 1);
-            joueur.getInventaire().ajouterItem("Potion", 2);
-            System.out.println(" Inventaire initialisé : Bois x3, Clé x1, Potion x2.");
+            Joueur joueur = new Joueur(spriteJoueur, xInitial, yInitial, 5, 1, null);
+            joueur.getInventaire().ajouterItem(new Bois(), 3);
 
             racine.getChildren().addAll(carteAffichable, spriteJoueur);
             afficherInventaire(racine, joueur, largeur, hauteur);

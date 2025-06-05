@@ -1,4 +1,4 @@
-/*package fr.iut.groupe.terraria.demo.modele.zone;
+package fr.iut.groupe.terraria.demo.modele.zone;
 
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 
@@ -16,4 +16,3 @@ public class Poison extends Zone{
         }
     }
 }
-*/
