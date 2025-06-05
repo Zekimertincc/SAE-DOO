@@ -9,12 +9,19 @@ public class Gorille extends Ennemi {
         super(x, y, 1, 0, 30, 2, 10);
     }
 
-    // quand le gorille a moins de 50% de ses hp max il saute de 3px vers le joueur
+    /**
+     * Si le gorille a moins de 50% de vie, il saute de 3px vers le joueur.
+     */
     @Override
     public void comportement(Joueur joueur) {
-        if (this.getVie() < this.getVieMax() / 2 && Maths.distance(this.getX(), this.getY(), joueur.getX(), joueur.getY()) > 5) {
-            if (joueur.getX() > this.x) this.x += 3;
-            else this.x -= 3;
+        if (this.getVie() < this.getVieMax() / 2 &&
+                Maths.distance(this.getX(), this.getY(), joueur.getX(), joueur.getY()) > 5) {
+
+            if (joueur.getX() > this.getX()) {
+                this.setX(this.getX() + 3);
+            } else {
+                this.setX(this.getX() - 3);
+            }
         }
     }
 
