@@ -3,27 +3,30 @@ package fr.iut.groupe.terraria.demo.modele.monde;
 import fr.iut.groupe.terraria.demo.modele.item.Block;
 import fr.iut.groupe.terraria.demo.modele.item.Coffre;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
+import fr.iut.groupe.terraria.demo.modele.personnage.Personnage;
 import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Ennemi;
 import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
 import fr.iut.groupe.terraria.demo.modele.zone.Zone;
 
 import java.util.ArrayList;
 
-public class Environnement {
+public class Monde {
 
+    private ArrayList<Personnage> listPersonnages;
     private ArrayList<Ennemi> listEnnemis;
     private ArrayList<Ressource> listRessources;
     private ArrayList<Coffre> listCoffres;
     private ArrayList<Zone> listZones;
     private ArrayList<Block> listBlock;
 
-    public Environnement() {
+    public Monde() {
         this.listEnnemis = new ArrayList<>();
         this.listRessources = new ArrayList<>();
         this.listCoffres = new ArrayList<>();
         this.listZones = new ArrayList<>();
         this.listBlock = new ArrayList<>();
     }
+
 
     public void appliquerEffetsZones(Joueur joueur) {
         for (Zone zone : listZones) {
