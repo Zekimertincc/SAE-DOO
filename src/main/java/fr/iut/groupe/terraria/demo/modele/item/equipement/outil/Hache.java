@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.item.equipement.outil;
+/*package fr.iut.groupe.terraria.demo.modele.item.equipement.outil;
 
 public class Hache extends Outil {
     public Hache() {
@@ -6,3 +6,4 @@ public class Hache extends Outil {
     }
 
 }
+*/

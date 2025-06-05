@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.item;
+/*package fr.iut.groupe.terraria.demo.modele.item;
 
 public class Block extends Item {
     private final String type;         // Ex: "Bois", "Pierre", "File"
@@ -18,3 +18,4 @@ public class Block extends Item {
         return quantiteMax;
     }
 }
+*/

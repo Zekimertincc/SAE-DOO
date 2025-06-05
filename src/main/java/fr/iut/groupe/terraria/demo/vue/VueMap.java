@@ -1,84 +1,97 @@
-package fr.iut.groupe.terraria.demo.vue;
+/*package fr.iut.groupe.terraria.demo.vue;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.Pane;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
-public class VueMap {
-    private final TilePane tilePane;
+public class VueMap extends Pane {
+
+    private final int TAILLE_TUILE = 32;
     private int[][] collisionMap;
+    private final Pane coucheTuiles;
+    private Image tileset;
+    private int tilesParLigne;
 
     public VueMap() {
-        tilePane = new TilePane();
-        tilePane.setHgap(0);
-        tilePane.setVgap(0);
+        this.coucheTuiles = new Pane();
+        this.getChildren().add(coucheTuiles);
 
         try {
-            drawSimpleMap(
-                    "/fr/iut/groupe/terraria/demo/map.csv",
-                    "/fr/iut/groupe/terraria/demo/tileset.png",
-                    32
+            chargerMap(
+                    "/fr/iut/groupe/terraria/demo/sol.csv",
+                    "/fr/iut/groupe/terraria/demo/jungle_terrain.png"
             );
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /** lire le csv et apres ajout avec tileset */
-    public void drawSimpleMap(String csvPath, String tilesetPath, int tileSize) throws IOException {
+    public void chargerMap(String cheminCSV, String cheminTileset) throws IOException {
         BufferedReader br = new BufferedReader(
-                new InputStreamReader(getClass().getResourceAsStream(csvPath))
+                new InputStreamReader(getClass().getResourceAsStream(cheminCSV))
         );
-        Image tileset = new Image(getClass().getResourceAsStream(tilesetPath));
+        tileset = new Image(getClass().getResourceAsStream(cheminTileset));
+        tilesParLigne = (int) (tileset.getWidth() / TAILLE_TUILE);
 
-        List<String[]> rows = new ArrayList<>();
-        String line;
-        while ((line = br.readLine()) != null) rows.add(line.split(","));
-        br.close();
+        String ligne;
+        int y = 0;
+        int[][] tempCollision = new int[500][];
+        while ((ligne = br.readLine()) != null) {
+            String[] valeurs = ligne.split(",");
+            int largeur = valeurs.length;
+            tempCollision[y] = new int[largeur];
 
-        int rowsCount = rows.size();
-        int cols      = rows.get(0).length;
-        collisionMap  = new int[rowsCount][cols];
+            for (int x = 0; x < largeur; x++) {
+                int idx = Integer.parseInt(valeurs[x]);
 
-        int tilesPerRow = (int) (tileset.getWidth() / tileSize);
+                // --- Affichage graphique (tout sauf -1) ---
+                if (idx >= 0) {
+                    int tx = idx % tilesParLigne;
+                    int ty = idx / tilesParLigne;
 
-        for (int y = 0; y < rowsCount; y++) {
-            String[] values = rows.get(y);
-            for (int x = 0; x < values.length; x++) {
-                int idx = Integer.parseInt(values[x]);
-                collisionMap[y][x] = idx;
+                    ImageView tuile = new ImageView(tileset);
+                    tuile.setViewport(new Rectangle2D(
+                            tx * TAILLE_TUILE,
+                            ty * TAILLE_TUILE,
+                            TAILLE_TUILE,
+                            TAILLE_TUILE
+                    ));
+                    tuile.setFitWidth(TAILLE_TUILE);
+                    tuile.setFitHeight(TAILLE_TUILE);
+                    tuile.setLayoutX(x * TAILLE_TUILE);
+                    tuile.setLayoutY(y * TAILLE_TUILE);
 
-
-                if (idx == 0) { // si le tile id egale a 0 ca veut dire qu'on affiche rien cest vide
-                    Region placeholder = new Region();
-                    placeholder.setPrefSize(tileSize, tileSize);
-                    tilePane.getChildren().add(placeholder);
-                    continue;
+                    coucheTuiles.getChildren().add(tuile);
                 }
 
-                int tx = idx % tilesPerRow;
-                int ty = idx / tilesPerRow;
-
-                ImageView img = new ImageView(tileset);
-                img.setViewport(new Rectangle2D(
-                        tx * tileSize, ty * tileSize, tileSize, tileSize));
-                img.setFitWidth(tileSize);
-                img.setFitHeight(tileSize);
-
-                tilePane.getChildren().add(img);
+                // --- Logique de collision ---
+                if (idx >= 0 && idx != 1) {
+                    tempCollision[y][x] = 1; // solide
+                } else {
+                    tempCollision[y][x] = 0; // vide ou herbe
+                }
             }
+            y++;
         }
-        tilePane.setPrefColumns(cols);
+        br.close();
+
+        // Finalisation du tableau collisionMap
+        collisionMap = new int[y][];
+        System.arraycopy(tempCollision, 0, collisionMap, 0, y);
     }
 
-    public TilePane getTilePane()     { return tilePane; }
-    public int[][]  getCollisionMap() { return collisionMap; }
+    public void scrollMap(double offsetX, double offsetY) {
+        this.setTranslateX(-offsetX);
+        this.setTranslateY(-offsetY);
+    }
+
+    public int[][] getCollisionMap() {
+        return collisionMap;
+    }
 }
+*/

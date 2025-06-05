@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.item.nourriture;
+/*ackage fr.iut.groupe.terraria.demo.modele.item.nourriture;
 
 import fr.iut.groupe.terraria.demo.modele.personnage.EtatTemporaire;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
@@ -16,3 +16,4 @@ public class Pomme extends Nourriture {
     }
 }
 
+*/

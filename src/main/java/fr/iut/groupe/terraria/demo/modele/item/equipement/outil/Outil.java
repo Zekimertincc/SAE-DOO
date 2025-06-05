@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.item.equipement.outil;
+/*package fr.iut.groupe.terraria.demo.modele.item.equipement.outil;
 
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 
@@ -12,4 +12,4 @@ public abstract class Outil extends Equipement {
             durabilite--;
         }
     }
-}
+}*/

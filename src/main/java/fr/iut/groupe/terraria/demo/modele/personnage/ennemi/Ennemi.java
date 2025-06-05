@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
+/*package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
 
 import fr.iut.groupe.terraria.demo.modele.Ciblable;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
@@ -35,6 +35,7 @@ public abstract class Ennemi extends PersonnageJeu implements Ciblable {
     /* avance d'une vitesse vitesseX vers le joueur
         Cette fonction est à utiliser que quand le personnage est dans la zone d'un ou plusieurs enemis
      */
+/*
     public void seDeplacerVers(Joueur joueur) {
         if (joueur.getX() > this.x) {
             this.x += this.vitesseX;
@@ -48,8 +49,9 @@ public abstract class Ennemi extends PersonnageJeu implements Ciblable {
     public String getTypeCible() {
         return "Ennemi";
     }
-    // --------------------------------------------------------------------------------------------------------------------------------------
+    // -----------------------------------/*
     public int getDistanceAttaque() {
         return distanceAttaque;
     }
 }
+*/

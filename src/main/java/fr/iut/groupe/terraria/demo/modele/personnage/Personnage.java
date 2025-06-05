@@ -1,51 +1,113 @@
-package fr.iut.groupe.terraria.demo.modele.personnage;
+package universite_paris8.iut.dagnetti.junglequest.modele.personnages;
 
+import javafx.scene.image.ImageView;
+
+/**
+ * Classe abstraite représentant un personnage générique avec position, vitesse et sprite.
+ * Elle sert de base commune pour le joueur et d'autres entités futures.
+ */
 public abstract class Personnage {
-    protected double x, y;
-    protected double vitesseY;
-    protected double vitesseX;
-    protected int vie, vieMax;
-    protected int degats;
 
-    public Personnage(double x, double y, double vitesseX, double vitesseY, int vie, int vieMax, int degats) {
+    protected double x;
+    protected double y;
+    protected double vitesseX;
+    protected double vitesseY;
+    protected boolean versGauche;
+    protected boolean estAuSol;
+
+    protected final ImageView sprite;
+
+    public Personnage(ImageView sprite, double x, double y) {
+        this.sprite = sprite;
         this.x = x;
         this.y = y;
-        this.vitesseX = vitesseX;
-        this.vitesseY = vitesseY;
-        this.vie = vie;
-        this.vieMax = vieMax;
-        this.degats = degats;
+        this.vitesseX = 0;
+        this.vitesseY = 0;
+        this.versGauche = false;
+        this.estAuSol = false;
+
+        this.sprite.setX(x);
+        this.sprite.setY(y);
     }
 
-    /*
-        La fonction prend en parametre le nombre de vie, et l'ajoute sur le personnage
-        Si la vie depasse 5 coeurs, alors le perso à 5 coeur, la vie est en dessous 0 alors le personnage a 0 coeur
-    */
-    public void gagnerVie(int quantite) {
-        vie += quantite;
-        if (vie > vieMax) {
-            vie = vieMax;
+    /**
+     * Met à jour la position en fonction des vitesses actuelles.
+     */
+    public void mettreAJourPosition() {
+        x += vitesseX;
+        y += vitesseY;
+        sprite.setX(x);
+        sprite.setY(y);
+    }
+
+    /**
+     * Applique la gravité si le personnage n'est pas au sol.
+     */
+    public void appliquerGravite(double gravite, double vitesseChuteMax) {
+        if (!estAuSol) {
+            vitesseY = Math.min(vitesseY + gravite, vitesseChuteMax);
         }
-        if (vie < 0) {
-            vie = 0;
+    }
+
+    /**
+     * Pose le personnage au sol à une hauteur précise.
+     */
+    public void poserAuSol(double ySol) {
+        y = ySol;
+        vitesseY = 0;
+        estAuSol = true;
+        sprite.setY(y);
+    }
+
+    /**
+     * Lance un saut si le personnage est au sol.
+     */
+    public void sauter(double impulsion) {
+        if (estAuSol) {
+            vitesseY = -impulsion;
+            estAuSol = false;
         }
     }
-    // utilise la fonction gagner de la vie mais envoie un nombre negatif pour faire perdre de la vie au joueur
-    public void subirDegats(int degats) {
-        gagnerVie(-degats);
+
+    /**
+     * Déplace vers la gauche.
+     */
+    public void deplacerGauche(double vitesse) {
+        vitesseX = -vitesse;
+        versGauche = true;
     }
 
-    // verifie si le personnage est mort
-    public boolean estMort() {
-        return vie <= 0;
+    /**
+     * Déplace vers la droite.
+     */
+    public void deplacerDroite(double vitesse) {
+        vitesseX = vitesse;
+        versGauche = false;
     }
 
-    public int getVie() {
-        return vie;
+    /**
+     * Arrête le mouvement horizontal.
+     */
+    public void arreter() {
+        vitesseX = 0;
     }
-    public int getVieMax() {
-        return vieMax;
-    }
+
+    // --- Getters utiles ---
+
+    public ImageView getSprite() { return sprite; }
+
     public double getX() { return x; }
+
     public double getY() { return y; }
+
+    public double getVitesseY() { return vitesseY; }
+    public double getVitesseX() { return vitesseX; }
+    public boolean estAuSol() { return estAuSol; }
+
+    public boolean estVersGauche() { return versGauche; }
+
+    public void setEstAuSol(boolean auSol) {
+        this.estAuSol = auSol;
+    }
+
 }

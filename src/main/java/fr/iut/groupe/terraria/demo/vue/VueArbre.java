@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.vue;
+/*package fr.iut.groupe.terraria.demo.vue;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,4 +23,4 @@ public class VueArbre {
         return vueArbre;
     }
 }
-
+*/

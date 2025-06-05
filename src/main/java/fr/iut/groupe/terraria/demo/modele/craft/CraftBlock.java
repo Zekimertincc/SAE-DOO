@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.craft;
+/*package fr.iut.groupe.terraria.demo.modele.craft;
 
 import fr.iut.groupe.terraria.demo.modele.Inventaire;
 import fr.iut.groupe.terraria.demo.modele.item.Block;
@@ -27,3 +27,4 @@ public class CraftBlock {
         this.farmSelectionne = farmSelectionne;
     }
 }
+*/

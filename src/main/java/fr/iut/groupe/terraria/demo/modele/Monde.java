@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele;
+/*package fr.iut.groupe.terraria.demo.modele;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class Monde {
 
     /**
      * @param csvPath
-     */
+     *//*
     public Monde(String csvPath) {
         try {
             loadMap(csvPath);
@@ -63,4 +63,4 @@ public class Monde {
     public int[][] getMap() {
         return map;
     }
-}
+}*/

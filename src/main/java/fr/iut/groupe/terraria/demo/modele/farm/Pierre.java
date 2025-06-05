@@ -5,5 +5,4 @@ public class Pierre extends Farm{
     public Pierre() {
         super("Pierre");
     }
-
 }

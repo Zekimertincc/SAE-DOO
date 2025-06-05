@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.craft;
+/*package fr.iut.groupe.terraria.demo.modele.craft;
 
 import fr.iut.groupe.terraria.demo.modele.Inventaire;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
@@ -30,4 +30,4 @@ public class ArmeCraft extends Craft{
         }
         return contruire;
     }
-}
+}*/

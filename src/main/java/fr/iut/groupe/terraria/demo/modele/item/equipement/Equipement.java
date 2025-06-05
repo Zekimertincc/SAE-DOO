@@ -4,6 +4,7 @@ import fr.iut.groupe.terraria.demo.modele.item.Item;
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 
+
 public abstract class Equipement extends Item {
     protected int degats, durabilite, portee;
     protected String type; // ex: "outil", "arme"

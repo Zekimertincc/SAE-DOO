@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.item.nourriture;
+/*package fr.iut.groupe.terraria.demo.modele.item.nourriture;
 
 import fr.iut.groupe.terraria.demo.modele.personnage.EtatTemporaire;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
@@ -15,4 +15,4 @@ public class Champignon extends Nourriture {
         etat.setEffetFin(30000);
     }
 
-}
+}*/

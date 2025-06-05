@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.ressource;
+/*package fr.iut.groupe.terraria.demo.modele.ressource;
 
 import fr.iut.groupe.terraria.demo.modele.farm.File;
 
@@ -16,4 +16,4 @@ public class CanneSucre extends Ressource {
     public String getNom() {
         return "CanneSucre";
     }
-}
+}*/

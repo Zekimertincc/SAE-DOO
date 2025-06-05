@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.monde;
+/*package fr.iut.groupe.terraria.demo.modele.monde;
 
 import fr.iut.groupe.terraria.demo.modele.item.Block;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
@@ -99,3 +99,4 @@ public class Monde {
     }
 
 }
+*/

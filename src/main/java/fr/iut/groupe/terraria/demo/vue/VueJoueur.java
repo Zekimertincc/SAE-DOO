@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.vue;
+/*package fr.iut.groupe.terraria.demo.vue;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
@@ -60,3 +60,4 @@ public class VueJoueur {
 
     public ImageView getJoueurVue() { return joueurVue; }
 }
+*/

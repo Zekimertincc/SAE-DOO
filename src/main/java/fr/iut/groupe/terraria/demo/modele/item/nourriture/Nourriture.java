@@ -1,6 +1,5 @@
-package fr.iut.groupe.terraria.demo.modele.item.nourriture;
+/*package fr.iut.groupe.terraria.demo.modele.item.nourriture;
 
-import fr.iut.groupe.terraria.demo.modele.item.Item;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 
 
@@ -32,3 +31,4 @@ public abstract class Nourriture extends Item {
     }
 }
 
+*/

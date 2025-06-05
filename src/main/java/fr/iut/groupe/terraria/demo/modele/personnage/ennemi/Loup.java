@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
+/*package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
 
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 
@@ -19,4 +19,4 @@ public class Loup extends Ennemi {
     public String getNom() {
         return "Loup";
     }
-}
+}*/

@@ -1,6 +1,6 @@
-package fr.iut.groupe.terraria.demo.modele.ressource;
+/*package fr.iut.groupe.terraria.demo.modele.ressource;
 
-import fr.iut.groupe.terraria.demo.modele.farm.Farm;
+import fr.iut.groupe.terraria.demo.modele.farm.*;
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import javafx.scene.image.ImageView;
@@ -55,7 +55,7 @@ public abstract class Ressource implements Ciblable {
     }
 
 
-// -----------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------/*
 
     public double getX() {
         return x;
@@ -76,6 +76,4 @@ public abstract class Ressource implements Ciblable {
     public ImageView getImageView() {
         return imageView;
     }
-}
-
-
+}*/

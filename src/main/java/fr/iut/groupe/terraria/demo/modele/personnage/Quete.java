@@ -1,10 +1,7 @@
-package fr.iut.groupe.terraria.demo.modele.personnage;
+/*package fr.iut.groupe.terraria.demo.modele.personnage;
 
 import fr.iut.groupe.terraria.demo.modele.Inventaire;
-import fr.iut.groupe.terraria.demo.modele.item.Coffre;
-import fr.iut.groupe.terraria.demo.modele.item.Item;
 import fr.iut.groupe.terraria.demo.modele.item.Recompense;
-import fr.iut.groupe.terraria.demo.modele.item.equipement.arme.Arc;
 
 public class Quete extends Recompense {
     private String description;
@@ -64,3 +61,4 @@ public class Quete extends Recompense {
 }
 
 
+*/

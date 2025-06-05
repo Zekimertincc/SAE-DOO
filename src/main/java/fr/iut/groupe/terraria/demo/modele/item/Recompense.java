@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.item;
+/*package fr.iut.groupe.terraria.demo.modele.item;
 
 import fr.iut.groupe.terraria.demo.modele.Inventaire;
 
@@ -24,3 +24,4 @@ public class Recompense {
         return listContenu.get(rand.nextInt(listContenu.size()));
     }
 }
+*/

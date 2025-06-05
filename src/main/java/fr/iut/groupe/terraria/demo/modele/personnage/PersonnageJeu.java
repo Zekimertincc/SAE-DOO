@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.personnage;
+/*package fr.iut.groupe.terraria.demo.modele.personnage;
 
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 
@@ -19,3 +19,4 @@ public abstract class PersonnageJeu extends Personnage {
         return distanceDetection;
     }
 }
+*/

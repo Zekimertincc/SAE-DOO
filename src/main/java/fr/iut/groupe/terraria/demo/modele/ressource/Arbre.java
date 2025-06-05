@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.ressource;
+/*package fr.iut.groupe.terraria.demo.modele.ressource;
 
 import fr.iut.groupe.terraria.demo.modele.farm.Bois;
 
@@ -16,4 +16,4 @@ public class Arbre extends Ressource {
     public String getNom() {
         return "Arbre";
     }
-}
+}*/

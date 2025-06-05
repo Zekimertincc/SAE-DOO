@@ -1,6 +1,5 @@
 package fr.iut.groupe.terraria.demo.modele.farm;
 
-import fr.iut.groupe.terraria.demo.modele.Inventaire;
 import fr.iut.groupe.terraria.demo.modele.item.Item;
 
 public abstract class Farm extends Item {

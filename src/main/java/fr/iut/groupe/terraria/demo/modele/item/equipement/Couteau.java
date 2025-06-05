@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.item.equipement;
+/*package fr.iut.groupe.terraria.demo.modele.item.equipement;
 
 public class Couteau extends Equipement {
     public Couteau() {
@@ -10,3 +10,4 @@ public class Couteau extends Equipement {
         durabilite -= 0;
     }
 }
+*/

@@ -1,4 +1,4 @@
-package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
+/*package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
 
 import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
@@ -22,4 +22,4 @@ public class Gorille extends Ennemi {
     public String getNom() {
         return "Gorille";
     }
-}
+}*/

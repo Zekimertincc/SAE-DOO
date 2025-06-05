@@ -2,13 +2,10 @@ package fr.iut.groupe.terraria.demo;
 
 
 import fr.iut.groupe.terraria.demo.modele.Inventaire;
-import fr.iut.groupe.terraria.demo.modele.item.Item;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.outil.Hache;
 import fr.iut.groupe.terraria.demo.modele.item.nourriture.Pomme;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
