@@ -7,14 +7,18 @@ public class Aigle extends Ennemi {
         super(x, y, 1.5, 0, 20, 2, 100);
     }
 
-    // quand le loup a moins de 25% de ses hp max il lache un pique qui met la vie actuelle du joueur à 1 coeur puis meurt.
+    /**
+     * Si l’aigle a moins de 25% de PV, il attaque violemment :
+     * met le joueur à 1 cœur puis meurt.
+     */
     @Override
     public void comportement(Joueur joueur) {
         if (this.getVie() < this.getVieMax() / 4) {
             joueur.mettreAPV(1);
-            this.vie = 0;
+            this.vie = 0; // meurt après avoir attaqué
         }
     }
+
     @Override
     public String getNom() {
         return "Aigle";
