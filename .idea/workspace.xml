@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="04ca2a54-06d3-49ed-b803-58534b0974e2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/ControleurJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/ControleurJeu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/donnees/ConstantesJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/donnees/ConstantesJeu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/vue/VueJeu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/vue/VueJeu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -151,7 +148,7 @@
       <workItem from="1747480141586" duration="25362000" />
       <workItem from="1747520346225" duration="11547000" />
       <workItem from="1747593370378" duration="15504000" />
-      <workItem from="1749799247799" duration="8265000" />
+      <workItem from="1749799247799" duration="8899000" />
     </task>
     <servers />
   </component>

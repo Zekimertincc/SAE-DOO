@@ -54,6 +54,10 @@ public class LanceurJeu extends Application {
         }
         Scene scene = new Scene(racine, largeur, hauteur);
         Pane pauseOverlay = (Pane) scene.lookup("#pauseOverlay");
+        if (pauseOverlay != null) {
+            pauseOverlay.prefWidthProperty().bind(scene.widthProperty());
+            pauseOverlay.prefHeightProperty().bind(scene.heightProperty());
+        }
 
         try {
             int[][] grille = ChargeurCarte.chargerCarteDepuisCSV("/universite_paris8/iut/dagnetti/junglequest/cartes/jungle_map_calque1.csv");
