@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 # Maven klasörü ve wrapper dosyaları
+=======
+>>>>>>> repoA/master
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -36,4 +39,8 @@ build/
 .vscode/
 
 ### Mac OS ###
+<<<<<<< HEAD
 .DS_Store
+=======
+.DS_Store
+>>>>>>> repoA/master

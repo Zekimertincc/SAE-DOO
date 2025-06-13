@@ -1,18 +1,20 @@
-module fr.iut.groupe.terraria.demo {
+module universite_paris8.iut.dagnetti.junglequest {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.media;
-    exports fr.iut.groupe.terraria.demo.vue.fenetre;
-    exports fr.iut.groupe.terraria.demo.controller.demarrage;
-    exports fr.iut.groupe.terraria.demo.controller;
-    exports fr.iut.groupe.terraria.demo.vue;
-    exports fr.iut.groupe.terraria.demo.controller.moteur;
-    exports fr.iut.groupe.terraria.demo.modele.personnage;
-    exports fr.iut.groupe.terraria.demo.modele.carte;
-    exports fr.iut.groupe.terraria.demo.modele.donnees;
-    exports fr.iut.groupe.terraria.demo.vue.annimation;
-    exports fr.iut.groupe.terraria.demo.vue.utilitaire;
-    opens fr.iut.groupe.terraria.demo.controller.interfacefx to javafx.fxml;
+    requires javafx.graphics;
+    exports universite_paris8.iut.dagnetti.junglequest.vue.fenetre;
+    exports universite_paris8.iut.dagnetti.junglequest.controleur.demarrage;
+    exports universite_paris8.iut.dagnetti.junglequest.controleur;
+    exports universite_paris8.iut.dagnetti.junglequest.vue;
+    exports universite_paris8.iut.dagnetti.junglequest.controleur.moteur;
+    exports universite_paris8.iut.dagnetti.junglequest.modele.personnages;
+    exports universite_paris8.iut.dagnetti.junglequest.modele.carte;
+    exports universite_paris8.iut.dagnetti.junglequest.modele.donnees;
+    exports universite_paris8.iut.dagnetti.junglequest.modele.bloc;
+    exports universite_paris8.iut.dagnetti.junglequest.vue.animation;
+    exports universite_paris8.iut.dagnetti.junglequest.vue.utilitaire;
+    opens universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx to javafx.fxml;
 
 
 }
