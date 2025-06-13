@@ -85,7 +85,17 @@ public class MoteurPhysique {
                 }
             }
         } else {
-            int ligneBas = (int) ((newY + hauteur - 1) / ConstantesJeu.TAILLE_TUILE);
+            // Lorsque la vitesse verticale est nulle, on vérifie la présence
+            // d'un bloc solide directement sous le personnage. L'ancienne
+            // implémentation utilisait "hauteur - 1" pour calculer la ligne
+            // inférieure, ce qui provoquait un décalage d'une tuile : le joueur
+            // n'était plus considéré comme au sol lorsque son bas se trouvait
+            // exactement sur la bordure d'une tuile. En conséquence, la méthode
+            // signalait un atterrissage à chaque frame et l'animation
+            // d'atterrissage tournait en boucle. On calcule donc ici la ligne en
+            // utilisant "hauteur" pour tester correctement la tuile située juste
+            // en dessous.
+            int ligneBas = (int) ((newY + hauteur) / ConstantesJeu.TAILLE_TUILE);
             int colGauche = (int) (newX / ConstantesJeu.TAILLE_TUILE);
             int colDroite = (int) ((newX + largeur - 1) / ConstantesJeu.TAILLE_TUILE);
             for (int c = colGauche; c <= colDroite; c++) {
