@@ -1,5 +1,5 @@
 package universite_paris8.iut.dagnetti.junglequest.modele.carte;
-
+import universite_paris8.iut.dagnetti.junglequest.modele.bloc.TileType;
 public class Carte {
 
     private final int[][] grille;
@@ -53,7 +53,8 @@ public class Carte {
      */
     public int chercherLigneSol(int colonne) {
         for (int ligne = hauteur - 1; ligne >= 0; ligne--) {
-            if (estSolide(ligne, colonne)) {
+            int id = getValeurTuile(ligne, colonne);
+            if (estSolide(ligne, colonne) && TileType.fromId(id) != TileType.ARBRE) {
                 return ligne;
             }
         }

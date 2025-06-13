@@ -99,7 +99,10 @@ public class LanceurJeu extends Application {
             double xInitial = 320;
             int colonne = (int) (xInitial / ConstantesJeu.TAILLE_TUILE);
             int ligneSol = carte.chercherLigneSol(colonne);
-            double yInitial = ligneSol != -1 ? (carte.getHauteur() - 1 - ligneSol) * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.TAILLE_SPRITE : 56;
+            // La carte est stockée avec l'origine en haut à gauche. Pour placer le
+            // personnage sur le sol trouvé, on se base directement sur l'indice de
+            // ligne plutôt que d'inverser par rapport à la hauteur de la carte.
+            double yInitial = ligneSol != -1 ? ligneSol * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.TAILLE_SPRITE : 56;
             System.out.printf("Position initiale du joueur : (%.0f, %.0f)\n", xInitial, yInitial);
 
             ImageView spriteJoueur = new ImageView(idle[0]);
@@ -107,6 +110,7 @@ public class LanceurJeu extends Application {
             spriteJoueur.setFitHeight(ConstantesJeu.TAILLE_SPRITE);
 
             Joueur joueur = new Joueur(spriteJoueur, xInitial, yInitial);
+            joueur.setEstAuSol(true);
             racine.getChildren().addAll(carteAffichable, spriteJoueur);
 
 
@@ -118,8 +122,13 @@ public class LanceurJeu extends Application {
             double xLoup = 500;
             int colLoup = (int) (xLoup / ConstantesJeu.TAILLE_TUILE);
             int ligneSolLoup = carte.chercherLigneSol(colLoup);
-            double yLoup = ligneSolLoup != -1 ? (carte.getHauteur() - 1 - ligneSolLoup) * ConstantesJeu.TAILLE_TUILE - imgLoup.getHeight() : 56;
+            // Même principe que pour le joueur : placement direct par rapport à
+            // l'indice de ligne trouvé.
+            double yLoup = ligneSolLoup != -1
+                    ? ligneSolLoup * ConstantesJeu.TAILLE_TUILE - imgLoup.getHeight()
+                    : 56;
             Loup loup = new Loup(spriteLoup, xLoup, yLoup, 1);
+            loup.setEstAuSol(true);
             racine.getChildren().add(spriteLoup);
 
             javafx.scene.control.ProgressBar barreVie = new javafx.scene.control.ProgressBar(1.0);

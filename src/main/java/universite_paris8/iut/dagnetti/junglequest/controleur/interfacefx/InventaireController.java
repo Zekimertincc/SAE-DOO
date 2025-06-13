@@ -130,6 +130,9 @@ public class InventaireController implements Initializable {
     /**Rafraichit l'affichage a partir des donnée de l'inventaire */
     public void rafraichir(){
         if (inventaire != null){
+            // Recalcul de l'ordre des items au cas où de nouveaux objets auraient
+            // été ajoutés depuis le dernier affichage.
+            ordreItems = new ArrayList<>(inventaire.getItems().keySet());
             afficherSlots();
         }
     }

@@ -7,6 +7,8 @@
     <list default="true" id="04ca2a54-06d3-49ed-b803-58534b0974e2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/interfacefx/InventaireController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/interfacefx/InventaireController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/carte/Carte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/carte/Carte.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +62,7 @@
     "git-widget-placeholder": "JungleQuest-V1.1",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/etudiants/info/dagnetti/SAE/SAE-DOO/src/main/resources/universite_paris8/iut/dagnetti/junglequest/vue",
+    "last_opened_file_path": "/home/etudiants/info/dagnetti/SAE/SAE-DOO/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -76,9 +78,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/vue" />
       <recent name="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/vue/interface" />
-      <recent name="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/items" />
       <recent name="C:\Users\agnet\IdeaProjects\JungleQuest\src\main\resources\universite_paris8\iut\dagnetti\junglequest\sons" />
     </key>
@@ -148,7 +150,7 @@
       <workItem from="1747480141586" duration="25362000" />
       <workItem from="1747520346225" duration="11547000" />
       <workItem from="1747593370378" duration="15504000" />
-      <workItem from="1749799247799" duration="3527000" />
+      <workItem from="1749799247799" duration="4869000" />
     </task>
     <servers />
   </component>
