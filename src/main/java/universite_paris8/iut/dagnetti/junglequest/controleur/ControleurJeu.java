@@ -59,6 +59,10 @@ public class ControleurJeu {
     private int prevJoueurLig = -1;
     private static final int BOT_DEGATS = 10;
 
+    // Suivi des animations du joueur
+    private int compteurAttaque = 0;
+    private int frameMort = 0;
+
     private double offsetX = 0;
     private int framesAtterrissageRestants = 0;
     private int delaiDegats = 0;
