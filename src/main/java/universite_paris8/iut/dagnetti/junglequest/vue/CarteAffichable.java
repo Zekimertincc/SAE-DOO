@@ -6,13 +6,12 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import universite_paris8.iut.dagnetti.junglequest.modele.carte.Carte;
+import universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarteAffichable extends Pane {
-
-    private static final int TAILLE_TUILE = 32;
 
     private final Carte carteLogique;
     private final Image tileset;
@@ -29,9 +28,9 @@ public class CarteAffichable extends Pane {
         this.tileset = tileset;
         this.lecteurPixels = tileset.getPixelReader();
 
-        this.colonnesTileset = (int) tileset.getWidth() / TAILLE_TUILE;
-        this.tuilesEcranLargeur = largeurEcranPx / TAILLE_TUILE + 2;
-        this.tuilesEcranHauteur = hauteurEcranPx / TAILLE_TUILE;
+        this.colonnesTileset = (int) tileset.getWidth() / ConstantesJeu.TAILLE_TUILE_ORIG;
+        this.tuilesEcranLargeur = largeurEcranPx / ConstantesJeu.TAILLE_TUILE + 2;
+        this.tuilesEcranHauteur = hauteurEcranPx / ConstantesJeu.TAILLE_TUILE;
 
         this.setPrefSize(largeurEcranPx, hauteurEcranPx);
         redessiner(0);
@@ -41,40 +40,43 @@ public class CarteAffichable extends Pane {
         this.getChildren().clear();
         tuilesAffichees.clear();
 
-        int tuileDebutX = (int) (offsetX / TAILLE_TUILE);
-        double decalagePixelsX = offsetX % TAILLE_TUILE;
+        int tuileDebutX = (int) (offsetX / ConstantesJeu.TAILLE_TUILE);
+        double decalagePixelsX = offsetX % ConstantesJeu.TAILLE_TUILE;
 
         int hauteurCarte = carteLogique.getHauteur();
         int largeurCarte = carteLogique.getLargeur();
-        for (int ligne = 0; ligne < tuilesEcranHauteur; ligne++) {
-            int ligneCarte = ligne;  // Logique naturelle : du haut vers le bas
 
+        for (int ligne = 0; ligne < tuilesEcranHauteur; ligne++) {
+            int ligneCarte = ligne;
             if (ligneCarte >= hauteurCarte) continue;
 
             for (int colonne = 0; colonne < tuilesEcranLargeur; colonne++) {
                 int colonneCarte = tuileDebutX + colonne;
-
                 if (colonneCarte < 0 || colonneCarte >= largeurCarte) continue;
 
                 int idTuile = carteLogique.getValeurTuile(ligneCarte, colonneCarte);
                 if (idTuile < 0) continue;
 
-                int xTileset = (idTuile % colonnesTileset) * TAILLE_TUILE;
-                int yTileset = (idTuile / colonnesTileset) * TAILLE_TUILE;
+                int xTileset = (idTuile % colonnesTileset) * ConstantesJeu.TAILLE_TUILE_ORIG;
+                int yTileset = (idTuile / colonnesTileset) * ConstantesJeu.TAILLE_TUILE_ORIG;
 
                 WritableImage imageTuile = new WritableImage(
-                        lecteurPixels, xTileset, yTileset, TAILLE_TUILE, TAILLE_TUILE
+                        lecteurPixels, xTileset, yTileset,
+                        ConstantesJeu.TAILLE_TUILE_ORIG, ConstantesJeu.TAILLE_TUILE_ORIG
                 );
 
                 ImageView vueTuile = new ImageView(imageTuile);
-                vueTuile.setX((colonne * TAILLE_TUILE) - decalagePixelsX);
-                vueTuile.setY(ligne * TAILLE_TUILE);
+                vueTuile.setFitWidth(ConstantesJeu.TAILLE_TUILE);
+                vueTuile.setFitHeight(ConstantesJeu.TAILLE_TUILE);
+                vueTuile.setX((colonne * ConstantesJeu.TAILLE_TUILE) - decalagePixelsX);
+                vueTuile.setY(ligne * ConstantesJeu.TAILLE_TUILE);
 
                 this.getChildren().add(vueTuile);
                 tuilesAffichees.add(vueTuile);
             }
         }
     }
+
     public void mettreAJourOffset(double nouvelleValeur) {
         this.offsetX = nouvelleValeur;
         redessiner(offsetX);

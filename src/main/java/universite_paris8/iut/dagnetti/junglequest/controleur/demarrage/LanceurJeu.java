@@ -1,4 +1,5 @@
 package universite_paris8.iut.dagnetti.junglequest.controleur.demarrage;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -8,16 +9,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Label;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.net.URL;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import universite_paris8.iut.dagnetti.junglequest.controleur.ControleurJeu;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.InventaireController;
@@ -25,10 +28,8 @@ import universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu;
 import universite_paris8.iut.dagnetti.junglequest.modele.carte.Carte;
 import universite_paris8.iut.dagnetti.junglequest.modele.carte.ChargeurCarte;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Joueur;
-import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Loup;
 import universite_paris8.iut.dagnetti.junglequest.vue.VueBackground;
 import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.ExtracteurSprites;
-import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.PositionFrame;
 import universite_paris8.iut.dagnetti.junglequest.vue.CarteAffichable;
 
 public class LanceurJeu extends Application {
@@ -40,9 +41,16 @@ public class LanceurJeu extends Application {
         System.out.println("Initialisation du jeu Jungle Quest...");
         initialiserMusique();
 
-        Rectangle2D ecran = Screen.getPrimary().getBounds();
-        double largeur = ecran.getWidth();
-        double hauteur = ecran.getHeight();
+        Rectangle2D screen = Screen.getPrimary().getVisualBounds();
+        double screenWidth = screen.getWidth();
+        double screenHeight = screen.getHeight();
+
+        double gameWidth = 1280;
+        double gameHeight = 720;
+
+        double scaleX = screenWidth / gameWidth;
+        double scaleY = screenHeight / gameHeight;
+        double scale = Math.min(scaleX, scaleY);
 
         Pane racine;
         try {
@@ -52,7 +60,11 @@ public class LanceurJeu extends Application {
         } catch (IOException e) {
             racine = new Pane();
         }
-        Scene scene = new Scene(racine, largeur, hauteur);
+
+        racine.setScaleX(scale);
+        racine.setScaleY(scale);
+        Scene scene = new Scene(racine, screenWidth, screenHeight);
+
         Pane pauseOverlay = (Pane) scene.lookup("#pauseOverlay");
         if (pauseOverlay != null) {
             pauseOverlay.prefWidthProperty().bind(scene.widthProperty());
@@ -60,31 +72,22 @@ public class LanceurJeu extends Application {
         }
 
         try {
-            int[][] grille = ChargeurCarte.chargerCarteDepuisCSV("/universite_paris8/iut/dagnetti/junglequest/cartes/jungle_map_calque1.csv");
+            int[][] grille = ChargeurCarte.chargerCarteDepuisCSV(
+                    "/universite_paris8/iut/dagnetti/junglequest/cartes/jungle_map_calque1.csv");
             Carte carte = new Carte(grille);
             System.out.println("Carte chargée avec succès.");
 
-            InputStream tilesetStream = getClass().getResourceAsStream("/universite_paris8/iut/dagnetti/junglequest/images/tileset_jungle.png");
-            if (tilesetStream == null) {
-                throw new IOException("Ressource tileset_jungle.png introuvable");
-            }
+            InputStream tilesetStream = getClass().getResourceAsStream(
+                    "/universite_paris8/iut/dagnetti/junglequest/images/tileset_jungle.png");
             Image tileset = new Image(tilesetStream);
-            if (tileset.isError()) System.err.println("Erreur de chargement du tileset.");
-            else System.out.println("Tileset jungle chargé.");
-
-
-            CarteAffichable carteAffichable = new CarteAffichable(carte, tileset, (int) largeur, (int) hauteur);
+            CarteAffichable carteAffichable = new CarteAffichable(carte, tileset, (int) gameWidth, (int) gameHeight);
             int largeurCartePx = carte.getLargeur() * ConstantesJeu.TAILLE_TUILE;
-            VueBackground vueBackground = new VueBackground((int) largeur, (int) hauteur, largeurCartePx);
-            System.out.println("Background dynamique initialisé.");
 
+            VueBackground vueBackground = new VueBackground((int) gameWidth, (int) gameHeight - 50, largeurCartePx);
             racine.getChildren().add(vueBackground);
 
-            System.out.println("Extraction des animations du personnage...");
-            InputStream personnageStream = getClass().getResourceAsStream("/universite_paris8/iut/dagnetti/junglequest/images/sprite1.png");
-            if (personnageStream == null) {
-                throw new IOException("Ressource sprite1.png introuvable");
-            }
+            InputStream personnageStream = getClass().getResourceAsStream(
+                    "/universite_paris8/iut/dagnetti/junglequest/images/sprite1.png");
             Image personnage = new Image(personnageStream);
             WritableImage[] idle = ExtracteurSprites.idle(personnage);
             WritableImage[] attaque = ExtracteurSprites.attaque(personnage);
@@ -99,60 +102,50 @@ public class LanceurJeu extends Application {
             WritableImage[] mort = ExtracteurSprites.mort(personnage);
             WritableImage[] sort = ExtracteurSprites.sort(personnage);
             WritableImage[] bouclier = ExtracteurSprites.bouclier(personnage);
-            System.out.println("Animations extraites.");
 
             double xInitial = 320;
             int colonne = (int) (xInitial / ConstantesJeu.TAILLE_TUILE);
             int ligneSol = carte.chercherLigneSol(colonne);
-            // La carte est stockée avec l'origine en haut à gauche. Pour placer le
-            // personnage sur le sol trouvé, on se base directement sur l'indice de
-            // ligne plutôt que d'inverser par rapport à la hauteur de la carte.
-            double yInitial = ligneSol != -1 ? ligneSol * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.TAILLE_SPRITE : 56;
-            System.out.printf("Position initiale du joueur : (%.0f, %.0f)\n", xInitial, yInitial);
+            double yInitial = ligneSol * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.TAILLE_SPRITE;
 
             ImageView spriteJoueur = new ImageView(idle[0]);
             spriteJoueur.setFitWidth(ConstantesJeu.TAILLE_SPRITE);
             spriteJoueur.setFitHeight(ConstantesJeu.TAILLE_SPRITE);
-
             Joueur joueur = new Joueur(spriteJoueur, xInitial, yInitial);
             joueur.setEstAuSol(true);
             racine.getChildren().addAll(carteAffichable, spriteJoueur);
 
+            // --- KURT SPRITE YOK, BOT VAR ---
+            double xBot = 500;
+            int colBot = (int) (xBot / ConstantesJeu.TAILLE_TUILE);
+            int ligneSolBot = carte.chercherLigneSol(colBot);
+            double yBot = ligneSolBot * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.TAILLE_TUILE;
+            Rectangle bot = new Rectangle(ConstantesJeu.TAILLE_TUILE, ConstantesJeu.TAILLE_TUILE, Color.RED);
+            bot.setX(xBot);
+            bot.setY(yBot);
+            racine.getChildren().add(bot);
 
-            Image imgLoup = new Image(getClass().getResourceAsStream(
-                    "/universite_paris8/iut/dagnetti/junglequest/images/wolf.gif"));
-            ImageView spriteLoup = new ImageView(imgLoup);
-            spriteLoup.setFitWidth(imgLoup.getWidth());
-            spriteLoup.setFitHeight(imgLoup.getHeight());
-            double xLoup = 500;
-            int colLoup = (int) (xLoup / ConstantesJeu.TAILLE_TUILE);
-            int ligneSolLoup = carte.chercherLigneSol(colLoup);
-            // Même principe que pour le joueur : placement direct par rapport à
-            // l'indice de ligne trouvé.
-            double yLoup = ligneSolLoup != -1
-                    ? ligneSolLoup * ConstantesJeu.TAILLE_TUILE - imgLoup.getHeight()
-                    : 56;
-            // Le loup inflige désormais 10 points de dégâts par attaque
-            Loup loup = new Loup(spriteLoup, xLoup, yLoup, 20);
-            loup.setEstAuSol(true);
-            racine.getChildren().add(spriteLoup);
-
-            javafx.scene.control.ProgressBar barreVie = new javafx.scene.control.ProgressBar(1.0);
+            ProgressBar barreVie = new ProgressBar(1.0);
             barreVie.setPrefWidth(ConstantesJeu.TAILLE_SPRITE * 2);
             barreVie.setPrefHeight(6);
             barreVie.setStyle("-fx-accent: #e74c3c;");
             barreVie.setViewOrder(-9);
             racine.getChildren().add(barreVie);
-            javafx.scene.control.Label labelVie = new javafx.scene.control.Label(Integer.toString(joueur.getPointsDeVie()));
+
+            Label labelVie = new Label(Integer.toString(joueur.getPointsDeVie()));
             labelVie.setTextFill(javafx.scene.paint.Color.WHITE);
             labelVie.setViewOrder(-9);
             racine.getChildren().add(labelVie);
-            InventaireController inventaireCtrl = afficherInventaire(racine, joueur, largeur, hauteur);
 
-            ControleurJeu controleurJeu = new ControleurJeu(scene, carte, carteAffichable, joueur, loup, inventaireCtrl, barreVie, labelVie, pauseOverlay,
+            InventaireController inventaireCtrl = afficherInventaire(racine, joueur, gameWidth, gameHeight);
+
+            ControleurJeu controleurJeu = new ControleurJeu(
+                    scene, carte, carteAffichable, joueur,
+                    inventaireCtrl, barreVie, labelVie, pauseOverlay,
                     idle, marche, attaque, preparationSaut, volSaut, sautReload,
-                    chute, atterrissage, degats, mort, sort, accroupi, bouclier);
-
+                    chute, atterrissage, degats, mort, sort, accroupi, bouclier,
+                    bot
+            );
             controleurJeu.setVueBackground(vueBackground);
 
         } catch (IOException e) {
@@ -162,15 +155,15 @@ public class LanceurJeu extends Application {
 
         stage.setTitle("Jungle Quest");
         stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.setFullScreenExitHint("");
+        stage.setResizable(false);
         stage.show();
         System.out.println("Jeu lancé avec succès.");
     }
 
     private void initialiserMusique() {
         try {
-            URL ressourceAudio = getClass().getResource("/universite_paris8/iut/dagnetti/junglequest/sons/musique_jeu.mp3");
+            URL ressourceAudio = getClass().getResource(
+                    "/universite_paris8/iut/dagnetti/junglequest/sons/musique_jeu.mp3");
             if (ressourceAudio != null) {
                 Media media = new Media(ressourceAudio.toExternalForm());
                 mediaPlayer = new MediaPlayer(media);
@@ -184,9 +177,10 @@ public class LanceurJeu extends Application {
         }
     }
 
-    private InventaireController afficherInventaire (Pane racine, Joueur joueur, double largeur, double hauteur) {
+    private InventaireController afficherInventaire(Pane racine, Joueur joueur, double largeur, double hauteur) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/universite_paris8/iut/dagnetti/junglequest/vue/interface/Inventaire.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/universite_paris8/iut/dagnetti/junglequest/vue/interface/Inventaire.fxml"));
             Node inventaireUI = loader.load();
             InventaireController inventaireController = loader.getController();
             inventaireController.setInventaire(joueur.getInventaire());
@@ -200,23 +194,5 @@ public class LanceurJeu extends Application {
             System.err.println("Inventaire UI non chargé : " + e.getMessage());
             return null;
         }
-    }
-
-    private List<PositionFrame> creerListeFrames(int debutCol, int ligne, int finCol, int ligneFin) {
-        List<PositionFrame> frames = new ArrayList<>();
-        for (int l = ligne; l <= ligneFin; l++) {
-            int start = (l == ligne) ? debutCol : 0;
-            int end = (l == ligneFin) ? finCol : 7;
-            for (int c = start; c <= end; c++) {
-                frames.add(new PositionFrame(c, l));
-            }
-        }
-        return frames;
-    }
-
-    private List<PositionFrame> concatFrames(List<PositionFrame> a, List<PositionFrame> b) {
-        List<PositionFrame> result = new ArrayList<>(a);
-        result.addAll(b);
-        return result;
     }
 }

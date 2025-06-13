@@ -1,6 +1,9 @@
 package universite_paris8.iut.dagnetti.junglequest.controleur;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -13,13 +16,13 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 
 import static universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu.*;
 
 import universite_paris8.iut.dagnetti.junglequest.modele.carte.Carte;
 import universite_paris8.iut.dagnetti.junglequest.controleur.moteur.MoteurPhysique;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Joueur;
-import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Loup;
 import universite_paris8.iut.dagnetti.junglequest.modele.bloc.BlocManager;
 import universite_paris8.iut.dagnetti.junglequest.modele.bloc.TileType;
 import universite_paris8.iut.dagnetti.junglequest.vue.CarteAffichable;
@@ -28,6 +31,8 @@ import universite_paris8.iut.dagnetti.junglequest.vue.animation.GestionAnimation
 import javafx.scene.image.WritableImage;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.InventaireController;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.ParametresController;
+import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.Pathfinder;
+import java.util.List;
 
 public class ControleurJeu {
 
@@ -35,46 +40,43 @@ public class ControleurJeu {
     private final Carte carte;
     private final CarteAffichable carteAffichable;
     private final Joueur joueur;
-    private final Loup loup;
     private final GestionClavier clavier;
     private final GestionAnimation animation;
     private final InventaireController inventaireController;
     private final ProgressBar barreVie;
-    private final javafx.scene.control.Label labelVie;
+    private final Label labelVie;
     private final Pane pauseOverlay;
     private VueBackground vueBackground;
     private final double largeurEcran;
 
+    // Loup yok, sadece bot (kare) var:
+    private final Rectangle bot;
+    private final Timeline botTimeline;
+    private List<int[]> botPath;
+    private int botPathIndex;
+    private final int[][] grille;
+
     private int compteurAttaque = 0;
     private int frameMort = 0;
     private double offsetX = 0;
-    // Durée restante de l'animation d'atterrissage
     private int framesAtterrissageRestants = 0;
-
-    // Délai entre deux pertes de vie lors d'un contact avec un ennemi
     private int delaiDegats = 0;
-
-
     private boolean joueurMort = false;
-
     private boolean enPause = false;
     private Stage fenetreParametres;
 
-    /**
-     * Initialise le contrôleur principal du jeu : clavier, animation, logique du joueur et gestion des clics.
-     */
-    public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur,Loup loup, InventaireController inventaireController, ProgressBar barreVie, javafx.scene.control.Label labelVie,Pane pauseOverlay,
+    public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur,
+                         InventaireController inventaireController, ProgressBar barreVie, Label labelVie, Pane pauseOverlay,
                          WritableImage[] idle, WritableImage[] marche,
-                         WritableImage[] attaque,
-                         WritableImage[] preparationSaut, WritableImage[] volSaut, WritableImage[] sautReload,
-                         WritableImage[] chute, WritableImage[] atterrissage,
-                         WritableImage[] degats, WritableImage[] mort,
-                         WritableImage[] sort, WritableImage[] accroupi, WritableImage[] bouclier) {
-
+                         WritableImage[] attaque, WritableImage[] preparationSaut, WritableImage[] volSaut,
+                         WritableImage[] sautReload, WritableImage[] chute, WritableImage[] atterrissage,
+                         WritableImage[] degats, WritableImage[] mort, WritableImage[] sort,
+                         WritableImage[] accroupi, WritableImage[] bouclier,
+                         Rectangle bot // sadece bot geliyor
+    ) {
         this.carte = carte;
         this.carteAffichable = carteAffichable;
         this.joueur = joueur;
-        this.loup = loup;
         this.inventaireController = inventaireController;
         this.barreVie = barreVie;
         this.labelVie = labelVie;
@@ -85,16 +87,26 @@ public class ControleurJeu {
         this.clavier = new GestionClavier(scene);
         this.largeurEcran = scene.getWidth();
 
-        // Initialisation des animations
-        this.animation = new GestionAnimation(
-                idle, marche, attaque,
+        // Bot ayarları
+        this.bot = bot;
+        this.grille = carte.getGrille();
+        botTimeline = new Timeline(new KeyFrame(Duration.millis(200), e -> {
+            if (botPath != null && botPathIndex < botPath.size()) {
+                int[] etape = botPath.get(botPathIndex);
+                bot.setX(etape[0] * TAILLE_TUILE);
+                bot.setY(etape[1] * TAILLE_TUILE);
+                botPathIndex++;
+            }
+        }));
+        botTimeline.setCycleCount(Timeline.INDEFINITE);
+
+        // Animasyon ve input
+        this.animation = new GestionAnimation(idle, marche, attaque,
                 preparationSaut, volSaut, sautReload,
                 chute, atterrissage,
                 degats, mort,
-                sort, accroupi, bouclier
-        );
+                sort, accroupi, bouclier);
 
-        // Gestion du clic gauche pour attaquer
         scene.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 if (!joueur.estEnAttaque()) {
@@ -111,9 +123,6 @@ public class ControleurJeu {
                 gererClicDroit(e.getX(), e.getY());
             } });
 
-        // Appuyer sur 'P' permet d'afficher ou de masquer l'inventaire. L'événement
-        // est écouté directement sur la scène afin de ne pas interférer avec la
-        // gestion classique du clavier.
         scene.addEventHandler(javafx.scene.input.KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.P) {
                 if (fenetreParametres == null) {
@@ -131,7 +140,6 @@ public class ControleurJeu {
             }
         });
 
-        // Lancement de la boucle de jeu
         new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -140,16 +148,35 @@ public class ControleurJeu {
         }.start();
     }
 
-    /**
-     * Méthode principale appelée à chaque frame pour gérer les actions du joueur et l'affichage.
-     */
     private void mettreAJour() {
-        if (enPause) {
-            return;
-        }
+        if (enPause) return;
         if (delaiDegats > 0) delaiDegats--;
         if (framesAtterrissageRestants > 0) framesAtterrissageRestants--;
-        // Récupération des touches clavier pressées
+
+        offsetX = joueur.getX() - largeurEcran / 2;
+        if (offsetX < 0) offsetX = 0;
+        double maxOffset = carte.getLargeur() * TAILLE_TUILE - largeurEcran;
+        if (offsetX > maxOffset) offsetX = maxOffset;
+        carteAffichable.redessiner(offsetX);
+        if (vueBackground != null) {
+            vueBackground.mettreAJourScroll(offsetX);
+        }
+
+        // --- BOT TAKİP ---
+        int botCol = (int) (bot.getX() / TAILLE_TUILE);
+        int botLig = (int) (bot.getY() / TAILLE_TUILE);
+        int joueurCol = (int) (joueur.getX() / TAILLE_TUILE);
+        int joueurLig = (int) (joueur.getY() / TAILLE_TUILE);
+
+        if (Math.abs(botCol - joueurCol) + Math.abs(botLig - joueurLig) <= 8) {
+            botPath = Pathfinder.aStar(grille, new int[]{botCol, botLig}, new int[]{joueurCol, joueurLig});
+            botPathIndex = 0;
+            botTimeline.play();
+        } else {
+            botTimeline.stop();
+        }
+
+        // --- Geriye kalan orijinal kodun aynen devam ediyor ---
         boolean gauche = clavier.estAppuyee(KeyCode.Q) || clavier.estAppuyee(KeyCode.LEFT);
         boolean droite = clavier.estAppuyee(KeyCode.D) || clavier.estAppuyee(KeyCode.RIGHT);
         boolean toucheSaut = clavier.estAppuyee(KeyCode.SPACE);
@@ -157,7 +184,6 @@ public class ControleurJeu {
         boolean toucheBouclier = clavier.estAppuyee(KeyCode.SHIFT);
         boolean toucheDegats = clavier.estAppuyee(KeyCode.M);
 
-        // Gestion de la sélection des objets de l'inventaire
         if (inventaireController != null) {
             if (clavier.estAppuyee(KeyCode.DIGIT1)) inventaireController.selectionnerIndex(0);
             else if (clavier.estAppuyee(KeyCode.DIGIT2)) inventaireController.selectionnerIndex(1);
@@ -179,44 +205,24 @@ public class ControleurJeu {
             joueurMort = true;
         }
 
-        // Déplacement horizontal
         if (!joueurMort) {
-            if (gauche) {
-                joueur.deplacerGauche(VITESSE_JOUEUR);
-            } else if (droite) {
-                joueur.deplacerDroite(VITESSE_JOUEUR);
-            } else {
-                joueur.arreter();
-            }
+            if (gauche) joueur.deplacerGauche(VITESSE_JOUEUR);
+            else if (droite) joueur.deplacerDroite(VITESSE_JOUEUR);
+            else joueur.arreter();
         } else {
             joueur.arreter();
         }
 
-        // Saut
         if (!joueurMort && toucheSaut && joueur.estAuSol()) {
             joueur.sauter(IMPULSION_SAUT);
         }
 
         boolean aAtterri = moteur.mettreAJourPhysique(joueur, carte);
-        if (aAtterri) {
-            framesAtterrissageRestants = animation.getNbFramesAtterrissage();
-        }
-        offsetX = joueur.getX() - largeurEcran / 2;
-        if (offsetX < 0) offsetX = 0;
-        double maxOffset = carte.getLargeur() * TAILLE_TUILE -largeurEcran;
-        if(offsetX > maxOffset)
-            offsetX = maxOffset;
+        if (aAtterri) framesAtterrissageRestants = animation.getNbFramesAtterrissage();
 
-        // Redessiner la carte avec le nouveau décalage
-        carteAffichable.redessiner(offsetX);
-
-        // Redessiner le fond si présent
-        if (vueBackground != null) {
-            vueBackground.mettreAJourScroll(offsetX);
-        }
         joueur.getSprite().setX(joueur.getX() - offsetX);
-        loup.getSprite().setX(loup.getX() - offsetX);
-        loup.getSprite().setY(loup.getY());
+        joueur.getSprite().setY(joueur.getY());
+
         barreVie.setLayoutX(joueur.getX() - offsetX);
         barreVie.setLayoutY(joueur.getY() - 10);
         labelVie.setLayoutX(joueur.getX() - offsetX);
@@ -224,7 +230,6 @@ public class ControleurJeu {
         labelVie.setText(Integer.toString(joueur.getPointsDeVie()));
         double ratioVie = joueur.getPointsDeVie() / (double) VIE_MAX_JOUEUR;
         barreVie.setProgress(ratioVie);
-        // La couleur passe du vert au rouge en fonction de la vie restante
         Color couleurVie = Color.GREEN.interpolate(Color.RED, 1 - ratioVie);
         String hex = String.format("#%02X%02X%02X",
                 (int) (couleurVie.getRed() * 255),
@@ -232,20 +237,9 @@ public class ControleurJeu {
                 (int) (couleurVie.getBlue() * 255));
         barreVie.setStyle("-fx-accent: " + hex + ";");
 
-        boolean collision = joueur.getX() < loup.getX() + loup.getSprite().getFitWidth()
-                && joueur.getX() + joueur.getSprite().getFitWidth() > loup.getX()
-                && joueur.getY() < loup.getY() + loup.getSprite().getFitHeight()
-                && joueur.getY() + joueur.getSprite().getFitHeight() > loup.getY();
-        if (collision && delaiDegats == 0) {
-            joueur.subirDegats(loup.getDegats());
-            // Délai d'attaque du loup : 4 secondes (environ 240 frames)
-            delaiDegats = 240;
-            if (joueur.getPointsDeVie() <= 0) {
-                joueurMort = true;
-            }
-        }
+        // Dilersen istersen bot ve oyuncunun çarpışma kontrolünü de burada ekleyebilirsin.
+        // (Ama Loup ile ilgili bir kod yok!)
 
-        // Gestion des animations
         ImageView sprite = joueur.getSprite();
 
         if (joueurMort) {
@@ -272,14 +266,9 @@ public class ControleurJeu {
         } else {
             animation.animerIdle(sprite, DELAI_FRAME);
         }
-
-        // Inversion du sprite si le joueur regarde à gauche
         sprite.setScaleX(joueur.estVersGauche() ? -1 : 1);
     }
 
-    /**
-     * Permet de lier dynamiquement la vue du fond à ce contrôleur.
-     */
     public void setVueBackground(VueBackground vueBackground) {
         this.vueBackground = vueBackground;
     }
@@ -291,7 +280,6 @@ public class ControleurJeu {
                 && ligne >= 0 && ligne < carte.getHauteur();
 
         if (dansCarte) {
-
             String selection = inventaireController != null ? inventaireController.getItemSelectionne() : null;
 
             if (selection != null) {
@@ -317,7 +305,6 @@ public class ControleurJeu {
                     }
                 }
             }
-
             carteAffichable.redessiner(offsetX);
         }
     }
