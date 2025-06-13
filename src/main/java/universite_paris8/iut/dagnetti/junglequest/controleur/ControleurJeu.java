@@ -10,7 +10,9 @@ import javafx.scene.Parent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import javafx.scene.layout.Pane;
 
 import static universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu.*;
 
@@ -38,6 +40,8 @@ public class ControleurJeu {
     private final GestionAnimation animation;
     private final InventaireController inventaireController;
     private final ProgressBar barreVie;
+    private final javafx.scene.control.Label labelVie;
+    private final Pane pauseOverlay;
     private VueBackground vueBackground;
     private final double largeurEcran;
 
@@ -59,7 +63,7 @@ public class ControleurJeu {
     /**
      * Initialise le contrôleur principal du jeu : clavier, animation, logique du joueur et gestion des clics.
      */
-    public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur,Loup loup, InventaireController inventaireController, ProgressBar barreVie,
+    public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur,Loup loup, InventaireController inventaireController, ProgressBar barreVie, javafx.scene.control.Label labelVie,Pane pauseOverlay,
                          WritableImage[] idle, WritableImage[] marche,
                          WritableImage[] attaque,
                          WritableImage[] preparationSaut, WritableImage[] volSaut, WritableImage[] sautReload,
@@ -73,6 +77,11 @@ public class ControleurJeu {
         this.loup = loup;
         this.inventaireController = inventaireController;
         this.barreVie = barreVie;
+        this.labelVie = labelVie;
+        this.pauseOverlay = pauseOverlay;
+        if (this.pauseOverlay != null) {
+            this.pauseOverlay.setVisible(false);
+        }
         this.clavier = new GestionClavier(scene);
         this.largeurEcran = scene.getWidth();
 
@@ -116,6 +125,9 @@ public class ControleurJeu {
                 }
             } else if (e.getCode() == KeyCode.ENTER) {
                 enPause = !enPause;
+                if (pauseOverlay != null) {
+                    pauseOverlay.setVisible(enPause);
+                }
             }
         });
 
@@ -207,6 +219,9 @@ public class ControleurJeu {
         loup.getSprite().setY(loup.getY());
         barreVie.setLayoutX(joueur.getX() - offsetX);
         barreVie.setLayoutY(joueur.getY() - 10);
+        labelVie.setLayoutX(joueur.getX() - offsetX);
+        labelVie.setLayoutY(joueur.getY() - 25);
+        labelVie.setText(Integer.toString(joueur.getPointsDeVie()));
         double ratioVie = joueur.getPointsDeVie() / (double) VIE_MAX_JOUEUR;
         barreVie.setProgress(ratioVie);
         // La couleur passe du vert au rouge en fonction de la vie restante
@@ -319,7 +334,16 @@ public class ControleurJeu {
             ParametresController controller = loader.getController();
             controller.setStage(fenetreParametres);
             enPause = true;
-            fenetreParametres.setOnHidden(e -> { enPause = false; fenetreParametres = null; });
+            if (pauseOverlay != null) {
+                pauseOverlay.setVisible(true);
+            }
+            fenetreParametres.setOnHidden(e -> {
+                enPause = false;
+                if (pauseOverlay != null) {
+                    pauseOverlay.setVisible(false);
+                }
+                fenetreParametres = null;
+            });
             fenetreParametres.show();
         } catch (Exception e) {
             e.printStackTrace();

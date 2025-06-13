@@ -53,6 +53,7 @@ public class LanceurJeu extends Application {
             racine = new Pane();
         }
         Scene scene = new Scene(racine, largeur, hauteur);
+        Pane pauseOverlay = (Pane) scene.lookup("#pauseOverlay");
 
         try {
             int[][] grille = ChargeurCarte.chargerCarteDepuisCSV("/universite_paris8/iut/dagnetti/junglequest/cartes/jungle_map_calque1.csv");
@@ -132,14 +133,18 @@ public class LanceurJeu extends Application {
             racine.getChildren().add(spriteLoup);
 
             javafx.scene.control.ProgressBar barreVie = new javafx.scene.control.ProgressBar(1.0);
-            barreVie.setPrefWidth(ConstantesJeu.TAILLE_SPRITE);
+            barreVie.setPrefWidth(ConstantesJeu.TAILLE_SPRITE * 2);
             barreVie.setPrefHeight(6);
             barreVie.setStyle("-fx-accent: #e74c3c;");
             barreVie.setViewOrder(-9);
             racine.getChildren().add(barreVie);
+            javafx.scene.control.Label labelVie = new javafx.scene.control.Label(Integer.toString(joueur.getPointsDeVie()));
+            labelVie.setTextFill(javafx.scene.paint.Color.WHITE);
+            labelVie.setViewOrder(-9);
+            racine.getChildren().add(labelVie);
             InventaireController inventaireCtrl = afficherInventaire(racine, joueur, largeur, hauteur);
 
-            ControleurJeu controleurJeu = new ControleurJeu(scene, carte, carteAffichable, joueur, loup, inventaireCtrl, barreVie,
+            ControleurJeu controleurJeu = new ControleurJeu(scene, carte, carteAffichable, joueur, loup, inventaireCtrl, barreVie, labelVie, pauseOverlay,
                     idle, marche, attaque, preparationSaut, volSaut, sautReload,
                     chute, atterrissage, degats, mort, sort, accroupi, bouclier);
 

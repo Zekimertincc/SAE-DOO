@@ -30,7 +30,7 @@ public final class ConstantesJeu {
     public static final double VITESSE_CHUTE_MAX = 2;
 
     /** Force de l’impulsion de saut du joueur (modifiable) */
-    public static double IMPULSION_SAUT = 15;
+    public static double IMPULSION_SAUT = 10;
 
     // --- Animation ---
     /** Délai entre deux frames d’animation (en nombre de frames) */
