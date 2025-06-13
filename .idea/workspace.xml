@@ -5,119 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="04ca2a54-06d3-49ed-b803-58534b0974e2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/interfacefx/InventaireController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/interfacefx/ParametresController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/moteur/MoteurPhysique.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/bloc/BlocManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/bloc/TileType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/carte/Carte.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/carte/ChargeurCarte.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/item/Inventaire.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/personnages/Loup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/VueBackground.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/VueJeu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/utilitaire/PositionFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/wolf.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/sons/musique_jeu2.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/vue/VueJeu.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/vue/interface/Parametres.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/controller/ControleurJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/ControleurJeu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/controller/GestionClavier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/GestionClavier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/controller/demarrage/LanceurJeu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/controller/interfacefx/InventaireController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/controller/moteur/MoteurPhysique.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/Ciblable.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/Monde.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/carte/Carte.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/carte/ChargeurCarte.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/craft/ArmeCraft.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/craft/Craft.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/craft/CraftBlock.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/donnees/ConstantesJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/donnees/ConstantesJeu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/farm/Bois.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/farm/Farm.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/farm/File.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/farm/Pierre.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/Block.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/BlockPlace.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/Coffre.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/Inventaire.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/Recompense.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/equipement/Couteau.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/equipement/Equipement.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/equipement/arme/Arc.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/equipement/arme/Arme.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/equipement/arme/Bombe.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/equipement/outil/Hache.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/equipement/outil/Outil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/equipement/outil/Pioche.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/nourriture/Champignon.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/nourriture/Nourriture.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/nourriture/Pomme.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/item/nourriture/Poulet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/monde/Maths.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/monde/Monde.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/personnage/EtatTemporaire.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/personnage/Joueur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/personnages/Joueur.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/personnage/PNJ.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/personnage/Personnage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/personnages/Personnage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/personnage/PersonnageJeu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/personnage/Quete.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/personnage/ennemi/Aigle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/personnage/ennemi/Ennemi.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/personnage/ennemi/Gorille.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/personnage/ennemi/Loup.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/ressource/Arbre.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/ressource/CanneSucre.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/ressource/Ressource.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/ressource/Roche.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/zone/Poison.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/zone/Ralentissement.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/modele/zone/Zone.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/vue/CarteAffichable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/CarteAffichable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/vue/VueArbre.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/vue/VueBackground.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/vue/VueCanneSucre.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/vue/VueJeu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/vue/VueJoueur.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/vue/VueMap.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/vue/VueRoche.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/vue/VueScrollingCarte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/styles/inventaire.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/vue/annimation/GestionAnimation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/animation/GestionAnimation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/vue/fenetre/MenuPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/fenetre/MenuPrincipal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/vue/utilitaire/ExtracteurSprites.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/utilitaire/ExtracteurSprites.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/iut/groupe/terraria/demo/vue/utilitaire/PositionFrame.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/carte/jungle_map_calque1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/cartes/jungle_map_calque1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/images/background_arriere.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/background_arriere.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/images/background_avant.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/background_avant.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/images/background_milieu.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/background_milieu.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/images/items/bois.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/items/bois.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/images/menu_principal_forest.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/menu_principal_forest.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/images/personnage_sheet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/images/sprite1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/sprite1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/images/tileset_jungle.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/tileset_jungle.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/sons/menu_jungle.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/sons/menu_jungle.mp3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/sons/musique_jeu.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/sons/musique_jeu.mp3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/styles/inventaire.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/styles/menu.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/styles/menu.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/vue/CanneSucre.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/vue/char.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/vue/interface/inventaire.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/vue/interface/Inventaire.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/vue/jungle_terrain.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/vue/map.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/vue/qsd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/vue/roche.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/vue/sol.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/vue/terrain_jungle.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/vue/testSprite.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/vue/tileset.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fr/iut/groupe/terraria/demo/vue/tree.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -259,7 +148,7 @@
       <workItem from="1747480141586" duration="25362000" />
       <workItem from="1747520346225" duration="11547000" />
       <workItem from="1747593370378" duration="15504000" />
-      <workItem from="1749799247799" duration="2519000" />
+      <workItem from="1749799247799" duration="3527000" />
     </task>
     <servers />
   </component>

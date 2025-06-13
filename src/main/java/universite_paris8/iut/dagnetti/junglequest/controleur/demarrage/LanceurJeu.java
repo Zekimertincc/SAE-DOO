@@ -112,14 +112,13 @@ public class LanceurJeu extends Application {
 
             Image imgLoup = new Image(getClass().getResourceAsStream(
                     "/universite_paris8/iut/dagnetti/junglequest/images/wolf.gif"));
-            WritableImage vueLoup = new WritableImage(imgLoup.getPixelReader(), 82, 0, 250, 120);
-            ImageView spriteLoup = new ImageView(vueLoup);
-            spriteLoup.setFitWidth(250);
-            spriteLoup.setFitHeight(120);
+            ImageView spriteLoup = new ImageView(imgLoup);
+            spriteLoup.setFitWidth(imgLoup.getWidth());
+            spriteLoup.setFitHeight(imgLoup.getHeight());
             double xLoup = 500;
             int colLoup = (int) (xLoup / ConstantesJeu.TAILLE_TUILE);
             int ligneSolLoup = carte.chercherLigneSol(colLoup);
-            double yLoup = ligneSolLoup != -1 ? (carte.getHauteur() - 1 - ligneSolLoup) * ConstantesJeu.TAILLE_TUILE - 120 : 56;
+            double yLoup = ligneSolLoup != -1 ? (carte.getHauteur() - 1 - ligneSolLoup) * ConstantesJeu.TAILLE_TUILE - imgLoup.getHeight() : 56;
             Loup loup = new Loup(spriteLoup, xLoup, yLoup, 1);
             racine.getChildren().add(spriteLoup);
 
