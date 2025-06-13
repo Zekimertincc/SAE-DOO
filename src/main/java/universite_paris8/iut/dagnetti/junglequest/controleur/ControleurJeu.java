@@ -237,7 +237,7 @@ public class ControleurJeu {
             if (frameMort >= 12) frameMort = 11;
             sprite.setScaleX(joueur.estVersGauche() ? -1 : 1);
             return;
-        } else if (toucheDegats) {
+        } else if (toucheDegats || delaiDegats > 0) {
             animation.animerDegats(sprite);
         } else if (joueur.estEnAttaque()) {
             animation.animerAttaque(sprite, DELAI_FRAME, () -> joueur.finAttaque());
@@ -245,7 +245,8 @@ public class ControleurJeu {
         } else if (!joueur.estAuSol()) {
             animation.animerSaut(sprite, joueur.getVitesseY());
         } else if (framesAtterrissageRestants > 0) {
-            animation.animerAtterrissage(sprite);
+            int frame = animation.getNbFramesAtterrissage() - framesAtterrissageRestants;
+            animation.animerAtterrissage(sprite, frame);
         } else if (toucheAccroupi) {
             animation.animerAccroupi(sprite);
         } else if (toucheBouclier) {

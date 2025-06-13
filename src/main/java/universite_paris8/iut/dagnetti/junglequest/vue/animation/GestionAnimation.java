@@ -122,8 +122,9 @@ public class GestionAnimation {
         personnage.setImage(preparationSaut[0]);
     }
 
-    public void animerAtterrissage(ImageView personnage) {
-        personnage.setImage(atterrissage[0]);
+    public void animerAtterrissage(ImageView personnage, int frame) {
+        int index = Math.max(0, Math.min(frame, atterrissage.length - 1));
+        personnage.setImage(atterrissage[index]);
     }
     /**
      * Renvoie le nombre d'images composant l'animation d'atterrissage.
