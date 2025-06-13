@@ -125,7 +125,13 @@ public class GestionAnimation {
     public void animerAtterrissage(ImageView personnage) {
         personnage.setImage(atterrissage[0]);
     }
-
+    /**
+     * Renvoie le nombre d'images composant l'animation d'atterrissage.
+     * Utile pour déterminer la durée pendant laquelle afficher cette animation.
+     */
+    public int getNbFramesAtterrissage() {
+        return atterrissage.length;
+    }
     public void demandeCombo() {
         this.comboDemande = true;
     }

@@ -44,6 +44,12 @@ public class ControleurJeu {
     private int compteurAttaque = 0;
     private int frameMort = 0;
     private double offsetX = 0;
+    // Durée restante de l'animation d'atterrissage
+    private int framesAtterrissageRestants = 0;
+
+    // Délai entre deux pertes de vie lors d'un contact avec un ennemi
+    private int delaiDegats = 0;
+
 
     private boolean joueurMort = false;
 
@@ -129,6 +135,8 @@ public class ControleurJeu {
         if (enPause) {
             return;
         }
+        if (delaiDegats > 0) delaiDegats--;
+        if (framesAtterrissageRestants > 0) framesAtterrissageRestants--;
         // Récupération des touches clavier pressées
         boolean gauche = clavier.estAppuyee(KeyCode.Q) || clavier.estAppuyee(KeyCode.LEFT);
         boolean droite = clavier.estAppuyee(KeyCode.D) || clavier.estAppuyee(KeyCode.RIGHT);
@@ -178,6 +186,9 @@ public class ControleurJeu {
         }
 
         boolean aAtterri = moteur.mettreAJourPhysique(joueur, carte);
+        if (aAtterri) {
+            framesAtterrissageRestants = animation.getNbFramesAtterrissage();
+        }
         offsetX = joueur.getX() - largeurEcran / 2;
         if (offsetX < 0) offsetX = 0;
         double maxOffset = carte.getLargeur() * TAILLE_TUILE -largeurEcran;
@@ -210,8 +221,12 @@ public class ControleurJeu {
                 && joueur.getX() + joueur.getSprite().getFitWidth() > loup.getX()
                 && joueur.getY() < loup.getY() + loup.getSprite().getFitHeight()
                 && joueur.getY() + joueur.getSprite().getFitHeight() > loup.getY();
-        if (collision) {
+        if (collision && delaiDegats == 0) {
             joueur.subirDegats(loup.getDegats());
+            delaiDegats = 30; // invulnérabilité temporaire
+            if (joueur.getPointsDeVie() <= 0) {
+                joueurMort = true;
+            }
         }
 
         // Gestion des animations
@@ -229,7 +244,7 @@ public class ControleurJeu {
             compteurAttaque++;
         } else if (!joueur.estAuSol()) {
             animation.animerSaut(sprite, joueur.getVitesseY());
-        } else if (aAtterri) {
+        } else if (framesAtterrissageRestants > 0) {
             animation.animerAtterrissage(sprite);
         } else if (toucheAccroupi) {
             animation.animerAccroupi(sprite);
