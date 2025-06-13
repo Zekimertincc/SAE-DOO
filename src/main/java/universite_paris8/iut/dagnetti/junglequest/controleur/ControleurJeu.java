@@ -55,9 +55,10 @@ public class ControleurJeu {
     private List<int[]> botPath;
     private int botPathIndex;
     private final int[][] grille;
+    private int prevJoueurCol = -1;
+    private int prevJoueurLig = -1;
+    private static final int BOT_DEGATS = 10;
 
-    private int compteurAttaque = 0;
-    private int frameMort = 0;
     private double offsetX = 0;
     private int framesAtterrissageRestants = 0;
     private int delaiDegats = 0;
@@ -167,13 +168,30 @@ public class ControleurJeu {
         int botLig = (int) (bot.getY() / TAILLE_TUILE);
         int joueurCol = (int) (joueur.getX() / TAILLE_TUILE);
         int joueurLig = (int) (joueur.getY() / TAILLE_TUILE);
-
+        // Recalcule le chemin uniquement lorsque c'est nécessaire (nouvelle
+        // position du joueur ou fin de chemin courant) afin de limiter les
+        // coûts de calcul.
         if (Math.abs(botCol - joueurCol) + Math.abs(botLig - joueurLig) <= 8) {
-            botPath = Pathfinder.aStar(grille, new int[]{botCol, botLig}, new int[]{joueurCol, joueurLig});
-            botPathIndex = 0;
+            if (botPath == null || botPathIndex >= botPath.size() ||
+                    joueurCol != prevJoueurCol || joueurLig != prevJoueurLig) {
+                botPath = Pathfinder.aStar(grille,
+                        new int[]{botCol, botLig}, new int[]{joueurCol, joueurLig});
+                botPathIndex = 0;
+                prevJoueurCol = joueurCol;
+                prevJoueurLig = joueurLig;
+            }
             botTimeline.play();
         } else {
             botTimeline.stop();
+            botPath = null;
+        }
+        // Positionne l'affichage du bot en fonction du décalage de la caméra
+        bot.setTranslateX(-offsetX);
+
+        // Collision simple entre le bot et le joueur
+        if (bot.getBoundsInParent().intersects(joueur.getSprite().getBoundsInParent()) && delaiDegats == 0) {
+            joueur.subirDegats(BOT_DEGATS);
+            delaiDegats = 20; // petite invulnérabilité après un coup
         }
 
         // --- Geriye kalan orijinal kodun aynen devam ediyor ---
