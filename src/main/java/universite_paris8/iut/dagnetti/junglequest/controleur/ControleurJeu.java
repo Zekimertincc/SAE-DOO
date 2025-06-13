@@ -238,7 +238,8 @@ public class ControleurJeu {
                 && joueur.getY() + joueur.getSprite().getFitHeight() > loup.getY();
         if (collision && delaiDegats == 0) {
             joueur.subirDegats(loup.getDegats());
-            delaiDegats = 30; // invulnérabilité temporaire
+            // Délai d'attaque du loup : 4 secondes (environ 240 frames)
+            delaiDegats = 240;
             if (joueur.getPointsDeVie() <= 0) {
                 joueurMort = true;
             }

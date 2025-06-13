@@ -132,7 +132,8 @@ public class LanceurJeu extends Application {
             double yLoup = ligneSolLoup != -1
                     ? ligneSolLoup * ConstantesJeu.TAILLE_TUILE - imgLoup.getHeight()
                     : 56;
-            Loup loup = new Loup(spriteLoup, xLoup, yLoup, 1);
+            // Le loup inflige désormais 10 points de dégâts par attaque
+            Loup loup = new Loup(spriteLoup, xLoup, yLoup, 20);
             loup.setEstAuSol(true);
             racine.getChildren().add(spriteLoup);
 
