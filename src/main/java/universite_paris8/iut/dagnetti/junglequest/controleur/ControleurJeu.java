@@ -55,9 +55,15 @@ public class ControleurJeu {
     private List<int[]> botPath;
     private int botPathIndex;
     private final int[][] grille;
+    private int prevJoueurCol = -1;
+    private int prevJoueurLig = -1;
+    private int cooldownChemin = 0;
+    private static final int BOT_DEGATS = 10;
 
+    // Suivi des animations du joueur
     private int compteurAttaque = 0;
     private int frameMort = 0;
+
     private double offsetX = 0;
     private int framesAtterrissageRestants = 0;
     private int delaiDegats = 0;
@@ -152,6 +158,7 @@ public class ControleurJeu {
         if (enPause) return;
         if (delaiDegats > 0) delaiDegats--;
         if (framesAtterrissageRestants > 0) framesAtterrissageRestants--;
+        if (cooldownChemin > 0) cooldownChemin--;
 
         offsetX = joueur.getX() - largeurEcran / 2;
         if (offsetX < 0) offsetX = 0;
@@ -167,13 +174,31 @@ public class ControleurJeu {
         int botLig = (int) (bot.getY() / TAILLE_TUILE);
         int joueurCol = (int) (joueur.getX() / TAILLE_TUILE);
         int joueurLig = (int) (joueur.getY() / TAILLE_TUILE);
-
+        // Recalcule le chemin uniquement lorsque c'est nécessaire et que le
+        // délai de récalcul est à zéro pour limiter les coûts.
+        boolean besoinChemin = botPath == null || botPathIndex >= botPath.size();
+        boolean joueurBouge = joueurCol != prevJoueurCol || joueurLig != prevJoueurLig;
         if (Math.abs(botCol - joueurCol) + Math.abs(botLig - joueurLig) <= 8) {
-            botPath = Pathfinder.aStar(grille, new int[]{botCol, botLig}, new int[]{joueurCol, joueurLig});
-            botPathIndex = 0;
+            if ((besoinChemin || joueurBouge) && cooldownChemin == 0) {
+                botPath = Pathfinder.aStar(grille,
+                        new int[]{botCol, botLig}, new int[]{joueurCol, joueurLig});
+                botPathIndex = 0;
+                prevJoueurCol = joueurCol;
+                prevJoueurLig = joueurLig;
+                cooldownChemin = 10; // attente avant un nouveau calcul
+            }
             botTimeline.play();
         } else {
             botTimeline.stop();
+            botPath = null;
+        }
+        // Positionne l'affichage du bot en fonction du décalage de la caméra
+        bot.setTranslateX(-offsetX);
+
+        // Collision simple entre le bot et le joueur
+        if (bot.getBoundsInParent().intersects(joueur.getSprite().getBoundsInParent()) && delaiDegats == 0) {
+            joueur.subirDegats(BOT_DEGATS);
+            delaiDegats = 20; // petite invulnérabilité après un coup
         }
 
         // --- Geriye kalan orijinal kodun aynen devam ediyor ---

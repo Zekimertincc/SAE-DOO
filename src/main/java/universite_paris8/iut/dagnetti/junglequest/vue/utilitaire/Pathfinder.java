@@ -48,7 +48,9 @@ public class Pathfinder {
         int height = grid.length;
 
         PriorityQueue<Node> openList = new PriorityQueue<>();
-        Set<String> closedSet = new HashSet<>();
+        // Mémorise pour chaque cellule le meilleur coût déjà rencontré pour
+        // éviter d'explorer plusieurs fois des chemins moins optimaux.
+        Map<String, Integer> visited = new HashMap<>();
 
         Node startNode = new Node(start[0], start[1], 0, heuristic(start[0], start[1], goal[0], goal[1]), null);
         openList.add(startNode);
@@ -64,18 +66,24 @@ public class Pathfinder {
                 return path;
             }
 
-            closedSet.add(current.x + "," + current.y);
+            String currentKey = current.x + "," + current.y;
+            visited.put(currentKey, current.g);
 
             for (int[] dir : new int[][]{{-1,0},{1,0},{0,-1},{0,1}}) {
                 int nx = current.x + dir[0];
                 int ny = current.y + dir[1];
 
                 if (nx < 0 || ny < 0 || nx >= width || ny >= height) continue;
-                if (grid[ny][nx] == -1) continue;
+                // Les valeurs -1 et 1 correspondent respectivement à l'air et
+                // aux plates-formes traversables. Toute autre valeur représente
+                // un bloc solide que le bot ne peut pas franchir.
+                if (grid[ny][nx] != -1 && grid[ny][nx] != 1) continue;
 
                 Node neighbor = new Node(nx, ny, current.g + 1, heuristic(nx, ny, goal[0], goal[1]), current);
                 String key = nx + "," + ny;
-                if (!closedSet.contains(key)) {
+                Integer bestG = visited.get(key);
+                if (bestG == null || neighbor.g < bestG) {
+                    visited.put(key, neighbor.g);
                     openList.add(neighbor);
                 }
             }
