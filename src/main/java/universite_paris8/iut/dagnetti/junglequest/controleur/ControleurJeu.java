@@ -71,6 +71,11 @@ public class ControleurJeu {
     private boolean enPause = false;
     private Stage fenetreParametres;
 
+    // --- Gestion de la vie du bot ---
+    private int botVie = 3;
+    private int botDelaiCouleur = 0;
+    private Color couleurBotBase;
+
     public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur,
                          InventaireController inventaireController, ProgressBar barreVie, Label labelVie, Pane pauseOverlay,
                          WritableImage[] idle, WritableImage[] marche,
@@ -95,6 +100,7 @@ public class ControleurJeu {
 
         // Bot ayarları
         this.bot = bot;
+        this.couleurBotBase = (Color) bot.getFill();
         this.grille = carte.getGrille();
         botTimeline = new Timeline(new KeyFrame(Duration.millis(200), e -> {
             if (botPath != null && botPathIndex < botPath.size()) {
@@ -160,6 +166,13 @@ public class ControleurJeu {
         if (framesAtterrissageRestants > 0) framesAtterrissageRestants--;
         if (cooldownChemin > 0) cooldownChemin--;
 
+        if (botDelaiCouleur > 0) {
+            botDelaiCouleur--;
+            if (botDelaiCouleur == 0 && botVie > 0) {
+                bot.setFill(couleurBotBase);
+            }
+        }
+
         offsetX = joueur.getX() - largeurEcran / 2;
         if (offsetX < 0) offsetX = 0;
         double maxOffset = carte.getLargeur() * TAILLE_TUILE - largeurEcran;
@@ -196,9 +209,22 @@ public class ControleurJeu {
         bot.setTranslateX(-offsetX);
 
         // Collision simple entre le bot et le joueur
-        if (bot.getBoundsInParent().intersects(joueur.getSprite().getBoundsInParent()) && delaiDegats == 0) {
+        if (bot.getBoundsInParent().intersects(joueur.getSprite().getBoundsInParent()) && delaiDegats == 0 && botVie > 0) {
             joueur.subirDegats(BOT_DEGATS);
             delaiDegats = 20; // petite invulnérabilité après un coup
+        }
+
+        // Dégâts infligés au bot par l'attaque du joueur
+        if (botVie > 0 && joueur.estEnAttaque() && !animation.isAttaqueTerminee()
+                && botDelaiCouleur == 0
+                && bot.getBoundsInParent().intersects(joueur.getSprite().getBoundsInParent())) {
+            botVie--;
+            bot.setFill(Color.DARKRED);
+            botDelaiCouleur = 10;
+            if (botVie <= 0) {
+                botTimeline.stop();
+                bot.setVisible(false);
+            }
         }
 
         // --- Geriye kalan orijinal kodun aynen devam ediyor ---
