@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04ca2a54-06d3-49ed-b803-58534b0974e2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/utilitaire/Pathfinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="04ca2a54-06d3-49ed-b803-58534b0974e2" name="Changes" comment="version ameliore il ya des algorithm a* et le ennemi essaie de te suivre">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/ControleurJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/ControleurJeu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/donnees/ConstantesJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/donnees/ConstantesJeu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/CarteAffichable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/CarteAffichable.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="JungleQuest-V1.1" />
+        <entry key="$PROJECT_DIR$" value="codex/düzeltme--performans,-takip-ve-hasar-hataları" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -63,7 +56,7 @@
     "Application.TestChargementCarte.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "JungleQuest-V1.2Zeki",
+    "git-widget-placeholder": "xn0758-codex/düzeltme--performans,-takip-ve-hasar-hataları",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/etudiants/info/dagnetti/SAE/SAE-DOO/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images",
@@ -135,6 +128,8 @@
       <list>
         <item itemvalue="Application.LanceurJeu" />
         <item itemvalue="Application.MenuPrincipal" />
+        <item itemvalue="Application.LanceurJeu" />
+        <item itemvalue="Application.MenuPrincipal" />
       </list>
     </recent_temporary>
   </component>
@@ -166,6 +161,10 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="version ameliore il ya des algorithm a* et le ennemi essaie de te suivre" />
+    <option name="LAST_COMMIT_MESSAGE" value="version ameliore il ya des algorithm a* et le ennemi essaie de te suivre" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
