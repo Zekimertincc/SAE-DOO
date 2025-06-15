@@ -34,6 +34,13 @@ public class Loup extends Personnage {
      * 1 pour la droite.
      */
     private int directionAttaque = 0;
+    /**
+     * Position visée lors du début de l'attaque. Le loup continue de se
+     * déplacer jusqu'à atteindre ce point afin d'éviter de dépasser un
+     * joueur immobile.
+     */
+
+    private double cibleAttaqueX = 0;
 
     /**
      * Compteur gérant le temps d'attente avant une nouvelle attaque lorsque
@@ -64,13 +71,31 @@ public class Loup extends Personnage {
     public void mettreAJourIA(Joueur joueur) {
         double distance = joueur.getX() - this.x;
         // Si une attaque est en cours, le loup continue son mouvement dans la
-        // direction initiale, sans ajuster sa trajectoire sur le joueur.
+        // direction initiale jusqu'à atteindre la position enregistrée au
+        // lancement de l'attaque. Il ne réajuste pas sa trajectoire sur le
+        // joueur.
         if (enAttaque) {
             if (directionAttaque >= 0) {
-                deplacerDroite(vitesseCourse);
+                if (this.x < cibleAttaqueX) {
+                    double step = Math.min(vitesseCourse, cibleAttaqueX - this.x);
+                    deplacerDroite(step);
+                } else {
+                    arreter();
+                }
             } else {
-                deplacerGauche(vitesseCourse);
+                if (this.x > cibleAttaqueX) {
+                    double step = Math.min(vitesseCourse, this.x - cibleAttaqueX);
+                    deplacerGauche(step);
+                } else {
+                    arreter();
+                }
             }
+            return;
+        }
+        if (pausePoursuite > 0) {
+            pausePoursuite--;
+            arreter();
+            getSprite().setImage(walkImage);
             return;
         }
 
@@ -81,7 +106,7 @@ public class Loup extends Personnage {
             if (delaiAvantAttaque > 0) {
                 delaiAvantAttaque--;
             } else {
-                attaquer();
+                attaquer(joueur.getX());
                 delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
             }
             return;
@@ -140,11 +165,12 @@ public class Loup extends Personnage {
 
     public boolean estEnAttaque() { return enAttaque; }
 
-    public void attaquer() {
+    public void attaquer(double positionJoueurX) {
         enAttaque = true;
         // On enregistre la direction actuelle pour la conserver durant
         // toute la séquence d'attaque.
         directionAttaque = versGauche ? -1 : 1;
+        cibleAttaqueX = positionJoueurX;
         getSprite().setImage(attackImage);
     }
 
@@ -152,6 +178,9 @@ public class Loup extends Personnage {
         enAttaque = false;
         directionAttaque = 0;
         getSprite().setImage(walkImage);
+        if (random.nextDouble() < 0.25) {
+            pausePoursuite = random.nextInt(60) + 30;
+        }
     }
     public int getPointsDeVie() {
         return pointsDeVie;

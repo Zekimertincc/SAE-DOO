@@ -305,7 +305,7 @@ public class ControleurJeu {
             joueur.subirDegats(loup.getDegats());
             // Délai d'attaque du loup : même durée que l'animation d'attaque
             delaiDegats = DUREE_ATTAQUE;
-            loup.attaquer();
+            loup.attaquer(joueur.getX());
             if (joueur.getPointsDeVie() <= 0) {
                 joueurMort = true;
             }
