@@ -60,6 +60,7 @@ public class ControleurJeu {
 
 
     private boolean joueurMort = false;
+    private boolean loupMort = false;
 
     // Animation du loup
     private final int largeurFrameLoup;
@@ -127,6 +128,9 @@ public class ControleurJeu {
                         && yMonde >= loup.getY() && yMonde <= loup.getY() + loup.getSprite().getFitHeight();
                 if (cliqueLoup && Math.abs(joueur.getX() - loup.getX()) < 80) {
                     loup.subirDegats(DEGATS_JOUEUR_LOUP);
+                    if (loup.getPointsDeVie() <= 0) {
+                        loupMort = true;
+                    }
                 }
                 if (!joueur.estEnAttaque()) {
                     joueur.attaquer();
@@ -234,8 +238,12 @@ public class ControleurJeu {
         }
 
         // Mise à jour du loup
-        loup.mettreAJourIA(joueur);
-        moteur.mettreAJourPhysique(loup, carte);
+        if (!loupMort) {
+            loup.mettreAJourIA(joueur);
+            moteur.mettreAJourPhysique(loup, carte);
+        } else {
+            loup.arreter();
+        }
 
         offsetX = joueur.getX() - largeurEcran / 2;
         if (offsetX < 0) offsetX = 0;
@@ -268,19 +276,24 @@ public class ControleurJeu {
                 (int) (couleurVie.getBlue() * 255));
         barreVie.setStyle("-fx-accent: " + hex + ";");
 
-        barreVieLoup.setLayoutX(loup.getX() - offsetX);
-        barreVieLoup.setLayoutY(loup.getY() - 10);
-        labelVieLoup.setLayoutX(loup.getX() - offsetX);
-        labelVieLoup.setLayoutY(loup.getY() - 25);
-        labelVieLoup.setText(Integer.toString(loup.getPointsDeVie()));
-        double ratioVieLoup = loup.getPointsDeVie() / (double) VIE_MAX_LOUP;
-        barreVieLoup.setProgress(ratioVieLoup);
-        Color couleurVieLoup = Color.GREEN.interpolate(Color.RED, 1 - ratioVieLoup);
-        String hexLoup = String.format("#%02X%02X%02X",
-                (int) (couleurVieLoup.getRed() * 255),
-                (int) (couleurVieLoup.getGreen() * 255),
-                (int) (couleurVieLoup.getBlue() * 255));
-        barreVieLoup.setStyle("-fx-accent: " + hexLoup + ";");
+        if (!loupMort) {
+            barreVieLoup.setLayoutX(loup.getX() - offsetX);
+            barreVieLoup.setLayoutY(loup.getY() - 10);
+            labelVieLoup.setLayoutX(loup.getX() - offsetX);
+            labelVieLoup.setLayoutY(loup.getY() - 25);
+            labelVieLoup.setText(Integer.toString(loup.getPointsDeVie()));
+            double ratioVieLoup = loup.getPointsDeVie() / (double) VIE_MAX_LOUP;
+            barreVieLoup.setProgress(ratioVieLoup);
+            Color couleurVieLoup = Color.GREEN.interpolate(Color.RED, 1 - ratioVieLoup);
+            String hexLoup = String.format("#%02X%02X%02X",
+                    (int) (couleurVieLoup.getRed() * 255),
+                    (int) (couleurVieLoup.getGreen() * 255),
+                    (int) (couleurVieLoup.getBlue() * 255));
+            barreVieLoup.setStyle("-fx-accent: " + hexLoup + ";");
+        } else {
+            barreVieLoup.setVisible(false);
+            labelVieLoup.setVisible(false);
+        }
 
         double distanceLoupJoueur = Math.abs(joueur.getX() - loup.getX());
         boolean collision = distanceLoupJoueur < 20
@@ -288,7 +301,7 @@ public class ControleurJeu {
                 && joueur.getX() + joueur.getSprite().getFitWidth() > loup.getX()
                 && joueur.getY() < loup.getY() + loup.getSprite().getFitHeight()
                 && joueur.getY() + joueur.getSprite().getFitHeight() > loup.getY();
-        if (collision && delaiDegats == 0 && !loup.estEnAttaque() && !toucheBouclier) {
+        if (!loupMort && collision && delaiDegats == 0 && !loup.estEnAttaque() && !toucheBouclier) {
             joueur.subirDegats(loup.getDegats());
             // Délai d'attaque du loup : même durée que l'animation d'attaque
             delaiDegats = DUREE_ATTAQUE;
@@ -329,7 +342,9 @@ public class ControleurJeu {
         // Inversion du sprite si le joueur regarde à gauche
         sprite.setScaleX(joueur.estVersGauche() ? -1 : 1);
         // Animation et orientation du loup
-        if (loup.estEnAttaque()) {
+        if (loupMort) {
+            loup.getSprite().setViewport(new Rectangle2D(0, 0, largeurFrameLoup, hauteurFrameLoup));
+        } else if (loup.estEnAttaque()) {
             if (compteurLoup++ >= DELAI_FRAME) {
                 loup.getSprite().setViewport(new Rectangle2D(frameLoup * largeurFrameLoupAttaque, 0,
                         largeurFrameLoupAttaque, hauteurFrameLoupAttaque));
