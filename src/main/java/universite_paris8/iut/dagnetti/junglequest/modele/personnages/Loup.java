@@ -11,12 +11,12 @@ public class Loup extends Personnage {
     /**
      * Rayon de détection du joueur (en pixels).
      */
-    private final double zoneDetection = 200;
+    private final double zoneDetection = 110;
 
     /**
      * Vitesse horizontale du loup.
      */
-    private final double vitesse = 1.0;
+    private final double vitesse = 1.3;
 
 
     public Loup(ImageView sprite, double x, double y, int degats) {

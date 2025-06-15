@@ -252,14 +252,16 @@ public class ControleurJeu {
                 (int) (couleurVie.getBlue() * 255));
         barreVie.setStyle("-fx-accent: " + hex + ";");
 
-        boolean collision = joueur.getX() < loup.getX() + loup.getSprite().getFitWidth()
+        double distanceLoupJoueur = Math.abs(joueur.getX() - loup.getX());
+        boolean collision = distanceLoupJoueur < 20
+                && joueur.getX() < loup.getX() + loup.getSprite().getFitWidth()
                 && joueur.getX() + joueur.getSprite().getFitWidth() > loup.getX()
                 && joueur.getY() < loup.getY() + loup.getSprite().getFitHeight()
                 && joueur.getY() + joueur.getSprite().getFitHeight() > loup.getY();
         if (collision && delaiDegats == 0) {
             joueur.subirDegats(loup.getDegats());
-            // Délai d'attaque du loup : 4 secondes (environ 240 frames)
-            delaiDegats = 240;
+            // Délai d'attaque du loup : même durée que l'animation d'attaque
+            delaiDegats = DUREE_ATTAQUE;
             if (joueur.getPointsDeVie() <= 0) {
                 joueurMort = true;
             }
@@ -305,7 +307,7 @@ public class ControleurJeu {
         } else {
             loup.getSprite().setViewport(new Rectangle2D(0, 0, largeurFrameLoup, hauteurFrameLoup));
         }
-        loup.getSprite().setScaleX(loup.estVersGauche() ? -1 : 1);
+        loup.getSprite().setScaleX(loup.estVersGauche() ? 1 : -1);
     }
 
     /**

@@ -124,7 +124,7 @@ public class LanceurJeu extends Application {
             ImageView spriteLoup = new ImageView(imgLoup);
             spriteLoup.setFitWidth(imgLoup.getWidth());
             spriteLoup.setFitHeight(imgLoup.getHeight());
-            double xLoup = 500;
+            double xLoup = 900;
             int colLoup = (int) (xLoup / ConstantesJeu.TAILLE_TUILE);
             int ligneSolLoup = carte.chercherLigneSol(colLoup);
             // Même principe que pour le joueur : placement direct par rapport à
