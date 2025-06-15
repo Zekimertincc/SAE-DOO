@@ -173,7 +173,7 @@ public class Loup extends Personnage {
         enAttaque = false;
         directionAttaque = 0;
         getSprite().setImage(walkImage);
-        pausePoursuite = random.nextInt(60) + 30;
+        pausePoursuite = random.nextInt(60) + 50;
     }
     public int getPointsDeVie() {
         return pointsDeVie;

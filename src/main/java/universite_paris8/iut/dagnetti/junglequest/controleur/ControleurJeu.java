@@ -121,22 +121,35 @@ public class ControleurJeu {
         // Gestion du clic gauche pour attaquer
         scene.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                double xMonde = e.getX() + offsetX;
-                double yMonde = e.getY();
-                boolean cliqueLoup = xMonde >= loup.getX() && xMonde <= loup.getX() + loup.getSprite().getFitWidth()
-                        && yMonde >= loup.getY() && yMonde <= loup.getY() + loup.getSprite().getFitHeight();
-                if (cliqueLoup && Math.abs(joueur.getX() - loup.getX()) < 80) {
-                    loup.subirDegats(DEGATS_JOUEUR_LOUP);
-                    if (loup.getPointsDeVie() <= 0) {
-                        loupMort = true;
+                double distance = Math.abs(joueur.getX() - loup.getX());
+                if (distance <= PORTEE_ATTAQUE_JOUEUR) {
+                    if (joueur.isBouclierActif()) {
+                        joueur.desactiverBouclier();
                     }
-                }
-                if (!joueur.estEnAttaque()) {
-                    joueur.attaquer();
-                    animation.reset();
-                    int compteurAttaque = 0;
-                } else {
-                    animation.demandeCombo();
+                    double xMonde = e.getX() + offsetX;
+                    double yMonde = e.getY();
+                    boolean cliqueLoup = xMonde >= loup.getX() && xMonde <= loup.getX() + loup.getSprite().getFitWidth()
+                            && yMonde >= loup.getY() && yMonde <= loup.getY() + loup.getSprite().getFitHeight();
+
+                    if (!joueur.estEnAttaque()) {
+                        joueur.attaquer();
+                        animation.reset();
+                        compteurAttaque = 0;
+                        if (cliqueLoup) {
+                            loup.subirDegats(DEGATS_JOUEUR_LOUP);
+                            if (loup.getPointsDeVie() <= 0) {
+                                loupMort = true;
+                            }
+                        }
+                    } else {
+                        animation.demandeCombo();
+                        if (cliqueLoup) {
+                            loup.subirDegats(DEGATS_COMBO_SUPPLEMENTAIRES);
+                            if (loup.getPointsDeVie() <= 0) {
+                                loupMort = true;
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -189,6 +202,11 @@ public class ControleurJeu {
         boolean toucheSaut = clavier.estAppuyee(KeyCode.SPACE);
         boolean toucheAccroupi = clavier.estAppuyee(KeyCode.CONTROL);
         boolean toucheBouclier = clavier.estAppuyee(KeyCode.SHIFT);
+        if (toucheBouclier && !joueur.estEnAttaque()) {
+            joueur.activerBouclier();
+        } else if (!toucheBouclier) {
+            joueur.desactiverBouclier();
+        }
         boolean toucheDegats = clavier.estAppuyee(KeyCode.M);
 
         // Gestion de la sélection des objets de l'inventaire
@@ -214,7 +232,7 @@ public class ControleurJeu {
         }
 
         // Déplacement horizontal
-        if (!joueurMort) {
+        if (!joueurMort && !joueur.isBouclierActif()) {
             if (gauche) {
                 joueur.deplacerGauche(VITESSE_JOUEUR);
             } else if (droite) {
@@ -227,7 +245,7 @@ public class ControleurJeu {
         }
 
         // Saut
-        if (!joueurMort && toucheSaut && joueur.estAuSol()) {
+        if (!joueurMort && toucheSaut && joueur.estAuSol() && !joueur.isBouclierActif()) {
             joueur.sauter(IMPULSION_SAUT);
         }
 
@@ -287,7 +305,7 @@ public class ControleurJeu {
                 && joueur.getX() + joueur.getSprite().getFitWidth() > loup.getX()
                 && joueur.getY() < loup.getY() + loup.getSprite().getFitHeight()
                 && joueur.getY() + joueur.getSprite().getFitHeight() > loup.getY();
-        if (!loupMort && collision && delaiDegats == 0 && !loup.estEnAttaque() && !toucheBouclier) {
+        if (!loupMort && collision && delaiDegats == 0 && !loup.estEnAttaque() && !joueur.isBouclierActif()) {
             joueur.subirDegats(loup.getDegats());
 
             // Durée pendant laquelle le joueur reste en animation de dégâts
@@ -309,7 +327,7 @@ public class ControleurJeu {
         } else if (toucheDegats || delaiDegats > 0) {
             animation.animerDegats(sprite);
         } else if (joueur.estEnAttaque()) {
-            animation.animerAttaque(sprite, DELAI_FRAME, () -> joueur.finAttaque());
+            animation.animerAttaque(sprite, Math.max(1, DELAI_FRAME - 2), () -> joueur.finAttaque());
             compteurAttaque++;
         } else if (!joueur.estAuSol()) {
             animation.animerSaut(sprite, joueur.getVitesseY());
@@ -318,7 +336,7 @@ public class ControleurJeu {
             animation.animerAtterrissage(sprite, frame);
         } else if (toucheAccroupi) {
             animation.animerAccroupi(sprite);
-        } else if (toucheBouclier) {
+        } else if (joueur.isBouclierActif()) {
             animation.animerBouclier(sprite);
         } else if (joueur.getVitesseX() != 0) {
             animation.animerMarche(sprite, DELAI_FRAME);

@@ -10,12 +10,14 @@ import universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu;
 public class Joueur extends Personnage {
 
     private boolean estEnAttaque;
+    private boolean bouclierActif;
     private final Inventaire inventaire;
     private int pointsDeVie;
 
     public Joueur(ImageView sprite, double x, double y) {
         super(sprite, x, y);
         this.estEnAttaque = false;
+        this.bouclierActif = false;
         this.inventaire = new Inventaire();
         this.pointsDeVie = ConstantesJeu.VIE_MAX_JOUEUR;
     }
@@ -30,6 +32,18 @@ public class Joueur extends Personnage {
 
     public void finAttaque() {
         estEnAttaque = false;
+    }
+
+    public boolean isBouclierActif() {
+        return bouclierActif;
+    }
+
+    public void activerBouclier() {
+        bouclierActif = true;
+    }
+
+    public void desactiverBouclier() {
+        bouclierActif = false;
     }
 
     public Inventaire getInventaire() {

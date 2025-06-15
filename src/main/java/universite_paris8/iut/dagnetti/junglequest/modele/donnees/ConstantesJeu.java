@@ -25,6 +25,13 @@ public final class ConstantesJeu {
     /** Dégâts infligés au loup par une attaque du joueur */
     public static final int DEGATS_JOUEUR_LOUP = 10;
 
+    /** Dégâts supplémentaires appliqués lors d'un combo */
+    public static final int DEGATS_COMBO_SUPPLEMENTAIRES = 5;
+
+    /** Portée maximale d'une attaque du joueur (en pixels) */
+    public static final double PORTEE_ATTAQUE_JOUEUR = 80;
+
+
     /**
      * Distance à laquelle le loup cesse d'avancer avant une attaque (en pixels).
      * Laisser un peu plus d'espace permet de fluidifier l'animation lorsque le
