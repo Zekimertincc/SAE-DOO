@@ -45,8 +45,12 @@ public final class ConstantesJeu {
     /** Délai entre deux frames d’animation (en nombre de frames) */
     public static final int DELAI_FRAME = 8;
 
-    /** Durée totale d’une animation d’attaque (en frames) */
-    public static final int DUREE_ATTAQUE = 8 * DELAI_FRAME;
+    /**
+     * Durée minimale entre deux attaques successives du loup (en frames).
+     * Augmenter cette valeur permet de laisser davantage de temps avant
+     * qu'un nouvel assaut puisse être déclenché.
+     */
+    public static final int DUREE_ATTAQUE = 16 * DELAI_FRAME;
 
     // Constructeur privé pour empêcher l’instanciation
     private ConstantesJeu() {}
