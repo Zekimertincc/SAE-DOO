@@ -28,6 +28,13 @@ public class Loup extends Personnage {
     private final Image attackImage;
 
     private boolean enAttaque = false;
+
+    /**
+     * Direction prise lors du lancement d'une attaque : -1 pour la gauche,
+     * 1 pour la droite.
+     */
+    private int directionAttaque = 0;
+
     /**
      * Compteur gérant le temps d'attente avant une nouvelle attaque lorsque
      * le joueur est à portée.
@@ -36,6 +43,11 @@ public class Loup extends Personnage {
 
     private final Random random = new Random();
     private int dureeAction = 0;
+
+    /**
+     * Temps restant d'une éventuelle pause dans la poursuite du joueur.
+     */
+    private int pausePoursuite = 0;
 
 
     public Loup(ImageView sprite, Image walkImage, Image runImage, Image attackImage, double x, double y, int degats) {
@@ -51,9 +63,10 @@ public class Loup extends Personnage {
      */
     public void mettreAJourIA(Joueur joueur) {
         double distance = joueur.getX() - this.x;
-        // Si une attaque est en cours, le loup continue d'avancer vers le joueur
+        // Si une attaque est en cours, le loup continue son mouvement dans la
+        // direction initiale, sans ajuster sa trajectoire sur le joueur.
         if (enAttaque) {
-            if (distance > 0) {
+            if (directionAttaque >= 0) {
                 deplacerDroite(vitesseCourse);
             } else {
                 deplacerGauche(vitesseCourse);
@@ -76,11 +89,23 @@ public class Loup extends Personnage {
 
         // Le joueur est détecté mais pas encore à portée : poursuite
         if (Math.abs(distance) <= zoneDetection) {
-            getSprite().setImage(runImage);
-            if (distance > 0) {
-                deplacerDroite(vitesseCourse);
+            if (pausePoursuite > 0) {
+                pausePoursuite--;
+                arreter();
+                getSprite().setImage(walkImage);
             } else {
-                deplacerGauche(vitesseCourse);
+                if (random.nextDouble() < 0.02) {
+                    pausePoursuite = random.nextInt(60) + 30;
+                    arreter();
+                    getSprite().setImage(walkImage);
+                } else {
+                    getSprite().setImage(runImage);
+                    if (distance > 0) {
+                        deplacerDroite(vitesseCourse);
+                    } else {
+                        deplacerGauche(vitesseCourse);
+                    }
+                }
             }
             delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
         } else {
@@ -117,11 +142,15 @@ public class Loup extends Personnage {
 
     public void attaquer() {
         enAttaque = true;
+        // On enregistre la direction actuelle pour la conserver durant
+        // toute la séquence d'attaque.
+        directionAttaque = versGauche ? -1 : 1;
         getSprite().setImage(attackImage);
     }
 
     public void finAttaque() {
         enAttaque = false;
+        directionAttaque = 0;
         getSprite().setImage(walkImage);
     }
     public int getPointsDeVie() {
