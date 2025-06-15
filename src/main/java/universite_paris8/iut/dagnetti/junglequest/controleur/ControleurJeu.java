@@ -62,6 +62,8 @@ public class ControleurJeu {
     // Animation du loup
     private final int largeurFrameLoup;
     private final int hauteurFrameLoup;
+    private final int largeurFrameLoupAttaque;
+    private final int hauteurFrameLoupAttaque;
     private int frameLoup = 0;
     private int compteurLoup = 0;
 
@@ -96,6 +98,9 @@ public class ControleurJeu {
         Image imgLoup = loup.getSprite().getImage();
         this.largeurFrameLoup = (int) (imgLoup.getWidth() / 6);
         this.hauteurFrameLoup = (int) imgLoup.getHeight();
+        Image imgLoupAttack = loup.getAttackImage();
+        this.largeurFrameLoupAttaque = (int) (imgLoupAttack.getWidth() / 6);
+        this.hauteurFrameLoupAttaque = (int) imgLoupAttack.getHeight();
         loup.getSprite().setViewport(new Rectangle2D(0, 0, largeurFrameLoup, hauteurFrameLoup));
         loup.getSprite().setFitWidth(largeurFrameLoup);
         loup.getSprite().setFitHeight(hauteurFrameLoup);
@@ -258,10 +263,11 @@ public class ControleurJeu {
                 && joueur.getX() + joueur.getSprite().getFitWidth() > loup.getX()
                 && joueur.getY() < loup.getY() + loup.getSprite().getFitHeight()
                 && joueur.getY() + joueur.getSprite().getFitHeight() > loup.getY();
-        if (collision && delaiDegats == 0) {
+        if (collision && delaiDegats == 0 && !loup.estEnAttaque()) {
             joueur.subirDegats(loup.getDegats());
             // Délai d'attaque du loup : même durée que l'animation d'attaque
             delaiDegats = DUREE_ATTAQUE;
+            loup.attaquer();
             if (joueur.getPointsDeVie() <= 0) {
                 joueurMort = true;
             }
@@ -298,7 +304,19 @@ public class ControleurJeu {
         // Inversion du sprite si le joueur regarde à gauche
         sprite.setScaleX(joueur.estVersGauche() ? -1 : 1);
         // Animation et orientation du loup
-        if (loup.getVitesseX() != 0) {
+        if (loup.estEnAttaque()) {
+            if (compteurLoup++ >= DELAI_FRAME) {
+                loup.getSprite().setViewport(new Rectangle2D(frameLoup * largeurFrameLoupAttaque, 0,
+                        largeurFrameLoupAttaque, hauteurFrameLoupAttaque));
+                frameLoup++;
+                compteurLoup = 0;
+                if (frameLoup >= 6) {
+                    frameLoup = 0;
+                    loup.finAttaque();
+                    loup.getSprite().setImage(loup.getWalkImage());
+                }
+            }
+        } else if (loup.getVitesseX() != 0) {
             if (compteurLoup++ >= DELAI_FRAME) {
                 loup.getSprite().setViewport(new Rectangle2D(frameLoup * largeurFrameLoup, 0, largeurFrameLoup, hauteurFrameLoup));
                 frameLoup = (frameLoup + 1) % 6;

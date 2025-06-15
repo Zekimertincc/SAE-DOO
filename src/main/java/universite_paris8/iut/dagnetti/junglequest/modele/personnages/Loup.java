@@ -23,21 +23,29 @@ public class Loup extends Personnage {
 
     private final Image walkImage;
     private final Image runImage;
+    private final Image attackImage;
+
+    private boolean enAttaque = false;
 
     private final Random random = new Random();
     private int dureeAction = 0;
 
 
-    public Loup(ImageView sprite, Image walkImage, Image runImage, double x, double y, int degats) {
+    public Loup(ImageView sprite, Image walkImage, Image runImage, Image attackImage, double x, double y, int degats) {
         super(sprite, x, y);
         this.walkImage = walkImage;
         this.runImage = runImage;
+        this.attackImage = attackImage;
         this.degats = degats;
     }
     /**
      * Met à jour le déplacement du loup en fonction de la position du joueur.
      */
     public void mettreAJourIA(Joueur joueur) {
+        if (enAttaque) {
+            arreter();
+            return;
+        }
         double distance = joueur.getX() - this.x;
         if (Math.abs(distance) <= zoneDetection) {
             getSprite().setImage(runImage);
@@ -69,5 +77,20 @@ public class Loup extends Personnage {
      */
     public int getDegats() {
         return degats;
+    }
+    public Image getWalkImage() { return walkImage; }
+    public Image getRunImage() { return runImage; }
+    public Image getAttackImage() { return attackImage; }
+
+    public boolean estEnAttaque() { return enAttaque; }
+
+    public void attaquer() {
+        enAttaque = true;
+        getSprite().setImage(attackImage);
+    }
+
+    public void finAttaque() {
+        enAttaque = false;
+        getSprite().setImage(walkImage);
     }
 }
