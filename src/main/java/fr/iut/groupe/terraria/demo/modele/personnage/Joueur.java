@@ -178,6 +178,7 @@
         public Inventaire getInventaire() {
             return inventaire;
         }
+        public int[][] getMap() { return map; }
         public int    getLargeur() { return 64; }
         public int    getHauteur() { return 96; }
     }
