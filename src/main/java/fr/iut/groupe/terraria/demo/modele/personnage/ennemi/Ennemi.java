@@ -36,10 +36,10 @@ public abstract class Ennemi extends PersonnageJeu implements Ciblable {
         Cette fonction est à utiliser que quand le personnage est dans la zone d'un ou plusieurs enemis
      */
     public void seDeplacerVers(Joueur joueur) {
-        if (joueur.getX() > this.x) {
-            this.x += this.vitesseX;
-        } else if (joueur.getX() < this.x) {
-            this.x -= this.vitesseX;
+        if (joueur.getX() > getX()) {
+            setX(getX() + this.vitesseX);
+        } else if (joueur.getX() < getX()) {
+            setX(getX() - this.vitesseX);
         }
     }
 

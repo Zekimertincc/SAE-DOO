@@ -12,7 +12,7 @@ public class Aigle extends Ennemi {
     public void comportement(Joueur joueur) {
         if (this.getVie() < this.getVieMax() / 4) {
             joueur.mettreAPV(1);
-            this.vie = 0;
+            vieProperty().set(0);
         }
     }
     @Override

@@ -13,8 +13,8 @@ public class Gorille extends Ennemi {
     @Override
     public void comportement(Joueur joueur) {
         if (this.getVie() < this.getVieMax() / 2 && Maths.distance(this.getX(), this.getY(), joueur.getX(), joueur.getY()) > 5) {
-            if (joueur.getX() > this.x) this.x += 3;
-            else this.x -= 3;
+            if (joueur.getX() > getX()) setX(getX() + 3);
+            else setX(getX() - 3);
         }
     }
 

@@ -7,23 +7,27 @@ import javafx.scene.image.ImageView;
 import javafx.scene.Node;
 import fr.iut.groupe.terraria.demo.modele.Ciblable;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public abstract class Ressource implements Ciblable {
-    protected double x, y;
+    protected DoubleProperty x, y;
     protected String nom;
     protected int quantite;
     protected String outilRequis;
-    protected int vie;
+    protected IntegerProperty vie;
     private transient ImageView imageView;
     private transient Node vueNode;
 
     public Ressource(String nom, int quantite, double x, double y, String outilRequis, int vie) {
         this.nom = nom;
         this.quantite = quantite;
-        this.x = x;
-        this.y = y;
+        this.x = new SimpleDoubleProperty(x);
+        this.y = new SimpleDoubleProperty(y);
         this.outilRequis = outilRequis;
-        this.vie = vie;
+        this.vie = new SimpleIntegerProperty(vie);
     }
 
     public abstract Farm getItemProduit();
@@ -45,9 +49,9 @@ public abstract class Ressource implements Ciblable {
 
     @Override
     public void subirDegats(int degats) {
-        vie -= degats;
-        if (vie <=0) {
-            this.vie = 0;
+        vie.set(vie.get() - degats);
+        if (vie.get() <=0) {
+            vie.set(0);
         }
     }
 
@@ -56,10 +60,13 @@ public abstract class Ressource implements Ciblable {
         return "Ressource";
     }
 
-    public double getX() { return x; }
-    public double getY() { return y; }
+    public double getX() { return x.get(); }
+    public DoubleProperty xProperty() { return x; }
+    public double getY() { return y.get(); }
+    public DoubleProperty yProperty() { return y; }
     public int getQuantite() { return quantite; }
-    public int getVie() { return vie; }
+    public int getVie() { return vie.get(); }
+    public IntegerProperty vieProperty() { return vie; }
     public abstract String getNom();
 
     public void setImageView(ImageView imageView) { this.imageView = imageView; }
