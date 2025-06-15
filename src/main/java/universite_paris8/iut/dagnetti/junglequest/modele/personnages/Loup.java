@@ -114,23 +114,11 @@ public class Loup extends Personnage {
 
         // Le joueur est détecté mais pas encore à portée : poursuite
         if (Math.abs(distance) <= zoneDetection) {
-            if (pausePoursuite > 0) {
-                pausePoursuite--;
-                arreter();
-                getSprite().setImage(walkImage);
+            getSprite().setImage(runImage);
+            if (distance > 0) {
+                deplacerDroite(vitesseCourse);
             } else {
-                if (random.nextDouble() < 0.02) {
-                    pausePoursuite = random.nextInt(60) + 30;
-                    arreter();
-                    getSprite().setImage(walkImage);
-                } else {
-                    getSprite().setImage(runImage);
-                    if (distance > 0) {
-                        deplacerDroite(vitesseCourse);
-                    } else {
-                        deplacerGauche(vitesseCourse);
-                    }
-                }
+                deplacerGauche(vitesseCourse);
             }
             delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
         } else {
@@ -178,9 +166,7 @@ public class Loup extends Personnage {
         enAttaque = false;
         directionAttaque = 0;
         getSprite().setImage(walkImage);
-        if (random.nextDouble() < 0.25) {
-            pausePoursuite = random.nextInt(60) + 30;
-        }
+        pausePoursuite = random.nextInt(60) + 30;
     }
     public int getPointsDeVie() {
         return pointsDeVie;
