@@ -33,16 +33,16 @@
 
 
         public void gauche() {
-            double nextX = x - vitesseX;
+            double nextX = getX() - vitesseX;
             if (!collisionHorizontale(nextX)) {
-                x = Math.max(0, nextX);
+                setX(Math.max(0, nextX));
             }
         }
         public void droite() {
-            double nextX = x + vitesseX;
+            double nextX = getX() + vitesseX;
             int maxX = map[0].length * tileSize - getLargeur();
             if (!collisionHorizontale(nextX)) {
-                x = Math.min(maxX, nextX);
+                setX(Math.min(maxX, nextX));
             }
         }
 
@@ -55,10 +55,10 @@
 
         public void appliquerGravite() {
             vitesseY += 0.5;
-            double nextY = y + vitesseY;
+            double nextY = getY() + vitesseY;
 
-            int leftTile  = (int) x / tileSize;
-            int rightTile = (int) (x + getLargeur() - 1) / tileSize;
+            int leftTile  = (int) getX() / tileSize;
+            int rightTile = (int) (getX() + getLargeur() - 1) / tileSize;
             int footTile  = (int) (nextY + getHauteur()) / tileSize;
 
             boolean collisionSol = false;
@@ -73,16 +73,16 @@
             if (collisionSol) {
                 vitesseY = 0;
                 enLair = false;
-                y = footTile * tileSize - getHauteur();
+                setY(footTile * tileSize - getHauteur());
             } else {
-                y = nextY;
+                setY(nextY);
                 enLair = true;
             }
         }
 
         private boolean collisionHorizontale(double nextX) {
-            int topTile    = (int) y / tileSize;
-            int bottomTile = (int) (y + getHauteur() - 1) / tileSize;
+            int topTile    = (int) getY() / tileSize;
+            int bottomTile = (int) (getY() + getHauteur() - 1) / tileSize;
             int leftTile   = (int) nextX / tileSize;
             int rightTile  = (int) (nextX + getLargeur() - 1) / tileSize;
 
@@ -137,7 +137,7 @@
         }
         // mettre le joueur à 1hp (class aigle)
         public void mettreAPV(int nouvelleVie) {
-            this.vie = Math.max(0, Math.min(nouvelleVie, this.vieMax));
+            vie.set(Math.max(0, Math.min(nouvelleVie, this.vieMax)));
         }
 
 

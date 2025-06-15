@@ -11,7 +11,7 @@ public class Loup extends Ennemi {
     @Override
     public void comportement(Joueur joueur) {
         if (this.getVie() < this.getVieMax() / 3) {
-            this.x -= 2;
+            setX(getX() - 2);
         }
     }
 

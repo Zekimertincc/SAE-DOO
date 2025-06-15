@@ -63,4 +63,7 @@ public class Monde {
     public int[][] getMap() {
         return map;
     }
+    public List<Ressource> getRessources() {
+        return ressources;
+    }
 }

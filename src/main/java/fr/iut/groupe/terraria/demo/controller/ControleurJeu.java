@@ -5,6 +5,7 @@ import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
 import fr.iut.groupe.terraria.demo.vue.VueJeu;
 import fr.iut.groupe.terraria.demo.vue.VueJoueur;
+import fr.iut.groupe.terraria.demo.modele.Monde;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,14 +27,19 @@ public class ControleurJeu implements Initializable {
     private Joueur joueur;
     private VueJeu vue;
     private InventaireController inventaireController;
+    private Monde monde;
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {
-        vue = new VueJeu();
-        root.getChildren().add(vue);
+        // l'initialisation du jeu se fait dans initJeu()
+    }
 
-        int[][] map = vue.getCollisionMap();
-        joueur = new Joueur(100, 260, 100, null, map);
+    public void initJeu(Monde monde, Joueur joueur) {
+        this.monde = monde;
+        this.joueur = joueur;
+
+        vue = new VueJeu(monde.getMap(), monde.getRessources());
+        root.getChildren().add(vue);
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr/iut/groupe/terraria/demo/vue/Inventaire.fxml"));
@@ -63,7 +69,7 @@ public class ControleurJeu implements Initializable {
 
         vue.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
-                Ressource cible = vue.getRessources().stream()
+                Ressource cible = monde.getRessources().stream()
                         .filter(r -> Math.abs(joueur.getX() - r.getX()) < 100 && Math.abs(joueur.getY() - r.getY()) < 100)
                         .findFirst().orElse(null);
 
@@ -77,14 +83,9 @@ public class ControleurJeu implements Initializable {
                         cible.subirDegats(1);
                     }
 
-                    System.out.println("Main equipement: " + (outil != null ? outil.getNom() : "Aucun"));
-                    System.out.println("→ Attaque sur : " + cible.getNom() +
-                            " | Dégâts: " + (vieAvant - cible.getVie()) +
-                            " | Vie: " + vieAvant + " → " + cible.getVie());
-
                     if (cible.getVie() <= 0) {
                         vue.getChildren().remove(cible.getVueNode());
-                        vue.getRessources().remove(cible);
+                        monde.getRessources().remove(cible);
                         joueur.casserRessource(cible);
                     }
 
@@ -118,7 +119,7 @@ public class ControleurJeu implements Initializable {
 
     public void refreshVue() {
         root.getChildren().clear();
-        vue = new VueJeu();
+        vue = new VueJeu(monde.getMap(), monde.getRessources());
         root.getChildren().add(vue);
         vue.requestFocus();
     }
