@@ -29,6 +29,7 @@ import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Loup;
 import universite_paris8.iut.dagnetti.junglequest.vue.VueBackground;
 import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.ExtracteurSprites;
 import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.PositionFrame;
+import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.BarreVie;
 import universite_paris8.iut.dagnetti.junglequest.vue.CarteAffichable;
 
 public class LanceurJeu extends Application {
@@ -142,10 +143,8 @@ public class LanceurJeu extends Application {
             loup.setEstAuSol(true);
             racine.getChildren().add(spriteLoup);
 
-            javafx.scene.control.ProgressBar barreVieLoup = new javafx.scene.control.ProgressBar(1.0);
-            barreVieLoup.setPrefWidth(ConstantesJeu.TAILLE_SPRITE * 1.5);
-            barreVieLoup.setPrefHeight(4);
-            barreVieLoup.setStyle("-fx-accent: #e74c3c;");
+            BarreVie barreVieLoup = new BarreVie(ConstantesJeu.TAILLE_SPRITE * 1.5, 4);
+
             barreVieLoup.setViewOrder(-9);
             racine.getChildren().add(barreVieLoup);
             javafx.scene.control.Label labelVieLoup = new javafx.scene.control.Label(Integer.toString(loup.getPointsDeVie()));
@@ -153,10 +152,8 @@ public class LanceurJeu extends Application {
             labelVieLoup.setViewOrder(-9);
             racine.getChildren().add(labelVieLoup);
 
-            javafx.scene.control.ProgressBar barreVie = new javafx.scene.control.ProgressBar(1.0);
-            barreVie.setPrefWidth(ConstantesJeu.TAILLE_SPRITE * 1.5);
-            barreVie.setPrefHeight(4);
-            barreVie.setStyle("-fx-accent: #e74c3c;");
+            BarreVie barreVie = new BarreVie(ConstantesJeu.TAILLE_SPRITE * 1.5, 4);
+
             barreVie.setViewOrder(-9);
             racine.getChildren().add(barreVie);
             javafx.scene.control.Label labelVie = new javafx.scene.control.Label(Integer.toString(joueur.getPointsDeVie()));

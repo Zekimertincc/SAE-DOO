@@ -11,10 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
+import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.BarreVie;
 
 import static universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu.*;
 
@@ -41,9 +40,9 @@ public class ControleurJeu {
     private final GestionClavier clavier;
     private final GestionAnimation animation;
     private final InventaireController inventaireController;
-    private final ProgressBar barreVie;
+    private final BarreVie barreVie;
     private final javafx.scene.control.Label labelVie;
-    private final ProgressBar barreVieLoup;
+    private final BarreVie barreVieLoup;
     private final javafx.scene.control.Label labelVieLoup;
     private final Pane pauseOverlay;
     private VueBackground vueBackground;
@@ -76,7 +75,7 @@ public class ControleurJeu {
     /**
      * Initialise le contrôleur principal du jeu : clavier, animation, logique du joueur et gestion des clics.
      */
-    public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur,Loup loup, InventaireController inventaireController, ProgressBar barreVie, javafx.scene.control.Label labelVie, ProgressBar barreVieLoup, javafx.scene.control.Label labelVieLoup, Pane pauseOverlay,
+    public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur,Loup loup, InventaireController inventaireController, BarreVie barreVie, javafx.scene.control.Label labelVie, BarreVie barreVieLoup, javafx.scene.control.Label labelVieLoup, Pane pauseOverlay,
                          WritableImage[] idle, WritableImage[] marche,
                          WritableImage[] attaque,
                          WritableImage[] preparationSaut, WritableImage[] volSaut, WritableImage[] sautReload,
@@ -267,14 +266,7 @@ public class ControleurJeu {
         labelVie.setLayoutY(joueur.getY() - 25);
         labelVie.setText(Integer.toString(joueur.getPointsDeVie()));
         double ratioVie = joueur.getPointsDeVie() / (double) VIE_MAX_JOUEUR;
-        barreVie.setProgress(ratioVie);
-        // La couleur passe du vert au rouge en fonction de la vie restante
-        Color couleurVie = Color.GREEN.interpolate(Color.RED, 1 - ratioVie);
-        String hex = String.format("#%02X%02X%02X",
-                (int) (couleurVie.getRed() * 255),
-                (int) (couleurVie.getGreen() * 255),
-                (int) (couleurVie.getBlue() * 255));
-        barreVie.setStyle("-fx-accent: " + hex + ";");
+        barreVie.mettreAJour(ratioVie);
 
         if (!loupMort) {
             barreVieLoup.setLayoutX(loup.getX() - offsetX);
@@ -283,13 +275,7 @@ public class ControleurJeu {
             labelVieLoup.setLayoutY(loup.getY() - 25);
             labelVieLoup.setText(Integer.toString(loup.getPointsDeVie()));
             double ratioVieLoup = loup.getPointsDeVie() / (double) VIE_MAX_LOUP;
-            barreVieLoup.setProgress(ratioVieLoup);
-            Color couleurVieLoup = Color.GREEN.interpolate(Color.RED, 1 - ratioVieLoup);
-            String hexLoup = String.format("#%02X%02X%02X",
-                    (int) (couleurVieLoup.getRed() * 255),
-                    (int) (couleurVieLoup.getGreen() * 255),
-                    (int) (couleurVieLoup.getBlue() * 255));
-            barreVieLoup.setStyle("-fx-accent: " + hexLoup + ";");
+            barreVieLoup.mettreAJour(ratioVieLoup);
         } else {
             barreVieLoup.setVisible(false);
             labelVieLoup.setVisible(false);
