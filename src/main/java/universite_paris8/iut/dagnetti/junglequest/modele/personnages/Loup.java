@@ -99,13 +99,20 @@ public class Loup extends Personnage {
             return;
         }
 
-        // Le joueur est à portée d'attaque : le loup s'arrête et attend
+        // Le joueur est à portée d'attaque : le loup continue d'avancer
+        // légèrement pour éviter un blocage si le joueur se déplace en
+        // reculant. Il ne s'arrête qu'au moment de déclencher l'attaque.
         if (Math.abs(distance) <= ConstantesJeu.DISTANCE_ARRET_LOUP) {
             arreter();
-            getSprite().setImage(walkImage);
             if (delaiAvantAttaque > 0) {
                 delaiAvantAttaque--;
+                if (distance > 0) {
+                    deplacerDroite(vitesseMarche);
+                } else {
+                    deplacerGauche(vitesseMarche);
+                }
             } else {
+                arreter();
                 attaquer(joueur.getX());
                 delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
             }

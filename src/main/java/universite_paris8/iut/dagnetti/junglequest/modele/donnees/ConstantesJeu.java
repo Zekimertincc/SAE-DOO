@@ -25,8 +25,12 @@ public final class ConstantesJeu {
     /** Dégâts infligés au loup par une attaque du joueur */
     public static final int DEGATS_JOUEUR_LOUP = 10;
 
-    /** Distance à laquelle le loup cesse d'avancer avant une attaque (en pixels) */
-    public static final double DISTANCE_ARRET_LOUP = 30;
+    /**
+     * Distance à laquelle le loup cesse d'avancer avant une attaque (en pixels).
+     * Laisser un peu plus d'espace permet de fluidifier l'animation lorsque le
+     * joueur s'éloigne brusquement.
+     */
+    public static final double DISTANCE_ARRET_LOUP = 50;
 
     // --- Mouvements et physique ---
     /** Vitesse horizontale du joueur (modifiable via le menu de paramètres) */
@@ -56,7 +60,7 @@ public final class ConstantesJeu {
      * une nouvelle attaque (en frames). L'attente est d'environ deux secondes
      * à 60 FPS.
      */
-    public static final int DELAI_AVANT_ATTAQUE_LOUP = 15 * DELAI_FRAME;
+    public static final int DELAI_AVANT_ATTAQUE_LOUP = DELAI_FRAME;
 
     // Constructeur privé pour empêcher l’instanciation
     private ConstantesJeu() {}
