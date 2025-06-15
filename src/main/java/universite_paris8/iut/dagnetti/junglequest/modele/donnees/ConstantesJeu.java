@@ -19,6 +19,12 @@ public final class ConstantesJeu {
     /** Quantité maximale de points de vie du joueur */
     public static final int VIE_MAX_JOUEUR = 100;
 
+    /** Quantité maximale de points de vie du loup */
+    public static final int VIE_MAX_LOUP = 150;
+
+    /** Dégâts infligés au loup par une attaque du joueur */
+    public static final int DEGATS_JOUEUR_LOUP = 10;
+
     // --- Mouvements et physique ---
     /** Vitesse horizontale du joueur (modifiable via le menu de paramètres) */
     public static int VITESSE_JOUEUR = 1;

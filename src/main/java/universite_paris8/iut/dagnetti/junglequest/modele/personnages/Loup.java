@@ -3,6 +3,7 @@ package universite_paris8.iut.dagnetti.junglequest.modele.personnages;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.util.Random;
+import universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu;
 
 /**
  * Représente un ennemi de type loup.
@@ -10,6 +11,7 @@ import java.util.Random;
 public class Loup extends Personnage {
 
     private final int degats;
+    private int pointsDeVie;
     /**
      * Rayon de détection du joueur (en pixels).
      */
@@ -37,6 +39,7 @@ public class Loup extends Personnage {
         this.runImage = runImage;
         this.attackImage = attackImage;
         this.degats = degats;
+        this.pointsDeVie = ConstantesJeu.VIE_MAX_LOUP;
     }
     /**
      * Met à jour le déplacement du loup en fonction de la position du joueur.
@@ -92,5 +95,15 @@ public class Loup extends Personnage {
     public void finAttaque() {
         enAttaque = false;
         getSprite().setImage(walkImage);
+    }
+    public int getPointsDeVie() {
+        return pointsDeVie;
+    }
+
+    public void subirDegats(int quantite) {
+        pointsDeVie -= quantite;
+        if (pointsDeVie < 0) {
+            pointsDeVie = 0;
+        }
     }
 }

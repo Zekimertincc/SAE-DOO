@@ -43,6 +43,8 @@ public class ControleurJeu {
     private final InventaireController inventaireController;
     private final ProgressBar barreVie;
     private final javafx.scene.control.Label labelVie;
+    private final ProgressBar barreVieLoup;
+    private final javafx.scene.control.Label labelVieLoup;
     private final Pane pauseOverlay;
     private VueBackground vueBackground;
     private final double largeurEcran;
@@ -73,7 +75,7 @@ public class ControleurJeu {
     /**
      * Initialise le contrôleur principal du jeu : clavier, animation, logique du joueur et gestion des clics.
      */
-    public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur,Loup loup, InventaireController inventaireController, ProgressBar barreVie, javafx.scene.control.Label labelVie,Pane pauseOverlay,
+    public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur,Loup loup, InventaireController inventaireController, ProgressBar barreVie, javafx.scene.control.Label labelVie, ProgressBar barreVieLoup, javafx.scene.control.Label labelVieLoup, Pane pauseOverlay,
                          WritableImage[] idle, WritableImage[] marche,
                          WritableImage[] attaque,
                          WritableImage[] preparationSaut, WritableImage[] volSaut, WritableImage[] sautReload,
@@ -88,6 +90,8 @@ public class ControleurJeu {
         this.inventaireController = inventaireController;
         this.barreVie = barreVie;
         this.labelVie = labelVie;
+        this.barreVieLoup = barreVieLoup;
+        this.labelVieLoup = labelVieLoup;
         this.pauseOverlay = pauseOverlay;
         if (this.pauseOverlay != null) {
             this.pauseOverlay.setVisible(false);
@@ -117,6 +121,13 @@ public class ControleurJeu {
         // Gestion du clic gauche pour attaquer
         scene.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
+                double xMonde = e.getX() + offsetX;
+                double yMonde = e.getY();
+                boolean cliqueLoup = xMonde >= loup.getX() && xMonde <= loup.getX() + loup.getSprite().getFitWidth()
+                        && yMonde >= loup.getY() && yMonde <= loup.getY() + loup.getSprite().getFitHeight();
+                if (cliqueLoup && Math.abs(joueur.getX() - loup.getX()) < 80) {
+                    loup.subirDegats(DEGATS_JOUEUR_LOUP);
+                }
                 if (!joueur.estEnAttaque()) {
                     joueur.attaquer();
                     animation.reset();
@@ -257,13 +268,27 @@ public class ControleurJeu {
                 (int) (couleurVie.getBlue() * 255));
         barreVie.setStyle("-fx-accent: " + hex + ";");
 
+        barreVieLoup.setLayoutX(loup.getX() - offsetX);
+        barreVieLoup.setLayoutY(loup.getY() - 10);
+        labelVieLoup.setLayoutX(loup.getX() - offsetX);
+        labelVieLoup.setLayoutY(loup.getY() - 25);
+        labelVieLoup.setText(Integer.toString(loup.getPointsDeVie()));
+        double ratioVieLoup = loup.getPointsDeVie() / (double) VIE_MAX_LOUP;
+        barreVieLoup.setProgress(ratioVieLoup);
+        Color couleurVieLoup = Color.GREEN.interpolate(Color.RED, 1 - ratioVieLoup);
+        String hexLoup = String.format("#%02X%02X%02X",
+                (int) (couleurVieLoup.getRed() * 255),
+                (int) (couleurVieLoup.getGreen() * 255),
+                (int) (couleurVieLoup.getBlue() * 255));
+        barreVieLoup.setStyle("-fx-accent: " + hexLoup + ";");
+
         double distanceLoupJoueur = Math.abs(joueur.getX() - loup.getX());
         boolean collision = distanceLoupJoueur < 20
                 && joueur.getX() < loup.getX() + loup.getSprite().getFitWidth()
                 && joueur.getX() + joueur.getSprite().getFitWidth() > loup.getX()
                 && joueur.getY() < loup.getY() + loup.getSprite().getFitHeight()
                 && joueur.getY() + joueur.getSprite().getFitHeight() > loup.getY();
-        if (collision && delaiDegats == 0 && !loup.estEnAttaque()) {
+        if (collision && delaiDegats == 0 && !loup.estEnAttaque() && !toucheBouclier) {
             joueur.subirDegats(loup.getDegats());
             // Délai d'attaque du loup : même durée que l'animation d'attaque
             delaiDegats = DUREE_ATTAQUE;

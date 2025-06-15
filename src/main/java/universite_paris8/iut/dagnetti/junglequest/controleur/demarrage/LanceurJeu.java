@@ -142,6 +142,17 @@ public class LanceurJeu extends Application {
             loup.setEstAuSol(true);
             racine.getChildren().add(spriteLoup);
 
+            javafx.scene.control.ProgressBar barreVieLoup = new javafx.scene.control.ProgressBar(1.0);
+            barreVieLoup.setPrefWidth(ConstantesJeu.TAILLE_SPRITE * 2);
+            barreVieLoup.setPrefHeight(6);
+            barreVieLoup.setStyle("-fx-accent: #e74c3c;");
+            barreVieLoup.setViewOrder(-9);
+            racine.getChildren().add(barreVieLoup);
+            javafx.scene.control.Label labelVieLoup = new javafx.scene.control.Label(Integer.toString(loup.getPointsDeVie()));
+            labelVieLoup.setTextFill(javafx.scene.paint.Color.WHITE);
+            labelVieLoup.setViewOrder(-9);
+            racine.getChildren().add(labelVieLoup);
+
             javafx.scene.control.ProgressBar barreVie = new javafx.scene.control.ProgressBar(1.0);
             barreVie.setPrefWidth(ConstantesJeu.TAILLE_SPRITE * 2);
             barreVie.setPrefHeight(6);
@@ -154,7 +165,7 @@ public class LanceurJeu extends Application {
             racine.getChildren().add(labelVie);
             InventaireController inventaireCtrl = afficherInventaire(racine, joueur, largeur, hauteur);
 
-            ControleurJeu controleurJeu = new ControleurJeu(scene, carte, carteAffichable, joueur, loup, inventaireCtrl, barreVie, labelVie, pauseOverlay,
+            ControleurJeu controleurJeu = new ControleurJeu(scene, carte, carteAffichable, joueur, loup, inventaireCtrl, barreVie, labelVie, barreVieLoup, labelVieLoup, pauseOverlay,
                     idle, marche, attaque, preparationSaut, volSaut, sautReload,
                     chute, atterrissage, degats, mort, sort, accroupi, bouclier);
 
