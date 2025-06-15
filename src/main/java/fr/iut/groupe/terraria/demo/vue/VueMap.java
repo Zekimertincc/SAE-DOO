@@ -6,55 +6,37 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.TilePane;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 public class VueMap {
     private final TilePane tilePane;
     private int[][] collisionMap;
 
-    public VueMap() {
+    public VueMap(int[][] map) {
         tilePane = new TilePane();
         tilePane.setHgap(0);
         tilePane.setVgap(0);
 
         try {
-            drawSimpleMap(
-                    "/fr/iut/groupe/terraria/demo/map.csv",
-                    "/fr/iut/groupe/terraria/demo/tileset.png",
-                    32
-            );
+            drawSimpleMap(map, "/fr/iut/groupe/terraria/demo/tileset.png", 32);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /** lire le csv et apres ajout avec tileset */
-    public void drawSimpleMap(String csvPath, String tilesetPath, int tileSize) throws IOException {
-        BufferedReader br = new BufferedReader(
-                new InputStreamReader(getClass().getResourceAsStream(csvPath))
-        );
+    public void drawSimpleMap(int[][] map, String tilesetPath, int tileSize) throws IOException {
+        collisionMap = map;
         Image tileset = new Image(getClass().getResourceAsStream(tilesetPath));
 
-        List<String[]> rows = new ArrayList<>();
-        String line;
-        while ((line = br.readLine()) != null) rows.add(line.split(","));
-        br.close();
-
-        int rowsCount = rows.size();
-        int cols      = rows.get(0).length;
-        collisionMap  = new int[rowsCount][cols];
+        int rowsCount = map.length;
+        int cols      = map[0].length;
 
         int tilesPerRow = (int) (tileset.getWidth() / tileSize);
 
         for (int y = 0; y < rowsCount; y++) {
-            String[] values = rows.get(y);
-            for (int x = 0; x < values.length; x++) {
-                int idx = Integer.parseInt(values[x]);
-                collisionMap[y][x] = idx;
+            for (int x = 0; x < cols; x++) {
+                int idx = map[y][x];
 
 
                 if (idx == 0) { // si le tile id egale a 0 ca veut dire qu'on affiche rien cest vide
