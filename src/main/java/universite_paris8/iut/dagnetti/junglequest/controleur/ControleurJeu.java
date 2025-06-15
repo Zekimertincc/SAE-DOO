@@ -289,8 +289,9 @@ public class ControleurJeu {
                 && joueur.getY() + joueur.getSprite().getFitHeight() > loup.getY();
         if (!loupMort && collision && delaiDegats == 0 && !loup.estEnAttaque() && !toucheBouclier) {
             joueur.subirDegats(loup.getDegats());
-            // Délai d'attaque du loup : même durée que l'animation d'attaque
-            delaiDegats = DUREE_ATTAQUE;
+
+            // Durée pendant laquelle le joueur reste en animation de dégâts
+            delaiDegats = DUREE_DEGATS_JOUEUR;
             loup.attaquer(joueur.getX());
             if (joueur.getPointsDeVie() <= 0) {
                 joueurMort = true;

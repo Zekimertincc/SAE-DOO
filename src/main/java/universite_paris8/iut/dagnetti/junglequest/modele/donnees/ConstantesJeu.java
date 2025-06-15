@@ -55,6 +55,14 @@ public final class ConstantesJeu {
      * qu'un nouvel assaut puisse être déclenché.
      */
     public static final int DUREE_ATTAQUE = 16 * DELAI_FRAME;
+
+    /**
+     * Durée pendant laquelle l'animation de dégâts du joueur reste affichée
+     * après avoir été touché.
+     * Une valeur plus faible rend la réaction plus dynamique.
+     */
+    public static final int DUREE_DEGATS_JOUEUR = DELAI_FRAME;
+
     /**
      * Temps d'attente du loup lorsqu'il est à portée du joueur avant de lancer
      * une nouvelle attaque (en frames). L'attente est d'environ deux secondes
