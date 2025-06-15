@@ -1,6 +1,8 @@
 package universite_paris8.iut.dagnetti.junglequest.modele.personnages;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.util.Random;
 
 /**
  * Représente un ennemi de type loup.
@@ -11,16 +13,25 @@ public class Loup extends Personnage {
     /**
      * Rayon de détection du joueur (en pixels).
      */
-    private final double zoneDetection = 110;
+    private final double zoneDetection = 250;
 
     /**
      * Vitesse horizontale du loup.
      */
-    private final double vitesse = 1.3;
+    private final double vitesseMarche = 0.8;
+    private final double vitesseCourse = 1.3;
+
+    private final Image walkImage;
+    private final Image runImage;
+
+    private final Random random = new Random();
+    private int dureeAction = 0;
 
 
-    public Loup(ImageView sprite, double x, double y, int degats) {
+    public Loup(ImageView sprite, Image walkImage, Image runImage, double x, double y, int degats) {
         super(sprite, x, y);
+        this.walkImage = walkImage;
+        this.runImage = runImage;
         this.degats = degats;
     }
     /**
@@ -29,13 +40,27 @@ public class Loup extends Personnage {
     public void mettreAJourIA(Joueur joueur) {
         double distance = joueur.getX() - this.x;
         if (Math.abs(distance) <= zoneDetection) {
+            getSprite().setImage(runImage);
             if (distance > 0) {
-                deplacerDroite(vitesse);
+                deplacerDroite(vitesseCourse);
             } else {
-                deplacerGauche(vitesse);
+                deplacerGauche(vitesseCourse);
             }
         } else {
-            arreter();
+            getSprite().setImage(walkImage);
+            if (dureeAction <= 0) {
+                int action = random.nextInt(3);
+                if (action == 0) {
+                    arreter();
+                } else if (action == 1) {
+                    deplacerGauche(vitesseMarche);
+                } else {
+                    deplacerDroite(vitesseMarche);
+                }
+                dureeAction = random.nextInt(120) + 60;
+            } else {
+                dureeAction--;
+            }
         }
     }
 

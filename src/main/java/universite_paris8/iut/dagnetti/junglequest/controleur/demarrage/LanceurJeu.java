@@ -119,21 +119,24 @@ public class LanceurJeu extends Application {
             racine.getChildren().addAll(carteAffichable, spriteJoueur);
 
 
-            Image imgLoup = new Image(getClass().getResourceAsStream(
-                    "/universite_paris8/iut/dagnetti/junglequest/images/wolf_run.png"));
-            ImageView spriteLoup = new ImageView(imgLoup);
-            spriteLoup.setFitWidth(imgLoup.getWidth());
-            spriteLoup.setFitHeight(imgLoup.getHeight());
+            Image imgLoupWalk = new Image(getClass().getResourceAsStream(
+                    "/universite_paris8/iut/dagnetti/junglequest/images/black_wolf_walk.png"));
+            Image imgLoupRun = new Image(getClass().getResourceAsStream(
+                    "/universite_paris8/iut/dagnetti/junglequest/images/black_wolf_run.png"));
+            ImageView spriteLoup = new ImageView(imgLoupWalk);
+            spriteLoup.setFitWidth(imgLoupWalk.getWidth());
+            spriteLoup.setFitHeight(imgLoupWalk.getHeight());
             double xLoup = 900;
             int colLoup = (int) (xLoup / ConstantesJeu.TAILLE_TUILE);
             int ligneSolLoup = carte.chercherLigneSol(colLoup);
             // Même principe que pour le joueur : placement direct par rapport à
             // l'indice de ligne trouvé.
             double yLoup = ligneSolLoup != -1
-                    ? ligneSolLoup * ConstantesJeu.TAILLE_TUILE - imgLoup.getHeight()
+                    ? ligneSolLoup * ConstantesJeu.TAILLE_TUILE - imgLoupWalk.getHeight()
                     : 56;
-            // Le loup inflige désormais 10 points de dégâts par attaque
-            Loup loup = new Loup(spriteLoup, xLoup, yLoup, 20);
+            // Le loup inflige désormais 20 points de dégâts par attaque
+            Loup loup = new Loup(spriteLoup, imgLoupWalk, imgLoupRun, xLoup, yLoup, 20);
+
             loup.setEstAuSol(true);
             racine.getChildren().add(spriteLoup);
 
