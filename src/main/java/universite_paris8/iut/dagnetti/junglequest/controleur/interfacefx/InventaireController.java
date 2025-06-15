@@ -23,6 +23,9 @@ public class InventaireController implements Initializable {
     private Inventaire inventaire;
     private String itemSelectionne;
     private List<String> ordreItems = new ArrayList<>();
+    private static final String[] TOUCHES_INVENTAIRE = {
+            "&", "é", "\"", "'", "(", "-", "è", "_", "ç"
+    };
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -63,9 +66,10 @@ public class InventaireController implements Initializable {
         slotBar.getChildren().add(slotEpee);
 
         //  Affichage des objets possédés dans l'ordre mémorisé
-        for (String nom : ordreItems) {
+        for (int i = 0; i < ordreItems.size(); i++) {
+            String nom = ordreItems.get(i);
             int quantite = inventaire.getItems().getOrDefault(nom, 0);
-            StackPane slot = creerSlot(nom, quantite);
+            StackPane slot = creerSlot(nom, quantite, i);
             slotBar.getChildren().add(slot);
         }
 
@@ -74,7 +78,7 @@ public class InventaireController implements Initializable {
         int slotsTotaux = 9;
 
         for (int i = slotsUtilises; i < slotsTotaux; i++) {
-            StackPane vide = creerSlotVide();
+            StackPane vide = creerSlotVide(i);
             slotBar.getChildren().add(vide);
         }
     }
@@ -82,7 +86,7 @@ public class InventaireController implements Initializable {
     /**
      * Crée un slot rempli visuellement avec une icône et une étiquette de quantité.
      */
-    private StackPane creerSlot(String nom, int quantite) {
+    private StackPane creerSlot(String nom, int quantite, int index) {
         StackPane slot = new StackPane();
         slot.getStyleClass().add("slot-rempli");
 
@@ -112,7 +116,12 @@ public class InventaireController implements Initializable {
             slot.getChildren().add(erreur);
         }
 
-        slot.getChildren().add(label);
+        String touche = index >= 0 && index < TOUCHES_INVENTAIRE.length ? TOUCHES_INVENTAIRE[index] : "";
+        Label toucheLabel = new Label(touche);
+        toucheLabel.getStyleClass().add("label-touche");
+        StackPane.setAlignment(toucheLabel, Pos.TOP_LEFT);
+
+        slot.getChildren().addAll(toucheLabel, label);
 
         //sélection d'un item pour le placement
         slot.setOnMouseClicked(e -> itemSelectionne = nom);
@@ -122,9 +131,14 @@ public class InventaireController implements Initializable {
     /**
      * Crée une case vide esthétique pour compléter l’inventaire.
      */
-    private StackPane creerSlotVide() {
+    private StackPane creerSlotVide(int index) {
         StackPane empty = new StackPane();
         empty.getStyleClass().add("slot-vide");
+            String touche = index >= 0 && index < TOUCHES_INVENTAIRE.length ? TOUCHES_INVENTAIRE[index] : "";
+            Label toucheLabel = new Label(touche);
+            toucheLabel.getStyleClass().add("label-touche");
+            StackPane.setAlignment(toucheLabel, Pos.TOP_LEFT);
+            empty.getChildren().add(toucheLabel);
         return empty;
     }
     /**Rafraichit l'affichage a partir des donnée de l'inventaire */
