@@ -1,15 +1,20 @@
 package fr.iut.groupe.terraria.demo.vue;
 
 import fr.iut.groupe.terraria.demo.modele.ressource.*;
+import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Ennemi;
+import java.util.ArrayList;
 import javafx.scene.layout.Pane;
 import java.util.List;
+
+import fr.iut.groupe.terraria.demo.vue.VueEnnemi;
 
 public class VueJeu extends Pane {
     private final VueMap vueMap;
     private final VueJoueur vueJoueur;
     private final List<Ressource> ressources;
+    private final List<VueEnnemi> vueEnnemis = new ArrayList<>();
 
-    public VueJeu(int[][] map, List<Ressource> ressources) {
+    public VueJeu(int[][] map, List<Ressource> ressources, List<Ennemi> ennemis) {
         this.setPrefSize(640, 383);
         vueMap = new VueMap(map);
         vueJoueur = new VueJoueur();
@@ -23,6 +28,12 @@ public class VueJeu extends Pane {
             } else if (r instanceof CanneSucre) {
                 this.getChildren().add(new VueCanneSucre((CanneSucre) r));
             }
+        }
+
+        for (Ennemi e : ennemis) {
+            VueEnnemi ve = new VueEnnemi(e);
+            vueEnnemis.add(ve);
+            this.getChildren().add(ve);
         }
 
         this.getChildren().addAll(
@@ -41,5 +52,9 @@ public class VueJeu extends Pane {
 
     public List<Ressource> getRessources() {
         return ressources;
+    }
+
+    public List<VueEnnemi> getVueEnnemis() {
+        return vueEnnemis;
     }
 }

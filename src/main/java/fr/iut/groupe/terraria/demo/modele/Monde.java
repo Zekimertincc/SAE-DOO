@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
+import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Ennemi;
 import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import java.util.List;
 public class Monde {
     private int[][] map;
     private final List<Ressource> ressources = new ArrayList<>();
+    private final List<Ennemi> ennemis = new ArrayList<>();
 
     /**
      * @param csvPath
@@ -60,10 +61,19 @@ public class Monde {
     public void ajouterRessource(Ressource r) {
         ressources.add(r);
     }
+
+    public void ajouterEnnemi(Ennemi e) {
+        ennemis.add(e);
+    }
+
     public int[][] getMap() {
         return map;
     }
     public List<Ressource> getRessources() {
         return ressources;
+    }
+
+    public List<Ennemi> getEnnemis() {
+        return ennemis;
     }
 }
