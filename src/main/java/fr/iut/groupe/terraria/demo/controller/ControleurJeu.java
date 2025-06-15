@@ -28,6 +28,7 @@ public class ControleurJeu implements Initializable {
 
     private boolean gauche = false, droite = false;
     private Joueur joueur;
+    private long lastDamageTime = 0;
     private VueJeu vue;
     private InventaireController inventaireController;
     private Monde monde;
@@ -123,7 +124,10 @@ public class ControleurJeu implements Initializable {
                     VueEnnemi ve = vue.getVueEnnemis().get(i);
                     ve.update();
                     if (Maths.distance(joueur.getX(), joueur.getY(), ennemi.getX(), ennemi.getY()) < 32) {
-                        joueur.subirDegats(1);
+                        if (now - lastDamageTime > 200_000_000) {
+                            joueur.subirDegats(1);
+                            lastDamageTime = now;
+                        }
                     }
                 }
 

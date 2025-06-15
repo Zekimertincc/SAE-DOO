@@ -2,6 +2,8 @@ package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
 
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.monde.AlgoAStar;
+import java.util.Collections;
+import java.util.List;
 
 public class Loup extends Ennemi {
     public Loup(double x, double y) {
@@ -9,6 +11,9 @@ public class Loup extends Ennemi {
     }
 
     private final int tileSize = 32;
+    private List<int[]> path = Collections.emptyList();
+    private int pathIndex = 1;
+    private long lastCalc = 0;
 
     // quand le loup a moins de 33% de ses hp max il s'enfuit de 2px vers la droite
     @Override
@@ -28,12 +33,18 @@ public class Loup extends Ennemi {
         int[][] map = joueur.getMap();
         int startRow = (int) (getY() / tileSize);
         int startCol = (int) (getX() / tileSize);
-        int endRow = (int) (joueur.getY() / tileSize);
-        int endCol = (int) (joueur.getX() / tileSize);
+        int endRow   = (int) (joueur.getY() / tileSize);
+        int endCol   = (int) (joueur.getX() / tileSize);
 
-        java.util.List<int[]> path = AlgoAStar.findPath(map, startRow, startCol, endRow, endCol);
-        if (path.size() > 1) {
-            int[] next = path.get(1);
+        long now = System.currentTimeMillis();
+        if (path.isEmpty() || pathIndex >= path.size() || now - lastCalc > 300) {
+            path = AlgoAStar.findPath(map, startRow, startCol, endRow, endCol);
+            pathIndex = 1;
+            lastCalc = now;
+        }
+
+        if (pathIndex < path.size()) {
+            int[] next = path.get(pathIndex);
             double targetX = next[1] * tileSize;
             double targetY = next[0] * tileSize;
 
@@ -42,6 +53,10 @@ public class Loup extends Ennemi {
 
             if (targetY > getY()) setY(Math.min(getY() + this.vitesseX, targetY));
             else if (targetY < getY()) setY(Math.max(getY() - this.vitesseX, targetY));
+
+            if (Math.abs(getX() - targetX) < 1 && Math.abs(getY() - targetY) < 1) {
+                pathIndex++;
+            }
         }
     }
 }
