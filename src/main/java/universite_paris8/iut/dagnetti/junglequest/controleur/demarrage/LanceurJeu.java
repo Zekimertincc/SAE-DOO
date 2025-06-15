@@ -143,8 +143,8 @@ public class LanceurJeu extends Application {
             racine.getChildren().add(spriteLoup);
 
             javafx.scene.control.ProgressBar barreVieLoup = new javafx.scene.control.ProgressBar(1.0);
-            barreVieLoup.setPrefWidth(ConstantesJeu.TAILLE_SPRITE * 2);
-            barreVieLoup.setPrefHeight(6);
+            barreVieLoup.setPrefWidth(ConstantesJeu.TAILLE_SPRITE * 1.5);
+            barreVieLoup.setPrefHeight(4);
             barreVieLoup.setStyle("-fx-accent: #e74c3c;");
             barreVieLoup.setViewOrder(-9);
             racine.getChildren().add(barreVieLoup);
@@ -154,8 +154,8 @@ public class LanceurJeu extends Application {
             racine.getChildren().add(labelVieLoup);
 
             javafx.scene.control.ProgressBar barreVie = new javafx.scene.control.ProgressBar(1.0);
-            barreVie.setPrefWidth(ConstantesJeu.TAILLE_SPRITE * 2);
-            barreVie.setPrefHeight(6);
+            barreVie.setPrefWidth(ConstantesJeu.TAILLE_SPRITE * 1.5);
+            barreVie.setPrefHeight(4);
             barreVie.setStyle("-fx-accent: #e74c3c;");
             barreVie.setViewOrder(-9);
             racine.getChildren().add(barreVie);

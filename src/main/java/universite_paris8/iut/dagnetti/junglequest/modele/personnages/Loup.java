@@ -50,7 +50,9 @@ public class Loup extends Personnage {
             return;
         }
         double distance = joueur.getX() - this.x;
-        if (Math.abs(distance) <= zoneDetection) {
+        if (Math.abs(distance) <= ConstantesJeu.DISTANCE_ARRET_LOUP) {
+            arreter();
+        } else if (Math.abs(distance) <= zoneDetection) {
             getSprite().setImage(runImage);
             if (distance > 0) {
                 deplacerDroite(vitesseCourse);
@@ -95,6 +97,7 @@ public class Loup extends Personnage {
     public void finAttaque() {
         enAttaque = false;
         getSprite().setImage(walkImage);
+        arreter();
     }
     public int getPointsDeVie() {
         return pointsDeVie;

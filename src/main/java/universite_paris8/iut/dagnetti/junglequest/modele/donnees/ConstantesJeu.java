@@ -25,6 +25,9 @@ public final class ConstantesJeu {
     /** Dégâts infligés au loup par une attaque du joueur */
     public static final int DEGATS_JOUEUR_LOUP = 10;
 
+    /** Distance à laquelle le loup cesse d'avancer avant une attaque (en pixels) */
+    public static final double DISTANCE_ARRET_LOUP = 30;
+
     // --- Mouvements et physique ---
     /** Vitesse horizontale du joueur (modifiable via le menu de paramètres) */
     public static int VITESSE_JOUEUR = 1;
