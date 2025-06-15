@@ -4,11 +4,15 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class VueJoueur {
     private final Group joueurGroup;
     private final ImageView joueurSprite;
     private final ImageView couteauSprite;
+    private final Rectangle healthBarBg;
+    private final Rectangle healthBar;
     private final Image[] idleFrames;
     private final Image[] runFrames;
     private int frameIndex = 0;
@@ -36,6 +40,11 @@ public class VueJoueur {
         joueurSprite.setFitWidth(64);
         joueurSprite.setFitHeight(96);
 
+        healthBarBg = new Rectangle(64, 6, Color.DARKRED);
+        healthBarBg.setTranslateY(-10);
+        healthBar = new Rectangle(64, 6, Color.LIMEGREEN);
+        healthBar.setTranslateY(-10);
+
         // couteau.png sprite
         couteauSprite = new ImageView(new Image(getClass().getResourceAsStream("/fr/iut/groupe/terraria/demo/couteau.png")));
         couteauSprite.setFitWidth(32);
@@ -43,7 +52,7 @@ public class VueJoueur {
         couteauSprite.setTranslateX(55); //
         couteauSprite.setTranslateY(40);
 
-        joueurGroup = new Group(joueurSprite, couteauSprite);
+        joueurGroup = new Group(joueurSprite, couteauSprite, healthBarBg, healthBar);
 
         new AnimationTimer() {
             @Override
@@ -69,6 +78,12 @@ public class VueJoueur {
             couteauSprite.setScaleX(isRight ? 1 : -1);
             lookingRight = isRight;
         }
+    }
+
+    /** Update the size of the health bar according to current life. */
+    public void updateHealth(int vie, int vieMax) {
+        double ratio = vieMax == 0 ? 0 : (double) vie / vieMax;
+        healthBar.setWidth(64 * ratio);
     }
 
     public Group getJoueurVue() {

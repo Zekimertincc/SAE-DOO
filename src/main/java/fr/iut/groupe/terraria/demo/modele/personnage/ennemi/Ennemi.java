@@ -8,7 +8,8 @@ import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 public abstract class Ennemi extends PersonnageJeu implements Ciblable {
     protected int distanceAttaque;
     public Ennemi(double x, double y, double vitesseX, double vitesseY, int vieMax, int degats, int distanceAttaque) {
-        super(x, y, vitesseX, vitesseY, vieMax, vieMax, degats, 30);
+        // enlarge detection radius so enemies notice the player from further away
+        super(x, y, vitesseX, vitesseY, vieMax, vieMax, degats, 300);
         this.distanceAttaque = distanceAttaque;
     }
     public abstract void comportement(Joueur joueur);

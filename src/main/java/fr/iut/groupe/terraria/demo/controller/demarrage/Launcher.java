@@ -4,6 +4,7 @@ import fr.iut.groupe.terraria.demo.controller.ControleurJeu;
 import fr.iut.groupe.terraria.demo.modele.Monde;
 import fr.iut.groupe.terraria.demo.modele.ressource.*;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
+import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Loup;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,6 +23,8 @@ public class Launcher extends Application {
         monde.ajouterRessource(new Roche(600, 350));
         monde.ajouterRessource(new CanneSucre(200, 250));
         monde.ajouterRessource(new CanneSucre(500, 280));
+
+        monde.ajouterEnnemi(new Loup(300, 260));
 
         Joueur joueur = new Joueur(100, 260, 100, null, monde.getMap());
 

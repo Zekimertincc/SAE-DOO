@@ -3,9 +3,12 @@ package fr.iut.groupe.terraria.demo.controller;
 import fr.iut.groupe.terraria.demo.modele.item.equipement.Equipement;
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
+import fr.iut.groupe.terraria.demo.vue.VueEnnemi;
 import fr.iut.groupe.terraria.demo.vue.VueJeu;
 import fr.iut.groupe.terraria.demo.vue.VueJoueur;
+import fr.iut.groupe.terraria.demo.modele.monde.Maths;
 import fr.iut.groupe.terraria.demo.modele.Monde;
+import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Ennemi;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,7 +41,7 @@ public class ControleurJeu implements Initializable {
         this.monde = monde;
         this.joueur = joueur;
 
-        vue = new VueJeu(monde.getMap(), monde.getRessources());
+        vue = new VueJeu(monde.getMap(), monde.getRessources(), monde.getEnnemis());
         root.getChildren().add(vue);
 
         try {
@@ -113,13 +116,25 @@ public class ControleurJeu implements Initializable {
                 joueur.appliquerGravite();
                 vj.getJoueurVue().setTranslateX(joueur.getX());
                 vj.getJoueurVue().setTranslateY(joueur.getY());
+
+                for (int i = 0; i < monde.getEnnemis().size(); i++) {
+                    Ennemi ennemi = monde.getEnnemis().get(i);
+                    ennemi.mettreAJour(joueur);
+                    VueEnnemi ve = vue.getVueEnnemis().get(i);
+                    ve.update();
+                    if (Maths.distance(joueur.getX(), joueur.getY(), ennemi.getX(), ennemi.getY()) < 32) {
+                        joueur.subirDegats(1);
+                    }
+                }
+
+                vj.updateHealth(joueur.getVie(), joueur.getVieMax());
             }
         }.start();
     }
 
     public void refreshVue() {
         root.getChildren().clear();
-        vue = new VueJeu(monde.getMap(), monde.getRessources());
+        vue = new VueJeu(monde.getMap(), monde.getRessources(), monde.getEnnemis());
         root.getChildren().add(vue);
         vue.requestFocus();
     }
