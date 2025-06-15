@@ -51,6 +51,12 @@ public final class ConstantesJeu {
      * qu'un nouvel assaut puisse être déclenché.
      */
     public static final int DUREE_ATTAQUE = 16 * DELAI_FRAME;
+    /**
+     * Temps d'attente du loup lorsqu'il est à portée du joueur avant de lancer
+     * une nouvelle attaque (en frames). L'attente est d'environ deux secondes
+     * à 60 FPS.
+     */
+    public static final int DELAI_AVANT_ATTAQUE_LOUP = 15 * DELAI_FRAME;
 
     // Constructeur privé pour empêcher l’instanciation
     private ConstantesJeu() {}

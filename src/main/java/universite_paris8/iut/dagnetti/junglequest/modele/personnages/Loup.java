@@ -15,7 +15,7 @@ public class Loup extends Personnage {
     /**
      * Rayon de détection du joueur (en pixels).
      */
-    private final double zoneDetection = 250;
+    private final double zoneDetection = 450;
 
     /**
      * Vitesse horizontale du loup.
@@ -28,6 +28,11 @@ public class Loup extends Personnage {
     private final Image attackImage;
 
     private boolean enAttaque = false;
+    /**
+     * Compteur gérant le temps d'attente avant une nouvelle attaque lorsque
+     * le joueur est à portée.
+     */
+    private int delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
 
     private final Random random = new Random();
     private int dureeAction = 0;
@@ -46,6 +51,7 @@ public class Loup extends Personnage {
      */
     public void mettreAJourIA(Joueur joueur) {
         double distance = joueur.getX() - this.x;
+        // Si une attaque est en cours, le loup continue d'avancer vers le joueur
         if (enAttaque) {
             if (distance > 0) {
                 deplacerDroite(vitesseCourse);
@@ -54,6 +60,21 @@ public class Loup extends Personnage {
             }
             return;
         }
+
+        // Le joueur est à portée d'attaque : le loup s'arrête et attend
+        if (Math.abs(distance) <= ConstantesJeu.DISTANCE_ARRET_LOUP) {
+            arreter();
+            getSprite().setImage(walkImage);
+            if (delaiAvantAttaque > 0) {
+                delaiAvantAttaque--;
+            } else {
+                attaquer();
+                delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
+            }
+            return;
+        }
+
+        // Le joueur est détecté mais pas encore à portée : poursuite
         if (Math.abs(distance) <= zoneDetection) {
             getSprite().setImage(runImage);
             if (distance > 0) {
@@ -61,7 +82,9 @@ public class Loup extends Personnage {
             } else {
                 deplacerGauche(vitesseCourse);
             }
+            delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
         } else {
+            // Hors de portée : comportement aléatoire de marche
             getSprite().setImage(walkImage);
             if (dureeAction <= 0) {
                 int action = random.nextInt(3);
@@ -76,6 +99,7 @@ public class Loup extends Personnage {
             } else {
                 dureeAction--;
             }
+            delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
         }
     }
 
