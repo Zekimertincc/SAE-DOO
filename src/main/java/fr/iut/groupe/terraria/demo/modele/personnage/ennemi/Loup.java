@@ -1,7 +1,7 @@
 package fr.iut.groupe.terraria.demo.modele.personnage.ennemi;
 
 import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
-import fr.iut.groupe.terraria.demo.modele.monde.AStarPathFinding;
+import fr.iut.groupe.terraria.demo.modele.monde.AlgoAStar;
 
 public class Loup extends Ennemi {
     public Loup(double x, double y) {
@@ -31,7 +31,7 @@ public class Loup extends Ennemi {
         int endRow = (int) (joueur.getY() / tileSize);
         int endCol = (int) (joueur.getX() / tileSize);
 
-        java.util.List<int[]> path = AStarPathFinding.findPath(map, startRow, startCol, endRow, endCol);
+        java.util.List<int[]> path = AlgoAStar.findPath(map, startRow, startCol, endRow, endCol);
         if (path.size() > 1) {
             int[] next = path.get(1);
             double targetX = next[1] * tileSize;

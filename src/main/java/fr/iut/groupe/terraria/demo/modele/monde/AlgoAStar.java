@@ -2,7 +2,8 @@ package fr.iut.groupe.terraria.demo.modele.monde;
 
 import java.util.*;
 
-public class AStarPathFinding {
+/** Simple static A* path-finding utility. */
+public class AlgoAStar {
     private static class Node implements Comparable<Node> {
         int row, col;
         double g, h;
