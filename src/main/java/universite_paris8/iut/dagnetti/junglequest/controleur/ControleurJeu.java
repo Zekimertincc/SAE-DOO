@@ -3,6 +3,8 @@ package universite_paris8.iut.dagnetti.junglequest.controleur;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.fxml.FXMLLoader;
@@ -57,6 +59,12 @@ public class ControleurJeu {
 
     private boolean joueurMort = false;
 
+    // Animation du loup
+    private final int largeurFrameLoup;
+    private final int hauteurFrameLoup;
+    private int frameLoup = 0;
+    private int compteurLoup = 0;
+
     private boolean enPause = false;
     private Stage fenetreParametres;
 
@@ -85,6 +93,13 @@ public class ControleurJeu {
         this.clavier = new GestionClavier(scene);
         this.largeurEcran = scene.getWidth();
 
+        Image imgLoup = loup.getSprite().getImage();
+        this.largeurFrameLoup = (int) (imgLoup.getWidth() / 6);
+        this.hauteurFrameLoup = (int) imgLoup.getHeight();
+        loup.getSprite().setViewport(new Rectangle2D(0, 0, largeurFrameLoup, hauteurFrameLoup));
+        loup.getSprite().setFitWidth(largeurFrameLoup);
+        loup.getSprite().setFitHeight(hauteurFrameLoup);
+
         // Initialisation des animations
         this.animation = new GestionAnimation(
                 idle, marche, attaque,
@@ -100,7 +115,7 @@ public class ControleurJeu {
                 if (!joueur.estEnAttaque()) {
                     joueur.attaquer();
                     animation.reset();
-                    compteurAttaque = 0;
+                    int compteurAttaque = 0;
                 } else {
                     animation.demandeCombo();
                 }
@@ -201,6 +216,11 @@ public class ControleurJeu {
         if (aAtterri) {
             framesAtterrissageRestants = animation.getNbFramesAtterrissage();
         }
+
+        // Mise à jour du loup
+        loup.mettreAJourIA(joueur);
+        moteur.mettreAJourPhysique(loup, carte);
+
         offsetX = joueur.getX() - largeurEcran / 2;
         if (offsetX < 0) offsetX = 0;
         double maxOffset = carte.getLargeur() * TAILLE_TUILE -largeurEcran;
@@ -275,6 +295,17 @@ public class ControleurJeu {
 
         // Inversion du sprite si le joueur regarde à gauche
         sprite.setScaleX(joueur.estVersGauche() ? -1 : 1);
+        // Animation et orientation du loup
+        if (loup.getVitesseX() != 0) {
+            if (compteurLoup++ >= DELAI_FRAME) {
+                loup.getSprite().setViewport(new Rectangle2D(frameLoup * largeurFrameLoup, 0, largeurFrameLoup, hauteurFrameLoup));
+                frameLoup = (frameLoup + 1) % 6;
+                compteurLoup = 0;
+            }
+        } else {
+            loup.getSprite().setViewport(new Rectangle2D(0, 0, largeurFrameLoup, hauteurFrameLoup));
+        }
+        loup.getSprite().setScaleX(loup.estVersGauche() ? -1 : 1);
     }
 
     /**

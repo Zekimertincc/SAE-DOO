@@ -8,10 +8,35 @@ import javafx.scene.image.ImageView;
 public class Loup extends Personnage {
 
     private final int degats;
+    /**
+     * Rayon de détection du joueur (en pixels).
+     */
+    private final double zoneDetection = 200;
+
+    /**
+     * Vitesse horizontale du loup.
+     */
+    private final double vitesse = 1.0;
+
 
     public Loup(ImageView sprite, double x, double y, int degats) {
         super(sprite, x, y);
         this.degats = degats;
+    }
+    /**
+     * Met à jour le déplacement du loup en fonction de la position du joueur.
+     */
+    public void mettreAJourIA(Joueur joueur) {
+        double distance = joueur.getX() - this.x;
+        if (Math.abs(distance) <= zoneDetection) {
+            if (distance > 0) {
+                deplacerDroite(vitesse);
+            } else {
+                deplacerGauche(vitesse);
+            }
+        } else {
+            arreter();
+        }
     }
 
     /**

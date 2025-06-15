@@ -120,7 +120,7 @@ public class LanceurJeu extends Application {
 
 
             Image imgLoup = new Image(getClass().getResourceAsStream(
-                    "/universite_paris8/iut/dagnetti/junglequest/images/wolf.gif"));
+                    "/universite_paris8/iut/dagnetti/junglequest/images/wolf_run.png"));
             ImageView spriteLoup = new ImageView(imgLoup);
             spriteLoup.setFitWidth(imgLoup.getWidth());
             spriteLoup.setFitHeight(imgLoup.getHeight());

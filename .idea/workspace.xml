@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04ca2a54-06d3-49ed-b803-58534b0974e2" name="Changes" comment="" />
+    <list default="true" id="04ca2a54-06d3-49ed-b803-58534b0974e2" name="Changes" comment="version ameliore il ya des algorithm a* et le ennemi essaie de te suivre">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/wolf_run.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/ControleurJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/ControleurJeu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/personnages/Loup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/personnages/Loup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/wolf.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fr/iut/groupe/terraria/demo/ArmeCraftTest.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,13 +23,14 @@
       <list>
         <option value="Class" />
         <option value="CSS File" />
+        <option value="module-info" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="migration_depuis_A" />
+        <entry key="$PROJECT_DIR$" value="lumrw2-codex/hasar-alma-animasyonu-ekle" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -57,14 +66,14 @@
     "git-widget-placeholder": "JungleQuest-V1.1",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/etudiants/info/dagnetti/SAE/SAE-DOO/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images",
+    "last_opened_file_path": "C:/Users/agnet/IdeaProjects/SAE-DOO/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "SDKs",
+    "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.keymap",
@@ -80,6 +89,7 @@
       <recent name="C:\Users\agnet\IdeaProjects\JungleQuest\src\main\resources\universite_paris8\iut\dagnetti\junglequest\sons" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/utilitaire" />
       <recent name="C:\Users\agnet\IdeaProjects\JungleQuest\src\main\resources\universite_paris8\iut\dagnetti\junglequest\images\parallax" />
       <recent name="C:\Users\agnet\IdeaProjects\JungleQuest\src\main\java\universite_paris8\iut\dagnetti\junglequest\vue" />
       <recent name="C:\Users\agnet\IdeaProjects\JungleQuest\src\main\resources\universite_paris8\iut\dagnetti\junglequest\images" />
@@ -105,7 +115,7 @@
     </configuration>
     <configuration name="MenuPrincipal" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="universite_paris8.iut.dagnetti.junglequest.vue.fenetre.MenuPrincipal" />
-      <module name="JungleQuest" />
+      <module name="demo" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="universite_paris8.iut.dagnetti.junglequest.vue.fenetre.*" />
@@ -116,8 +126,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.LanceurJeu" />
+      <item itemvalue="Application.MenuPrincipal" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MenuPrincipal" />
+        <item itemvalue="Application.LanceurJeu" />
+        <item itemvalue="Application.LanceurJeu" />
         <item itemvalue="Application.MenuPrincipal" />
         <item itemvalue="Application.LanceurJeu" />
       </list>
@@ -151,6 +168,10 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="version ameliore il ya des algorithm a* et le ennemi essaie de te suivre" />
+    <option name="LAST_COMMIT_MESSAGE" value="version ameliore il ya des algorithm a* et le ennemi essaie de te suivre" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
