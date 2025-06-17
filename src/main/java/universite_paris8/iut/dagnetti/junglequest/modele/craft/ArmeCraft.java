@@ -12,8 +12,8 @@ public class ArmeCraft extends Craft{
 
     // regarde si les ressources sont suffisante pour construire l'arme
     public boolean materiauxRequis(Equipement equipement){
-        return inventaire.getMapItems().getOrDefault("Bois", 0) >= equipement.getQuantiteBois() &&
-                inventaire.getMapItems().getOrDefault("Pierre", 0) >= equipement.getQuantitePierre() &&
+        return inventaire.getMapItems().getOrDefault("Bois", 0)  >= equipement.getQuantiteBois() &&
+                inventaire.getMapItems().getOrDefault("Pierre", 0)   >= equipement.getQuantitePierre() &&
                 inventaire.getMapItems().getOrDefault("File", 0) >= equipement.getQuantiteFile();
     }
     // contruit l'arme et il le met directement dans l'inventaire du joueur

@@ -30,6 +30,7 @@ import universite_paris8.iut.dagnetti.junglequest.modele.carte.Carte;
 import universite_paris8.iut.dagnetti.junglequest.modele.carte.ChargeurCarte;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Joueur;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Loup;
+import universite_paris8.iut.dagnetti.junglequest.modele.ressource.Ressource;
 import universite_paris8.iut.dagnetti.junglequest.vue.VueBackground;
 import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.ExtracteurSprites;
 import universite_paris8.iut.dagnetti.junglequest.vue.CarteAffichable;
