@@ -77,10 +77,12 @@ public class LanceurJeu extends Application {
         if (pauseOverlay != null) {
             pauseOverlay.prefWidthProperty().bind(scene.widthProperty());
             pauseOverlay.prefHeightProperty().bind(scene.heightProperty());
+            pauseOverlay.setViewOrder(-20);
         }
         if (craftOverlay != null) {
             craftOverlay.prefWidthProperty().bind(scene.widthProperty());
             craftOverlay.prefHeightProperty().bind(scene.heightProperty());
+            craftOverlay.setViewOrder(-20);
         }
 
         try {
@@ -168,26 +170,32 @@ public class LanceurJeu extends Application {
             controleurJeu.setVueBackground(vueBackground);
 
             // --- Ajout de ressources basiques ---
-            int colArbre = 25;
-            int solArbre = carte.chercherLigneSol(colArbre);
-            double yArbre = solArbre * ConstantesJeu.TAILLE_TUILE - 32;
-            Arbre arbre = new Arbre(colArbre * ConstantesJeu.TAILLE_TUILE, yArbre);
-            ajouterRessourceRectangle(racine, controleurJeu, joueur, inventaireCtrl, arbre,
-                    Color.DARKGREEN, ConstantesJeu.TAILLE_TUILE, 32);
+            int[] colsArbre = {25, 27, 30};
+            for (int colArbre : colsArbre) {
+                int solArbre = carte.chercherLigneSol(colArbre);
+                double yArbre = solArbre * ConstantesJeu.TAILLE_TUILE - 32;
+                Arbre arbre = new Arbre(colArbre * ConstantesJeu.TAILLE_TUILE, yArbre);
+                ajouterRessourceRectangle(racine, controleurJeu, joueur, inventaireCtrl, arbre,
+                        Color.GREEN, ConstantesJeu.TAILLE_TUILE, 32);
+            }
 
-            int colCanne = 35;
-            int solCanne = carte.chercherLigneSol(colCanne);
-            double yCanne = solCanne * ConstantesJeu.TAILLE_TUILE - 16;
-            CanneSucre canne = new CanneSucre(colCanne * ConstantesJeu.TAILLE_TUILE, yCanne);
-            ajouterRessourceRectangle(racine, controleurJeu, joueur, inventaireCtrl, canne,
-                    Color.BEIGE, ConstantesJeu.TAILLE_TUILE, 16);
+            int[] colsCanne = {35, 37, 40};
+            for (int colCanne : colsCanne) {
+                int solCanne = carte.chercherLigneSol(colCanne);
+                double yCanne = solCanne * ConstantesJeu.TAILLE_TUILE - 16;
+                CanneSucre canne = new CanneSucre(colCanne * ConstantesJeu.TAILLE_TUILE, yCanne);
+                ajouterRessourceRectangle(racine, controleurJeu, joueur, inventaireCtrl, canne,
+                        Color.YELLOW, ConstantesJeu.TAILLE_TUILE, 16);
+            }
 
-            int colRoche = 45;
-            int solRoche = carte.chercherLigneSol(colRoche);
-            double yRoche = solRoche * ConstantesJeu.TAILLE_TUILE - 16;
-            Roche roche = new Roche(colRoche * ConstantesJeu.TAILLE_TUILE, yRoche);
-            ajouterRessourceRectangle(racine, controleurJeu, joueur, inventaireCtrl, roche,
-                    Color.GREY, ConstantesJeu.TAILLE_TUILE, 16);
+            int[] colsRoche = {45, 48, 52};
+            for (int colRoche : colsRoche) {
+                int solRoche = carte.chercherLigneSol(colRoche);
+                double yRoche = solRoche * ConstantesJeu.TAILLE_TUILE - 16;
+                Roche roche = new Roche(colRoche * ConstantesJeu.TAILLE_TUILE, yRoche);
+                ajouterRessourceRectangle(racine, controleurJeu, joueur, inventaireCtrl, roche,
+                        Color.BLACK, ConstantesJeu.TAILLE_TUILE, 16);
+            }
 
         } catch (IOException e) {
             System.err.println("Erreur critique : " + e.getMessage());

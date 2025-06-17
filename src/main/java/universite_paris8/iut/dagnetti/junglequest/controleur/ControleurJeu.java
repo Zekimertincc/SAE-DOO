@@ -444,11 +444,7 @@ public class ControleurJeu {
         );
         for (var eq : eqs) {
             javafx.scene.control.Button b = new javafx.scene.control.Button(eq.getNom());
-            b.setOnMouseClicked(e -> {
-                if (e.getClickCount() == 2) {
-                    tenterCraft(eq);
-                }
-            });
+            b.setOnAction(e -> tenterCraft(eq));
             craftBox.getChildren().add(b);
         }
     }
