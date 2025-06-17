@@ -23,7 +23,7 @@
             super(x, y, 0.5, 0, vieMax, vieMax, 0);
             this.equipementActuel = new Couteau();
             this.inventaire = new Inventaire();
-            this.etatTemporaire = etatTemporaire;
+            this.etatTemporaire = etatTemporaire == null ? new EtatTemporaire() : etatTemporaire;
             this.map = map;
 
             // ajout de couteau dans linventaire

@@ -26,7 +26,7 @@ public class Launcher extends Application {
 
         monde.ajouterEnnemi(new Loup(300, 260));
 
-        Joueur joueur = new Joueur(100, 260, 100, null, monde.getMap());
+        Joueur joueur = new Joueur(100, 260, 100, new EtatTemporaire(), monde.getMap());
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fr/iut/groupe/terraria/demo/vue/hello-view.fxml"));
         Parent root = fxmlLoader.load();
