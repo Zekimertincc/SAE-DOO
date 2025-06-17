@@ -1,5 +1,7 @@
 package universite_paris8.iut.dagnetti.junglequest.modele.personnages;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.util.Random;
@@ -11,7 +13,7 @@ import universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu;
 public class Loup extends Personnage {
 
     private final int degats;
-    private int pointsDeVie;
+    private final IntegerProperty pointsDeVie = new SimpleIntegerProperty();
     /**
      * Rayon de détection du joueur (en pixels).
      */
@@ -63,7 +65,8 @@ public class Loup extends Personnage {
         this.runImage = runImage;
         this.attackImage = attackImage;
         this.degats = degats;
-        this.pointsDeVie = ConstantesJeu.VIE_MAX_LOUP;
+        this.pointsDeVie.set(ConstantesJeu.VIE_MAX_LOUP);
+
     }
     /**
      * Met à jour le déplacement du loup en fonction de la position du joueur.
@@ -176,13 +179,14 @@ public class Loup extends Personnage {
         pausePoursuite = random.nextInt(60) + 50;
     }
     public int getPointsDeVie() {
+        return pointsDeVie.get();
+    }
+
+    public IntegerProperty pointsDeVieProperty() {
         return pointsDeVie;
     }
 
     public void subirDegats(int quantite) {
-        pointsDeVie -= quantite;
-        if (pointsDeVie < 0) {
-            pointsDeVie = 0;
-        }
+        pointsDeVie.set(Math.max(0, pointsDeVie.get() - quantite));
     }
 }

@@ -92,6 +92,18 @@ public class ControleurJeu {
         this.labelVie = labelVie;
         this.barreVieLoup = barreVieLoup;
         this.labelVieLoup = labelVieLoup;
+        if (this.labelVie != null) {
+            this.labelVie.textProperty().bind(joueur.pointsDeVieProperty().asString());
+        }
+        if (this.barreVie != null) {
+            this.barreVie.ratioProperty().bind(joueur.pointsDeVieProperty().divide((double) VIE_MAX_JOUEUR));
+        }
+        if (this.labelVieLoup != null) {
+            this.labelVieLoup.textProperty().bind(loup.pointsDeVieProperty().asString());
+        }
+        if (this.barreVieLoup != null) {
+            this.barreVieLoup.ratioProperty().bind(loup.pointsDeVieProperty().divide((double) VIE_MAX_LOUP));
+        }
         this.pauseOverlay = pauseOverlay;
         if (this.pauseOverlay != null) {
             this.pauseOverlay.setVisible(false);
@@ -282,18 +294,12 @@ public class ControleurJeu {
         barreVie.setLayoutY(joueur.getY() - 10);
         labelVie.setLayoutX(joueur.getX() - offsetX);
         labelVie.setLayoutY(joueur.getY() - 25);
-        labelVie.setText(Integer.toString(joueur.getPointsDeVie()));
-        double ratioVie = joueur.getPointsDeVie() / (double) VIE_MAX_JOUEUR;
-        barreVie.mettreAJour(ratioVie);
 
         if (!loupMort) {
             barreVieLoup.setLayoutX(loup.getX() - offsetX);
             barreVieLoup.setLayoutY(loup.getY() - 10);
             labelVieLoup.setLayoutX(loup.getX() - offsetX);
             labelVieLoup.setLayoutY(loup.getY() - 25);
-            labelVieLoup.setText(Integer.toString(loup.getPointsDeVie()));
-            double ratioVieLoup = loup.getPointsDeVie() / (double) VIE_MAX_LOUP;
-            barreVieLoup.mettreAJour(ratioVieLoup);
         } else {
             barreVieLoup.setVisible(false);
             labelVieLoup.setVisible(false);

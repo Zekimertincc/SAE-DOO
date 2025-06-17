@@ -1,5 +1,7 @@
 package universite_paris8.iut.dagnetti.junglequest.vue.utilitaire;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -15,6 +17,7 @@ public class BarreVie extends Pane {
     private final Rectangle vie;
     private final double largeur;
     private final double hauteur;
+    private final DoubleProperty ratio = new SimpleDoubleProperty(1.0);
 
     public BarreVie(double largeur, double hauteur) {
         this.largeur = largeur;
@@ -27,6 +30,12 @@ public class BarreVie extends Pane {
 
         vie = new Rectangle(largeur, hauteur);
         vie.setFill(Color.GREEN);
+        vie.widthProperty().bind(this.ratio.multiply(largeur));
+        this.ratio.addListener((obs, ov, nv) -> {
+            double r = Math.max(0, Math.min(1, nv.doubleValue()));
+            Color couleur = Color.GREEN.interpolate(Color.RED, 1 - r);
+            vie.setFill(couleur);
+        });
 
         this.getChildren().addAll(fond, vie);
         this.setPrefSize(largeur, hauteur);
@@ -39,9 +48,12 @@ public class BarreVie extends Pane {
      *              pourcentage de points de vie restants
      */
     public void mettreAJour(double ratio) {
-        ratio = Math.max(0, Math.min(1, ratio));
-        vie.setWidth(largeur * ratio);
-        Color couleur = Color.GREEN.interpolate(Color.RED, 1 - ratio);
-        vie.setFill(couleur);
+        setRatio(ratio);
+    }
+
+    public DoubleProperty ratioProperty() { return ratio; }
+    public double getRatio() { return ratio.get(); }
+    public void setRatio(double ratio) {
+        this.ratio.set(Math.max(0, Math.min(1, ratio)));
     }
 }
