@@ -10,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.control.ProgressBar;
@@ -28,6 +27,7 @@ import universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu;
 import universite_paris8.iut.dagnetti.junglequest.modele.carte.Carte;
 import universite_paris8.iut.dagnetti.junglequest.modele.carte.ChargeurCarte;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Joueur;
+import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Loup;
 import universite_paris8.iut.dagnetti.junglequest.vue.VueBackground;
 import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.ExtracteurSprites;
 import universite_paris8.iut.dagnetti.junglequest.vue.CarteAffichable;
@@ -115,15 +115,21 @@ public class LanceurJeu extends Application {
             joueur.setEstAuSol(true);
             racine.getChildren().addAll(carteAffichable, spriteJoueur);
 
-            // --- KURT SPRITE YOK, BOT VAR ---
+            // --- Sprite du loup ennemi ---
             double xBot = 500;
             int colBot = (int) (xBot / ConstantesJeu.TAILLE_TUILE);
             int ligneSolBot = carte.chercherLigneSol(colBot);
-            double yBot = ligneSolBot * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.TAILLE_TUILE;
-            Rectangle bot = new Rectangle(ConstantesJeu.TAILLE_TUILE, ConstantesJeu.TAILLE_TUILE, Color.RED);
-            bot.setX(xBot);
-            bot.setY(yBot);
-            racine.getChildren().add(bot);
+            double yBot = ligneSolBot * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.TAILLE_SPRITE;
+
+            InputStream loupStream = getClass().getResourceAsStream(
+                    "/universite_paris8/iut/dagnetti/junglequest/images/wolf.gif");
+            Image imageLoup = new Image(loupStream);
+            ImageView spriteLoup = new ImageView(imageLoup);
+            spriteLoup.setFitWidth(ConstantesJeu.TAILLE_SPRITE);
+            spriteLoup.setFitHeight(ConstantesJeu.TAILLE_SPRITE);
+            Loup loup = new Loup(spriteLoup, xBot, yBot, 10);
+            loup.setEstAuSol(true);
+            racine.getChildren().add(spriteLoup);
 
             ProgressBar barreVie = new ProgressBar(1.0);
             barreVie.setPrefWidth(ConstantesJeu.TAILLE_SPRITE * 2);
@@ -144,7 +150,7 @@ public class LanceurJeu extends Application {
                     inventaireCtrl, barreVie, labelVie, pauseOverlay,
                     idle, marche, attaque, preparationSaut, volSaut, sautReload,
                     chute, atterrissage, degats, mort, sort, accroupi, bouclier,
-                    bot
+                    loup
             );
             controleurJeu.setVueBackground(vueBackground);
 

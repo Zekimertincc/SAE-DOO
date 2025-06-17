@@ -16,7 +16,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
+import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Loup;
 
 import static universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu.*;
 
@@ -49,8 +49,8 @@ public class ControleurJeu {
     private VueBackground vueBackground;
     private final double largeurEcran;
 
-    // Loup yok, sadece bot (kare) var:
-    private final Rectangle bot;
+    // Sprite du loup ennemi
+    private final Loup loup;
     private final Timeline botTimeline;
     private List<int[]> botPath;
     private int botPathIndex;
@@ -74,7 +74,7 @@ public class ControleurJeu {
     // --- Gestion de la vie du bot ---
     private int botVie = 3;
     private int botDelaiCouleur = 0;
-    private Color couleurBotBase;
+    private double opaciteLoupBase;
 
     public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur,
                          InventaireController inventaireController, ProgressBar barreVie, Label labelVie, Pane pauseOverlay,
@@ -83,7 +83,7 @@ public class ControleurJeu {
                          WritableImage[] sautReload, WritableImage[] chute, WritableImage[] atterrissage,
                          WritableImage[] degats, WritableImage[] mort, WritableImage[] sort,
                          WritableImage[] accroupi, WritableImage[] bouclier,
-                         Rectangle bot // sadece bot geliyor
+                         Loup loup // ennemi loup
     ) {
         this.carte = carte;
         this.carteAffichable = carteAffichable;
@@ -98,15 +98,15 @@ public class ControleurJeu {
         this.clavier = new GestionClavier(scene);
         this.largeurEcran = scene.getWidth();
 
-        // Bot ayarları
-        this.bot = bot;
-        this.couleurBotBase = (Color) bot.getFill();
+        // Loup paramètres
+        this.loup = loup;
+        this.opaciteLoupBase = loup.getSprite().getOpacity();
         this.grille = carte.getGrille();
         botTimeline = new Timeline(new KeyFrame(Duration.millis(200), e -> {
             if (botPath != null && botPathIndex < botPath.size()) {
                 int[] etape = botPath.get(botPathIndex);
-                bot.setX(etape[0] * TAILLE_TUILE);
-                bot.setY(etape[1] * TAILLE_TUILE);
+                loup.setX(etape[0] * TAILLE_TUILE);
+                loup.setY(etape[1] * TAILLE_TUILE);
                 botPathIndex++;
             }
         }));
@@ -169,7 +169,7 @@ public class ControleurJeu {
         if (botDelaiCouleur > 0) {
             botDelaiCouleur--;
             if (botDelaiCouleur == 0 && botVie > 0) {
-                bot.setFill(couleurBotBase);
+                loup.getSprite().setOpacity(opaciteLoupBase);
             }
         }
 
@@ -183,8 +183,8 @@ public class ControleurJeu {
         }
 
         // --- BOT TAKİP ---
-        int botCol = (int) (bot.getX() / TAILLE_TUILE);
-        int botLig = (int) (bot.getY() / TAILLE_TUILE);
+        int botCol = (int) (loup.getX() / TAILLE_TUILE);
+        int botLig = (int) (loup.getY() / TAILLE_TUILE);
         int joueurCol = (int) (joueur.getX() / TAILLE_TUILE);
         int joueurLig = (int) (joueur.getY() / TAILLE_TUILE);
         // Recalcule le chemin uniquement lorsque c'est nécessaire et que le
@@ -206,10 +206,10 @@ public class ControleurJeu {
             botPath = null;
         }
         // Positionne l'affichage du bot en fonction du décalage de la caméra
-        bot.setTranslateX(-offsetX);
+        loup.getSprite().setTranslateX(-offsetX);
 
         // Collision simple entre le bot et le joueur
-        if (bot.getBoundsInParent().intersects(joueur.getSprite().getBoundsInParent()) && delaiDegats == 0 && botVie > 0) {
+        if (loup.getSprite().getBoundsInParent().intersects(joueur.getSprite().getBoundsInParent()) && delaiDegats == 0 && botVie > 0) {
             joueur.subirDegats(BOT_DEGATS);
             delaiDegats = 20; // petite invulnérabilité après un coup
         }
@@ -217,13 +217,13 @@ public class ControleurJeu {
         // Dégâts infligés au bot par l'attaque du joueur
         if (botVie > 0 && joueur.estEnAttaque() && !animation.isAttaqueTerminee()
                 && botDelaiCouleur == 0
-                && bot.getBoundsInParent().intersects(joueur.getSprite().getBoundsInParent())) {
+                && loup.getSprite().getBoundsInParent().intersects(joueur.getSprite().getBoundsInParent())) {
             botVie--;
-            bot.setFill(Color.DARKRED);
+            loup.getSprite().setOpacity(0.5);
             botDelaiCouleur = 10;
             if (botVie <= 0) {
                 botTimeline.stop();
-                bot.setVisible(false);
+                loup.getSprite().setVisible(false);
             }
         }
 
