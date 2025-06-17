@@ -72,22 +72,22 @@ public class Loup extends Personnage {
      * Met à jour le déplacement du loup en fonction de la position du joueur.
      */
     public void mettreAJourIA(Joueur joueur) {
-        double distance = joueur.getX() - this.x;
+        double distance = joueur.getX() - getX();
         // Si une attaque est en cours, le loup continue son mouvement dans la
         // direction initiale jusqu'à atteindre la position enregistrée au
         // lancement de l'attaque. Il ne réajuste pas sa trajectoire sur le
         // joueur.
         if (enAttaque) {
             if (directionAttaque >= 0) {
-                if (this.x < cibleAttaqueX) {
-                    double step = Math.min(vitesseCourse, cibleAttaqueX - this.x);
+                if (getX() < cibleAttaqueX) {
+                    double step = Math.min(vitesseCourse, cibleAttaqueX - getX());
                     deplacerDroite(step);
                 } else {
                     arreter();
                 }
             } else {
-                if (this.x > cibleAttaqueX) {
-                    double step = Math.min(vitesseCourse, this.x - cibleAttaqueX);
+                if (getX() > cibleAttaqueX) {
+                    double step = Math.min(vitesseCourse, getX() - cibleAttaqueX);
                     deplacerGauche(step);
                 } else {
                     arreter();
@@ -167,7 +167,7 @@ public class Loup extends Personnage {
         enAttaque = true;
         // On enregistre la direction actuelle pour la conserver durant
         // toute la séquence d'attaque.
-        directionAttaque = versGauche ? -1 : 1;
+        directionAttaque = estVersGauche() ? -1 : 1;
         cibleAttaqueX = positionJoueurX;
         getSprite().setImage(attackImage);
     }

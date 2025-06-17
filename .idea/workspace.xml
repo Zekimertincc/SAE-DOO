@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="04ca2a54-06d3-49ed-b803-58534b0974e2" name="Changes" comment="version ameliore il ya des algorithm a* et le ennemi essaie de te suivre">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/ControleurJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/ControleurJeu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/personnages/Joueur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/personnages/Joueur.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/personnages/Loup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/personnages/Loup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/personnages/Personnage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/personnages/Personnage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/utilitaire/BarreVie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/utilitaire/BarreVie.java" afterDir="false" />
-    </list>
+    <list default="true" id="04ca2a54-06d3-49ed-b803-58534b0974e2" name="Changes" comment="version ameliore il ya des algorithm a* et le ennemi essaie de te suivre" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -163,7 +156,7 @@
       <workItem from="1747593370378" duration="15504000" />
       <workItem from="1749799247799" duration="9285000" />
       <workItem from="1750070788105" duration="508000" />
-      <workItem from="1750165178445" duration="2367000" />
+      <workItem from="1750165178445" duration="3192000" />
     </task>
     <servers />
   </component>
