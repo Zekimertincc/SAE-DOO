@@ -1,10 +1,10 @@
 //package fr.iut.groupe.terraria.demo;
 //
-//import universite_paris8.iut.dagnetti.junglequest.modele.item.nourriture.Champignon;
-//import universite_paris8.iut.dagnetti.junglequest.modele.item.nourriture.Pomme;
-//import universite_paris8.iut.dagnetti.junglequest.modele.item.nourriture.Poulet;
-//import universite_paris8.iut.dagnetti.junglequest.modele.personnage.EtatTemporaire;
-//import universite_paris8.iut.dagnetti.junglequest.modele.personnage.Joueur;
+//import fr.iut.groupe.terraria.demo.modele.item.nourriture.Champignon;
+//import fr.iut.groupe.terraria.demo.modele.item.nourriture.Pomme;
+//import fr.iut.groupe.terraria.demo.modele.item.nourriture.Poulet;
+//import fr.iut.groupe.terraria.demo.modele.personnage.EtatTemporaire;
+//import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //

@@ -1,11 +1,11 @@
 //package fr.iut.groupe.terraria.demo;
 //
-//import universite_paris8.iut.dagnetti.junglequest.modele.item.equipement.arme.Arc;
-//import universite_paris8.iut.dagnetti.junglequest.modele.item.equipement.outil.Hache;
-//import universite_paris8.iut.dagnetti.junglequest.modele.personnage.EtatTemporaire;
-//import universite_paris8.iut.dagnetti.junglequest.modele.personnage.Joueur;
-//import universite_paris8.iut.dagnetti.junglequest.modele.personnage.ennemi.Loup;
-//import universite_paris8.iut.dagnetti.junglequest.modele.ressource.Arbre;
+//import fr.iut.groupe.terraria.demo.modele.item.equipement.arme.Arc;
+//import fr.iut.groupe.terraria.demo.modele.item.equipement.outil.Hache;
+//import fr.iut.groupe.terraria.demo.modele.personnage.EtatTemporaire;
+//import fr.iut.groupe.terraria.demo.modele.personnage.Joueur;
+//import fr.iut.groupe.terraria.demo.modele.personnage.ennemi.Loup;
+//import fr.iut.groupe.terraria.demo.modele.ressource.Arbre;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //
