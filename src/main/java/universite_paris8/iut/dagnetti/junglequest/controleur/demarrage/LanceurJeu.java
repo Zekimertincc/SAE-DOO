@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Screen;
@@ -71,9 +72,15 @@ public class LanceurJeu extends Application {
         Scene scene = new Scene(racine, screenWidth, screenHeight);
 
         Pane pauseOverlay = (Pane) scene.lookup("#pauseOverlay");
+        Pane craftOverlay = (Pane) scene.lookup("#craftOverlay");
+        VBox craftBox = (VBox) scene.lookup("#craftBox");
         if (pauseOverlay != null) {
             pauseOverlay.prefWidthProperty().bind(scene.widthProperty());
             pauseOverlay.prefHeightProperty().bind(scene.heightProperty());
+        }
+        if (craftOverlay != null) {
+            craftOverlay.prefWidthProperty().bind(scene.widthProperty());
+            craftOverlay.prefHeightProperty().bind(scene.heightProperty());
         }
 
         try {
@@ -153,6 +160,7 @@ public class LanceurJeu extends Application {
             ControleurJeu controleurJeu = new ControleurJeu(
                     scene, carte, carteAffichable, joueur,
                     inventaireCtrl, barreVie, labelVie, pauseOverlay,
+                    craftOverlay, craftBox,
                     idle, marche, attaque, preparationSaut, volSaut, sautReload,
                     chute, atterrissage, degats, mort, sort, accroupi, bouclier,
                     loup

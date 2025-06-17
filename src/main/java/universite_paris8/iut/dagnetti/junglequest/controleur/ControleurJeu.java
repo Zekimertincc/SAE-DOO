@@ -17,6 +17,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Loup;
 
 import static universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu.*;
@@ -49,6 +50,8 @@ public class ControleurJeu {
     private final ProgressBar barreVie;
     private final Label labelVie;
     private final Pane pauseOverlay;
+    private final Pane craftOverlay;
+    private final VBox craftBox;
     private VueBackground vueBackground;
     private final double largeurEcran;
 
@@ -72,6 +75,7 @@ public class ControleurJeu {
     private int delaiDegats = 0;
     private boolean joueurMort = false;
     private boolean enPause = false;
+    private boolean enCraft = false;
     private Stage fenetreParametres;
 
     // --- Ressources placées dans le monde ---
@@ -84,6 +88,7 @@ public class ControleurJeu {
 
     public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur,
                          InventaireController inventaireController, ProgressBar barreVie, Label labelVie, Pane pauseOverlay,
+                         Pane craftOverlay, VBox craftBox,
                          WritableImage[] idle, WritableImage[] marche,
                          WritableImage[] attaque, WritableImage[] preparationSaut, WritableImage[] volSaut,
                          WritableImage[] sautReload, WritableImage[] chute, WritableImage[] atterrissage,
@@ -98,8 +103,13 @@ public class ControleurJeu {
         this.barreVie = barreVie;
         this.labelVie = labelVie;
         this.pauseOverlay = pauseOverlay;
+        this.craftOverlay = craftOverlay;
+        this.craftBox = craftBox;
         if (this.pauseOverlay != null) {
             this.pauseOverlay.setVisible(false);
+        }
+        if (this.craftOverlay != null) {
+            this.craftOverlay.setVisible(false);
         }
         if (this.labelVie != null) {
             this.labelVie.textProperty().bind(joueur.pointsDeVieProperty().asString());
@@ -166,6 +176,12 @@ public class ControleurJeu {
                 if (inventaireController != null) {
                     inventaireController.basculerAffichage();
                 }
+            } else if (e.getCode() == KeyCode.C) {
+                if (craftOverlay != null) {
+                    enCraft = !craftOverlay.isVisible();
+                    craftOverlay.setVisible(enCraft);
+                    enPause = enCraft;
+                }
             } else if (e.getCode() == KeyCode.ENTER) {
                 enPause = !enPause;
                 if (pauseOverlay != null) {
@@ -173,6 +189,8 @@ public class ControleurJeu {
                 }
             }
         });
+
+        initialiserCraft();
 
         new AnimationTimer() {
             @Override
@@ -183,7 +201,7 @@ public class ControleurJeu {
     }
 
     private void mettreAJour() {
-        if (enPause) return;
+        if (enPause || enCraft) return;
         if (delaiDegats > 0) delaiDegats--;
         if (framesAtterrissageRestants > 0) framesAtterrissageRestants--;
         if (cooldownChemin > 0) cooldownChemin--;
@@ -412,6 +430,42 @@ public class ControleurJeu {
             fenetreParametres.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void initialiserCraft() {
+        if (craftBox == null) return;
+        craftBox.getChildren().clear();
+        java.util.List<universite_paris8.iut.dagnetti.junglequest.modele.item.equipement.Equipement> eqs = java.util.List.of(
+                new universite_paris8.iut.dagnetti.junglequest.modele.item.equipement.outil.Hache(),
+                new universite_paris8.iut.dagnetti.junglequest.modele.item.equipement.outil.Pioche(),
+                new universite_paris8.iut.dagnetti.junglequest.modele.item.equipement.arme.Arc(),
+                new universite_paris8.iut.dagnetti.junglequest.modele.item.equipement.arme.Bombe()
+        );
+        for (var eq : eqs) {
+            javafx.scene.control.Button b = new javafx.scene.control.Button(eq.getNom());
+            b.setOnMouseClicked(e -> {
+                if (e.getClickCount() == 2) {
+                    tenterCraft(eq);
+                }
+            });
+            craftBox.getChildren().add(b);
+        }
+    }
+
+    private void tenterCraft(universite_paris8.iut.dagnetti.junglequest.modele.item.equipement.Equipement eq) {
+        var inv = joueur.getInventaire();
+        if (inv.contient("Bois", 1) && inv.contient("Pierre", 1) && inv.contient("File", 1)) {
+            inv.retirerItem("Bois", 1);
+            inv.retirerItem("Pierre", 1);
+            inv.retirerItem("File", 1);
+            inv.ajouterItem(eq.getNom(), 1);
+            if (inventaireController != null) {
+                inventaireController.rafraichir();
+            }
+            if (craftOverlay != null) craftOverlay.setVisible(false);
+            enCraft = false;
+            enPause = false;
         }
     }
 }
