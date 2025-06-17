@@ -1,5 +1,7 @@
 package universite_paris8.iut.dagnetti.junglequest.modele.personnages;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.ImageView;
 import universite_paris8.iut.dagnetti.junglequest.modele.item.Inventaire;
 import universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu;
@@ -11,13 +13,13 @@ public class Joueur extends Personnage {
 
     private boolean estEnAttaque;
     private final Inventaire inventaire;
-    private int pointsDeVie;
+    private final IntegerProperty pointsDeVie;
 
     public Joueur(ImageView sprite, double x, double y) {
         super(sprite, x, y);
         this.estEnAttaque = false;
         this.inventaire = new Inventaire();
-        this.pointsDeVie = ConstantesJeu.VIE_MAX_JOUEUR;
+        this.pointsDeVie = new SimpleIntegerProperty(ConstantesJeu.VIE_MAX_JOUEUR);
     }
 
     public boolean estEnAttaque() {
@@ -37,17 +39,20 @@ public class Joueur extends Personnage {
     }
 
     public int getPointsDeVie() {
+        return pointsDeVie.get();
+    }
+
+    public IntegerProperty pointsDeVieProperty() {
         return pointsDeVie;
     }
 
     public void subirDegats(int quantite) {
-        pointsDeVie -= quantite;
-        if (pointsDeVie < 0) {
-            pointsDeVie = 0;
-        }
+        int nouvelleVie = pointsDeVie.get() - quantite;
+        pointsDeVie.set(Math.max(nouvelleVie, 0));
     }
 
     public void soigner(int quantite) {
-        pointsDeVie = Math.min(pointsDeVie + quantite, ConstantesJeu.VIE_MAX_JOUEUR);
+        int nouvelleVie = pointsDeVie.get() + quantite;
+        pointsDeVie.set(Math.min(nouvelleVie, ConstantesJeu.VIE_MAX_JOUEUR));
     }
 }

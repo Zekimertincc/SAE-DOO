@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.beans.binding.Bindings;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
@@ -94,6 +95,22 @@ public class ControleurJeu {
         this.pauseOverlay = pauseOverlay;
         if (this.pauseOverlay != null) {
             this.pauseOverlay.setVisible(false);
+        }
+        if (this.labelVie != null) {
+            this.labelVie.textProperty().bind(joueur.pointsDeVieProperty().asString());
+        }
+        if (this.barreVie != null) {
+            this.barreVie.progressProperty().bind(
+                    Bindings.divide(joueur.pointsDeVieProperty(), (double) VIE_MAX_JOUEUR)
+            );
+            this.barreVie.progressProperty().addListener((obs, ov, nv) -> {
+                Color couleurVie = Color.GREEN.interpolate(Color.RED, 1 - nv.doubleValue());
+                String hex = String.format("#%02X%02X%02X",
+                        (int) (couleurVie.getRed() * 255),
+                        (int) (couleurVie.getGreen() * 255),
+                        (int) (couleurVie.getBlue() * 255));
+                barreVie.setStyle("-fx-accent: " + hex + ";");
+            });
         }
         this.clavier = new GestionClavier(scene);
         this.largeurEcran = scene.getWidth();
@@ -236,15 +253,13 @@ public class ControleurJeu {
         boolean toucheDegats = clavier.estAppuyee(KeyCode.M);
 
         if (inventaireController != null) {
-            if (clavier.estAppuyee(KeyCode.DIGIT1)) inventaireController.selectionnerIndex(0);
-            else if (clavier.estAppuyee(KeyCode.DIGIT2)) inventaireController.selectionnerIndex(1);
-            else if (clavier.estAppuyee(KeyCode.DIGIT3)) inventaireController.selectionnerIndex(2);
-            else if (clavier.estAppuyee(KeyCode.DIGIT4)) inventaireController.selectionnerIndex(3);
-            else if (clavier.estAppuyee(KeyCode.DIGIT5)) inventaireController.selectionnerIndex(4);
-            else if (clavier.estAppuyee(KeyCode.DIGIT6)) inventaireController.selectionnerIndex(5);
-            else if (clavier.estAppuyee(KeyCode.DIGIT7)) inventaireController.selectionnerIndex(6);
-            else if (clavier.estAppuyee(KeyCode.DIGIT8)) inventaireController.selectionnerIndex(7);
-            else if (clavier.estAppuyee(KeyCode.DIGIT9)) inventaireController.selectionnerIndex(8);
+            for (int i = 1; i <= 9; i++) {
+                KeyCode code = KeyCode.valueOf("DIGIT" + i);
+                if (clavier.estAppuyee(code)) {
+                    inventaireController.selectionnerIndex(i - 1);
+                    break;
+                }
+            }
             if (clavier.estAppuyee(KeyCode.E)) inventaireController.deselectionner();
         }
 
@@ -278,15 +293,6 @@ public class ControleurJeu {
         barreVie.setLayoutY(joueur.getY() - 10);
         labelVie.setLayoutX(joueur.getX() - offsetX);
         labelVie.setLayoutY(joueur.getY() - 25);
-        labelVie.setText(Integer.toString(joueur.getPointsDeVie()));
-        double ratioVie = joueur.getPointsDeVie() / (double) VIE_MAX_JOUEUR;
-        barreVie.setProgress(ratioVie);
-        Color couleurVie = Color.GREEN.interpolate(Color.RED, 1 - ratioVie);
-        String hex = String.format("#%02X%02X%02X",
-                (int) (couleurVie.getRed() * 255),
-                (int) (couleurVie.getGreen() * 255),
-                (int) (couleurVie.getBlue() * 255));
-        barreVie.setStyle("-fx-accent: " + hex + ";");
 
         // Dilersen istersen bot ve oyuncunun çarpışma kontrolünü de burada ekleyebilirsin.
         // (Ama Loup ile ilgili bir kod yok!)
