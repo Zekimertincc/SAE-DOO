@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.control.ProgressBar;
@@ -31,6 +32,10 @@ import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Loup;
 import universite_paris8.iut.dagnetti.junglequest.vue.VueBackground;
 import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.ExtracteurSprites;
 import universite_paris8.iut.dagnetti.junglequest.vue.CarteAffichable;
+import javafx.scene.shape.Rectangle;
+import universite_paris8.iut.dagnetti.junglequest.modele.ressource.Arbre;
+import universite_paris8.iut.dagnetti.junglequest.modele.ressource.CanneSucre;
+import universite_paris8.iut.dagnetti.junglequest.modele.ressource.Roche;
 
 public class LanceurJeu extends Application {
 
@@ -154,6 +159,28 @@ public class LanceurJeu extends Application {
             );
             controleurJeu.setVueBackground(vueBackground);
 
+            // --- Ajout de ressources basiques ---
+            int colArbre = 25;
+            int solArbre = carte.chercherLigneSol(colArbre);
+            double yArbre = solArbre * ConstantesJeu.TAILLE_TUILE - 32;
+            Arbre arbre = new Arbre(colArbre * ConstantesJeu.TAILLE_TUILE, yArbre);
+            ajouterRessourceRectangle(racine, controleurJeu, joueur, inventaireCtrl, arbre,
+                    Color.DARKGREEN, ConstantesJeu.TAILLE_TUILE, 32);
+
+            int colCanne = 35;
+            int solCanne = carte.chercherLigneSol(colCanne);
+            double yCanne = solCanne * ConstantesJeu.TAILLE_TUILE - 16;
+            CanneSucre canne = new CanneSucre(colCanne * ConstantesJeu.TAILLE_TUILE, yCanne);
+            ajouterRessourceRectangle(racine, controleurJeu, joueur, inventaireCtrl, canne,
+                    Color.BEIGE, ConstantesJeu.TAILLE_TUILE, 16);
+
+            int colRoche = 45;
+            int solRoche = carte.chercherLigneSol(colRoche);
+            double yRoche = solRoche * ConstantesJeu.TAILLE_TUILE - 16;
+            Roche roche = new Roche(colRoche * ConstantesJeu.TAILLE_TUILE, yRoche);
+            ajouterRessourceRectangle(racine, controleurJeu, joueur, inventaireCtrl, roche,
+                    Color.GREY, ConstantesJeu.TAILLE_TUILE, 16);
+
         } catch (IOException e) {
             System.err.println("Erreur critique : " + e.getMessage());
             e.printStackTrace();
@@ -200,5 +227,27 @@ public class LanceurJeu extends Application {
             System.err.println("Inventaire UI non chargé : " + e.getMessage());
             return null;
         }
+    }
+
+    private void ajouterRessourceRectangle(Pane racine, ControleurJeu controleur, Joueur joueur,
+                                           InventaireController inventaireCtrl, Ressource ressource,
+                                           Color couleur, int largeur, int hauteur) {
+        Rectangle rect = new Rectangle(largeur, hauteur, couleur);
+        rect.setX(ressource.getX());
+        rect.setY(ressource.getY());
+        racine.getChildren().add(rect);
+        ressource.setVueNode(rect);
+        rect.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                joueur.getInventaire().ajouterItem(ressource.getItemProduit().getNom(), 1);
+                if (inventaireCtrl != null) {
+                    inventaireCtrl.rafraichir();
+                }
+                racine.getChildren().remove(rect);
+                controleur.retirerRessource(ressource);
+                e.consume();
+            }
+        });
+        controleur.ajouterRessource(ressource);
     }
 }

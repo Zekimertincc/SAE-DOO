@@ -33,7 +33,9 @@ import javafx.scene.image.WritableImage;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.InventaireController;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.ParametresController;
 import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.Pathfinder;
+import universite_paris8.iut.dagnetti.junglequest.modele.ressource.Ressource;
 import java.util.List;
+import java.util.ArrayList;
 
 public class ControleurJeu {
 
@@ -71,6 +73,9 @@ public class ControleurJeu {
     private boolean joueurMort = false;
     private boolean enPause = false;
     private Stage fenetreParametres;
+
+    // --- Ressources placées dans le monde ---
+    private final List<Ressource> ressources = new ArrayList<>();
 
     // --- Gestion de la vie du bot ---
     private int botVie = 3;
@@ -197,6 +202,13 @@ public class ControleurJeu {
         carteAffichable.redessiner(offsetX);
         if (vueBackground != null) {
             vueBackground.mettreAJourScroll(offsetX);
+        }
+
+        // Met à jour la position des ressources affichées
+        for (Ressource r : ressources) {
+            if (r.getVueNode() != null) {
+                r.getVueNode().setTranslateX(-offsetX);
+            }
         }
 
         // --- BOT TAKİP ---
@@ -328,6 +340,14 @@ public class ControleurJeu {
 
     public void setVueBackground(VueBackground vueBackground) {
         this.vueBackground = vueBackground;
+    }
+
+    public void ajouterRessource(Ressource ressource) {
+        ressources.add(ressource);
+    }
+
+    public void retirerRessource(Ressource ressource) {
+        ressources.remove(ressource);
     }
 
     private void gererClicDroit(double xScene, double yScene) {
