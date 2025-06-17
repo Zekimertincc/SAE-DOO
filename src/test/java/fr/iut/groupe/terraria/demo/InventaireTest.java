@@ -1,9 +1,9 @@
 package fr.iut.groupe.terraria.demo;
 
 
-import fr.iut.groupe.terraria.demo.modele.Inventaire;
-import fr.iut.groupe.terraria.demo.modele.item.equipement.outil.Hache;
-import fr.iut.groupe.terraria.demo.modele.item.nourriture.Pomme;
+import universite_paris8.iut.dagnetti.junglequest.modele.Inventaire;
+import universite_paris8.iut.dagnetti.junglequest.modele.item.equipement.outil.Hache;
+import universite_paris8.iut.dagnetti.junglequest.modele.item.nourriture.Pomme;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
