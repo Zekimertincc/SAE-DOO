@@ -6,18 +6,19 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import universite_paris8.iut.dagnetti.junglequest.modele.carte.Carte;
+import universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class CarteAffichable extends Pane {
 
-    private static final int TAILLE_TUILE = 32;
+    private static final int TAILLE_TUILE = ConstantesJeu.TAILLE_TUILE;
 
     private final Carte carteLogique;
-    private final Image tileset;
-    private final PixelReader lecteurPixels;
-    private final int colonnesTileset;
+    
+    private final List<Tileset> tilesets;
     private final int tuilesEcranLargeur;
     private final int tuilesEcranHauteur;
     private double offsetX = 0;
@@ -25,11 +26,13 @@ public class CarteAffichable extends Pane {
     private final List<ImageView> tuilesAffichees = new ArrayList<>();
 
     public CarteAffichable(Carte carte, Image tileset, int largeurEcranPx, int hauteurEcranPx) {
+        this(carte, List.of(new Tileset(tileset, 0)), largeurEcranPx, hauteurEcranPx);
+    }
+    public CarteAffichable(Carte carte, List<Tileset> tilesets, int largeurEcranPx, int hauteurEcranPx) {
         this.carteLogique = carte;
-        this.tileset = tileset;
-        this.lecteurPixels = tileset.getPixelReader();
+        this.tilesets = new ArrayList<>(tilesets);
+        this.tilesets.sort(Comparator.comparingInt(Tileset::getFirstGid));
 
-        this.colonnesTileset = (int) tileset.getWidth() / TAILLE_TUILE;
         this.tuilesEcranLargeur = largeurEcranPx / TAILLE_TUILE + 2;
         this.tuilesEcranHauteur = hauteurEcranPx / TAILLE_TUILE;
 
@@ -58,12 +61,24 @@ public class CarteAffichable extends Pane {
 
                 int idTuile = carteLogique.getValeurTuile(ligneCarte, colonneCarte);
                 if (idTuile < 0) continue;
+                Tileset tsSelectionne = null;
+                for (Tileset ts : tilesets) {
+                    if (idTuile >= ts.getFirstGid()) {
+                        tsSelectionne = ts;
+                    } else {
+                        break;
+                    }
+                }
+                if (tsSelectionne == null) continue;
+                int localId = idTuile - tsSelectionne.getFirstGid();
 
-                int xTileset = (idTuile % colonnesTileset) * TAILLE_TUILE;
-                int yTileset = (idTuile / colonnesTileset) * TAILLE_TUILE;
+                int xTileset = (localId % tsSelectionne.getColumns()) * TAILLE_TUILE;
+                int yTileset = (localId / tsSelectionne.getColumns()) * TAILLE_TUILE;
+
+
 
                 WritableImage imageTuile = new WritableImage(
-                        lecteurPixels, xTileset, yTileset, TAILLE_TUILE, TAILLE_TUILE
+                        tsSelectionne.getReader(), xTileset, yTileset, TAILLE_TUILE, TAILLE_TUILE
                 );
 
                 ImageView vueTuile = new ImageView(imageTuile);

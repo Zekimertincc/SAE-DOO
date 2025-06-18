@@ -4,8 +4,11 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import java.util.Random;
 import universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu;
+import java.util.*;
+import universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu;
+import universite_paris8.iut.dagnetti.junglequest.modele.carte.Carte;
+import universite_paris8.iut.dagnetti.junglequest.modele.ia.AStarPathfinder;
 
 /**
  * Représente un ennemi de type loup.
@@ -53,6 +56,13 @@ public class Loup extends Personnage {
     private final Random random = new Random();
     private int dureeAction = 0;
 
+    /** Chemin courant vers le joueur calculé par A*. */
+    private Deque<int[]> chemin = new ArrayDeque<>();
+
+    /** Intervalle entre deux calculs du chemin en frames. */
+    private static final int INTERVALLE_RECALCUL = 30;
+    private int delaiRecalcul = 0;
+
     /**
      * Temps restant d'une éventuelle pause dans la poursuite du joueur.
      */
@@ -71,7 +81,7 @@ public class Loup extends Personnage {
     /**
      * Met à jour le déplacement du loup en fonction de la position du joueur.
      */
-    public void mettreAJourIA(Joueur joueur) {
+    public void mettreAJourIA(Joueur joueur, Carte carte) {
         double distance = joueur.getX() - getX();
         // Si une attaque est en cours, le loup continue son mouvement dans la
         // direction initiale jusqu'à atteindre la position enregistrée au
@@ -125,10 +135,39 @@ public class Loup extends Personnage {
         // Le joueur est détecté mais pas encore à portée : poursuite
         if (Math.abs(distance) <= zoneDetection) {
             getSprite().setImage(runImage);
-            if (distance > 0) {
-                deplacerDroite(vitesseCourse);
+            if (delaiRecalcul <= 0) {
+                int startC = (int) ((getX() + getSprite().getFitWidth() / 2) / ConstantesJeu.TAILLE_TUILE);
+                int startL = (int) ((getY() + getSprite().getFitHeight()) / ConstantesJeu.TAILLE_TUILE);
+                int goalC = (int) ((joueur.getX() + joueur.getSprite().getFitWidth() / 2) / ConstantesJeu.TAILLE_TUILE);
+                int goalL = (int) ((joueur.getY() + joueur.getSprite().getFitHeight()) / ConstantesJeu.TAILLE_TUILE);
+                List<int[]> nouveau = AStarPathfinder.calculerChemin(carte, startL, startC, goalL, goalC);
+                chemin.clear();
+                chemin.addAll(nouveau);
+                delaiRecalcul = INTERVALLE_RECALCUL;
             } else {
-                deplacerGauche(vitesseCourse);
+                delaiRecalcul--;
+            }
+
+            if (!chemin.isEmpty()) {
+                int[] prochaine = chemin.peek();
+                double cibleX = prochaine[1] * ConstantesJeu.TAILLE_TUILE;
+                if (Math.abs(cibleX - getX()) < vitesseCourse) {
+                    setX(cibleX);
+                    chemin.poll();
+                }
+                if (cibleX > getX()) {
+                    deplacerDroite(vitesseCourse);
+                } else if (cibleX < getX()) {
+                    deplacerGauche(vitesseCourse);
+                } else {
+                    arreter();
+                }
+            } else {
+                if (distance > 0) {
+                    deplacerDroite(vitesseCourse);
+                } else {
+                    deplacerGauche(vitesseCourse);
+                }
             }
             delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
         } else {

@@ -35,6 +35,7 @@ public class ControleurJeu {
     private final MoteurPhysique moteur = new MoteurPhysique();
     private final Carte carte;
     private final CarteAffichable carteAffichable;
+    private final CarteAffichable carteDecoration;
     private final Joueur joueur;
     private final Loup loup;
     private final GestionClavier clavier;
@@ -75,7 +76,7 @@ public class ControleurJeu {
     /**
      * Initialise le contrôleur principal du jeu : clavier, animation, logique du joueur et gestion des clics.
      */
-    public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur,Loup loup, InventaireController inventaireController, BarreVie barreVie, javafx.scene.control.Label labelVie, BarreVie barreVieLoup, javafx.scene.control.Label labelVieLoup, Pane pauseOverlay,
+    public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, CarteAffichable carteDecoration, Joueur joueur,Loup loup, InventaireController inventaireController, BarreVie barreVie, javafx.scene.control.Label labelVie, BarreVie barreVieLoup, javafx.scene.control.Label labelVieLoup, Pane pauseOverlay,
                          WritableImage[] idle, WritableImage[] marche,
                          WritableImage[] attaque,
                          WritableImage[] preparationSaut, WritableImage[] volSaut, WritableImage[] sautReload,
@@ -85,6 +86,7 @@ public class ControleurJeu {
 
         this.carte = carte;
         this.carteAffichable = carteAffichable;
+        this.carteDecoration = carteDecoration;
         this.joueur = joueur;
         this.loup = loup;
         this.inventaireController = inventaireController;
@@ -268,7 +270,7 @@ public class ControleurJeu {
 
         // Mise à jour du loup
         if (!loupMort) {
-            loup.mettreAJourIA(joueur);
+            loup.mettreAJourIA(joueur, carte);
             moteur.mettreAJourPhysique(loup, carte);
         } else {
             loup.arreter();
@@ -282,12 +284,16 @@ public class ControleurJeu {
 
         // Redessiner la carte avec le nouveau décalage
         carteAffichable.redessiner(offsetX);
+        if (carteDecoration != null) {
+            carteDecoration.redessiner(offsetX);
+        }
 
         // Redessiner le fond si présent
         if (vueBackground != null) {
             vueBackground.mettreAJourScroll(offsetX);
         }
         joueur.getSprite().setX(joueur.getX() - offsetX);
+        joueur.getSprite().setY(joueur.getY());
         loup.getSprite().setX(loup.getX() - offsetX);
         loup.getSprite().setY(loup.getY());
         barreVie.setLayoutX(joueur.getX() - offsetX);
@@ -421,6 +427,9 @@ public class ControleurJeu {
             }
 
             carteAffichable.redessiner(offsetX);
+            if (carteDecoration != null) {
+                carteDecoration.redessiner(offsetX);
+            }
         }
     }
 

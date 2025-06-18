@@ -26,6 +26,7 @@ import universite_paris8.iut.dagnetti.junglequest.modele.carte.Carte;
 import universite_paris8.iut.dagnetti.junglequest.modele.carte.ChargeurCarte;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Joueur;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Loup;
+import universite_paris8.iut.dagnetti.junglequest.vue.Tileset;
 import universite_paris8.iut.dagnetti.junglequest.vue.VueBackground;
 import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.ExtracteurSprites;
 import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.PositionFrame;
@@ -63,11 +64,13 @@ public class LanceurJeu extends Application {
         try {
             int[][] grille = ChargeurCarte.chargerCarteDepuisCSV("/universite_paris8/iut/dagnetti/junglequest/cartes/jungle_map_calque1.csv");
             Carte carte = new Carte(grille);
-            System.out.println("Carte chargée avec succès.");
+            int[][] grilleDecor = ChargeurCarte.chargerCarteDepuisCSV("/universite_paris8/iut/dagnetti/junglequest/cartes/jungle_map_calque2.csv");
+            Carte carteDecor = new Carte(grilleDecor);
+            System.out.println("Cartes chargées avec succès.");
 
-            InputStream tilesetStream = getClass().getResourceAsStream("/universite_paris8/iut/dagnetti/junglequest/images/tileset_jungle.png");
+            InputStream tilesetStream = getClass().getResourceAsStream("/universite_paris8/iut/dagnetti/junglequest/images/tileset1_jungle.png");
             if (tilesetStream == null) {
-                throw new IOException("Ressource tileset_jungle.png introuvable");
+                throw new IOException("Ressource tileset1_jungle.png introuvable");
             }
             Image tileset = new Image(tilesetStream);
             if (tileset.isError()) System.err.println("Erreur de chargement du tileset.");
@@ -75,6 +78,9 @@ public class LanceurJeu extends Application {
 
 
             CarteAffichable carteAffichable = new CarteAffichable(carte, tileset, (int) largeur, (int) hauteur);
+            Image deco1 = new Image(getClass().getResourceAsStream("/universite_paris8/iut/dagnetti/junglequest/images/tileset1_jungle.png"));
+            Image deco2 = new Image(getClass().getResourceAsStream("/universite_paris8/iut/dagnetti/junglequest/images/tilesetrock_jungle.png"));
+            CarteAffichable carteDeco = new CarteAffichable(carteDecor, List.of(new Tileset(deco1, 0), new Tileset(deco2, 0)), (int) largeur, (int) hauteur);
             int largeurCartePx = carte.getLargeur() * ConstantesJeu.TAILLE_TUILE;
             VueBackground vueBackground = new VueBackground((int) largeur, (int) hauteur, largeurCartePx);
             System.out.println("Background dynamique initialisé.");
@@ -117,7 +123,8 @@ public class LanceurJeu extends Application {
 
             Joueur joueur = new Joueur(spriteJoueur, xInitial, yInitial);
             joueur.setEstAuSol(true);
-            racine.getChildren().addAll(carteAffichable, spriteJoueur);
+            racine.getChildren().addAll(carteAffichable, carteDeco, spriteJoueur);
+
 
 
             Image imgLoupWalk = new Image(getClass().getResourceAsStream(
@@ -162,7 +169,7 @@ public class LanceurJeu extends Application {
             racine.getChildren().add(labelVie);
             InventaireController inventaireCtrl = afficherInventaire(racine, joueur, largeur, hauteur);
 
-            ControleurJeu controleurJeu = new ControleurJeu(scene, carte, carteAffichable, joueur, loup, inventaireCtrl, barreVie, labelVie, barreVieLoup, labelVieLoup, pauseOverlay,
+            ControleurJeu controleurJeu = new ControleurJeu(scene, carte, carteAffichable, carteDeco, joueur, loup, inventaireCtrl, barreVie, labelVie, barreVieLoup, labelVieLoup, pauseOverlay,
                     idle, marche, attaque, preparationSaut, volSaut, sautReload,
                     chute, atterrissage, degats, mort, sort, accroupi, bouclier);
 
