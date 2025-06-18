@@ -17,7 +17,7 @@ public class VueJeu extends Pane {
         this.setPrefSize(largeurEcran, hauteurEcran);
 
         this.vueBackground = new VueBackground(largeurEcran, hauteurEcran, carte.getLargeur() * ConstantesJeu.TAILLE_TUILE);
-        this.carteAffichable = new CarteAffichable(carte, tileset, largeurEcran, hauteurEcran);
+        this.carteAffichable = new CarteAffichable(carte, tileset, largeurEcran, hauteurEcran, ConstantesJeu.FACTEUR_ZOOM_CARTE);
 
         // Ordre d'affichage : background → carte → joueur
         this.getChildren().addAll(

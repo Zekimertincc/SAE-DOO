@@ -26,9 +26,19 @@ public class CarteAffichable extends Pane {
     private final List<ImageView> tuilesAffichees = new ArrayList<>();
 
     public CarteAffichable(Carte carte, Image tileset, int largeurEcranPx, int hauteurEcranPx) {
-        this(carte, List.of(new Tileset(tileset, 0)), largeurEcranPx, hauteurEcranPx);
+        this(carte, List.of(new Tileset(tileset, 0)), largeurEcranPx, hauteurEcranPx, 1.0);
     }
+
+
+    public CarteAffichable(Carte carte, Image tileset, int largeurEcranPx, int hauteurEcranPx, double zoom) {
+        this(carte, List.of(new Tileset(tileset, 0)), largeurEcranPx, hauteurEcranPx, zoom);
+    }
+
     public CarteAffichable(Carte carte, List<Tileset> tilesets, int largeurEcranPx, int hauteurEcranPx) {
+        this(carte, tilesets, largeurEcranPx, hauteurEcranPx, 1.0);
+    }
+
+    public CarteAffichable(Carte carte, List<Tileset> tilesets, int largeurEcranPx, int hauteurEcranPx, double zoom) {
         this.carteLogique = carte;
         this.tilesets = new ArrayList<>(tilesets);
         this.tilesets.sort(Comparator.comparingInt(Tileset::getFirstGid));
@@ -37,6 +47,8 @@ public class CarteAffichable extends Pane {
         this.tuilesEcranHauteur = hauteurEcranPx / TAILLE_TUILE;
 
         this.setPrefSize(largeurEcranPx, hauteurEcranPx);
+        this.setScaleX(zoom);
+        this.setScaleY(zoom);
         redessiner(0);
     }
 

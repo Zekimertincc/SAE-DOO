@@ -10,8 +10,11 @@ public final class ConstantesJeu {
     /** Taille (en pixels) d’une tuile de la carte */
     public static final int TAILLE_TUILE = 16;
 
+    /** Facteur de zoom appliqué lors de l'affichage de la carte */
+    public static final double FACTEUR_ZOOM_CARTE = 2.5;
+
     /** Taille d’une frame dans les spritesheets (associée aux animations du joueur) */
-    public static final int TAILLE_SPRITE = 32;
+    public static final int TAILLE_SPRITE = 52;
 
     /** Largeur du joueur (en pixels, utilisée pour le centrage) */
     public static final int LARGEUR_JOUEUR = 56;

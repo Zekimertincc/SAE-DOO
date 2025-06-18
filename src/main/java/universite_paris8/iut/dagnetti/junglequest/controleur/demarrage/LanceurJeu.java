@@ -77,10 +77,16 @@ public class LanceurJeu extends Application {
             else System.out.println("Tileset jungle chargé.");
 
 
-            CarteAffichable carteAffichable = new CarteAffichable(carte, tileset, (int) largeur, (int) hauteur);
+            CarteAffichable carteAffichable = new CarteAffichable(
+                    carte, tileset, (int) largeur, (int) hauteur,
+                    ConstantesJeu.FACTEUR_ZOOM_CARTE);
             Image deco1 = new Image(getClass().getResourceAsStream("/universite_paris8/iut/dagnetti/junglequest/images/tileset1_jungle.png"));
             Image deco2 = new Image(getClass().getResourceAsStream("/universite_paris8/iut/dagnetti/junglequest/images/tilesetrock_jungle.png"));
-            CarteAffichable carteDeco = new CarteAffichable(carteDecor, List.of(new Tileset(deco1, 0), new Tileset(deco2, 0)), (int) largeur, (int) hauteur);
+            CarteAffichable carteDeco = new CarteAffichable(
+                    carteDecor,
+                    List.of(new Tileset(deco1, 0), new Tileset(deco2, 0)),
+                    (int) largeur, (int) hauteur,
+                    ConstantesJeu.FACTEUR_ZOOM_CARTE);
             int largeurCartePx = carte.getLargeur() * ConstantesJeu.TAILLE_TUILE;
             VueBackground vueBackground = new VueBackground((int) largeur, (int) hauteur, largeurCartePx);
             System.out.println("Background dynamique initialisé.");
