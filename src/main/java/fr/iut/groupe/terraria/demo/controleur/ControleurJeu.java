@@ -5,19 +5,27 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Screen;
+import javafx.geometry.Rectangle2D;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Label;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.Node;
+import javafx.scene.shape.Rectangle;
 import fr.iut.groupe.terraria.demo.modele.personnages.Loup;
 
 import static fr.iut.groupe.terraria.demo.modele.donnees.ConstantesJeu.*;
@@ -30,15 +38,21 @@ import fr.iut.groupe.terraria.demo.modele.bloc.TileType;
 import fr.iut.groupe.terraria.demo.vue.CarteAffichable;
 import fr.iut.groupe.terraria.demo.vue.VueBackground;
 import fr.iut.groupe.terraria.demo.vue.animation.GestionAnimation;
-import javafx.scene.image.WritableImage;
+import fr.iut.groupe.terraria.demo.vue.utilitaire.ExtracteurSprites;
 import fr.iut.groupe.terraria.demo.controleur.interfacefx.InventaireController;
 import fr.iut.groupe.terraria.demo.controleur.interfacefx.ParametresController;
 import fr.iut.groupe.terraria.demo.vue.utilitaire.Pathfinder;
 import fr.iut.groupe.terraria.demo.modele.ressource.Ressource;
+import fr.iut.groupe.terraria.demo.modele.ressource.Arbre;
+import fr.iut.groupe.terraria.demo.modele.ressource.CanneSucre;
+import fr.iut.groupe.terraria.demo.modele.ressource.Roche;
+import fr.iut.groupe.terraria.demo.modele.carte.ChargeurCarte;
 import java.util.List;
 import java.util.ArrayList;
 
 public class ControleurJeu {
+
+    private static MediaPlayer mediaPlayer;
 
     private final MoteurPhysique moteur = new MoteurPhysique();
     private final Carte carte;
@@ -463,5 +477,221 @@ public class ControleurJeu {
             enCraft = false;
             enPause = false;
         }
+    }
+
+    /* --------------------------------------------------------- */
+    /*           Fonctions utilitaires pour le LanceurJeu        */
+    /* --------------------------------------------------------- */
+
+    public static ControleurJeu initialiserJeu(Stage stage) throws IOException {
+        initialiserMusique();
+
+        Rectangle2D screen = Screen.getPrimary().getVisualBounds();
+        double screenWidth = screen.getWidth();
+        double screenHeight = screen.getHeight();
+
+        double gameWidth = 1280;
+        double gameHeight = 720;
+
+        double scaleX = screenWidth / gameWidth;
+        double scaleY = screenHeight / gameHeight;
+        double scale = Math.min(scaleX, scaleY);
+
+        Pane racine;
+        try {
+            FXMLLoader loader = new FXMLLoader(ControleurJeu.class.getResource(
+                    "/fr/iut/groupe/terraria/demo/vue/VueJeu.fxml"));
+            racine = loader.load();
+        } catch (IOException e) {
+            racine = new Pane();
+        }
+
+        racine.setScaleX(scale);
+        racine.setScaleY(scale);
+        Scene scene = new Scene(racine, screenWidth, screenHeight);
+
+        Pane pauseOverlay = (Pane) scene.lookup("#pauseOverlay");
+        Pane craftOverlay = (Pane) scene.lookup("#craftOverlay");
+        VBox craftBox = (VBox) scene.lookup("#craftBox");
+        if (pauseOverlay != null) {
+            pauseOverlay.prefWidthProperty().bind(scene.widthProperty());
+            pauseOverlay.prefHeightProperty().bind(scene.heightProperty());
+            pauseOverlay.setViewOrder(-20);
+        }
+        if (craftOverlay != null) {
+            craftOverlay.prefWidthProperty().bind(scene.widthProperty());
+            craftOverlay.prefHeightProperty().bind(scene.heightProperty());
+            craftOverlay.setViewOrder(-20);
+        }
+
+        int[][] grille = ChargeurCarte.chargerCarteDepuisCSV(
+                "/fr/iut/groupe/terraria/demo/cartes/jungle_map_calque1.csv");
+        Carte carte = new Carte(grille);
+
+        InputStream tilesetStream = ControleurJeu.class.getResourceAsStream(
+                "/fr/iut/groupe/terraria/demo/images/tileset_jungle.png");
+        Image tileset = new Image(tilesetStream);
+        CarteAffichable carteAffichable = new CarteAffichable(carte, tileset, (int) gameWidth, (int) gameHeight);
+        int largeurCartePx = carte.getLargeur() * ConstantesJeu.TAILLE_TUILE;
+
+        VueBackground vueBackground = new VueBackground((int) gameWidth, (int) gameHeight - 50, largeurCartePx);
+        racine.getChildren().add(vueBackground);
+
+        InputStream personnageStream = ControleurJeu.class.getResourceAsStream(
+                "/fr/iut/groupe/terraria/demo/images/sprite1.png");
+        Image personnage = new Image(personnageStream);
+        WritableImage[] idle = ExtracteurSprites.idle(personnage);
+        WritableImage[] attaque = ExtracteurSprites.attaque(personnage);
+        WritableImage[] marche = ExtracteurSprites.marche(personnage);
+        WritableImage[] accroupi = ExtracteurSprites.accroupi(personnage);
+        WritableImage[] preparationSaut = ExtracteurSprites.preparationSaut(personnage);
+        WritableImage[] volSaut = ExtracteurSprites.volSaut(personnage);
+        WritableImage[] sautReload = ExtracteurSprites.sautReload(personnage);
+        WritableImage[] chute = ExtracteurSprites.chute(personnage);
+        WritableImage[] atterrissage = ExtracteurSprites.atterrissage(personnage);
+        WritableImage[] degats = ExtracteurSprites.degats(personnage);
+        WritableImage[] mort = ExtracteurSprites.mort(personnage);
+        WritableImage[] sort = ExtracteurSprites.sort(personnage);
+        WritableImage[] bouclier = ExtracteurSprites.bouclier(personnage);
+
+        double xInitial = 320;
+        int colonne = (int) (xInitial / ConstantesJeu.TAILLE_TUILE);
+        int ligneSol = carte.chercherLigneSol(colonne);
+        double yInitial = ligneSol * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.TAILLE_SPRITE;
+
+        ImageView spriteJoueur = new ImageView(idle[0]);
+        spriteJoueur.setFitWidth(ConstantesJeu.TAILLE_SPRITE);
+        spriteJoueur.setFitHeight(ConstantesJeu.TAILLE_SPRITE);
+        Joueur joueur = new Joueur(spriteJoueur, xInitial, yInitial);
+        joueur.setEstAuSol(true);
+        racine.getChildren().addAll(carteAffichable, spriteJoueur);
+
+        double xBot = 500;
+        int colBot = (int) (xBot / ConstantesJeu.TAILLE_TUILE);
+        int ligneSolBot = carte.chercherLigneSol(colBot);
+        double yBot = ligneSolBot * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.TAILLE_SPRITE;
+
+        InputStream loupStream = ControleurJeu.class.getResourceAsStream(
+                "/fr/iut/groupe/terraria/demo/images/wolf.gif");
+        Image imageLoup = new Image(loupStream);
+        ImageView spriteLoup = new ImageView(imageLoup);
+        spriteLoup.setFitWidth(ConstantesJeu.TAILLE_SPRITE);
+        spriteLoup.setFitHeight(ConstantesJeu.TAILLE_SPRITE);
+        Loup loup = new Loup(spriteLoup, xBot, yBot, 10);
+        loup.setEstAuSol(true);
+        racine.getChildren().add(spriteLoup);
+
+        ProgressBar barreVie = new ProgressBar(1.0);
+        barreVie.setPrefWidth(ConstantesJeu.TAILLE_SPRITE * 2);
+        barreVie.setPrefHeight(6);
+        barreVie.setStyle("-fx-accent: #e74c3c;");
+        barreVie.setViewOrder(-9);
+        racine.getChildren().add(barreVie);
+
+        Label labelVie = new Label(Integer.toString(joueur.getPointsDeVie()));
+        labelVie.setTextFill(Color.WHITE);
+        labelVie.setViewOrder(-9);
+        racine.getChildren().add(labelVie);
+
+        InventaireController inventaireCtrl = afficherInventaire(racine, joueur);
+
+        ControleurJeu controleurJeu = new ControleurJeu(
+                scene, carte, carteAffichable, joueur,
+                inventaireCtrl, barreVie, labelVie, pauseOverlay,
+                craftOverlay, craftBox,
+                idle, marche, attaque, preparationSaut, volSaut, sautReload,
+                chute, atterrissage, degats, mort, sort, accroupi, bouclier,
+                loup
+        );
+        controleurJeu.setVueBackground(vueBackground);
+
+        int[] colsArbre = {25, 27, 30};
+        for (int colArbre : colsArbre) {
+            int solArbre = carte.chercherLigneSol(colArbre);
+            double yArbre = solArbre * ConstantesJeu.TAILLE_TUILE - 32;
+            Arbre arbre = new Arbre(colArbre * ConstantesJeu.TAILLE_TUILE, yArbre);
+            ajouterRessourceRectangle(racine, controleurJeu, joueur, inventaireCtrl, arbre,
+                    Color.GREEN, ConstantesJeu.TAILLE_TUILE, 32);
+        }
+
+        int[] colsCanne = {35, 37, 40};
+        for (int colCanne : colsCanne) {
+            int solCanne = carte.chercherLigneSol(colCanne);
+            double yCanne = solCanne * ConstantesJeu.TAILLE_TUILE - 16;
+            CanneSucre canne = new CanneSucre(colCanne * ConstantesJeu.TAILLE_TUILE, yCanne);
+            ajouterRessourceRectangle(racine, controleurJeu, joueur, inventaireCtrl, canne,
+                    Color.YELLOW, ConstantesJeu.TAILLE_TUILE, 16);
+        }
+
+        int[] colsRoche = {45, 48, 52};
+        for (int colRoche : colsRoche) {
+            int solRoche = carte.chercherLigneSol(colRoche);
+            double yRoche = solRoche * ConstantesJeu.TAILLE_TUILE - 16;
+            Roche roche = new Roche(colRoche * ConstantesJeu.TAILLE_TUILE, yRoche);
+            ajouterRessourceRectangle(racine, controleurJeu, joueur, inventaireCtrl, roche,
+                    Color.BLACK, ConstantesJeu.TAILLE_TUILE, 16);
+        }
+
+        stage.setTitle("Jungle Quest");
+        stage.setScene(scene);
+        stage.setResizable(false);
+
+        return controleurJeu;
+    }
+
+    private static void initialiserMusique() {
+        try {
+            URL ressourceAudio = ControleurJeu.class.getResource(
+                    "/fr/iut/groupe/terraria/demo/sons/musique_jeu.mp3");
+            if (ressourceAudio != null) {
+                Media media = new Media(ressourceAudio.toExternalForm());
+                mediaPlayer = new MediaPlayer(media);
+                mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+                mediaPlayer.setVolume(0.25);
+                mediaPlayer.play();
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur musique : " + e.getMessage());
+        }
+    }
+
+    private static InventaireController afficherInventaire(Pane racine, Joueur joueur) {
+        try {
+            FXMLLoader loader = new FXMLLoader(ControleurJeu.class.getResource(
+                    "/fr/iut/groupe/terraria/demo/vue/interface/Inventaire.fxml"));
+            Node inventaireUI = loader.load();
+            InventaireController inventaireController = loader.getController();
+            inventaireController.setInventaire(joueur.getInventaire());
+            inventaireUI.setLayoutX(10);
+            inventaireUI.setLayoutY(10);
+            inventaireUI.setViewOrder(-10);
+            racine.getChildren().add(inventaireUI);
+            return inventaireController;
+        } catch (IOException e) {
+            System.err.println("Inventaire UI non chargé : " + e.getMessage());
+            return null;
+        }
+    }
+
+    private static void ajouterRessourceRectangle(Pane racine, ControleurJeu controleur, Joueur joueur,
+                                                  InventaireController inventaireCtrl, Ressource ressource,
+                                                  Color couleur, int largeur, int hauteur) {
+        Rectangle rect = new Rectangle(largeur, hauteur, couleur);
+        rect.setX(ressource.getX());
+        rect.setY(ressource.getY());
+        racine.getChildren().add(rect);
+        ressource.setVueNode(rect);
+        rect.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                joueur.getInventaire().ajouterItem(ressource.getItemProduit().getNom(), 1);
+                if (inventaireCtrl != null) {
+                    inventaireCtrl.rafraichir();
+                }
+                racine.getChildren().remove(rect);
+                controleur.retirerRessource(ressource);
+                e.consume();
+            }
+        });
+        controleur.ajouterRessource(ressource);
     }
 }
