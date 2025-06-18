@@ -7,6 +7,10 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.animation.Animation;
+import javafx.util.Duration;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -142,6 +146,16 @@ public class LanceurJeu extends Application {
             racine.getChildren().add(spriteGuide);
             spriteGuide.setOnMouseClicked(e -> ouvrirDialogue());
 
+
+            // Animation du guide
+            final int[] indexGuide = {0};
+            Timeline animGuide = new Timeline(new KeyFrame(Duration.millis(150), event -> {
+                spriteGuide.setImage(framesGuide[indexGuide[0]]);
+                indexGuide[0] = (indexGuide[0] + 1) % framesGuide.length;
+            }));
+            animGuide.setCycleCount(Animation.INDEFINITE);
+            animGuide.play();
+
             Image imgForgeron = new Image(getClass().getResourceAsStream(
                     "/universite_paris8/iut/dagnetti/junglequest/images/forgeron.png"));
             WritableImage[] framesForgeron = ExtracteurSprites.extraireLigne(
@@ -160,6 +174,15 @@ public class LanceurJeu extends Application {
             racine.getChildren().add(spriteForgeron);
             spriteForgeron.setOnMouseClicked(e -> ouvrirForge(joueur));
 
+            // Animation du forgeron
+            final int[] indexForgeron = {0};
+            Timeline animForgeron = new Timeline(new KeyFrame(Duration.millis(150), event -> {
+                spriteForgeron.setImage(framesForgeron[indexForgeron[0]]);
+                indexForgeron[0] = (indexForgeron[0] + 1) % framesForgeron.length;
+            }));
+            animForgeron.setCycleCount(Animation.INDEFINITE);
+            animForgeron.play();
+
 
             Image imgLoupWalk = new Image(getClass().getResourceAsStream(
                     "/universite_paris8/iut/dagnetti/junglequest/images/black_wolf_walk.png"));
@@ -170,7 +193,7 @@ public class LanceurJeu extends Application {
             ImageView spriteLoup = new ImageView(imgLoupWalk);
             spriteLoup.setFitWidth(imgLoupWalk.getWidth());
             spriteLoup.setFitHeight(imgLoupWalk.getHeight());
-            double xLoup = 900;
+            double xLoup = 1500;
             int colLoup = (int) (xLoup / ConstantesJeu.TAILLE_TUILE);
             int ligneSolLoup = carte.chercherLigneSol(colLoup);
             // Même principe que pour le joueur : placement direct par rapport à
