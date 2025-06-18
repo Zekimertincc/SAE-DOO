@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="04ca2a54-06d3-49ed-b803-58534b0974e2" name="Changes" comment="version ameliore il ya des algorithm a* et le ennemi essaie de te suivre">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/ControleurJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/ControleurJeu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/CarteAffichable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/vue/CarteAffichable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/cartes/jungle_map_calque1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/cartes/jungle_map_calque1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/carte/Carte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/carte/Carte.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/donnees/ConstantesJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/donnees/ConstantesJeu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

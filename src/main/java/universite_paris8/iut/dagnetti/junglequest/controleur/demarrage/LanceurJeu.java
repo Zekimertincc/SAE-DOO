@@ -139,9 +139,13 @@ public class LanceurJeu extends Application {
             ImageView spriteGuide = new ImageView(framesGuide[0]);
             spriteGuide.setFitWidth(ConstantesJeu.LARGEUR_GUIDE);
             spriteGuide.setFitHeight(ConstantesJeu.HAUTEUR_GUIDE);
-            Guide guide = new Guide(spriteGuide,
-                    xInitial - 60,
-                    yInitial + (ConstantesJeu.TAILLE_SPRITE - ConstantesJeu.HAUTEUR_GUIDE));
+            double xGuide = ConstantesJeu.POSITION_GUIDE_X;
+            int colGuide = (int) (xGuide / ConstantesJeu.TAILLE_TUILE);
+            int ligneSolGuide = carte.chercherLigneSol(colGuide);
+            double yGuide = ligneSolGuide != -1
+                    ? ligneSolGuide * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.HAUTEUR_GUIDE
+                    : yInitial;
+            Guide guide = new Guide(spriteGuide, xGuide, yGuide);
             guide.setEstAuSol(true);
             racine.getChildren().add(spriteGuide);
             spriteGuide.setOnMouseClicked(e -> ouvrirDialogue());
@@ -166,10 +170,16 @@ public class LanceurJeu extends Application {
             ImageView spriteForgeron = new ImageView(framesForgeron[0]);
             spriteForgeron.setFitWidth(ConstantesJeu.LARGEUR_FORGERON);
             spriteForgeron.setFitHeight(ConstantesJeu.HAUTEUR_FORGERON);
+            double xForgeron = ConstantesJeu.POSITION_FORGERON_X;
+            int colForgeron = (int) (xForgeron / ConstantesJeu.TAILLE_TUILE);
+            int ligneSolForgeron = carte.chercherLigneSol(colForgeron);
+            double yForgeron = ligneSolForgeron != -1
+                    ? ligneSolForgeron * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.HAUTEUR_FORGERON
+                    : yInitial;
             Forgeron forgeron = new Forgeron(
                     spriteForgeron,
-                    xInitial + 200,
-                    yInitial + (ConstantesJeu.TAILLE_SPRITE - ConstantesJeu.HAUTEUR_FORGERON));
+                    xForgeron,
+                    yForgeron);
             forgeron.setEstAuSol(true);
             racine.getChildren().add(spriteForgeron);
             spriteForgeron.setOnMouseClicked(e -> ouvrirForge(joueur));

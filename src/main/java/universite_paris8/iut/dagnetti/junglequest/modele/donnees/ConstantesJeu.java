@@ -26,6 +26,23 @@ public final class ConstantesJeu {
     public static final int HAUTEUR_FORGERON = 64;
     public static final int NB_FRAMES_FORGERON = 40;
 
+    /** Position horizontale du guide sur la carte */
+    public static final double POSITION_GUIDE_X = 260;
+
+    /** Position horizontale du forgeron sur la carte */
+    public static final double POSITION_FORGERON_X = 520;
+
+    /**
+     * Identifiants des tuiles considérées comme non solides (pas de collision).
+     * Ces valeurs correspondent à l'id dans le fichier CSV de la carte.
+     */
+    public static final java.util.Set<Integer> TUILES_NON_SOLIDES = java.util.Set.of(
+            0, 1, 2,
+            56, 57, 58,
+            112, 113, 114,
+            168, 169, 170,
+            280, 281, 282
+    );
 
     /** Quantité maximale de points de vie du joueur */
     public static final int VIE_MAX_JOUEUR = 100;

@@ -42,8 +42,10 @@ public class Carte {
     }
 
     public boolean estSolide(int ligne, int colonne) {
-        int id = getValeurTuile(ligne,colonne);
-        return id != TUILE_VIDE && id != 1;
+        int id = getValeurTuile(ligne, colonne);
+        // Une tuile est considérée solide uniquement si son identifiant ne fait
+        // pas partie de la liste des tuiles non solides définies dans les constantes.
+        return id != TUILE_VIDE && !universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu.TUILES_NON_SOLIDES.contains(id);
     }
 
     /**
