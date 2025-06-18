@@ -41,7 +41,7 @@ public final class ConstantesJeu {
             56, 57, 58,
             112, 113, 114,
             168, 169, 170,
-            280, 281, 282
+            280, 281, 282,90
     );
 
     /** Quantité maximale de points de vie du joueur */
