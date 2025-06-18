@@ -21,11 +21,16 @@ import java.util.List;
 
 import universite_paris8.iut.dagnetti.junglequest.controleur.ControleurJeu;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.InventaireController;
+import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.DialogueController;
+import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.ForgeController;
 import universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu;
+
 import universite_paris8.iut.dagnetti.junglequest.modele.carte.Carte;
 import universite_paris8.iut.dagnetti.junglequest.modele.carte.ChargeurCarte;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Joueur;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Loup;
+import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Guide;
+import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Forgeron;
 import universite_paris8.iut.dagnetti.junglequest.vue.VueBackground;
 import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.ExtracteurSprites;
 import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.PositionFrame;
@@ -118,6 +123,23 @@ public class LanceurJeu extends Application {
             Joueur joueur = new Joueur(spriteJoueur, xInitial, yInitial);
             joueur.setEstAuSol(true);
             racine.getChildren().addAll(carteAffichable, spriteJoueur);
+
+            // --- Guide et Forgeron ---
+            ImageView spriteGuide = new ImageView(idle[0]);
+            spriteGuide.setFitWidth(ConstantesJeu.TAILLE_SPRITE);
+            spriteGuide.setFitHeight(ConstantesJeu.TAILLE_SPRITE);
+            Guide guide = new Guide(spriteGuide, xInitial - 60, yInitial);
+            guide.setEstAuSol(true);
+            racine.getChildren().add(spriteGuide);
+            spriteGuide.setOnMouseClicked(e -> ouvrirDialogue());
+
+            ImageView spriteForgeron = new ImageView(idle[0]);
+            spriteForgeron.setFitWidth(ConstantesJeu.TAILLE_SPRITE);
+            spriteForgeron.setFitHeight(ConstantesJeu.TAILLE_SPRITE);
+            Forgeron forgeron = new Forgeron(spriteForgeron, xInitial + 200, yInitial);
+            forgeron.setEstAuSol(true);
+            racine.getChildren().add(spriteForgeron);
+            spriteForgeron.setOnMouseClicked(e -> ouvrirForge(joueur));
 
 
             Image imgLoupWalk = new Image(getClass().getResourceAsStream(
@@ -212,6 +234,36 @@ public class LanceurJeu extends Application {
         } catch (IOException e) {
             System.err.println("Inventaire UI non chargé : " + e.getMessage());
             return null;
+        }
+    }
+    private void ouvrirDialogue() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/universite_paris8/iut/dagnetti/junglequest/vue/interface/Dialogue.fxml"));
+            Pane root = loader.load();
+            Stage stage = new Stage();
+            stage.initOwner(null);
+            stage.setScene(new Scene(root));
+            DialogueController controller = loader.getController();
+            controller.setStage(stage);
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Dialogue non chargé : " + e.getMessage());
+        }
+    }
+
+    private void ouvrirForge(Joueur joueur) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/universite_paris8/iut/dagnetti/junglequest/vue/interface/Forge.fxml"));
+            Pane root = loader.load();
+            Stage stage = new Stage();
+            stage.initOwner(null);
+            stage.setScene(new Scene(root));
+            ForgeController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setJoueur(joueur);
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Forge non chargée : " + e.getMessage());
         }
     }
 
