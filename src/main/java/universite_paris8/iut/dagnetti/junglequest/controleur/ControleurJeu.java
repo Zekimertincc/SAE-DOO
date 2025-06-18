@@ -47,10 +47,12 @@ public class ControleurJeu {
     private final Pane pauseOverlay;
     private VueBackground vueBackground;
     private final double largeurEcran;
+    private final double hauteurEcran;
 
     private int compteurAttaque = 0;
     private int frameMort = 0;
     private double offsetX = 0;
+    private double offsetY = 0;
     // Durée restante de l'animation d'atterrissage
     private int framesAtterrissageRestants = 0;
 
@@ -110,6 +112,7 @@ public class ControleurJeu {
         }
         this.clavier = new GestionClavier(scene);
         this.largeurEcran = scene.getWidth();
+        this.hauteurEcran = scene.getHeight();
 
         Image imgLoup = loup.getSprite().getImage();
         this.largeurFrameLoup = (int) (imgLoup.getWidth() / 6);
@@ -139,7 +142,7 @@ public class ControleurJeu {
                         joueur.desactiverBouclier();
                     }
                     double xMonde = e.getX() + offsetX;
-                    double yMonde = e.getY();
+                    double yMonde = e.getY() + offsetY;
                     boolean cliqueLoup = xMonde >= loup.getX() && xMonde <= loup.getX() + loup.getSprite().getFitWidth()
                             && yMonde >= loup.getY() && yMonde <= loup.getY() + loup.getSprite().getFitHeight();
 
@@ -280,8 +283,15 @@ public class ControleurJeu {
         if(offsetX > maxOffset)
             offsetX = maxOffset;
 
+        offsetY = joueur.getY() - hauteurEcran / 2;
+        if (offsetY < 0) offsetY = 0;
+        double maxOffsetY = carte.getHauteur() * TAILLE_TUILE - hauteurEcran;
+        if(offsetY > maxOffsetY)
+            offsetY = maxOffsetY;
+
+
         // Redessiner la carte avec le nouveau décalage
-        carteAffichable.redessiner(offsetX);
+        carteAffichable.redessiner(offsetX, offsetY);
 
         // Redessiner le fond si présent
         if (vueBackground != null) {
@@ -289,18 +299,18 @@ public class ControleurJeu {
         }
         joueur.getSprite().setX(joueur.getX() - offsetX);
         loup.getSprite().setX(loup.getX() - offsetX);
-        joueur.getSprite().setY(joueur.getY());
-        loup.getSprite().setY(loup.getY());
+        joueur.getSprite().setY(joueur.getY() - offsetY);
+        loup.getSprite().setY(loup.getY() - offsetY);
         barreVie.setLayoutX(joueur.getX() - offsetX);
-        barreVie.setLayoutY(joueur.getY() - 10);
+        barreVie.setLayoutY(joueur.getY() - offsetY - 10);
         labelVie.setLayoutX(joueur.getX() - offsetX);
-        labelVie.setLayoutY(joueur.getY() - 25);
+        labelVie.setLayoutY(joueur.getY() - offsetY - 25);
 
         if (!loupMort) {
             barreVieLoup.setLayoutX(loup.getX() - offsetX);
-            barreVieLoup.setLayoutY(loup.getY() - 10);
+            barreVieLoup.setLayoutY(loup.getY() - offsetY - 10);
             labelVieLoup.setLayoutX(loup.getX() - offsetX);
-            labelVieLoup.setLayoutY(loup.getY() - 25);
+            labelVieLoup.setLayoutY(loup.getY() - offsetY - 25);
         } else {
             barreVieLoup.setVisible(false);
             labelVieLoup.setVisible(false);
@@ -389,7 +399,7 @@ public class ControleurJeu {
 
     private void gererClicDroit(double xScene, double yScene) {
         int colonne = (int) ((xScene + offsetX) / TAILLE_TUILE);
-        int ligne = (int) (yScene / TAILLE_TUILE);
+        int ligne = (int) ((yScene + offsetY) / TAILLE_TUILE);
         boolean dansCarte = colonne >= 0 && colonne < carte.getLargeur()
                 && ligne >= 0 && ligne < carte.getHauteur();
 
@@ -421,7 +431,7 @@ public class ControleurJeu {
                 }
             }
 
-            carteAffichable.redessiner(offsetX);
+            carteAffichable.redessiner(offsetX, offsetY);
         }
     }
 

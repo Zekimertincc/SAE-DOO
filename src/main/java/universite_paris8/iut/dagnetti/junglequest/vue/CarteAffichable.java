@@ -21,6 +21,7 @@ public class CarteAffichable extends Pane {
     private final int tuilesEcranLargeur;
     private final int tuilesEcranHauteur;
     private double offsetX = 0;
+    private double offsetY = 0;
 
     private final List<ImageView> tuilesAffichees = new ArrayList<>();
 
@@ -31,23 +32,26 @@ public class CarteAffichable extends Pane {
 
         this.colonnesTileset = (int) tileset.getWidth() / TAILLE_TUILE;
         this.tuilesEcranLargeur = largeurEcranPx / TAILLE_TUILE + 2;
-        this.tuilesEcranHauteur = hauteurEcranPx / TAILLE_TUILE;
+        this.tuilesEcranHauteur = hauteurEcranPx / TAILLE_TUILE + 2;
 
         this.setPrefSize(largeurEcranPx, hauteurEcranPx);
-        redessiner(0);
+        redessiner(0, 0);
     }
 
-    public void redessiner(double offsetX) {
+    public void redessiner(double offsetX, double offsetY) {
         this.getChildren().clear();
         tuilesAffichees.clear();
 
         int tuileDebutX = (int) (offsetX / TAILLE_TUILE);
+        int tuileDebutY = (int) (offsetY / TAILLE_TUILE);
         double decalagePixelsX = offsetX % TAILLE_TUILE;
+        double decalagePixelsY = offsetY % TAILLE_TUILE;
+
 
         int hauteurCarte = carteLogique.getHauteur();
         int largeurCarte = carteLogique.getLargeur();
         for (int ligne = 0; ligne < tuilesEcranHauteur; ligne++) {
-            int ligneCarte = ligne;  // Logique naturelle : du haut vers le bas
+            int ligneCarte = tuileDebutY + ligne;
 
             if (ligneCarte >= hauteurCarte) continue;
 
@@ -68,16 +72,17 @@ public class CarteAffichable extends Pane {
 
                 ImageView vueTuile = new ImageView(imageTuile);
                 vueTuile.setX((colonne * TAILLE_TUILE) - decalagePixelsX);
-                vueTuile.setY(ligne * TAILLE_TUILE);
+                vueTuile.setY((ligne * TAILLE_TUILE) - decalagePixelsY);
 
                 this.getChildren().add(vueTuile);
                 tuilesAffichees.add(vueTuile);
             }
         }
     }
-    public void mettreAJourOffset(double nouvelleValeur) {
-        this.offsetX = nouvelleValeur;
-        redessiner(offsetX);
+    public void mettreAJourOffset(double offsetX, double offsetY) {
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+        redessiner(offsetX, offsetY);
     }
 
     public Carte getCarte() {
