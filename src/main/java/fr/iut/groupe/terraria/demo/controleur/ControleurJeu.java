@@ -1,5 +1,6 @@
 package fr.iut.groupe.terraria.demo.controleur;
 
+import fr.iut.groupe.terraria.demo.modele.donnees.ConstantesJeu;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -47,6 +48,10 @@ import fr.iut.groupe.terraria.demo.modele.ressource.Arbre;
 import fr.iut.groupe.terraria.demo.modele.ressource.CanneSucre;
 import fr.iut.groupe.terraria.demo.modele.ressource.Roche;
 import fr.iut.groupe.terraria.demo.modele.carte.ChargeurCarte;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 
