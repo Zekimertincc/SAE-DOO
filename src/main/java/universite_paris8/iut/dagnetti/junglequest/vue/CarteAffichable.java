@@ -17,7 +17,7 @@ public class CarteAffichable extends Pane {
     private static final int TAILLE_TUILE = ConstantesJeu.TAILLE_TUILE;
 
     private final Carte carteLogique;
-    
+
     private final List<Tileset> tilesets;
     private final int tuilesEcranLargeur;
     private final int tuilesEcranHauteur;
@@ -74,7 +74,11 @@ public class CarteAffichable extends Pane {
 
                 int xTileset = (localId % tsSelectionne.getColumns()) * TAILLE_TUILE;
                 int yTileset = (localId / tsSelectionne.getColumns()) * TAILLE_TUILE;
-
+                if (xTileset < 0 || yTileset < 0 ||
+                        xTileset + TAILLE_TUILE > tsSelectionne.getImage().getWidth() ||
+                        yTileset + TAILLE_TUILE > tsSelectionne.getImage().getHeight()) {
+                    continue;
+                }
 
 
                 WritableImage imageTuile = new WritableImage(

@@ -8,10 +8,10 @@ public final class ConstantesJeu {
 
     // --- Dimensions ---
     /** Taille (en pixels) d’une tuile de la carte */
-    public static final int TAILLE_TUILE = 32;
+    public static final int TAILLE_TUILE = 16;
 
     /** Taille d’une frame dans les spritesheets (associée aux animations du joueur) */
-    public static final int TAILLE_SPRITE = 56;
+    public static final int TAILLE_SPRITE = 32;
 
     /** Largeur du joueur (en pixels, utilisée pour le centrage) */
     public static final int LARGEUR_JOUEUR = 56;
