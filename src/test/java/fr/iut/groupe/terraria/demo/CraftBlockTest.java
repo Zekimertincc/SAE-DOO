@@ -38,7 +38,5 @@ public class CraftBlockTest {
         assertTrue(craftBlock.craftBlock());
         assertTrue(craftBlock.craftBlock());
         assertFalse(craftBlock.craftBlock());
-
-        inventaire.afficherMap();
     }
 }

@@ -38,8 +38,6 @@ public class ArmeCraftTest {
         inventaire.ajouterItem(new Pierre(), 10);
         inventaire.ajouterItem(new File(), 10);
         assertTrue(armeCraft.construire(new Hache()));
-
-        inventaire.afficherMap();
     }
 
 }

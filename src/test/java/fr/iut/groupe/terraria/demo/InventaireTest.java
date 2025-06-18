@@ -34,12 +34,9 @@ public class InventaireTest {
         assertFalse(inventaire.mettreAJourInventaire());
 
         assertFalse(inventaire.ajouterItem(hache));
-        inventaire.afficherMap();
-        System.out.println();
 
         assertTrue(inventaire.retirerItem("Pomme"));
         assertFalse(inventaire.retirerItem("Pomme"));
-        inventaire.afficherMap();
 
     }
 

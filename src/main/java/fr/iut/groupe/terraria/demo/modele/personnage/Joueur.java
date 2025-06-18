@@ -109,8 +109,6 @@
                 System.out.println(" Inventaire plein pour: " + item.getNom());
             }
 
-            inventaire.afficherMap(); // en bas yazdır tüm envanter
-
         }
 
        // --------------------------------------------------------------------------------------------------------------
