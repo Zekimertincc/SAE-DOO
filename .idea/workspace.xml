@@ -107,7 +107,7 @@
     </configuration>
     <configuration name="MenuPrincipal" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="universite_paris8.iut.dagnetti.junglequest.vue.fenetre.MenuPrincipal" />
-      <module name="JungleQuest" />
+      <module name="demo" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="universite_paris8.iut.dagnetti.junglequest.vue.fenetre.*" />

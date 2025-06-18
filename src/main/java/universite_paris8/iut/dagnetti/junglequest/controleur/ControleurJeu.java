@@ -289,6 +289,7 @@ public class ControleurJeu {
         }
         joueur.getSprite().setX(joueur.getX() - offsetX);
         loup.getSprite().setX(loup.getX() - offsetX);
+        joueur.getSprite().setY(joueur.getY());
         loup.getSprite().setY(loup.getY());
         barreVie.setLayoutX(joueur.getX() - offsetX);
         barreVie.setLayoutY(joueur.getY() - 10);
