@@ -125,18 +125,37 @@ public class LanceurJeu extends Application {
             racine.getChildren().addAll(carteAffichable, spriteJoueur);
 
             // --- Guide et Forgeron ---
-            ImageView spriteGuide = new ImageView(idle[0]);
-            spriteGuide.setFitWidth(ConstantesJeu.TAILLE_SPRITE);
-            spriteGuide.setFitHeight(ConstantesJeu.TAILLE_SPRITE);
-            Guide guide = new Guide(spriteGuide, xInitial - 60, yInitial);
+            Image imgGuide = new Image(getClass().getResourceAsStream(
+                    "/universite_paris8/iut/dagnetti/junglequest/images/guide.png"));
+            WritableImage[] framesGuide = ExtracteurSprites.extraireLigne(
+                    imgGuide,
+                    ConstantesJeu.NB_FRAMES_GUIDE,
+                    ConstantesJeu.LARGEUR_GUIDE,
+                    ConstantesJeu.HAUTEUR_GUIDE);
+            ImageView spriteGuide = new ImageView(framesGuide[0]);
+            spriteGuide.setFitWidth(ConstantesJeu.LARGEUR_GUIDE);
+            spriteGuide.setFitHeight(ConstantesJeu.HAUTEUR_GUIDE);
+            Guide guide = new Guide(spriteGuide,
+                    xInitial - 60,
+                    yInitial + (ConstantesJeu.TAILLE_SPRITE - ConstantesJeu.HAUTEUR_GUIDE));
             guide.setEstAuSol(true);
             racine.getChildren().add(spriteGuide);
             spriteGuide.setOnMouseClicked(e -> ouvrirDialogue());
 
-            ImageView spriteForgeron = new ImageView(idle[0]);
-            spriteForgeron.setFitWidth(ConstantesJeu.TAILLE_SPRITE);
-            spriteForgeron.setFitHeight(ConstantesJeu.TAILLE_SPRITE);
-            Forgeron forgeron = new Forgeron(spriteForgeron, xInitial + 200, yInitial);
+            Image imgForgeron = new Image(getClass().getResourceAsStream(
+                    "/universite_paris8/iut/dagnetti/junglequest/images/forgeron.png"));
+            WritableImage[] framesForgeron = ExtracteurSprites.extraireLigne(
+                    imgForgeron,
+                    ConstantesJeu.NB_FRAMES_FORGERON,
+                    ConstantesJeu.LARGEUR_FORGERON,
+                    ConstantesJeu.HAUTEUR_FORGERON);
+            ImageView spriteForgeron = new ImageView(framesForgeron[0]);
+            spriteForgeron.setFitWidth(ConstantesJeu.LARGEUR_FORGERON);
+            spriteForgeron.setFitHeight(ConstantesJeu.HAUTEUR_FORGERON);
+            Forgeron forgeron = new Forgeron(
+                    spriteForgeron,
+                    xInitial + 200,
+                    yInitial + (ConstantesJeu.TAILLE_SPRITE - ConstantesJeu.HAUTEUR_FORGERON));
             forgeron.setEstAuSol(true);
             racine.getChildren().add(spriteForgeron);
             spriteForgeron.setOnMouseClicked(e -> ouvrirForge(joueur));

@@ -16,6 +16,17 @@ public final class ConstantesJeu {
     /** Largeur du joueur (en pixels, utilisée pour le centrage) */
     public static final int LARGEUR_JOUEUR = 56;
 
+    /** Dimensions des sprites du guide (5 frames de 32x48) */
+    public static final int LARGEUR_GUIDE = 32;
+    public static final int HAUTEUR_GUIDE = 48;
+    public static final int NB_FRAMES_GUIDE = 5;
+
+    /** Dimensions des sprites du forgeron (40 frames de 96x64) */
+    public static final int LARGEUR_FORGERON = 96;
+    public static final int HAUTEUR_FORGERON = 64;
+    public static final int NB_FRAMES_FORGERON = 40;
+
+
     /** Quantité maximale de points de vie du joueur */
     public static final int VIE_MAX_JOUEUR = 100;
 

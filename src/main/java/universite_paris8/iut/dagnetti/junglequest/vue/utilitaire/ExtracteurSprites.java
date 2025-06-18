@@ -11,18 +11,40 @@ public class ExtracteurSprites {
     private static final int TAILLE_FRAME = 56;
 
     public static WritableImage[] extraire(Image spriteSheet, List<PositionFrame> frames) {
+        return extraire(spriteSheet, frames, TAILLE_FRAME, TAILLE_FRAME);
+    }
+
+    public static WritableImage[] extraire(Image spriteSheet, List<PositionFrame> frames, int largeurFrame, int hauteurFrame) {
         WritableImage[] resultats = new WritableImage[frames.size()];
         PixelReader lecteur = spriteSheet.getPixelReader();
 
         for (int i = 0; i < frames.size(); i++) {
             PositionFrame f = frames.get(i);
-            int x = f.colonne() * TAILLE_FRAME;
-            int y = f.ligne() * TAILLE_FRAME;
-            resultats[i] = new WritableImage(lecteur, x, y, TAILLE_FRAME, TAILLE_FRAME);
+            int x = f.colonne() * largeurFrame;
+            int y = f.ligne() * hauteurFrame;
+            resultats[i] = new WritableImage(lecteur, x, y, largeurFrame, hauteurFrame);
         }
 
         return resultats;
     }
+    /**
+     * Extrait une ligne horizontale complète de frames.
+     * @param spriteSheet spritesheet source
+     * @param nbFrames nombre de frames
+     * @param largeurFrame largeur d'une frame
+     * @param hauteurFrame hauteur d'une frame
+     * @return tableau d'images correspondant aux frames
+     */
+    public static WritableImage[] extraireLigne(Image spriteSheet, int nbFrames, int largeurFrame, int hauteurFrame) {
+        WritableImage[] resultats = new WritableImage[nbFrames];
+        PixelReader lecteur = spriteSheet.getPixelReader();
+        for (int i = 0; i < nbFrames; i++) {
+            int x = i * largeurFrame;
+            resultats[i] = new WritableImage(lecteur, x, 0, largeurFrame, hauteurFrame);
+        }
+        return resultats;
+    }
+
 
     public static WritableImage[] idle(Image spriteSheet) {
         return extraire(spriteSheet, frameRange(0, 0, 5));
