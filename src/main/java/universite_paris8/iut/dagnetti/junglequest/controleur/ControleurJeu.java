@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
+import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Guide;
+import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Forgeron;
 import javafx.scene.layout.Pane;
 import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.BarreVie;
 
@@ -44,6 +46,8 @@ public class ControleurJeu {
     private final javafx.scene.control.Label labelVie;
     private final BarreVie barreVieLoup;
     private final javafx.scene.control.Label labelVieLoup;
+    private final Guide guide;
+    private final Forgeron forgeron;
     private final Pane pauseOverlay;
     private VueBackground vueBackground;
     private final double largeurEcran;
@@ -77,7 +81,11 @@ public class ControleurJeu {
     /**
      * Initialise le contrôleur principal du jeu : clavier, animation, logique du joueur et gestion des clics.
      */
-    public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur,Loup loup, InventaireController inventaireController, BarreVie barreVie, javafx.scene.control.Label labelVie, BarreVie barreVieLoup, javafx.scene.control.Label labelVieLoup, Pane pauseOverlay,
+    public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur, Loup loup,
+                         Guide guide,
+                         Forgeron forgeron,
+                         InventaireController inventaireController, BarreVie barreVie, javafx.scene.control.Label labelVie,
+                         BarreVie barreVieLoup, javafx.scene.control.Label labelVieLoup, Pane pauseOverlay,
                          WritableImage[] idle, WritableImage[] marche,
                          WritableImage[] attaque,
                          WritableImage[] preparationSaut, WritableImage[] volSaut, WritableImage[] sautReload,
@@ -89,6 +97,8 @@ public class ControleurJeu {
         this.carteAffichable = carteAffichable;
         this.joueur = joueur;
         this.loup = loup;
+        this.guide = guide;
+        this.forgeron = forgeron;
         this.inventaireController = inventaireController;
         this.barreVie = barreVie;
         this.labelVie = labelVie;
@@ -299,8 +309,12 @@ public class ControleurJeu {
         }
         joueur.getSprite().setX(joueur.getX() - offsetX);
         loup.getSprite().setX(loup.getX() - offsetX);
+        guide.getSprite().setX(guide.getX() - offsetX);
+        forgeron.getSprite().setX(forgeron.getX() - offsetX);
         joueur.getSprite().setY(joueur.getY() - offsetY);
         loup.getSprite().setY(loup.getY() - offsetY);
+        guide.getSprite().setY(guide.getY() - offsetY);
+        forgeron.getSprite().setY(forgeron.getY() - offsetY);
         barreVie.setLayoutX(joueur.getX() - offsetX);
         barreVie.setLayoutY(joueur.getY() - offsetY - 10);
         labelVie.setLayoutX(joueur.getX() - offsetX);

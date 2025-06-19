@@ -236,7 +236,8 @@ public class LanceurJeu extends Application {
             racine.getChildren().add(labelVie);
             InventaireController inventaireCtrl = afficherInventaire(racine, joueur, largeur, hauteur);
 
-            ControleurJeu controleurJeu = new ControleurJeu(scene, carte, carteAffichable, joueur, loup, inventaireCtrl, barreVie, labelVie, barreVieLoup, labelVieLoup, pauseOverlay,
+            ControleurJeu controleurJeu = new ControleurJeu(scene, carte, carteAffichable, joueur, loup,
+                    guide, forgeron, inventaireCtrl, barreVie, labelVie, barreVieLoup, labelVieLoup, pauseOverlay,
                     idle, marche, attaque, preparationSaut, volSaut, sautReload,
                     chute, atterrissage, degats, mort, sort, accroupi, bouclier);
 
