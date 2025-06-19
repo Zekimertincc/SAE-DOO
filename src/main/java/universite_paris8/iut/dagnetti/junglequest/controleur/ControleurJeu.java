@@ -346,8 +346,7 @@ public class ControleurJeu {
         if (vueBackground != null) {
             vueBackground.mettreAJourScroll(offsetX);
         }
-        vueLoup.getSprite().setX(loup.getX() - offsetX);
-        vueLoup.getSprite().setY(loup.getY() - offsetY);
+        // La position du loup est maintenant liée à son modèle, inutile de la mettre à jour manuellement
         guide.getSprite().setX(guide.getX() - offsetX);
         guide.getSprite().setY(guide.getY() - offsetY);
         forgeron.getSprite().setX(forgeron.getX() - offsetX);
