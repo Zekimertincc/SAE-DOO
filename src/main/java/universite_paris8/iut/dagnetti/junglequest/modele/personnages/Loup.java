@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.util.Random;
 import universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu;
+import universite_paris8.iut.dagnetti.junglequest.modele.monde.AStar;
+import universite_paris8.iut.dagnetti.junglequest.modele.carte.Carte;
 
 /**
  * Représente un ennemi de type loup.
@@ -71,7 +73,7 @@ public class Loup extends Personnage {
     /**
      * Met à jour le déplacement du loup en fonction de la position du joueur.
      */
-    public void mettreAJourIA(Joueur joueur) {
+    public void mettreAJourIA(Joueur joueur, Carte carte) {
         double distance = joueur.getX() - getX();
 
         if (enAttaque) {
@@ -83,7 +85,7 @@ public class Loup extends Personnage {
         } else if (Math.abs(distance) <= ConstantesJeu.DISTANCE_ARRET_LOUP) {
             gererApprocheAttaque(distance, joueur);
         } else {
-            gererDeplacement(distance);
+            gererDeplacement(distance, joueur, carte);
         }
     }
 
@@ -120,14 +122,9 @@ public class Loup extends Personnage {
         }
     }
 
-    private void gererDeplacement(double distance) {
+    private void gererDeplacement(double distance, Joueur joueur, universite_paris8.iut.dagnetti.junglequest.modele.carte.Carte carte) {
         if (Math.abs(distance) <= zoneDetection) {
-            getSprite().setImage(runImage);
-            if (distance > 0) {
-                deplacerDroite(vitesseCourse);
-            } else {
-                deplacerGauche(vitesseCourse);
-            }
+            suivreChemin(joueur, carte);
             delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
         } else {
             getSprite().setImage(walkImage);
@@ -145,6 +142,34 @@ public class Loup extends Personnage {
                 dureeAction--;
             }
             delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
+        }
+    }
+
+    private void suivreChemin(Joueur joueur, universite_paris8.iut.dagnetti.junglequest.modele.carte.Carte carte) {
+        int startX = (int) (getX() / ConstantesJeu.TAILLE_TUILE);
+        int startY = (int) (getY() / ConstantesJeu.TAILLE_TUILE);
+        int goalX = (int) (joueur.getX() / ConstantesJeu.TAILLE_TUILE);
+        int goalY = (int) (joueur.getY() / ConstantesJeu.TAILLE_TUILE);
+
+        java.util.List<int[]> chemin = AStar.chercherChemin(carte, startX, startY, goalX, goalY);
+        if (chemin.size() > 1) {
+            int[] next = chemin.get(1);
+            double cibleX = next[0] * ConstantesJeu.TAILLE_TUILE;
+            getSprite().setImage(runImage);
+            if (cibleX > getX()) {
+                deplacerDroite(vitesseCourse);
+            } else if (cibleX < getX()) {
+                deplacerGauche(vitesseCourse);
+            } else {
+                arreter();
+            }
+        } else {
+            getSprite().setImage(runImage);
+            if (joueur.getX() > getX()) {
+                deplacerDroite(vitesseCourse);
+            } else {
+                deplacerGauche(vitesseCourse);
+            }
         }
     }
 

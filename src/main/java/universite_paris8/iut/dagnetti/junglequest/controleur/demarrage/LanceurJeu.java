@@ -14,6 +14,7 @@ import javafx.util.Duration;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.Modality;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -293,9 +294,11 @@ public class LanceurJeu extends Application {
             Pane root = loader.load();
             Stage stage = new Stage();
             stage.initOwner(null);
+            stage.initModality(Modality.WINDOW_MODAL);
             stage.setScene(new Scene(root));
             DialogueController controller = loader.getController();
             controller.setStage(stage);
+            controller.setMessage("Bonjour voyageur !");
             stage.show();
         } catch (IOException e) {
             System.err.println("Dialogue non chargé : " + e.getMessage());

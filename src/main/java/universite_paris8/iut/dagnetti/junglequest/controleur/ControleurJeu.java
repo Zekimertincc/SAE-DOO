@@ -298,7 +298,7 @@ public class ControleurJeu {
         }
 
         if (!loupMort) {
-            loup.mettreAJourIA(joueur);
+            loup.mettreAJourIA(joueur, carte);
             moteur.mettreAJourPhysique(loup, carte);
         } else {
             loup.arreter();
@@ -504,7 +504,12 @@ public class ControleurJeu {
                     "/universite_paris8/iut/dagnetti/junglequest/vue/interface/dialogue.fxml"));
             Pane root = loader.load();
             Stage stage = new Stage();
-            stage.initOwner(null);
+            if (pauseOverlay != null && pauseOverlay.getScene() != null) {
+                stage.initOwner(pauseOverlay.getScene().getWindow());
+                stage.initModality(Modality.WINDOW_MODAL);
+            } else {
+                stage.initOwner(null);
+            }
             stage.setScene(new Scene(root));
             DialogueController controller = loader.getController();
             controller.setStage(stage);
