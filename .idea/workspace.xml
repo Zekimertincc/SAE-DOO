@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="04ca2a54-06d3-49ed-b803-58534b0974e2" name="Changes" comment="version ameliore il ya des algorithm a* et le ennemi essaie de te suivre">
-      <change afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/interfacefx/HacheEchangeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/items/hache.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/vue/interface/HacheEchange.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/controleur/demarrage/LanceurJeu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/donnees/ConstantesJeu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/donnees/ConstantesJeu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/personnages/Loup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/universite_paris8/iut/dagnetti/junglequest/modele/personnages/Loup.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,16 +17,16 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="module-info" />
-        <option value="CSS File" />
         <option value="Class" />
         <option value="FxmlFile" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="codex/vérifier-respect-des-bonnes-pratiques-mvc" />
+        <entry key="$PROJECT_DIR$" value="codex/corriger-ouverture-du-dialogue-du-guide" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -64,10 +59,10 @@
     "Application.TestChargementCarte.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "codex/corriger-ouverture-du-dialogue-du-guide",
+    "git-widget-placeholder": "codex/forgeur-tıklama-ekranını-düzelt",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/etudiants/info/dagnetti/SAE/SAE-DOO/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/items",
+    "last_opened_file_path": "C:/Users/agnet/IdeaProjects/SAE-DOO/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/items",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -84,11 +79,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images/items" />
       <recent name="C:\Users\agnet\IdeaProjects\SAE-DOO\src\main\resources\universite_paris8\iut\dagnetti\junglequest\images\items" />
       <recent name="C:\Users\agnet\IdeaProjects\SAE-DOO\src\main\resources\universite_paris8\iut\dagnetti\junglequest\images" />
       <recent name="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/images" />
       <recent name="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/vue" />
+      <recent name="$PROJECT_DIR$/src/main/resources/universite_paris8/iut/dagnetti/junglequest/vue/interface" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\agnet\IdeaProjects\SAE-DOO\src\main\resources\universite_paris8\iut\dagnetti\junglequest\cartes" />
@@ -101,10 +96,10 @@
       <recent name="universite_paris8" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MenuPrincipal">
+  <component name="RunManager" selected="Application.LanceurJeu">
     <configuration name="LanceurJeu" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="universite_paris8.iut.dagnetti.junglequest.controleur.demarrage.LanceurJeu" />
-      <module name="JungleQuest" />
+      <module name="demo" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="universite_paris8.iut.dagnetti.junglequest.controleur.demarrage.*" />
@@ -134,8 +129,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MenuPrincipal" />
         <item itemvalue="Application.LanceurJeu" />
+        <item itemvalue="Application.MenuPrincipal" />
         <item itemvalue="Application.LanceurJeu" />
         <item itemvalue="Application.MenuPrincipal" />
         <item itemvalue="Application.LanceurJeu" />
@@ -167,9 +162,7 @@
       <workItem from="1749799247799" duration="9285000" />
       <workItem from="1750070788105" duration="508000" />
       <workItem from="1750165178445" duration="3192000" />
-      <workItem from="1750317704484" duration="2427000" />
-      <workItem from="1750320149074" duration="393000" />
-      <workItem from="1750320553014" duration="618000" />
+      <workItem from="1750317704484" duration="1282000" />
     </task>
     <servers />
   </component>

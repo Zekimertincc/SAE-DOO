@@ -65,7 +65,7 @@ public final class ConstantesJeu {
      * Laisser un peu plus d'espace permet de fluidifier l'animation lorsque le
      * joueur s'éloigne brusquement.
      */
-    public static final double DISTANCE_ARRET_LOUP = 50;
+    public static final double DISTANCE_ARRET_LOUP = 30;
 
     // --- Mouvements et physique ---
     /** Vitesse horizontale du joueur (modifiable via le menu de paramètres) */
@@ -103,7 +103,7 @@ public final class ConstantesJeu {
      * une nouvelle attaque (en frames). L'attente est d'environ deux secondes
      * à 60 FPS.
      */
-    public static final int DELAI_AVANT_ATTAQUE_LOUP = DELAI_FRAME;
+    public static final int DELAI_AVANT_ATTAQUE_LOUP = 4;
 
     /**
      * Intervalle entre deux mises à jour du chemin du loup (en frames).
