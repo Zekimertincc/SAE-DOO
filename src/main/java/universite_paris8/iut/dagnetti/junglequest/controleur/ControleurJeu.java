@@ -31,6 +31,7 @@ import javafx.scene.image.WritableImage;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.InventaireController;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.ParametresController;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.DialogueController;
+import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.ForgeController;
 import java.io.IOException;
 
 public class ControleurJeu {
@@ -78,6 +79,7 @@ public class ControleurJeu {
 
     private boolean enPause = false;
     private Stage fenetreParametres;
+    private Stage fenetreForge;
     private boolean dialogueGuideAffiche = false;
 
     // États de contrôle issus du clavier
@@ -204,6 +206,11 @@ public class ControleurJeu {
             } else if (e.getCode() == KeyCode.I) {
                 if (inventaireController != null) {
                     inventaireController.basculerAffichage();
+                }
+            } else if (e.getCode() == KeyCode.C) {
+                double distanceForgeron = Math.abs(joueur.getX() - forgeron.getX());
+                if (distanceForgeron <= 40 && fenetreForge == null) {
+                    ouvrirForge(scene);
                 }
             } else if (e.getCode() == KeyCode.ENTER) {
                 enPause = !enPause;
@@ -495,6 +502,37 @@ public class ControleurJeu {
             fenetreParametres.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void ouvrirForge(Scene scene) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/universite_paris8/iut/dagnetti/junglequest/vue/interface/Forge.fxml"));
+            Pane root = loader.load();
+            fenetreForge = new Stage();
+            if (scene.getWindow() != null) {
+                fenetreForge.initOwner(scene.getWindow());
+                fenetreForge.initModality(Modality.WINDOW_MODAL);
+            }
+            fenetreForge.setScene(new Scene(root));
+            ForgeController controller = loader.getController();
+            controller.setStage(fenetreForge);
+            controller.setJoueur(joueur);
+            enPause = true;
+            if (pauseOverlay != null) {
+                pauseOverlay.setVisible(true);
+            }
+            fenetreForge.setOnHidden(e -> {
+                enPause = false;
+                if (pauseOverlay != null) {
+                    pauseOverlay.setVisible(false);
+                }
+                fenetreForge = null;
+            });
+            fenetreForge.show();
+        } catch (IOException e) {
+            System.err.println("Forge non chargée : " + e.getMessage());
         }
     }
 
