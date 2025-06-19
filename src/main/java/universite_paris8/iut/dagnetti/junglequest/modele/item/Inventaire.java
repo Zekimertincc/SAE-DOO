@@ -74,4 +74,7 @@ public class Inventaire {
     public String toString() {
         return "Inventaire : " + items.toString();
     }
+
+    public void ajouterItem(Item randomItem) {
+    }
 }

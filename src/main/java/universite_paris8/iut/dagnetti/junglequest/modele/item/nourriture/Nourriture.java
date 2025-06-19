@@ -19,8 +19,8 @@ public abstract class Nourriture extends Item {
     }
     // modifie la vie du joueur
     public void utiliserSur(Joueur joueur) {
-        if (joueur.getVie()<joueur.getVieMax()){
-            joueur.gagnerVie(vie);
+        if (joueur.getPointsDeVie()<joueur.getVieMax()){
+           // joueur.gagnerVie(vie);
         }
         appliquerEffetSecondaire(joueur);
     }

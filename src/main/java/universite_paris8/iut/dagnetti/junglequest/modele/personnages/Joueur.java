@@ -14,6 +14,7 @@ public class Joueur extends Personnage {
     private boolean bouclierActif;
     private final Inventaire inventaire;
     private final IntegerProperty pointsDeVie = new SimpleIntegerProperty();
+    private int pointsDeVieMax =100;
 
     public Joueur(ImageView sprite, double x, double y) {
         super(sprite, x, y);
@@ -65,5 +66,16 @@ public class Joueur extends Personnage {
 
     public void soigner(int quantite) {
         pointsDeVie.set(Math.min(pointsDeVie.get() + quantite, ConstantesJeu.VIE_MAX_JOUEUR));
+    }
+/**/
+    public int getVieMax() {
+        return this.pointsDeVieMax;
+    }
+
+    public void changerNullEquipement() {
+    }
+
+    public EtatTemporaire getEtatTemporaire() {
+        return null;
     }
 }

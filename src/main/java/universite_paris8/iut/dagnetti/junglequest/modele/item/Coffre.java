@@ -29,7 +29,7 @@ public class Coffre extends Recompense {
                     if (randomItem instanceof Nourriture) {
                         ((Nourriture) randomItem).utiliserSur(joueur);
                     } else if (randomItem instanceof Farm){
-                        inventaire.ajouterItem(randomItem, 20);
+                        inventaire.ajouterItem(String.valueOf(randomItem), 20);
                     } else{
                         inventaire.ajouterItem(randomItem);
                     }
