@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Joueur;
+import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.InventaireController;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,6 +21,7 @@ public class ForgeController implements Initializable {
 
     private Joueur joueur;
     private Stage stage;
+    private InventaireController inventaireController;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -35,12 +37,19 @@ public class ForgeController implements Initializable {
         this.stage = stage;
     }
 
+    public void setInventaireController(InventaireController inventaireController) {
+        this.inventaireController = inventaireController;
+    }
+
     @FXML
     private void forgerEpee() {
         if (joueur != null && joueur.getInventaire().retirerItem("Bois", 5)) {
             joueur.getInventaire().ajouterItem("Epee", 1);
         }
         rafraichir();
+        if (inventaireController != null) {
+            inventaireController.rafraichir();
+        }
     }
 
     @FXML
@@ -49,6 +58,9 @@ public class ForgeController implements Initializable {
             joueur.getInventaire().ajouterItem("Bouclier", 1);
         }
         rafraichir();
+        if (inventaireController != null) {
+            inventaireController.rafraichir();
+        }
     }
 
     @FXML
@@ -57,6 +69,9 @@ public class ForgeController implements Initializable {
             joueur.getInventaire().ajouterItem("Hache", 1);
         }
         rafraichir();
+        if (inventaireController != null) {
+            inventaireController.rafraichir();
+        }
     }
 
     private void rafraichir() {
@@ -81,6 +96,9 @@ public class ForgeController implements Initializable {
     private void fermer() {
         if (stage != null) {
             stage.close();
+        }
+        if (inventaireController != null) {
+            inventaireController.rafraichir();
         }
     }
 }

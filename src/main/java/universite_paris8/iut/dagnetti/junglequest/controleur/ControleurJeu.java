@@ -519,6 +519,7 @@ public class ControleurJeu {
             ForgeController controller = loader.getController();
             controller.setStage(fenetreForge);
             controller.setJoueur(joueur);
+            controller.setInventaireController(inventaireController);
             enPause = true;
             if (pauseOverlay != null) {
                 pauseOverlay.setVisible(true);
@@ -527,6 +528,9 @@ public class ControleurJeu {
                 enPause = false;
                 if (pauseOverlay != null) {
                     pauseOverlay.setVisible(false);
+                }
+                if (inventaireController != null) {
+                    inventaireController.rafraichir();
                 }
                 fenetreForge = null;
             });
