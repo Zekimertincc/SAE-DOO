@@ -1,5 +1,6 @@
 package universite_paris8.iut.dagnetti.junglequest.vue.personnages;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Loup;
@@ -30,9 +31,12 @@ public class VueLoup {
     public Image getRunImage() { return runImage; }
     public Image getAttackImage() { return attackImage; }
 
-    public void synchroniserPosition(double offsetX, double offsetY) {
-        sprite.setX(loup.getX() - offsetX);
-        sprite.setY(loup.getY() - offsetY);
+    /**
+     * Lie la position du sprite aux coordonnées du loup en tenant compte de l'offset.
+     */
+    public void lierPosition(DoubleProperty offsetX, DoubleProperty offsetY) {
+        sprite.xProperty().bind(loup.xProperty().subtract(offsetX));
+        sprite.yProperty().bind(loup.yProperty().subtract(offsetY));
     }
 
     public double getLargeur() { return sprite.getFitWidth(); }

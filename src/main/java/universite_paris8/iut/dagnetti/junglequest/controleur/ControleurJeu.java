@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Modality;
@@ -60,8 +62,8 @@ public class ControleurJeu {
 
     private int compteurAttaque = 0;
     private int frameMort = 0;
-    private double offsetX = 0;
-    private double offsetY = 0;
+    private final DoubleProperty offsetXProperty = new SimpleDoubleProperty();
+    private final DoubleProperty offsetYProperty = new SimpleDoubleProperty();
     // Durée restante de l'animation d'atterrissage
     private int framesAtterrissageRestants = 0;
 
@@ -141,6 +143,9 @@ public class ControleurJeu {
         this.largeurEcran = scene.getWidth();
         this.hauteurEcran = scene.getHeight();
 
+        vueJoueur.lierPosition(offsetXProperty, offsetYProperty);
+        vueLoup.lierPosition(offsetXProperty, offsetYProperty);
+
         Image imgLoup = vueLoup.getSprite().getImage();
         this.largeurFrameLoup = (int) (imgLoup.getWidth() / 6);
         this.hauteurFrameLoup = (int) imgLoup.getHeight();
@@ -168,8 +173,8 @@ public class ControleurJeu {
                     if (joueur.isBouclierActif()) {
                         joueur.desactiverBouclier();
                     }
-                    double xMonde = e.getX() + offsetX;
-                    double yMonde = e.getY() + offsetY;
+                    double xMonde = e.getX() + offsetXProperty.get();
+                    double yMonde = e.getY() + offsetYProperty.get();
                     boolean cliqueLoup = xMonde >= loup.getX() && xMonde <= loup.getX() + vueLoup.getSprite().getFitWidth()
                             && yMonde >= loup.getY() && yMonde <= loup.getY() + vueLoup.getSprite().getFitHeight();
 
@@ -320,32 +325,32 @@ public class ControleurJeu {
     }
 
     private void mettreAJourAffichageEtAnimations() {
-        offsetX = joueur.getX() - largeurEcran / 2;
+        double offsetX = joueur.getX() - largeurEcran / 2;
         if (offsetX < 0) offsetX = 0;
         double maxOffset = carte.getLargeur() * TAILLE_TUILE - largeurEcran;
         if (offsetX > maxOffset) {
             offsetX = maxOffset;
         }
+        offsetXProperty.set(offsetX);
 
-        offsetY = joueur.getY() - hauteurEcran / 2;
+        double offsetY = joueur.getY() - hauteurEcran / 2;
         if (offsetY < 0) offsetY = 0;
         double maxOffsetY = carte.getHauteur() * TAILLE_TUILE - hauteurEcran;
         if (offsetY > maxOffsetY) {
             offsetY = maxOffsetY;
         }
+        offsetYProperty.set(offsetY);
 
         carteAffichable.redessiner(offsetX, offsetY);
 
         if (vueBackground != null) {
             vueBackground.mettreAJourScroll(offsetX);
         }
-        vueJoueur.getSprite().setX(joueur.getX() - offsetX);
         vueLoup.getSprite().setX(loup.getX() - offsetX);
-        guide.getSprite().setX(guide.getX() - offsetX);
-        forgeron.getSprite().setX(forgeron.getX() - offsetX);
-        vueJoueur.getSprite().setY(joueur.getY() - offsetY);
         vueLoup.getSprite().setY(loup.getY() - offsetY);
+        guide.getSprite().setX(guide.getX() - offsetX);
         guide.getSprite().setY(guide.getY() - offsetY);
+        forgeron.getSprite().setX(forgeron.getX() - offsetX);
         forgeron.getSprite().setY(forgeron.getY() - offsetY);
         barreVie.setLayoutX(joueur.getX() - offsetX);
         barreVie.setLayoutY(joueur.getY() - offsetY - 10);
@@ -446,8 +451,8 @@ public class ControleurJeu {
     }
 
     private void gererClicDroit(double xScene, double yScene) {
-        int colonne = (int) ((xScene + offsetX) / TAILLE_TUILE);
-        int ligne = (int) ((yScene + offsetY) / TAILLE_TUILE);
+        int colonne = (int) ((xScene + offsetXProperty.get()) / TAILLE_TUILE);
+        int ligne = (int) ((yScene + offsetYProperty.get()) / TAILLE_TUILE);
         boolean dansCarte = colonne >= 0 && colonne < carte.getLargeur()
                 && ligne >= 0 && ligne < carte.getHauteur();
 
@@ -479,7 +484,7 @@ public class ControleurJeu {
                 }
             }
 
-            carteAffichable.redessiner(offsetX, offsetY);
+            carteAffichable.redessiner(offsetXProperty.get(), offsetYProperty.get());
         }
     }
 
