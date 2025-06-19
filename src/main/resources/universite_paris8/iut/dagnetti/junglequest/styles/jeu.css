@@ -12,3 +12,9 @@
     -fx-text-fill: white;
 }
 
+.label-available {
+    -fx-text-fill: white;
+}
+.label-unavailable {
+    -fx-text-fill: red;
+}

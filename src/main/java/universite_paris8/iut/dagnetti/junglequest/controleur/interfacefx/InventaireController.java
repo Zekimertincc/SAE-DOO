@@ -112,7 +112,7 @@ public class InventaireController implements Initializable {
             slot.getChildren().add(icone);
         } else {
             Label erreur = new Label("X");
-            erreur.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+            erreur.getStyleClass().add("error-label");
             slot.getChildren().add(erreur);
         }
 
@@ -172,7 +172,7 @@ public class InventaireController implements Initializable {
         StackPane slot = new StackPane();
         slot.getStyleClass().add("slot-epee");
         Label icon = new Label("\u2694"); // simple sword unicode
-        icon.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
+        icon.getStyleClass().add("icon-item");
         slot.getChildren().add(icon);
         slot.setOnMouseClicked(e -> itemSelectionne = null);
         return slot;

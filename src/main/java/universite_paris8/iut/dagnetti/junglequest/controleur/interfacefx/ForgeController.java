@@ -52,11 +52,13 @@ public class ForgeController implements Initializable {
     private void rafraichir() {
         if (lblEpee != null) {
             boolean ok = joueur != null && joueur.getInventaire().contient("Bois", 5);
-            lblEpee.setStyle(ok ? "-fx-text-fill: white;" : "-fx-text-fill: red;");
+            lblEpee.getStyleClass().removeAll("label-available", "label-unavailable");
+            lblEpee.getStyleClass().add(ok ? "label-available" : "label-unavailable");
         }
         if (lblBouclier != null) {
             boolean ok = joueur != null && joueur.getInventaire().contient("Bois", 3);
-            lblBouclier.setStyle(ok ? "-fx-text-fill: white;" : "-fx-text-fill: red;");
+            lblBouclier.getStyleClass().removeAll("label-available", "label-unavailable");
+            lblBouclier.getStyleClass().add(ok ? "label-available" : "label-unavailable");
         }
     }
 

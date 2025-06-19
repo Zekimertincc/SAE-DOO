@@ -23,10 +23,12 @@ public class Inventaire {
      * @return true si l’opération est réussie
      */
     public boolean ajouterItem(String nom, int quantite) {
-        if (nom == null || quantite <= 0) return false;
-
-        items.put(nom, items.getOrDefault(nom, 0) + quantite);
-        return true;
+        boolean succes = false;
+        if (nom != null && quantite > 0) {
+            items.put(nom, items.getOrDefault(nom, 0) + quantite);
+            succes = true;
+        }
+        return succes;
     }
 
     /**
@@ -36,17 +38,19 @@ public class Inventaire {
      * @return true si l’objet a été retiré avec succès
      */
     public boolean retirerItem(String nom, int quantite) {
-        if (!items.containsKey(nom) || quantite <= 0) return false;
-
-        int actuelle = items.get(nom);
-        if (actuelle < quantite) return false;
-
-        if (actuelle == quantite) {
-            items.remove(nom);
-        } else {
-            items.put(nom, actuelle - quantite);
+        boolean succes = false;
+        if (items.containsKey(nom) && quantite > 0) {
+            int actuelle = items.get(nom);
+            if (actuelle >= quantite) {
+                if (actuelle == quantite) {
+                    items.remove(nom);
+                } else {
+                    items.put(nom, actuelle - quantite);
+                }
+                succes = true;
+            }
         }
-        return true;
+        return succes;
     }
 
     /**

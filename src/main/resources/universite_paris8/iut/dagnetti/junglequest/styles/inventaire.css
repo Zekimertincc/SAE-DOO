@@ -57,3 +57,11 @@
     -fx-opacity: 0.8;
 }
 
+.error-label {
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
+}
+.icon-item {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+}

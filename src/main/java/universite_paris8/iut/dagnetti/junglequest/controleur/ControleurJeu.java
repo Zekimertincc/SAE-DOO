@@ -80,6 +80,14 @@ public class ControleurJeu {
     private Stage fenetreParametres;
     private boolean dialogueGuideAffiche = false;
 
+    // États de contrôle issus du clavier
+    private boolean gauche;
+    private boolean droite;
+    private boolean toucheSaut;
+    private boolean toucheAccroupi;
+    private boolean toucheBouclier;
+    private boolean toucheDegats;
+
     /**
      * Initialise le contrôleur principal du jeu : clavier, animation, logique du joueur et gestion des clics.
      */
@@ -221,31 +229,41 @@ public class ControleurJeu {
         if (!enPause) {
             if (delaiDegats > 0) delaiDegats--;
             if (framesAtterrissageRestants > 0) framesAtterrissageRestants--;
-            // Récupération des touches clavier pressées
-            boolean gauche = clavier.estAppuyee(KeyCode.Q) || clavier.estAppuyee(KeyCode.LEFT);
-            boolean droite = clavier.estAppuyee(KeyCode.D) || clavier.estAppuyee(KeyCode.RIGHT);
-            boolean toucheSaut = clavier.estAppuyee(KeyCode.SPACE);
-            boolean toucheAccroupi = clavier.estAppuyee(KeyCode.CONTROL);
-            boolean toucheBouclier = clavier.estAppuyee(KeyCode.SHIFT);
+
+            gererClavierEtInventaire();
+            mettreAJourMouvements();
+            mettreAJourAffichageEtAnimations();
+        }
+    }
+
+    private void gererClavierEtInventaire() {
+        gauche = clavier.estAppuyee(KeyCode.Q) || clavier.estAppuyee(KeyCode.LEFT);
+        droite = clavier.estAppuyee(KeyCode.D) || clavier.estAppuyee(KeyCode.RIGHT);
+        toucheSaut = clavier.estAppuyee(KeyCode.SPACE);
+        toucheAccroupi = clavier.estAppuyee(KeyCode.CONTROL);
+        toucheBouclier = clavier.estAppuyee(KeyCode.SHIFT);
+
         if (toucheBouclier && !joueur.estEnAttaque()) {
             joueur.activerBouclier();
         } else if (!toucheBouclier) {
             joueur.desactiverBouclier();
         }
-        boolean toucheDegats = clavier.estAppuyee(KeyCode.M);
 
-        // Gestion de la sélection des objets de l'inventaire
+        toucheDegats = clavier.estAppuyee(KeyCode.M);
+
         if (inventaireController != null) {
-            if (clavier.estAppuyee(KeyCode.DIGIT1)) inventaireController.selectionnerIndex(0);
-            else if (clavier.estAppuyee(KeyCode.DIGIT2)) inventaireController.selectionnerIndex(1);
-            else if (clavier.estAppuyee(KeyCode.DIGIT3)) inventaireController.selectionnerIndex(2);
-            else if (clavier.estAppuyee(KeyCode.DIGIT4)) inventaireController.selectionnerIndex(3);
-            else if (clavier.estAppuyee(KeyCode.DIGIT5)) inventaireController.selectionnerIndex(4);
-            else if (clavier.estAppuyee(KeyCode.DIGIT6)) inventaireController.selectionnerIndex(5);
-            else if (clavier.estAppuyee(KeyCode.DIGIT7)) inventaireController.selectionnerIndex(6);
-            else if (clavier.estAppuyee(KeyCode.DIGIT8)) inventaireController.selectionnerIndex(7);
-            else if (clavier.estAppuyee(KeyCode.DIGIT9)) inventaireController.selectionnerIndex(8);
-            if (clavier.estAppuyee(KeyCode.E)) inventaireController.deselectionner();
+            KeyCode[] chiffres = {KeyCode.DIGIT1, KeyCode.DIGIT2, KeyCode.DIGIT3,
+                    KeyCode.DIGIT4, KeyCode.DIGIT5, KeyCode.DIGIT6,
+                    KeyCode.DIGIT7, KeyCode.DIGIT8, KeyCode.DIGIT9};
+            for (int i = 0; i < chiffres.length; i++) {
+                if (clavier.estAppuyee(chiffres[i])) {
+                    inventaireController.selectionnerIndex(i);
+                    break;
+                }
+            }
+            if (clavier.estAppuyee(KeyCode.E)) {
+                inventaireController.deselectionner();
+            }
         }
 
         if (toucheDegats) {
@@ -255,8 +273,9 @@ public class ControleurJeu {
         if (joueur.getPointsDeVie() <= 0) {
             joueurMort = true;
         }
+    }
 
-        // Déplacement horizontal
+    private void mettreAJourMouvements() {
         if (!joueurMort && !joueur.isBouclierActif()) {
             if (gauche) {
                 joueur.deplacerGauche(VITESSE_JOUEUR);
@@ -269,7 +288,6 @@ public class ControleurJeu {
             joueur.arreter();
         }
 
-        // Saut
         if (!joueurMort && toucheSaut && joueur.estAuSol() && !joueur.isBouclierActif()) {
             joueur.sauter(IMPULSION_SAUT);
         }
@@ -279,31 +297,31 @@ public class ControleurJeu {
             framesAtterrissageRestants = animation.getNbFramesAtterrissage();
         }
 
-        // Mise à jour du loup
         if (!loupMort) {
             loup.mettreAJourIA(joueur);
             moteur.mettreAJourPhysique(loup, carte);
         } else {
             loup.arreter();
         }
+    }
 
+    private void mettreAJourAffichageEtAnimations() {
         offsetX = joueur.getX() - largeurEcran / 2;
         if (offsetX < 0) offsetX = 0;
-        double maxOffset = carte.getLargeur() * TAILLE_TUILE -largeurEcran;
-        if(offsetX > maxOffset)
+        double maxOffset = carte.getLargeur() * TAILLE_TUILE - largeurEcran;
+        if (offsetX > maxOffset) {
             offsetX = maxOffset;
+        }
 
         offsetY = joueur.getY() - hauteurEcran / 2;
         if (offsetY < 0) offsetY = 0;
         double maxOffsetY = carte.getHauteur() * TAILLE_TUILE - hauteurEcran;
-        if(offsetY > maxOffsetY)
+        if (offsetY > maxOffsetY) {
             offsetY = maxOffsetY;
+        }
 
-
-        // Redessiner la carte avec le nouveau décalage
         carteAffichable.redessiner(offsetX, offsetY);
 
-        // Redessiner le fond si présent
         if (vueBackground != null) {
             vueBackground.mettreAJourScroll(offsetX);
         }
@@ -346,7 +364,6 @@ public class ControleurJeu {
         if (!loupMort && collision && delaiDegats == 0 && !loup.estEnAttaque() && !joueur.isBouclierActif()) {
             joueur.subirDegats(loup.getDegats());
 
-            // Durée pendant laquelle le joueur reste en animation de dégâts
             delaiDegats = DUREE_DEGATS_JOUEUR;
             loup.attaquer(joueur.getX());
             if (joueur.getPointsDeVie() <= 0) {
@@ -354,7 +371,6 @@ public class ControleurJeu {
             }
         }
 
-        // Gestion des animations
         ImageView sprite = joueur.getSprite();
 
         if (joueurMort) {
@@ -381,9 +397,7 @@ public class ControleurJeu {
             animation.animerIdle(sprite, DELAI_FRAME);
         }
 
-        // Inversion du sprite si le joueur regarde à gauche
         sprite.setScaleX(joueur.estVersGauche() ? -1 : 1);
-        // Animation et orientation du loup
         if (loupMort) {
             loup.getSprite().setViewport(new Rectangle2D(0, 0, largeurFrameLoup, hauteurFrameLoup));
         } else if (loup.estEnAttaque()) {
@@ -408,7 +422,6 @@ public class ControleurJeu {
             loup.getSprite().setViewport(new Rectangle2D(0, 0, largeurFrameLoup, hauteurFrameLoup));
         }
         loup.getSprite().setScaleX(loup.estVersGauche() ? 1 : -1);
-        }
     }
 
     /**
