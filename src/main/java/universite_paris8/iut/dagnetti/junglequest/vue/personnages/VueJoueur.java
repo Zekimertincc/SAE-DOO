@@ -1,5 +1,6 @@
 package universite_paris8.iut.dagnetti.junglequest.vue.personnages;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.image.ImageView;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Joueur;
 
@@ -24,11 +25,11 @@ public class VueJoueur {
     }
 
     /**
-     * Met à jour la position du sprite à partir du modèle.
+     * Lie la position du sprite aux coordonnées du joueur en tenant compte de l'offset.
      */
-    public void synchroniserPosition(double offsetX, double offsetY) {
-        sprite.setX(joueur.getX() - offsetX);
-        sprite.setY(joueur.getY() - offsetY);
+    public void lierPosition(DoubleProperty offsetX, DoubleProperty offsetY) {
+        sprite.xProperty().bind(joueur.xProperty().subtract(offsetX));
+        sprite.yProperty().bind(joueur.yProperty().subtract(offsetY));
     }
 
     /**
