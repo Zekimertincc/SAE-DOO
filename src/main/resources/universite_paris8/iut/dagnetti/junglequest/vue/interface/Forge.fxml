@@ -16,5 +16,9 @@
         <Label fx:id="lblBouclier" text="Bouclier (3 Bois)" />
         <Button text="Forger" onAction="#forgerBouclier" />
     </HBox>
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="lblHache" text="Hache (2 Bois)" />
+        <Button text="Forger" onAction="#forgerHache" />
+    </HBox>
     <Button text="Fermer" onAction="#fermer" />
 </VBox>

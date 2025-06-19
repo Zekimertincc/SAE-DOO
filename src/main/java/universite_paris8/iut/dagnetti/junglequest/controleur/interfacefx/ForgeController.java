@@ -15,6 +15,8 @@ public class ForgeController implements Initializable {
     private Label lblEpee;
     @FXML
     private Label lblBouclier;
+    @FXML
+    private Label lblHache;
 
     private Joueur joueur;
     private Stage stage;
@@ -49,6 +51,14 @@ public class ForgeController implements Initializable {
         rafraichir();
     }
 
+    @FXML
+    private void forgerHache() {
+        if (joueur != null && joueur.getInventaire().retirerItem("Bois", 2)) {
+            joueur.getInventaire().ajouterItem("Hache", 1);
+        }
+        rafraichir();
+    }
+
     private void rafraichir() {
         if (lblEpee != null) {
             boolean ok = joueur != null && joueur.getInventaire().contient("Bois", 5);
@@ -59,6 +69,11 @@ public class ForgeController implements Initializable {
             boolean ok = joueur != null && joueur.getInventaire().contient("Bois", 3);
             lblBouclier.getStyleClass().removeAll("label-available", "label-unavailable");
             lblBouclier.getStyleClass().add(ok ? "label-available" : "label-unavailable");
+        }
+        if (lblHache != null) {
+            boolean ok = joueur != null && joueur.getInventaire().contient("Bois", 2);
+            lblHache.getStyleClass().removeAll("label-available", "label-unavailable");
+            lblHache.getStyleClass().add(ok ? "label-available" : "label-unavailable");
         }
     }
 
