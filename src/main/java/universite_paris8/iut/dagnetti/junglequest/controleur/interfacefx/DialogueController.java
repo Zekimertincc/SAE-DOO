@@ -14,11 +14,19 @@ public class DialogueController implements Initializable {
     private TextArea dialogueArea;
 
     private Stage stage;
+    /**
+     * Définit le texte à afficher dans la zone de dialogue.
+     */
+    public void setMessage(String message) {
+        if (dialogueArea != null) {
+            dialogueArea.setText(message);
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (dialogueArea != null) {
-            dialogueArea.setText("Bienvenue dans Jungle Quest !\nUtilisez Q/D pour vous deplacer et ESPACE pour sauter.");
+            dialogueArea.setEditable(false);
         }
     }
 

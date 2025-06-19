@@ -291,7 +291,7 @@ public class LanceurJeu extends Application {
     }
     private void ouvrirDialogue() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/universite_paris8/iut/dagnetti/junglequest/vue/interface/Dialogue.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/universite_paris8/iut/dagnetti/junglequest/vue/interface/dialogue.fxml"));
             Pane root = loader.load();
             Stage stage = new Stage();
             stage.initOwner(null);

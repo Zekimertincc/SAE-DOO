@@ -76,5 +76,6 @@ public class Inventaire {
     }
 
     public void ajouterItem(Item randomItem) {
+
     }
 }

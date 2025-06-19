@@ -11,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Guide;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Forgeron;
 import javafx.scene.layout.Pane;
@@ -31,6 +30,8 @@ import universite_paris8.iut.dagnetti.junglequest.vue.animation.GestionAnimation
 import javafx.scene.image.WritableImage;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.InventaireController;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.ParametresController;
+import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.DialogueController;
+import java.io.IOException;
 
 public class ControleurJeu {
 
@@ -77,6 +78,7 @@ public class ControleurJeu {
 
     private boolean enPause = false;
     private Stage fenetreParametres;
+    private boolean dialogueGuideAffiche = false;
 
     /**
      * Initialise le contrôleur principal du jeu : clavier, animation, logique du joueur et gestion des clics.
@@ -319,6 +321,13 @@ public class ControleurJeu {
         barreVie.setLayoutY(joueur.getY() - offsetY - 10);
         labelVie.setLayoutX(joueur.getX() - offsetX);
         labelVie.setLayoutY(joueur.getY() - offsetY - 25);
+        if (!dialogueGuideAffiche) {
+            double distanceGuide = Math.abs(joueur.getX() - guide.getX());
+            if (distanceGuide <= 40) {
+                ouvrirDialogueGuide();
+                dialogueGuideAffiche = true;
+            }
+        }
 
         if (!loupMort) {
             barreVieLoup.setLayoutX(loup.getX() - offsetX);
@@ -475,6 +484,28 @@ public class ControleurJeu {
             fenetreParametres.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void ouvrirDialogueGuide() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/universite_paris8/iut/dagnetti/junglequest/vue/interface/dialogue.fxml"));
+            Pane root = loader.load();
+            Stage stage = new Stage();
+            stage.initOwner(null);
+            stage.setScene(new Scene(root));
+            DialogueController controller = loader.getController();
+            controller.setStage(stage);
+            controller.setMessage(
+                    "Oh… vous venez d’arriver, n’est-ce pas ? Vous avez l’air un peu désorienté." +
+                            "\nHeureusement, le village n’est pas loin." +
+                            "\nMais soyez tout de même vigilant. Certains animaux… moins amicaux que moi, rôdent parfois — des loups surtout." +
+                            "\nCherchez le forgeron du village. C’est un homme honnête. Si vous lui apportez quelques ressources de la forêt, il vous fournira des armes solides." +
+                            "\nChaque aventure commence par de petites rencontres… et la vôtre ne fait que commencer. Bon courage.");
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Dialogue non chargé : " + e.getMessage());
         }
     }
 }

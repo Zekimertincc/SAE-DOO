@@ -5,6 +5,8 @@
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.DialogueController"
       alignment="CENTER" spacing="10" stylesheets="@/universite_paris8/iut/dagnetti/junglequest/styles/inventaire.css">
+    alignment="CENTER" spacing="10" styleClass="dialogue-pane"
+    stylesheets="@/universite_paris8/iut/dagnetti/junglequest/styles/dialogue.css">
     <TextArea fx:id="dialogueArea" editable="false" prefWidth="300" prefHeight="150" wrapText="true" />
     <Button text="Fermer" onAction="#fermer" />
 </VBox>
