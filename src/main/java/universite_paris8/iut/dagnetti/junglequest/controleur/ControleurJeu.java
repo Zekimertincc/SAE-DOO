@@ -173,13 +173,19 @@ public class ControleurJeu {
         // Gestion du clic gauche pour attaquer
         scene.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
+                double xMonde = e.getX() + offsetXProperty.get();
+                double yMonde = e.getY() + offsetYProperty.get();
+
+                // Priorité : détruire une ressource cliquée si possible
+                if (essayerCasserRessource(xMonde, yMonde)) {
+                    return;
+                }
+
                 double distance = Math.abs(joueur.getX() - loup.getX());
                 if (distance <= PORTEE_ATTAQUE_JOUEUR) {
                     if (joueur.isBouclierActif()) {
                         joueur.desactiverBouclier();
                     }
-                    double xMonde = e.getX() + offsetXProperty.get();
-                    double yMonde = e.getY() + offsetYProperty.get();
                     boolean cliqueLoup = xMonde >= loup.getX() && xMonde <= loup.getX() + vueLoup.getSprite().getFitWidth()
                             && yMonde >= loup.getY() && yMonde <= loup.getY() + vueLoup.getSprite().getFitHeight();
 
@@ -468,10 +474,11 @@ public class ControleurJeu {
         }
     }
 
-    private void gererClicDroit(double xScene, double yScene) {
-        double xMonde = xScene + offsetXProperty.get();
-        double yMonde = yScene + offsetYProperty.get();
-
+    /**
+     * Tente de casser une ressource à la position cliquée.
+     * @return true si une ressource a été détruite
+     */
+    private boolean essayerCasserRessource(double xMonde, double yMonde) {
         java.util.Iterator<Ressource> it = ressources.iterator();
         while (it.hasNext()) {
             Ressource r = it.next();
@@ -490,8 +497,18 @@ public class ControleurJeu {
                         inventaireController.rafraichir();
                     }
                 }
-                return;
+                return true;
             }
+        }
+        return false;
+    }
+
+    private void gererClicDroit(double xScene, double yScene) {
+        double xMonde = xScene + offsetXProperty.get();
+        double yMonde = yScene + offsetYProperty.get();
+
+        if (essayerCasserRessource(xMonde, yMonde)) {
+            return;
         }
 
         int colonne = (int) (xMonde / TAILLE_TUILE);
