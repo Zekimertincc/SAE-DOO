@@ -44,6 +44,7 @@ import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.BarreVie;
 import universite_paris8.iut.dagnetti.junglequest.vue.CarteAffichable;
 import universite_paris8.iut.dagnetti.junglequest.vue.personnages.VueJoueur;
 import universite_paris8.iut.dagnetti.junglequest.vue.personnages.VueLoup;
+import universite_paris8.iut.dagnetti.junglequest.modele.farm.Ressource;
 
 public class LanceurJeu extends Application {
 
@@ -222,6 +223,56 @@ public class LanceurJeu extends Application {
             loup.setEstAuSol(true);
             racine.getChildren().add(spriteLoup);
 
+            // --- Ressources proches du loup ---
+            Image arbreImg = new Image(getClass().getResourceAsStream(
+                    "/universite_paris8/iut/dagnetti/junglequest/images/arbre.png"));
+            Image canneImg = new Image(getClass().getResourceAsStream(
+                    "/universite_paris8/iut/dagnetti/junglequest/images/canne.png"));
+            Image rocheImg = new Image(getClass().getResourceAsStream(
+                    "/universite_paris8/iut/dagnetti/junglequest/images/roche.png"));
+
+            List<Ressource> ressources = new ArrayList<>();
+            double baseX = xLoup - 100;
+
+            for (int i = 0; i < 2; i++) {
+                double xR = baseX + i * 40;
+                int col = (int) (xR / ConstantesJeu.TAILLE_TUILE);
+                int ligne = carte.chercherLigneSol(col);
+                double yR = ligne != -1 ? ligne * ConstantesJeu.TAILLE_TUILE - 64 : 56;
+                ImageView iv = new ImageView(arbreImg);
+                iv.setFitWidth(64);
+                iv.setFitHeight(64);
+                iv.setViewOrder(-1);
+                racine.getChildren().add(iv);
+                ressources.add(new Ressource("Arbre", "Bois", iv, xR, yR));
+            }
+
+            for (int i = 0; i < 2; i++) {
+                double xR = baseX + 80 + i * 40;
+                int col = (int) (xR / ConstantesJeu.TAILLE_TUILE);
+                int ligne = carte.chercherLigneSol(col);
+                double yR = ligne != -1 ? ligne * ConstantesJeu.TAILLE_TUILE - 64 : 56;
+                ImageView iv = new ImageView(canneImg);
+                iv.setFitWidth(64);
+                iv.setFitHeight(64);
+                iv.setViewOrder(-1);
+                racine.getChildren().add(iv);
+                ressources.add(new Ressource("Canne", "Bois", iv, xR, yR));
+            }
+
+            for (int i = 0; i < 2; i++) {
+                double xR = baseX + 160 + i * 40;
+                int col = (int) (xR / ConstantesJeu.TAILLE_TUILE);
+                int ligne = carte.chercherLigneSol(col);
+                double yR = ligne != -1 ? ligne * ConstantesJeu.TAILLE_TUILE - 64 : 56;
+                ImageView iv = new ImageView(rocheImg);
+                iv.setFitWidth(64);
+                iv.setFitHeight(64);
+                iv.setViewOrder(-1);
+                racine.getChildren().add(iv);
+                ressources.add(new Ressource("Roche", "Bois", iv, xR, yR));
+            }
+
             BarreVie barreVieLoup = new BarreVie(ConstantesJeu.TAILLE_SPRITE * 1.5, 4);
 
             barreVieLoup.setViewOrder(-9);
@@ -247,6 +298,7 @@ public class LanceurJeu extends Application {
                     chute, atterrissage, degats, mort, sort, accroupi, bouclier);
 
             controleurJeu.setVueBackground(vueBackground);
+            controleurJeu.setRessources(ressources);
 
         } catch (IOException e) {
             System.err.println("Erreur critique : " + e.getMessage());

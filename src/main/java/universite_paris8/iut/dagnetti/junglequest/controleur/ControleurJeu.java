@@ -36,6 +36,7 @@ import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.Inventa
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.ParametresController;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.DialogueController;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.ForgeController;
+import universite_paris8.iut.dagnetti.junglequest.modele.farm.Ressource;
 import java.io.IOException;
 
 public class ControleurJeu {
@@ -87,6 +88,9 @@ public class ControleurJeu {
     private Stage fenetreParametres;
     private Stage fenetreForge;
     private boolean dialogueGuideAffiche = false;
+
+    // Ressources interactives présentes sur la carte
+    private java.util.List<Ressource> ressources = new java.util.ArrayList<>();
 
     // États de contrôle issus du clavier
     private boolean gauche;
@@ -352,6 +356,11 @@ public class ControleurJeu {
         guide.getSprite().setY(guide.getY() - offsetY);
         forgeron.getSprite().setX(forgeron.getX() - offsetX);
         forgeron.getSprite().setY(forgeron.getY() - offsetY);
+        // Positionnement des ressources interactives
+        for (Ressource r : ressources) {
+            r.getSprite().setX(r.getX() - offsetX);
+            r.getSprite().setY(r.getY() - offsetY);
+        }
         barreVie.setLayoutX(joueur.getX() - offsetX);
         barreVie.setLayoutY(joueur.getY() - offsetY - 10);
         labelVie.setLayoutX(joueur.getX() - offsetX);
@@ -450,9 +459,43 @@ public class ControleurJeu {
         this.vueBackground = vueBackground;
     }
 
+    /**
+     * Définit la liste des ressources interactives présentes sur la carte.
+     */
+    public void setRessources(java.util.List<Ressource> ressources) {
+        if (ressources != null) {
+            this.ressources = ressources;
+        }
+    }
+
     private void gererClicDroit(double xScene, double yScene) {
-        int colonne = (int) ((xScene + offsetXProperty.get()) / TAILLE_TUILE);
-        int ligne = (int) ((yScene + offsetYProperty.get()) / TAILLE_TUILE);
+        double xMonde = xScene + offsetXProperty.get();
+        double yMonde = yScene + offsetYProperty.get();
+
+        java.util.Iterator<Ressource> it = ressources.iterator();
+        while (it.hasNext()) {
+            Ressource r = it.next();
+            javafx.scene.image.ImageView iv = r.getSprite();
+            double w = iv.getFitWidth();
+            double h = iv.getFitHeight();
+            if (xMonde >= r.getX() && xMonde <= r.getX() + w
+                    && yMonde >= r.getY() && yMonde <= r.getY() + h) {
+                boolean peutCasser = r.getNom().equalsIgnoreCase("Arbre")
+                        || joueur.getInventaire().contient("Hache", 1);
+                if (peutCasser) {
+                    iv.setVisible(false);
+                    it.remove();
+                    joueur.getInventaire().ajouterItem(r.getItemRecompense(), 1);
+                    if (inventaireController != null) {
+                        inventaireController.rafraichir();
+                    }
+                }
+                return;
+            }
+        }
+
+        int colonne = (int) (xMonde / TAILLE_TUILE);
+        int ligne = (int) (yMonde / TAILLE_TUILE);
         boolean dansCarte = colonne >= 0 && colonne < carte.getLargeur()
                 && ligne >= 0 && ligne < carte.getHauteur();
 
@@ -477,9 +520,12 @@ public class ControleurJeu {
             } else {
                 int idAvant = carte.getValeurTuile(ligne, colonne);
                 if (BlocManager.casserBloc(carte, ligne, colonne) && idAvant != Carte.TUILE_VIDE) {
-                    joueur.getInventaire().ajouterItem("Bois", 1);
-                    if (inventaireController != null) {
-                        inventaireController.rafraichir();
+                    TileType typeAvant = TileType.fromId(idAvant);
+                    if (typeAvant == TileType.ARBRE) {
+                        joueur.getInventaire().ajouterItem("Bois", 1);
+                        if (inventaireController != null) {
+                            inventaireController.rafraichir();
+                        }
                     }
                 }
             }
