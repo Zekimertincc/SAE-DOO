@@ -105,6 +105,13 @@ public final class ConstantesJeu {
      */
     public static final int DELAI_AVANT_ATTAQUE_LOUP = DELAI_FRAME;
 
+    /**
+     * Intervalle entre deux mises à jour du chemin du loup (en frames).
+     * Réduire la fréquence des appels à l'algorithme A* améliore les performances
+     * en évitant un calcul coûteux à chaque frame.
+     */
+
+
     // Constructeur privé pour empêcher l’instanciation
     private ConstantesJeu() {}
 }

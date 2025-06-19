@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="universite_paris8.iut.dagnetti.junglequest.vue.interface.HacheEchange"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.HacheEchangeController"
+      alignment="CENTER" spacing="10"
+      styleClass="dialogue-pane"
+      stylesheets="@/universite_paris8/iut/dagnetti/junglequest/styles/dialogue.css">
+    <ImageView fx:id="imgHache" fitWidth="64" fitHeight="64" />
+    <Label fx:id="lblCout" text="Coût : 1 Bois" />
+    <Button text="Échange" onAction="#echanger" />
+    <Button text="Fermer" onAction="#fermer" />
+</VBox>

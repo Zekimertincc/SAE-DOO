@@ -27,6 +27,7 @@ import java.util.List;
 import universite_paris8.iut.dagnetti.junglequest.controleur.ControleurJeu;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.InventaireController;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.DialogueController;
+import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.HacheEchangeController;
 import universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.ForgeController;
 import universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu;
 
@@ -115,7 +116,7 @@ public class LanceurJeu extends Application {
             double xInitial = 320;
             int colonne = (int) (xInitial / ConstantesJeu.TAILLE_TUILE);
             int ligneSol = carte.chercherLigneSol(colonne);
-            // La carte est stockée avec l'origine en haut à gauche. Pour placer le
+            // La carte est stockée comme base en haut à gauche. Pour placer le
             // personnage sur le sol trouvé, on se base directement sur l'indice de
             // ligne plutôt que d'inverser par rapport à la hauteur de la carte.
             double yInitial = ligneSol != -1 ? ligneSol * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.TAILLE_SPRITE : 56;
