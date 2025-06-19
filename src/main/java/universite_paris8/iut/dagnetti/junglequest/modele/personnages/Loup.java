@@ -3,7 +3,6 @@ package universite_paris8.iut.dagnetti.junglequest.modele.personnages;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import java.util.Random;
 import universite_paris8.iut.dagnetti.junglequest.modele.donnees.ConstantesJeu;
 import universite_paris8.iut.dagnetti.junglequest.modele.monde.AStar;
@@ -30,6 +29,7 @@ public class Loup extends Personnage {
     private final Image walkImage;
     private final Image runImage;
     private final Image attackImage;
+    private Image currentImage;
 
     private boolean enAttaque = false;
 
@@ -61,11 +61,13 @@ public class Loup extends Personnage {
     private int pausePoursuite = 0;
 
 
-    public Loup(ImageView sprite, Image walkImage, Image runImage, Image attackImage, double x, double y, int degats) {
-        super(sprite, x, y);
+    public Loup(double x, double y, double largeur, double hauteur,
+                Image walkImage, Image runImage, Image attackImage, int degats) {
+        super(x, y, largeur, hauteur);
         this.walkImage = walkImage;
         this.runImage = runImage;
         this.attackImage = attackImage;
+        this.currentImage = walkImage;
         this.degats = degats;
         this.pointsDeVie.set(ConstantesJeu.VIE_MAX_LOUP);
 
@@ -81,7 +83,7 @@ public class Loup extends Personnage {
         } else if (pausePoursuite > 0) {
             pausePoursuite--;
             arreter();
-            getSprite().setImage(walkImage);
+            currentImage = walkImage;
         } else if (Math.abs(distance) <= ConstantesJeu.DISTANCE_ARRET_LOUP) {
             gererApprocheAttaque(distance, joueur);
         } else {
@@ -127,7 +129,7 @@ public class Loup extends Personnage {
             suivreChemin(joueur, carte);
             delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
         } else {
-            getSprite().setImage(walkImage);
+            currentImage = walkImage;
             if (dureeAction <= 0) {
                 int action = random.nextInt(3);
                 if (action == 0) {
@@ -155,7 +157,7 @@ public class Loup extends Personnage {
         if (chemin.size() > 1) {
             int[] next = chemin.get(1);
             double cibleX = next[0] * ConstantesJeu.TAILLE_TUILE;
-            getSprite().setImage(runImage);
+            currentImage = runImage;
             if (cibleX > getX()) {
                 deplacerDroite(vitesseCourse);
             } else if (cibleX < getX()) {
@@ -164,7 +166,7 @@ public class Loup extends Personnage {
                 arreter();
             }
         } else {
-            getSprite().setImage(runImage);
+            currentImage = runImage;
             if (joueur.getX() > getX()) {
                 deplacerDroite(vitesseCourse);
             } else {
@@ -182,6 +184,7 @@ public class Loup extends Personnage {
     public Image getWalkImage() { return walkImage; }
     public Image getRunImage() { return runImage; }
     public Image getAttackImage() { return attackImage; }
+    public Image getCurrentImage() { return currentImage; }
 
     public boolean estEnAttaque() { return enAttaque; }
 
@@ -191,13 +194,13 @@ public class Loup extends Personnage {
         // toute la séquence d'attaque.
         directionAttaque = estVersGauche() ? -1 : 1;
         cibleAttaqueX = positionJoueurX;
-        getSprite().setImage(attackImage);
+        currentImage = attackImage;
     }
 
     public void finAttaque() {
         enAttaque = false;
         directionAttaque = 0;
-        getSprite().setImage(walkImage);
+        currentImage = walkImage;
         pausePoursuite = random.nextInt(60) + 50;
     }
     public int getPointsDeVie() {

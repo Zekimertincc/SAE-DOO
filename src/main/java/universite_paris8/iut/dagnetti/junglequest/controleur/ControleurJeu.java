@@ -2,7 +2,6 @@ package universite_paris8.iut.dagnetti.junglequest.controleur;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
@@ -22,6 +21,8 @@ import universite_paris8.iut.dagnetti.junglequest.modele.carte.Carte;
 import universite_paris8.iut.dagnetti.junglequest.controleur.moteur.MoteurPhysique;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Joueur;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Loup;
+import universite_paris8.iut.dagnetti.junglequest.vue.personnages.VueJoueur;
+import universite_paris8.iut.dagnetti.junglequest.vue.personnages.VueLoup;
 import universite_paris8.iut.dagnetti.junglequest.modele.bloc.BlocManager;
 import universite_paris8.iut.dagnetti.junglequest.modele.bloc.TileType;
 import universite_paris8.iut.dagnetti.junglequest.vue.CarteAffichable;
@@ -41,6 +42,8 @@ public class ControleurJeu {
     private final CarteAffichable carteAffichable;
     private final Joueur joueur;
     private final Loup loup;
+    private final VueJoueur vueJoueur;
+    private final VueLoup vueLoup;
     private final GestionClavier clavier;
     private final GestionAnimation animation;
     private final InventaireController inventaireController;
@@ -93,8 +96,8 @@ public class ControleurJeu {
     /**
      * Initialise le contrôleur principal du jeu : clavier, animation, logique du joueur et gestion des clics.
      */
-    public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur, Loup loup,
-                         Guide guide,
+    public ControleurJeu(Scene scene, Carte carte, CarteAffichable carteAffichable, Joueur joueur, VueJoueur vueJoueur,
+                         Loup loup, VueLoup vueLoup, Guide guide,
                          Forgeron forgeron,
                          InventaireController inventaireController, BarreVie barreVie, javafx.scene.control.Label labelVie,
                          BarreVie barreVieLoup, javafx.scene.control.Label labelVieLoup, Pane pauseOverlay,
@@ -108,7 +111,9 @@ public class ControleurJeu {
         this.carte = carte;
         this.carteAffichable = carteAffichable;
         this.joueur = joueur;
+        this.vueJoueur = vueJoueur;
         this.loup = loup;
+        this.vueLoup = vueLoup;
         this.guide = guide;
         this.forgeron = forgeron;
         this.inventaireController = inventaireController;
@@ -136,15 +141,15 @@ public class ControleurJeu {
         this.largeurEcran = scene.getWidth();
         this.hauteurEcran = scene.getHeight();
 
-        Image imgLoup = loup.getSprite().getImage();
+        Image imgLoup = vueLoup.getSprite().getImage();
         this.largeurFrameLoup = (int) (imgLoup.getWidth() / 6);
         this.hauteurFrameLoup = (int) imgLoup.getHeight();
         Image imgLoupAttack = loup.getAttackImage();
         this.largeurFrameLoupAttaque = (int) (imgLoupAttack.getWidth() / 6);
         this.hauteurFrameLoupAttaque = (int) imgLoupAttack.getHeight();
-        loup.getSprite().setViewport(new Rectangle2D(0, 0, largeurFrameLoup, hauteurFrameLoup));
-        loup.getSprite().setFitWidth(largeurFrameLoup);
-        loup.getSprite().setFitHeight(hauteurFrameLoup);
+        vueLoup.getSprite().setViewport(new Rectangle2D(0, 0, largeurFrameLoup, hauteurFrameLoup));
+        vueLoup.getSprite().setFitWidth(largeurFrameLoup);
+        vueLoup.getSprite().setFitHeight(hauteurFrameLoup);
 
         // Initialisation des animations
         this.animation = new GestionAnimation(
@@ -165,8 +170,8 @@ public class ControleurJeu {
                     }
                     double xMonde = e.getX() + offsetX;
                     double yMonde = e.getY() + offsetY;
-                    boolean cliqueLoup = xMonde >= loup.getX() && xMonde <= loup.getX() + loup.getSprite().getFitWidth()
-                            && yMonde >= loup.getY() && yMonde <= loup.getY() + loup.getSprite().getFitHeight();
+                    boolean cliqueLoup = xMonde >= loup.getX() && xMonde <= loup.getX() + vueLoup.getSprite().getFitWidth()
+                            && yMonde >= loup.getY() && yMonde <= loup.getY() + vueLoup.getSprite().getFitHeight();
 
                     if (!joueur.estEnAttaque()) {
                         joueur.attaquer();
@@ -299,14 +304,16 @@ public class ControleurJeu {
             joueur.sauter(IMPULSION_SAUT);
         }
 
-        boolean aAtterri = moteur.mettreAJourPhysique(joueur, carte);
+        boolean aAtterri = moteur.mettreAJourPhysique(joueur, carte,
+                vueJoueur.getLargeur(), vueJoueur.getHauteur());
         if (aAtterri) {
             framesAtterrissageRestants = animation.getNbFramesAtterrissage();
         }
 
         if (!loupMort) {
             loup.mettreAJourIA(joueur, carte);
-            moteur.mettreAJourPhysique(loup, carte);
+            moteur.mettreAJourPhysique(loup, carte,
+                    vueLoup.getLargeur(), vueLoup.getHauteur());
         } else {
             loup.arreter();
         }
@@ -332,12 +339,12 @@ public class ControleurJeu {
         if (vueBackground != null) {
             vueBackground.mettreAJourScroll(offsetX);
         }
-        joueur.getSprite().setX(joueur.getX() - offsetX);
-        loup.getSprite().setX(loup.getX() - offsetX);
+        vueJoueur.getSprite().setX(joueur.getX() - offsetX);
+        vueLoup.getSprite().setX(loup.getX() - offsetX);
         guide.getSprite().setX(guide.getX() - offsetX);
         forgeron.getSprite().setX(forgeron.getX() - offsetX);
-        joueur.getSprite().setY(joueur.getY() - offsetY);
-        loup.getSprite().setY(loup.getY() - offsetY);
+        vueJoueur.getSprite().setY(joueur.getY() - offsetY);
+        vueLoup.getSprite().setY(loup.getY() - offsetY);
         guide.getSprite().setY(guide.getY() - offsetY);
         forgeron.getSprite().setY(forgeron.getY() - offsetY);
         barreVie.setLayoutX(joueur.getX() - offsetX);
@@ -364,10 +371,10 @@ public class ControleurJeu {
 
         double distanceLoupJoueur = Math.abs(joueur.getX() - loup.getX());
         boolean collision = distanceLoupJoueur < 20
-                && joueur.getX() < loup.getX() + loup.getSprite().getFitWidth()
-                && joueur.getX() + joueur.getSprite().getFitWidth() > loup.getX()
-                && joueur.getY() < loup.getY() + loup.getSprite().getFitHeight()
-                && joueur.getY() + joueur.getSprite().getFitHeight() > loup.getY();
+                && joueur.getX() < loup.getX() + vueLoup.getSprite().getFitWidth()
+                && joueur.getX() + vueJoueur.getSprite().getFitWidth() > loup.getX()
+                && joueur.getY() < loup.getY() + vueLoup.getSprite().getFitHeight()
+                && joueur.getY() + vueJoueur.getSprite().getFitHeight() > loup.getY();
         if (!loupMort && collision && delaiDegats == 0 && !loup.estEnAttaque() && !joueur.isBouclierActif()) {
             joueur.subirDegats(loup.getDegats());
 
@@ -378,7 +385,7 @@ public class ControleurJeu {
             }
         }
 
-        ImageView sprite = joueur.getSprite();
+        ImageView sprite = vueJoueur.getSprite();
 
         if (joueurMort) {
             animation.animerMort(sprite, frameMort++);
@@ -406,29 +413,29 @@ public class ControleurJeu {
 
         sprite.setScaleX(joueur.estVersGauche() ? -1 : 1);
         if (loupMort) {
-            loup.getSprite().setViewport(new Rectangle2D(0, 0, largeurFrameLoup, hauteurFrameLoup));
+            vueLoup.getSprite().setViewport(new Rectangle2D(0, 0, largeurFrameLoup, hauteurFrameLoup));
         } else if (loup.estEnAttaque()) {
             if (compteurLoup++ >= DELAI_FRAME) {
-                loup.getSprite().setViewport(new Rectangle2D(frameLoup * largeurFrameLoupAttaque, 0,
+                vueLoup.getSprite().setViewport(new Rectangle2D(frameLoup * largeurFrameLoupAttaque, 0,
                         largeurFrameLoupAttaque, hauteurFrameLoupAttaque));
                 frameLoup++;
                 compteurLoup = 0;
                 if (frameLoup >= 6) {
                     frameLoup = 0;
                     loup.finAttaque();
-                    loup.getSprite().setImage(loup.getWalkImage());
+                    vueLoup.getSprite().setImage(loup.getWalkImage());
                 }
             }
         } else if (loup.getVitesseX() != 0) {
             if (compteurLoup++ >= DELAI_FRAME) {
-                loup.getSprite().setViewport(new Rectangle2D(frameLoup * largeurFrameLoup, 0, largeurFrameLoup, hauteurFrameLoup));
+                vueLoup.getSprite().setViewport(new Rectangle2D(frameLoup * largeurFrameLoup, 0, largeurFrameLoup, hauteurFrameLoup));
                 frameLoup = (frameLoup + 1) % 6;
                 compteurLoup = 0;
             }
         } else {
-            loup.getSprite().setViewport(new Rectangle2D(0, 0, largeurFrameLoup, hauteurFrameLoup));
+            vueLoup.getSprite().setViewport(new Rectangle2D(0, 0, largeurFrameLoup, hauteurFrameLoup));
         }
-        loup.getSprite().setScaleX(loup.estVersGauche() ? 1 : -1);
+        vueLoup.getSprite().setScaleX(loup.estVersGauche() ? 1 : -1);
     }
 
     /**

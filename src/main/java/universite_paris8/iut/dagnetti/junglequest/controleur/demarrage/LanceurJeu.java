@@ -42,6 +42,8 @@ import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.ExtracteurSprit
 import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.PositionFrame;
 import universite_paris8.iut.dagnetti.junglequest.vue.utilitaire.BarreVie;
 import universite_paris8.iut.dagnetti.junglequest.vue.CarteAffichable;
+import universite_paris8.iut.dagnetti.junglequest.vue.personnages.VueJoueur;
+import universite_paris8.iut.dagnetti.junglequest.vue.personnages.VueLoup;
 
 public class LanceurJeu extends Application {
 
@@ -126,7 +128,8 @@ public class LanceurJeu extends Application {
             spriteJoueur.setFitWidth(ConstantesJeu.TAILLE_SPRITE);
             spriteJoueur.setFitHeight(ConstantesJeu.TAILLE_SPRITE);
 
-            Joueur joueur = new Joueur(spriteJoueur, xInitial, yInitial);
+            Joueur joueur = new Joueur(xInitial, yInitial);
+            VueJoueur vueJoueur = new VueJoueur(joueur, spriteJoueur);
             joueur.setEstAuSol(true);
             racine.getChildren().addAll(carteAffichable, spriteJoueur);
 
@@ -177,9 +180,9 @@ public class LanceurJeu extends Application {
             int ligneSolForgeron = carte.chercherLigneSol(colForgeron);
             double yForgeron = 380;
             Forgeron forgeron = new Forgeron(
-                    spriteForgeron,
                     xForgeron,
-                    yForgeron);
+                    yForgeron,
+                    spriteForgeron);
             forgeron.setEstAuSol(true);
             racine.getChildren().add(spriteForgeron);
             spriteForgeron.setOnMouseClicked(e -> ouvrirForge(joueur));
@@ -212,7 +215,9 @@ public class LanceurJeu extends Application {
                     ? ligneSolLoup * ConstantesJeu.TAILLE_TUILE - imgLoupWalk.getHeight()
                     : 56;
             // Le loup inflige désormais 20 points de dégâts par attaque
-            Loup loup = new Loup(spriteLoup, imgLoupWalk, imgLoupRun, imgLoupAttack, xLoup, yLoup, 20);
+            Loup loup = new Loup(xLoup, yLoup, imgLoupWalk.getWidth(), imgLoupWalk.getHeight(),
+                    imgLoupWalk, imgLoupRun, imgLoupAttack, 20);
+            VueLoup vueLoup = new VueLoup(loup, spriteLoup, imgLoupWalk, imgLoupRun, imgLoupAttack);
 
             loup.setEstAuSol(true);
             racine.getChildren().add(spriteLoup);
@@ -236,8 +241,8 @@ public class LanceurJeu extends Application {
             racine.getChildren().add(labelVie);
             InventaireController inventaireCtrl = afficherInventaire(racine, joueur, largeur, hauteur);
 
-            ControleurJeu controleurJeu = new ControleurJeu(scene, carte, carteAffichable, joueur, loup,
-                    guide, forgeron, inventaireCtrl, barreVie, labelVie, barreVieLoup, labelVieLoup, pauseOverlay,
+            ControleurJeu controleurJeu = new ControleurJeu(scene, carte, carteAffichable, joueur, vueJoueur,
+                    loup, vueLoup, guide, forgeron, inventaireCtrl, barreVie, labelVie, barreVieLoup, labelVieLoup, pauseOverlay,
                     idle, marche, attaque, preparationSaut, volSaut, sautReload,
                     chute, atterrissage, degats, mort, sort, accroupi, bouclier);
 

@@ -3,15 +3,18 @@ package universite_paris8.iut.dagnetti.junglequest.vue;
 import javafx.scene.layout.Pane;
 import universite_paris8.iut.dagnetti.junglequest.modele.carte.Carte;
 import universite_paris8.iut.dagnetti.junglequest.modele.personnages.Joueur;
+import universite_paris8.iut.dagnetti.junglequest.vue.personnages.VueJoueur;
 
 public class VueJeu extends Pane {
 
     private final VueBackground vueBackground;
     private final CarteAffichable carteAffichable;
     private final Joueur joueur;
+    private final VueJoueur vueJoueur;
 
-    public VueJeu(Carte carte, Joueur joueur, int largeurEcran, int hauteurEcran, javafx.scene.image.Image tileset) {
+    public VueJeu(Carte carte, Joueur joueur, VueJoueur vueJoueur, int largeurEcran, int hauteurEcran, javafx.scene.image.Image tileset) {
         this.joueur = joueur;
+        this.vueJoueur = vueJoueur;
 
         this.setPrefSize(largeurEcran, hauteurEcran);
 
@@ -22,7 +25,7 @@ public class VueJeu extends Pane {
         this.getChildren().addAll(
                 vueBackground,
                 carteAffichable,
-                joueur.getSprite()
+                vueJoueur.getSprite()
         );
     }
 
@@ -36,5 +39,9 @@ public class VueJeu extends Pane {
 
     public Joueur getJoueur() {
         return joueur;
+    }
+
+    public VueJoueur getVueJoueur() {
+        return vueJoueur;
     }
 }

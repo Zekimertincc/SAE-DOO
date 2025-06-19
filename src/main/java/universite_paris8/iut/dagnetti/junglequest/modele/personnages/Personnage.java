@@ -4,7 +4,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.image.ImageView;
 
 /**
  * Classe abstraite représentant un personnage générique avec position, vitesse et sprite.
@@ -19,19 +18,18 @@ public abstract class Personnage {
     protected final BooleanProperty versGauche = new SimpleBooleanProperty();
     protected final BooleanProperty estAuSol = new SimpleBooleanProperty();
 
-    protected final ImageView sprite;
+    private double largeur;
+    private double hauteur;
 
-    public Personnage(ImageView sprite, double x, double y) {
-        this.sprite = sprite;
+    public Personnage(double x, double y, double largeur, double hauteur) {
+        this.largeur = largeur;
+        this.hauteur = hauteur;
         this.x.set(x);
         this.y.set(y);
         this.vitesseX.set(0);
         this.vitesseY.set(0);
         this.versGauche.set(false);
         this.estAuSol.set(false);
-
-        this.sprite.setX(x);
-        this.sprite.setY(y);
     }
 
     /**
@@ -95,7 +93,9 @@ public abstract class Personnage {
 
     // --- Getters utiles ---
 
-    public ImageView getSprite() { return sprite; }
+    public double getLargeur() { return largeur; }
+
+    public double getHauteur() { return hauteur; }
 
     public double getX() { return x.get(); }
 

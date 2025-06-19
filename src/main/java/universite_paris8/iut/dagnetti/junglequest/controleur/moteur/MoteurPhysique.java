@@ -19,12 +19,10 @@ public class MoteurPhysique {
      * @return {@code true} si le personnage vient d'atterrir lors de cette mise
      *         à jour
      */
-    public boolean mettreAJourPhysique(Personnage personnage, Carte carte) {
+    public boolean mettreAJourPhysique(Personnage personnage, Carte carte, double largeur, double hauteur) {
         // Appliquer la gravité
         personnage.appliquerGravite(ConstantesJeu.GRAVITE, ConstantesJeu.VITESSE_CHUTE_MAX);
 
-        double largeur = personnage.getSprite().getFitWidth();
-        double hauteur = personnage.getSprite().getFitHeight();
 
         double newX = personnage.getX() + personnage.getVitesseX();
         double newY = personnage.getY() + personnage.getVitesseY();
