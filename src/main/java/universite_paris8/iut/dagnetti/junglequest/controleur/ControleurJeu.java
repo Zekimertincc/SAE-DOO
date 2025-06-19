@@ -170,16 +170,11 @@ public class ControleurJeu {
                 sort, accroupi, bouclier
         );
 
-        // Gestion du clic gauche pour attaquer
+        // Gestion du clic gauche pour attaquer uniquement
         scene.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 double xMonde = e.getX() + offsetXProperty.get();
                 double yMonde = e.getY() + offsetYProperty.get();
-
-                // Priorité : détruire une ressource cliquée si possible
-                if (essayerCasserRessource(xMonde, yMonde)) {
-                    return;
-                }
 
                 double distance = Math.abs(joueur.getX() - loup.getX());
                 if (distance <= PORTEE_ATTAQUE_JOUEUR) {
@@ -211,6 +206,7 @@ public class ControleurJeu {
                 }
             }
         });
+        // Le clic droit gère la destruction des ressources et les blocs
         scene.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.SECONDARY) {
                 gererClicDroit(e.getX(), e.getY());
@@ -503,6 +499,9 @@ public class ControleurJeu {
         return false;
     }
 
+    /**
+     * Gère le clic droit : destruction de ressources et interactions avec les blocs.
+     */
     private void gererClicDroit(double xScene, double yScene) {
         double xMonde = xScene + offsetXProperty.get();
         double yMonde = yScene + offsetYProperty.get();
