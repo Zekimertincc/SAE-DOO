@@ -173,9 +173,7 @@ public class LanceurJeu extends Application {
             double xForgeron = ConstantesJeu.POSITION_FORGERON_X;
             int colForgeron = (int) (xForgeron / ConstantesJeu.TAILLE_TUILE);
             int ligneSolForgeron = carte.chercherLigneSol(colForgeron);
-            double yForgeron = ligneSolForgeron != -1
-                    ? ligneSolForgeron * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.HAUTEUR_FORGERON
-                    : yInitial;
+            double yForgeron = 380;
             Forgeron forgeron = new Forgeron(
                     spriteForgeron,
                     xForgeron,
