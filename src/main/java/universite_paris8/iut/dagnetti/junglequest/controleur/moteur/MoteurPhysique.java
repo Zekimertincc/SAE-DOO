@@ -34,22 +34,24 @@ public class MoteurPhysique {
             int col = (int) ((newX + largeur - 1) / ConstantesJeu.TAILLE_TUILE);
             int top = (int) (personnage.getY() / ConstantesJeu.TAILLE_TUILE);
             int bottom = (int) ((personnage.getY() + hauteur - 1) / ConstantesJeu.TAILLE_TUILE);
-            for (int l = top; l <= bottom; l++) {
+            boolean collision = false;
+            for (int l = top; l <= bottom && !collision; l++) {
                 if (carte.estSolide(l, col)) {
                     newX = col * ConstantesJeu.TAILLE_TUILE - largeur;
                     personnage.setVitesseX(0);
-                    break;
+                    collision = true;
                 }
             }
         } else if (personnage.getVitesseX() < 0) { // vers la gauche
             int col = (int) (newX / ConstantesJeu.TAILLE_TUILE);
             int top = (int) (personnage.getY() / ConstantesJeu.TAILLE_TUILE);
             int bottom = (int) ((personnage.getY() + hauteur - 1) / ConstantesJeu.TAILLE_TUILE);
-            for (int l = top; l <= bottom; l++) {
+            boolean collision = false;
+            for (int l = top; l <= bottom && !collision; l++) {
                 if (carte.estSolide(l, col)) {
                     newX = (col + 1) * ConstantesJeu.TAILLE_TUILE;
                     personnage.setVitesseX(0);
-                    break;
+                    collision = true;
                 }
             }
         }
@@ -63,25 +65,27 @@ public class MoteurPhysique {
             int ligneBas = (int) ((newY + hauteur - 1) / ConstantesJeu.TAILLE_TUILE);
             int colGauche = (int) (newX / ConstantesJeu.TAILLE_TUILE);
             int colDroite = (int) ((newX + largeur - 1) / ConstantesJeu.TAILLE_TUILE);
-            for (int c = colGauche; c <= colDroite; c++) {
+            boolean collision = false;
+            for (int c = colGauche; c <= colDroite && !collision; c++) {
                 int id = carte.getValeurTuile(ligneBas, c);
                 if (carte.estSolide(ligneBas, c) && TileType.fromId(id) != TileType.ARBRE) {
                     newY = ligneBas * ConstantesJeu.TAILLE_TUILE - hauteur;
                     personnage.setVitesseY(0);
                     auSolApres = true;
-                    break;
+                    collision = true;
                 }
             }
         } else if (personnage.getVitesseY() < 0) { // saut
             int ligneHaut = (int) (newY / ConstantesJeu.TAILLE_TUILE);
             int colGauche = (int) (newX / ConstantesJeu.TAILLE_TUILE);
             int colDroite = (int) ((newX + largeur - 1) / ConstantesJeu.TAILLE_TUILE);
-            for (int c = colGauche; c <= colDroite; c++) {
+            boolean collision = false;
+            for (int c = colGauche; c <= colDroite && !collision; c++) {
                 int id = carte.getValeurTuile(ligneHaut, c);
                 if (carte.estSolide(ligneHaut, c) && TileType.fromId(id) != TileType.ARBRE) {
                     newY = (ligneHaut + 1) * ConstantesJeu.TAILLE_TUILE;
                     personnage.setVitesseY(0);
-                    break;
+                    collision = true;
                 }
             }
         } else {
@@ -98,11 +102,12 @@ public class MoteurPhysique {
             int ligneBas = (int) ((newY + hauteur) / ConstantesJeu.TAILLE_TUILE);
             int colGauche = (int) (newX / ConstantesJeu.TAILLE_TUILE);
             int colDroite = (int) ((newX + largeur - 1) / ConstantesJeu.TAILLE_TUILE);
-            for (int c = colGauche; c <= colDroite; c++) {
+            boolean collision = false;
+            for (int c = colGauche; c <= colDroite && !collision; c++) {
                 int id = carte.getValeurTuile(ligneBas, c);
                 if (carte.estSolide(ligneBas, c) && TileType.fromId(id) != TileType.ARBRE) {
                     auSolApres = true;
-                    break;
+                    collision = true;
                 }
             }
         }

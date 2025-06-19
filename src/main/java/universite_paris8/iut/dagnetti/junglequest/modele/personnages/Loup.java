@@ -73,56 +73,54 @@ public class Loup extends Personnage {
      */
     public void mettreAJourIA(Joueur joueur) {
         double distance = joueur.getX() - getX();
-        // Si une attaque est en cours, le loup continue son mouvement dans la
-        // direction initiale jusqu'à atteindre la position enregistrée au
-        // lancement de l'attaque. Il ne réajuste pas sa trajectoire sur le
-        // joueur.
+
         if (enAttaque) {
-            if (directionAttaque >= 0) {
-                if (getX() < cibleAttaqueX) {
-                    double step = Math.min(vitesseCourse, cibleAttaqueX - getX());
-                    deplacerDroite(step);
-                } else {
-                    arreter();
-                }
-            } else {
-                if (getX() > cibleAttaqueX) {
-                    double step = Math.min(vitesseCourse, getX() - cibleAttaqueX);
-                    deplacerGauche(step);
-                } else {
-                    arreter();
-                }
-            }
-            return;
-        }
-        if (pausePoursuite > 0) {
+            poursuivreAttaque();
+        } else if (pausePoursuite > 0) {
             pausePoursuite--;
             arreter();
             getSprite().setImage(walkImage);
-            return;
+        } else if (Math.abs(distance) <= ConstantesJeu.DISTANCE_ARRET_LOUP) {
+            gererApprocheAttaque(distance, joueur);
+        } else {
+            gererDeplacement(distance);
         }
+    }
 
-        // Le joueur est à portée d'attaque : le loup continue d'avancer
-        // légèrement pour éviter un blocage si le joueur se déplace en
-        // reculant. Il ne s'arrête qu'au moment de déclencher l'attaque.
-        if (Math.abs(distance) <= ConstantesJeu.DISTANCE_ARRET_LOUP) {
-            arreter();
-            if (delaiAvantAttaque > 0) {
-                delaiAvantAttaque--;
-                if (distance > 0) {
-                    deplacerDroite(vitesseMarche);
-                } else {
-                    deplacerGauche(vitesseMarche);
-                }
+    private void poursuivreAttaque() {
+        if (directionAttaque >= 0) {
+            if (getX() < cibleAttaqueX) {
+                double step = Math.min(vitesseCourse, cibleAttaqueX - getX());
+                deplacerDroite(step);
             } else {
                 arreter();
-                attaquer(joueur.getX());
-                delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
             }
-            return;
+        } else {
+            if (getX() > cibleAttaqueX) {
+                double step = Math.min(vitesseCourse, getX() - cibleAttaqueX);
+                deplacerGauche(step);
+            } else {
+                arreter();
+            }
         }
+    }
 
-        // Le joueur est détecté mais pas encore à portée : poursuite
+    private void gererApprocheAttaque(double distance, Joueur joueur) {
+        arreter();
+        if (delaiAvantAttaque > 0) {
+            delaiAvantAttaque--;
+            if (distance > 0) {
+                deplacerDroite(vitesseMarche);
+            } else {
+                deplacerGauche(vitesseMarche);
+            }
+        } else {
+            attaquer(joueur.getX());
+            delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
+        }
+    }
+
+    private void gererDeplacement(double distance) {
         if (Math.abs(distance) <= zoneDetection) {
             getSprite().setImage(runImage);
             if (distance > 0) {
@@ -132,7 +130,6 @@ public class Loup extends Personnage {
             }
             delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
         } else {
-            // Hors de portée : comportement aléatoire de marche
             getSprite().setImage(walkImage);
             if (dureeAction <= 0) {
                 int action = random.nextInt(3);

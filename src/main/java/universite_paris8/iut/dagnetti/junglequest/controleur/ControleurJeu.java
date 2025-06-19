@@ -218,17 +218,15 @@ public class ControleurJeu {
      * Méthode principale appelée à chaque frame pour gérer les actions du joueur et l'affichage.
      */
     private void mettreAJour() {
-        if (enPause) {
-            return;
-        }
-        if (delaiDegats > 0) delaiDegats--;
-        if (framesAtterrissageRestants > 0) framesAtterrissageRestants--;
-        // Récupération des touches clavier pressées
-        boolean gauche = clavier.estAppuyee(KeyCode.Q) || clavier.estAppuyee(KeyCode.LEFT);
-        boolean droite = clavier.estAppuyee(KeyCode.D) || clavier.estAppuyee(KeyCode.RIGHT);
-        boolean toucheSaut = clavier.estAppuyee(KeyCode.SPACE);
-        boolean toucheAccroupi = clavier.estAppuyee(KeyCode.CONTROL);
-        boolean toucheBouclier = clavier.estAppuyee(KeyCode.SHIFT);
+        if (!enPause) {
+            if (delaiDegats > 0) delaiDegats--;
+            if (framesAtterrissageRestants > 0) framesAtterrissageRestants--;
+            // Récupération des touches clavier pressées
+            boolean gauche = clavier.estAppuyee(KeyCode.Q) || clavier.estAppuyee(KeyCode.LEFT);
+            boolean droite = clavier.estAppuyee(KeyCode.D) || clavier.estAppuyee(KeyCode.RIGHT);
+            boolean toucheSaut = clavier.estAppuyee(KeyCode.SPACE);
+            boolean toucheAccroupi = clavier.estAppuyee(KeyCode.CONTROL);
+            boolean toucheBouclier = clavier.estAppuyee(KeyCode.SHIFT);
         if (toucheBouclier && !joueur.estEnAttaque()) {
             joueur.activerBouclier();
         } else if (!toucheBouclier) {
@@ -363,7 +361,6 @@ public class ControleurJeu {
             animation.animerMort(sprite, frameMort++);
             if (frameMort >= 12) frameMort = 11;
             sprite.setScaleX(joueur.estVersGauche() ? -1 : 1);
-            return;
         } else if (toucheDegats || delaiDegats > 0) {
             animation.animerDegats(sprite);
         } else if (joueur.estEnAttaque()) {
@@ -411,6 +408,7 @@ public class ControleurJeu {
             loup.getSprite().setViewport(new Rectangle2D(0, 0, largeurFrameLoup, hauteurFrameLoup));
         }
         loup.getSprite().setScaleX(loup.estVersGauche() ? 1 : -1);
+        }
     }
 
     /**
