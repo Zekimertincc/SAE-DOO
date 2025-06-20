@@ -43,6 +43,7 @@ public class CarteAffichable extends Pane {
                 ImageView iv = new ImageView();
                 iv.setFitWidth(TAILLE_TUILE);
                 iv.setFitHeight(TAILLE_TUILE);
+                iv.setMouseTransparent(true);
                 tuilesAffichees[ligne][col] = iv;
                 this.getChildren().add(iv);
             }
