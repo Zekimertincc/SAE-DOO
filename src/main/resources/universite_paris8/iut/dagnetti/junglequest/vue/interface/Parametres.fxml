@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Button?>
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.ParametresController"
+      fx:controller="fr.iut.groupe.junglequest.controleur.interfacefx.ParametresController"
       spacing="10" alignment="CENTER" stylesheets="@/universite_paris8/iut/dagnetti/junglequest/styles/inventaire.css"
       padding="10">
     <Label text="Vitesse du joueur" />

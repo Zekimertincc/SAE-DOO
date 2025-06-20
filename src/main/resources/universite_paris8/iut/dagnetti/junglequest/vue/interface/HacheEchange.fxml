@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.HacheEchangeController"
+      fx:controller="fr.iut.groupe.junglequest.controleur.interfacefx.HacheEchangeController"
       alignment="CENTER" spacing="10"
       styleClass="dialogue-pane"
       stylesheets="@/universite_paris8/iut/dagnetti/junglequest/styles/dialogue.css">

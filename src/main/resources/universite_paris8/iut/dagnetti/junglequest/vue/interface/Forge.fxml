@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="universite_paris8.iut.dagnetti.junglequest.controleur.interfacefx.ForgeController"
+      fx:controller="fr.iut.groupe.junglequest.controleur.interfacefx.ForgeController"
       alignment="CENTER" spacing="10"
       stylesheets="@../styles/jeu.css">
     <Label text="Forge" styleClass="forge-title" />
