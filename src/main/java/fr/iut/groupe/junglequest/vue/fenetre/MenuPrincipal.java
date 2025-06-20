@@ -27,7 +27,7 @@ public class MenuPrincipal extends Application {
     public void start(Stage primaryStage) {
         // --- Arrière-plan ---
         Image background = new Image(getClass().getResourceAsStream(
-                "/fr.iut.groupe.junglequest/images/menu_principal_forest.png"));
+                "/fr/iut/groupe/junglequest/images/menu_principal_forest.png"));
         ImageView backgroundView = new ImageView(background);
         backgroundView.setPreserveRatio(false);
         backgroundView.setFitWidth(1920);
@@ -56,7 +56,7 @@ public class MenuPrincipal extends Application {
 
         // --- Son d'ambiance ---
         ambiance = new AudioClip(getClass().getResource(
-                "/fr.iut.groupe.junglequest/sons/menu_jungle.mp3"
+                "/fr/iut/groupe/junglequest/sons/menu_jungle.mp3"
         ).toExternalForm());
         ambiance.setCycleCount(AudioClip.INDEFINITE);
         ambiance.setVolume(0.4);
@@ -92,7 +92,7 @@ public class MenuPrincipal extends Application {
         StackPane racine = new StackPane(backgroundView, zoneTitre, boutons);
         Scene scene = new Scene(racine, 1920, 1080);
         scene.getStylesheets().add(getClass().getResource(
-                "/fr.iut.groupe.junglequest/styles/menu.css").toExternalForm());
+                "/fr/iut/groupe/junglequest/styles/menu.css").toExternalForm());
 
         primaryStage.setTitle("Menu Principal");
         primaryStage.setScene(scene);

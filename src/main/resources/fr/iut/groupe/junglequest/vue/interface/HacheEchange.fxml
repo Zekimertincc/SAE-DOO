@@ -7,7 +7,7 @@
       fx:controller="fr.iut.groupe.junglequest.controleur.interfacefx.HacheEchangeController"
       alignment="CENTER" spacing="10"
       styleClass="dialogue-pane"
-      stylesheets="@/universite_paris8/iut/dagnetti/junglequest/styles/dialogue.css">
+      stylesheets="@/fr/iut/groupe/junglequest/styles/dialogue.css">
     <ImageView fx:id="imgHache" fitWidth="64" fitHeight="64" />
     <Label fx:id="lblCout" text="Coût : 1 Bois" />
     <Button text="Échange" onAction="#echanger" />

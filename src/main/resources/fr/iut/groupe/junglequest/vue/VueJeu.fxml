@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Label?>
 <Pane fx:id="racine" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      stylesheets="@/universite_paris8/iut/dagnetti/junglequest/styles/jeu.css">
+      stylesheets="@/fr/iut/groupe/junglequest/styles/jeu.css">
     <StackPane fx:id="pauseOverlay" visible="false" styleClass="pause-overlay">
         <Label text="Jeu en pause&#10;Appuyez sur Entrée pour reprendre" styleClass="pause-text" />
     </StackPane>

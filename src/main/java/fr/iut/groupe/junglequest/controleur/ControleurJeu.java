@@ -554,7 +554,7 @@ public class ControleurJeu {
     private void ouvrirParametres(Scene scene) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/fr.iut.groupe.junglequest/vue/interface/Parametres.fxml"));
+                    "/fr/iut/groupe/junglequest/vue/interface/Parametres.fxml"));
             Parent root = loader.load();
             fenetreParametres = new Stage();
             fenetreParametres.initOwner(scene.getWindow());
@@ -583,7 +583,7 @@ public class ControleurJeu {
     private void ouvrirForge(Scene scene) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/fr.iut.groupe.junglequest/vue/interface/Forge.fxml"));
+                    "/fr/iut/groupe/junglequest/vue/interface/Forge.fxml"));
             Pane root = loader.load();
             fenetreForge = new Stage();
             if (scene.getWindow() != null) {
@@ -618,7 +618,7 @@ public class ControleurJeu {
     private void ouvrirDialogueGuide() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/fr.iut.groupe.junglequest/vue/interface/dialogue.fxml"));
+                    "/fr/iut/groupe/junglequest/vue/interface/dialogue.fxml"));
             Pane root = loader.load();
             Stage stage = new Stage();
             if (pauseOverlay != null && pauseOverlay.getScene() != null) {

@@ -16,9 +16,9 @@ public class VueBackground extends Pane {
     public VueBackground(int largeurCartePx, double largeurEcran, double hauteurEcran) {
         this.setPrefSize(largeurEcran, hauteurEcran);
 
-        genererCalque(calqueArriere, "/fr.iut.groupe.junglequest/images/background_arriere.png", largeurCartePx, largeurEcran, hauteurEcran);
-        genererCalque(calqueMilieu,  "/fr.iut.groupe.junglequest/images/background_milieu.png", largeurCartePx, largeurEcran, hauteurEcran);
-        genererCalque(calqueAvant,   "/fr.iut.groupe.junglequest/images/background_avant.png", largeurCartePx, largeurEcran, hauteurEcran);
+        genererCalque(calqueArriere, "/fr/iut/groupe/junglequest/images/background_arriere.png", largeurCartePx, largeurEcran, hauteurEcran);
+        genererCalque(calqueMilieu,  "/fr/iut/groupe/junglequest/images/background_milieu.png", largeurCartePx, largeurEcran, hauteurEcran);
+        genererCalque(calqueAvant,   "/fr/iut/groupe/junglequest/images/background_avant.png", largeurCartePx, largeurEcran, hauteurEcran);
 
         this.getChildren().addAll(calqueArriere);
         this.getChildren().addAll(calqueMilieu);

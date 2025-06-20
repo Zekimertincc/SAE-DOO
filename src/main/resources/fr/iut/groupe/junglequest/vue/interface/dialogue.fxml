@@ -8,7 +8,7 @@
       fx:controller="fr.iut.groupe.junglequest.controleur.interfacefx.DialogueController"
       alignment="CENTER" spacing="10"
       styleClass="dialogue-pane"
-      stylesheets="@/universite_paris8/iut/dagnetti/junglequest/styles/dialogue.css">
+      stylesheets="@/fr/iut/groupe/junglequest/styles/dialogue.css">
     <TextArea fx:id="dialogueArea" editable="false" prefWidth="300" prefHeight="150" wrapText="true" />
     <Button text="Fermer" onAction="#fermer" />
 </VBox>

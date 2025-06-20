@@ -62,7 +62,7 @@ public class LanceurJeu extends Application {
         Pane racine;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/fr.iut.groupe.junglequest/vue/VueJeu.fxml"));
+                    "/fr/iut/groupe/junglequest/vue/VueJeu.fxml"));
             racine = loader.load();
         } catch (IOException e) {
             racine = new Pane();
@@ -75,11 +75,11 @@ public class LanceurJeu extends Application {
         }
 
         try {
-            int[][] grille = ChargeurCarte.chargerCarteDepuisCSV("/fr.iut.groupe.junglequest/cartes/jungle_map_calque1.csv");
+            int[][] grille = ChargeurCarte.chargerCarteDepuisCSV("/fr/iut/groupe/junglequest/cartes/jungle_map_calque1.csv");
             Carte carte = new Carte(grille);
             System.out.println("Carte chargée avec succès.");
 
-            InputStream tilesetStream = getClass().getResourceAsStream("/fr.iut.groupe.junglequest/images/tileset_jungle.png");
+            InputStream tilesetStream = getClass().getResourceAsStream("/fr/iut/groupe/junglequest/images/tileset_jungle.png");
             if (tilesetStream == null) {
                 throw new IOException("Ressource tileset_jungle.png introuvable");
             }
@@ -96,7 +96,7 @@ public class LanceurJeu extends Application {
             racine.getChildren().add(vueBackground);
 
             System.out.println("Extraction des animations du personnage...");
-            InputStream personnageStream = getClass().getResourceAsStream("/fr.iut.groupe.junglequest/images/sprite1.png");
+            InputStream personnageStream = getClass().getResourceAsStream("/fr/iut/groupe/junglequest/images/sprite1.png");
             if (personnageStream == null) {
                 throw new IOException("Ressource sprite1.png introuvable");
             }
@@ -136,7 +136,7 @@ public class LanceurJeu extends Application {
 
             // --- Guide et Forgeron ---
             Image imgGuide = new Image(getClass().getResourceAsStream(
-                    "/fr.iut.groupe.junglequest/images/guide.png"));
+                    "/fr/iut/groupe/junglequest/images/guide.png"));
             WritableImage[] framesGuide = ExtracteurSprites.extraireLigne(
                     imgGuide,
                     ConstantesJeu.NB_FRAMES_GUIDE,
@@ -167,7 +167,7 @@ public class LanceurJeu extends Application {
             animGuide.play();
 
             Image imgForgeron = new Image(getClass().getResourceAsStream(
-                    "/fr.iut.groupe.junglequest/images/forgeron.png"));
+                    "/fr/iut/groupe/junglequest/images/forgeron.png"));
             WritableImage[] framesForgeron = ExtracteurSprites.extraireLigne(
                     imgForgeron,
                     ConstantesJeu.NB_FRAMES_FORGERON,
@@ -199,11 +199,11 @@ public class LanceurJeu extends Application {
 
 
             Image imgLoupWalk = new Image(getClass().getResourceAsStream(
-                    "/fr.iut.groupe.junglequest/images/black_wolf_walk.png"));
+                    "/fr/iut/groupe/junglequest/images/black_wolf_walk.png"));
             Image imgLoupRun = new Image(getClass().getResourceAsStream(
-                    "/fr.iut.groupe.junglequest/images/black_wolf_run.png"));
+                    "/fr/iut/groupe/junglequest/images/black_wolf_run.png"));
             Image imgLoupAttack = new Image(getClass().getResourceAsStream(
-                    "/fr.iut.groupe.junglequest/images/black_wolf_attack.png"));
+                    "/fr/iut/groupe/junglequest/images/black_wolf_attack.png"));
             ImageView spriteLoup = new ImageView(imgLoupWalk);
             spriteLoup.setFitWidth(imgLoupWalk.getWidth());
             spriteLoup.setFitHeight(imgLoupWalk.getHeight());
@@ -225,11 +225,11 @@ public class LanceurJeu extends Application {
 
             // --- Ressources proches du loup ---
             Image arbreImg = new Image(getClass().getResourceAsStream(
-                    "/fr.iut.groupe.junglequest/images/arbre.png"));
+                    "/fr/iut/groupe/junglequest/images/arbre.png"));
             Image canneImg = new Image(getClass().getResourceAsStream(
-                    "/fr.iut.groupe.junglequest/images/canne.png"));
+                    "/fr/iut/groupe/junglequest/images/canne.png"));
             Image rocheImg = new Image(getClass().getResourceAsStream(
-                    "/fr.iut.groupe.junglequest/images/roche.png"));
+                    "/fr/iut/groupe/junglequest/images/roche.png"));
 
             List<Ressource> ressources = new ArrayList<>();
             double baseX = xLoup - 100;
@@ -315,7 +315,7 @@ public class LanceurJeu extends Application {
 
     private void initialiserMusique() {
         try {
-            URL ressourceAudio = getClass().getResource("/fr.iut.groupe.junglequest/sons/musique_jeu.mp3");
+            URL ressourceAudio = getClass().getResource("/fr/iut/groupe/junglequest/sons/musique_jeu.mp3");
             if (ressourceAudio != null) {
                 Media media = new Media(ressourceAudio.toExternalForm());
                 mediaPlayer = new MediaPlayer(media);
@@ -331,7 +331,7 @@ public class LanceurJeu extends Application {
 
     private InventaireController afficherInventaire (Pane racine, Joueur joueur, double largeur, double hauteur) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.iut.groupe.junglequest/vue/interface/Inventaire.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr/iut/groupe/junglequest/vue/interface/Inventaire.fxml"));
             Node inventaireUI = loader.load();
             InventaireController inventaireController = loader.getController();
             inventaireController.setInventaire(joueur.getInventaire());
@@ -348,7 +348,7 @@ public class LanceurJeu extends Application {
     }
     private void ouvrirDialogue() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.iut.groupe.junglequest/vue/interface/dialogue.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr/iut/groupe/junglequest/vue/interface/dialogue.fxml"));
             Pane root = loader.load();
             Stage stage = new Stage();
             stage.initOwner(null);
@@ -365,7 +365,7 @@ public class LanceurJeu extends Application {
 
     private void ouvrirForge(Joueur joueur) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.iut.groupe.junglequest/vue/interface/Forge.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr/iut/groupe/junglequest/vue/interface/Forge.fxml"));
             Pane root = loader.load();
             Stage stage = new Stage();
             stage.initOwner(null);

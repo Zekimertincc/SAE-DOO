@@ -31,7 +31,7 @@ public class InventaireController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             slotBar.getStylesheets().add(getClass().getResource(
-                    "/fr.iut.groupe.junglequest/styles/inventaire.css"
+                    "/fr/iut/groupe/junglequest/styles/inventaire.css"
             ).toExternalForm());
             System.out.println("Feuille de style de l’inventaire chargée.");
         } catch (Exception e) {
@@ -91,7 +91,7 @@ public class InventaireController implements Initializable {
         slot.getStyleClass().add("slot-rempli");
 
         // Chargement de l’image de l’objet
-        String cheminImage = "/fr.iut.groupe.junglequest/images/items/" + nom.toLowerCase() + ".png";
+        String cheminImage = "/fr/iut/groupe/junglequest/images/items/" + nom.toLowerCase() + ".png";
         ImageView icone = null;
 
         try {

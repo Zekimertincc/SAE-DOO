@@ -26,7 +26,7 @@ public class HacheEchangeController implements Initializable {
         if (imgHache != null) {
             try {
                 Image img = new Image(getClass().getResourceAsStream(
-                        "/fr.iut.groupe.junglequest/images/items/hache.png"));
+                        "/fr/iut/groupe/junglequest/images/items/hache.png"));
                 imgHache.setImage(img);
             } catch (Exception e) {
                 System.err.println("Image hache introuvable : " + e.getMessage());
