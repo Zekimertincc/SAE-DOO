@@ -7,8 +7,8 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import fr.iut.groupe.junglequest.modele.carte.Carte;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CarteAffichable extends Pane {
 
@@ -23,7 +23,8 @@ public class CarteAffichable extends Pane {
     private double offsetX = 0;
     private double offsetY = 0;
 
-    private final List<ImageView> tuilesAffichees = new ArrayList<>();
+    private final ImageView[][] tuilesAffichees;
+    private final Map<Integer, Image> cacheImages = new HashMap<>();
 
     public CarteAffichable(Carte carte, Image tileset, int largeurEcranPx, int hauteurEcranPx) {
         this.carteLogique = carte;
@@ -35,13 +36,31 @@ public class CarteAffichable extends Pane {
         this.tuilesEcranHauteur = hauteurEcranPx / TAILLE_TUILE + 2;
 
         this.setPrefSize(largeurEcranPx, hauteurEcranPx);
+
+        tuilesAffichees = new ImageView[tuilesEcranHauteur][tuilesEcranLargeur];
+        for (int ligne = 0; ligne < tuilesEcranHauteur; ligne++) {
+            for (int col = 0; col < tuilesEcranLargeur; col++) {
+                ImageView iv = new ImageView();
+                iv.setFitWidth(TAILLE_TUILE);
+                iv.setFitHeight(TAILLE_TUILE);
+                tuilesAffichees[ligne][col] = iv;
+                this.getChildren().add(iv);
+            }
+        }
+
         redessiner(0, 0);
     }
 
-    public void redessiner(double offsetX, double offsetY) {
-        this.getChildren().clear();
-        tuilesAffichees.clear();
+    private Image imagePourId(int idTuile) {
+        return cacheImages.computeIfAbsent(idTuile, id -> {
+            int xTileset = (id % colonnesTileset) * TAILLE_TUILE;
+            int yTileset = (id / colonnesTileset) * TAILLE_TUILE;
+            return new WritableImage(lecteurPixels, xTileset, yTileset, TAILLE_TUILE, TAILLE_TUILE);
+        });
+    }
 
+    public void redessiner(double offsetX, double offsetY) {
+        
         int tuileDebutX = (int) (offsetX / TAILLE_TUILE);
         int tuileDebutY = (int) (offsetY / TAILLE_TUILE);
         double decalagePixelsX = offsetX % TAILLE_TUILE;
@@ -52,30 +71,25 @@ public class CarteAffichable extends Pane {
         int largeurCarte = carteLogique.getLargeur();
         for (int ligne = 0; ligne < tuilesEcranHauteur; ligne++) {
             int ligneCarte = tuileDebutY + ligne;
-
-            if (ligneCarte >= hauteurCarte) continue;
-
             for (int colonne = 0; colonne < tuilesEcranLargeur; colonne++) {
                 int colonneCarte = tuileDebutX + colonne;
+                ImageView vueTuile = tuilesAffichees[ligne][colonne];
 
-                if (colonneCarte < 0 || colonneCarte >= largeurCarte) continue;
+                if (ligneCarte >= 0 && ligneCarte < hauteurCarte &&
+                    colonneCarte >= 0 && colonneCarte < largeurCarte) {
+                    int idTuile = carteLogique.getValeurTuile(ligneCarte, colonneCarte);
+                    if (idTuile >= 0) {
+                        vueTuile.setImage(imagePourId(idTuile));
+                        vueTuile.setVisible(true);
+                    } else {
+                        vueTuile.setVisible(false);
+                    }
+                } else {
+                    vueTuile.setVisible(false);
+                }
 
-                int idTuile = carteLogique.getValeurTuile(ligneCarte, colonneCarte);
-                if (idTuile < 0) continue;
-
-                int xTileset = (idTuile % colonnesTileset) * TAILLE_TUILE;
-                int yTileset = (idTuile / colonnesTileset) * TAILLE_TUILE;
-
-                WritableImage imageTuile = new WritableImage(
-                        lecteurPixels, xTileset, yTileset, TAILLE_TUILE, TAILLE_TUILE
-                );
-
-                ImageView vueTuile = new ImageView(imageTuile);
                 vueTuile.setX((colonne * TAILLE_TUILE) - decalagePixelsX);
                 vueTuile.setY((ligne * TAILLE_TUILE) - decalagePixelsY);
-
-                this.getChildren().add(vueTuile);
-                tuilesAffichees.add(vueTuile);
             }
         }
     }
