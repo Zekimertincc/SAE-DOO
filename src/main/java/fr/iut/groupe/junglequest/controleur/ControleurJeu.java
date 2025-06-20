@@ -181,33 +181,32 @@ public class ControleurJeu {
                     return;
                 }
 
+                boolean cliqueLoup = xMonde >= loup.getX() && xMonde <= loup.getX() + vueLoup.getSprite().getFitWidth()
+                        && yMonde >= loup.getY() && yMonde <= loup.getY() + vueLoup.getSprite().getFitHeight();
                 double distance = Math.abs(joueur.getX() - loup.getX());
-                if (distance <= PORTEE_ATTAQUE_JOUEUR) {
-                    if (joueur.isBouclierActif()) {
-                        joueur.desactiverBouclier();
-                    }
-                    boolean cliqueLoup = xMonde >= loup.getX() && xMonde <= loup.getX() + vueLoup.getSprite().getFitWidth()
-                            && yMonde >= loup.getY() && yMonde <= loup.getY() + vueLoup.getSprite().getFitHeight();
 
-                    if (!joueur.estEnAttaque()) {
-                        joueur.attaquer();
-                        animation.reset();
-                        compteurAttaque = 0;
-                        if (cliqueLoup) {
-                            loup.subirDegats(DEGATS_JOUEUR_LOUP);
-                            if (loup.getPointsDeVie() <= 0) {
-                                loupMort = true;
-                            }
-                        }
-                    } else {
-                        animation.demandeCombo();
-                        if (cliqueLoup) {
-                            loup.subirDegats(DEGATS_COMBO_SUPPLEMENTAIRES);
-                            if (loup.getPointsDeVie() <= 0) {
-                                loupMort = true;
-                            }
+                if (!joueur.estEnAttaque()) {
+                    joueur.attaquer();
+                    animation.reset();
+                    compteurAttaque = 0;
+                    if (distance <= PORTEE_ATTAQUE_JOUEUR && cliqueLoup) {
+                        loup.subirDegats(DEGATS_JOUEUR_LOUP);
+                        if (loup.getPointsDeVie() <= 0) {
+                            loupMort = true;
                         }
                     }
+                } else {
+                    animation.demandeCombo();
+                    if (distance <= PORTEE_ATTAQUE_JOUEUR && cliqueLoup) {
+                        loup.subirDegats(DEGATS_COMBO_SUPPLEMENTAIRES);
+                        if (loup.getPointsDeVie() <= 0) {
+                            loupMort = true;
+                        }
+                    }
+                }
+
+                if (joueur.isBouclierActif()) {
+                    joueur.desactiverBouclier();
                 }
             }
         });
