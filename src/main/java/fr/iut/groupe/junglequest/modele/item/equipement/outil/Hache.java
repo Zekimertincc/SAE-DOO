@@ -5,4 +5,13 @@ public class Hache extends Outil {
         super("Hache", 3, 2, 10, 5, 2, "Arbre");
     }
 
+    @Override
+    public int degatsBonus(String nomCible) {
+        int degatsBonus = 0;
+        if (nomCible.equals("Roche")){
+            degatsBonus = this.degats;
+        }
+        return degatsBonus;
+    }
+
 }

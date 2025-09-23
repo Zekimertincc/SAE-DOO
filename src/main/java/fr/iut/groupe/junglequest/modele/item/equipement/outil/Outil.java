@@ -7,6 +7,8 @@ public abstract class Outil extends Equipement {
         super(nom, degats, "Outil",15, portee, quantiteBois, quantitePierre, quantiteFile, ciblePreferable);
     }
 
+    public abstract int degatsBonus (String nomCible);
+
     public void utiliser() {
         if (!estCasse()) {
             durabilite--;

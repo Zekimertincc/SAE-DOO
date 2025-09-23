@@ -1,4 +1,7 @@
 package fr.iut.groupe.junglequest.modele.personnages;
+import fr.iut.groupe.junglequest.modele.Ciblable;
+import fr.iut.groupe.junglequest.modele.item.equipement.Couteau;
+import fr.iut.groupe.junglequest.modele.item.equipement.Equipement;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import fr.iut.groupe.junglequest.modele.item.Inventaire;
@@ -14,6 +17,7 @@ public class Joueur extends Personnage {
     private final Inventaire inventaire;
     private final IntegerProperty pointsDeVie = new SimpleIntegerProperty();
     private int pointsDeVieMax =100;
+    private Equipement equipementActuel;
 
     public Joueur(double x, double y) {
         super(x, y, ConstantesJeu.TAILLE_SPRITE, ConstantesJeu.TAILLE_SPRITE);
@@ -21,6 +25,22 @@ public class Joueur extends Personnage {
         this.bouclierActif = false;
         this.inventaire = new Inventaire();
         this.pointsDeVie.set(ConstantesJeu.VIE_MAX_JOUEUR);
+    }
+
+    // dans la class joueur
+    public void appliquerDegats(Ciblable cible) {
+        equipementActuel.calculerDegats(cible, this);
+    }
+
+    public void changerNullEquipement() {
+        if (this.equipementActuel.estCasse()){
+            Couteau c = new Couteau();
+            setEquipementActuel(c);
+        }
+    }
+
+    private void setEquipementActuel(Couteau c) {
+        this.equipementActuel = c;
     }
 
     public boolean estEnAttaque() {
@@ -66,14 +86,9 @@ public class Joueur extends Personnage {
     public void soigner(int quantite) {
         pointsDeVie.set(Math.min(pointsDeVie.get() + quantite, ConstantesJeu.VIE_MAX_JOUEUR));
     }
-/**/
     public int getVieMax() {
         return this.pointsDeVieMax;
     }
-
-    public void changerNullEquipement() {
-    }
-
     public EtatTemporaire getEtatTemporaire() {
         return null;
     }

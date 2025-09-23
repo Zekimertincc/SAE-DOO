@@ -7,6 +7,15 @@ public abstract class Arme extends Equipement {
         super(nom, degats, "Arme", 20, portee, quantiteBois, quantitePierre, quantiteFile, "Ennemi");
     }
 
+    @Override
+    public int degatsBonus (String nomCible){
+        int degatsBonus = 0;
+        if (nomCible.equals("Ennemi")){
+            degatsBonus = this.degats;
+        }
+        return degatsBonus;
+    }
+
     public void utiliser() {
         if (!estCasse()) {
             durabilite -= 2;

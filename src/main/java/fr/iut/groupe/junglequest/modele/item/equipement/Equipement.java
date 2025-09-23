@@ -33,25 +33,17 @@ public abstract class Equipement extends Item {
         this.ciblePreferable = ciblePreferable;
     }
 
-    /**
-     * calcule la distance entre le joueur et la cible, si la portée est vraie alors il peut faire des degats.
-     * des degats bonus sont ajoutés si la condition dans le if est true
-     * (Equipemet) getCiblePreferable retourne Ennemi pour tous les Ennemis, ressource selon la ressource.
-     * @param joueur utilse la position du joueur
-     * @param cible utilise la positon de la cible
-     */
-    public void degatsContre(Joueur joueur, Ciblable cible){
+    public abstract int degatsBonus (String nomCible);
+
+    public void calculerDegats(Ciblable cible, Joueur joueur){
         int degatsFinal = 0;
         if (Maths.distance(joueur.getX(), joueur.getY(), cible.getX(), cible.getY())< this.portee){
-            degatsFinal = this.degats;
-            if (cible.getNom().equals(this.getCiblePreferable()) && this.type.equals("Outil")){
-                degatsFinal *= 2;
-            }
-            // getTypeCible doit retourner Ennemi pour que ca marche
-            if (cible.getTypeCible().equals(getCiblePreferable()) && this.type.equals("Arme")){
-                degatsFinal += 2;
-            }
+            degatsFinal = this.degats + degatsBonus(cible.getNom());
         }
+        degatsAction(degatsFinal, cible, joueur);
+    }
+
+    public void degatsAction (int degatsFinal, Ciblable cible, Joueur joueur ){
         cible.subirDegats(degatsFinal);
         this.utiliser();
         joueur.changerNullEquipement();
