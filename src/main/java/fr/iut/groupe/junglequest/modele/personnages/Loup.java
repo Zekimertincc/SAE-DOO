@@ -76,7 +76,7 @@ public class Loup extends Personnage {
      * Met à jour le déplacement du loup en fonction de la position du joueur.
      */
     public void mettreAJourIA(Joueur joueur, Carte carte) {
-        double distance = joueur.getX() - getX();
+        double distance = joueur.getX() - this.getX();
 
         if (enAttaque) {
             poursuivreAttaque();

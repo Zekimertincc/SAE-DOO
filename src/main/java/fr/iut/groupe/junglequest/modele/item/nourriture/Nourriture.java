@@ -13,16 +13,17 @@ public abstract class Nourriture extends Item {
         this.vie = vie;
         this.quantiteMax = 10;
     }
-    @Override
-    public int getQuantiteMax() {
-        return this.quantiteMax;
-    }
     // modifie la vie du joueur
     public void utiliserSur(Joueur joueur) {
         if (joueur.getPointsDeVie()<joueur.getVieMax()){
            // joueur.gagnerVie(vie);
         }
         appliquerEffetSecondaire(joueur);
+    }
+
+    @Override
+    public int getQuantiteMax() {
+        return this.quantiteMax;
     }
 
     public abstract void appliquerEffetSecondaire(Joueur joueur);

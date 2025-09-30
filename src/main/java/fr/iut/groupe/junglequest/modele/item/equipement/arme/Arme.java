@@ -4,7 +4,7 @@ import fr.iut.groupe.junglequest.modele.item.equipement.Equipement;
 
 public abstract class Arme extends Equipement {
     public Arme(String nom, int degats, int portee, int quantiteBois, int quantitePierre, int quantiteFile) {
-        super(nom, degats, "Arme", 20, portee, quantiteBois, quantitePierre, quantiteFile, "Ennemi");
+        super(nom, degats, 20, portee, quantiteBois, quantitePierre, quantiteFile);
     }
 
     @Override

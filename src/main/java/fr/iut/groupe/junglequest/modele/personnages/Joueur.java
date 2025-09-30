@@ -16,7 +16,7 @@ public class Joueur extends Personnage {
     private boolean bouclierActif;
     private final Inventaire inventaire;
     private final IntegerProperty pointsDeVie = new SimpleIntegerProperty();
-    private int pointsDeVieMax =100;
+    private int pointsDeVieMax = 100;
     private Equipement equipementActuel;
 
     public Joueur(double x, double y) {
@@ -27,7 +27,6 @@ public class Joueur extends Personnage {
         this.pointsDeVie.set(ConstantesJeu.VIE_MAX_JOUEUR);
     }
 
-    // dans la class joueur
     public void appliquerDegats(Ciblable cible) {
         equipementActuel.calculerDegats(cible, this);
     }

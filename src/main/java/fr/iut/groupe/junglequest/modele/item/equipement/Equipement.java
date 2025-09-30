@@ -8,29 +8,26 @@ import javafx.scene.image.ImageView;
 
 public abstract class Equipement extends Item {
     protected int degats, durabilite, portee;
-    protected String type; // ex: "outil", "arme"
-    private int quantiteMax; // 1 max par type dans l'inventaire
-    protected String ciblePreferable;
 
+    private int quantiteMax; // 1 max par type dans l'inventaire
     // la quantité pour craft une arme
     protected int quantiteBois;
     protected int quantitePierre;
     protected int quantiteFile;
+
     private transient ImageView imageView;
     private transient Node vueNode;
 
 
-    public Equipement(String nom, int degats, String type, int durabilite, int portee, int quantiteBois, int quantitePierre, int quantiteFile, String ciblePreferable) {
+    public Equipement(String nom, int degats, int durabilite, int portee, int quantiteBois, int quantitePierre, int quantiteFil) {
         super(nom);
         this.degats = degats;
-        this.type = type;
         this.durabilite = durabilite;
         this.portee = portee;
         this.quantiteMax = 1;
         this.quantiteBois = quantiteBois;
         this.quantitePierre = quantitePierre;
-        this.quantiteFile = quantiteFile;
-        this.ciblePreferable = ciblePreferable;
+        this.quantiteFile = quantiteFil;
     }
 
     public abstract int degatsBonus (String nomCible);
@@ -70,9 +67,6 @@ public abstract class Equipement extends Item {
     public int getPortee() {
         return portee;
     }
-    public boolean estOutil() {
-        return this.type.equals("Outil");
-    }
     public int getQuantiteBois() {
         return quantiteBois;
     }
@@ -82,13 +76,7 @@ public abstract class Equipement extends Item {
     public int getQuantiteFile() {
         return quantiteFile;
     }
-    public String getCiblePreferable() {
-        return ciblePreferable;
-    }
 
-    public String getType() {
-        return type;
-    }
     public void setImageView(ImageView iv) {
         this.imageView = iv;
     }
