@@ -72,6 +72,7 @@ public class Loup extends Personnage {
         this.pointsDeVie.set(ConstantesJeu.VIE_MAX_LOUP);
 
     }
+
     /**
      * Met à jour le déplacement du loup en fonction de la position du joueur.
      */
@@ -124,7 +125,7 @@ public class Loup extends Personnage {
         }
     }
 
-    private void gererDeplacement(double distance, Joueur joueur, fr.iut.groupe.junglequest.modele.carte.Carte carte) {
+    private void gererDeplacement(double distance, Joueur joueur, Carte carte) {
         if (Math.abs(distance) <= zoneDetection) {
             suivreChemin(joueur, carte);
             delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;

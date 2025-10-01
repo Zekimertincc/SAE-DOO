@@ -1,8 +1,11 @@
 package fr.iut.groupe.junglequest.modele.item.equipement.outil;
 
+import fr.iut.groupe.junglequest.modele.item.Inventaire;
+import fr.iut.groupe.junglequest.modele.item.equipement.Equipement;
+
 public class Pioche extends Outil {
     public Pioche() {
-        super("Pioche", 3, 2, 10, 5, 2);
+        super("Pioche", 3, 2);
     }
 
     @Override
@@ -12,6 +15,15 @@ public class Pioche extends Outil {
             degatsBonus = this.degats;
         }
         return degatsBonus;
+    }
+
+    @Override
+    public boolean verificationConstructiion(Inventaire inventaire, Equipement p) {
+        if (inventaire.retirerItem("Bois", 1) && inventaire.retirerItem("Pierre", 1)
+                && inventaire.retirerItem("File", 1)){
+            return true;
+        }
+        return false;
     }
 }
 
