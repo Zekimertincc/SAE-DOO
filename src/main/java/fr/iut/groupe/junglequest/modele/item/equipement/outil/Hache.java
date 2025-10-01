@@ -18,11 +18,12 @@ public class Hache extends Outil {
     }
 
     @Override
-    public boolean verificationConstructiion(Inventaire inventaire, Equipement p) {
-        if (inventaire.retirerItem("Bois", 2) && inventaire.retirerItem("Pierre", 2)
-                && inventaire.retirerItem("File", 2)){
+    public boolean seConstruit(Inventaire inventaire, Equipement e) {
+        if (inventaire.retirerItem("Bois", 6) && inventaire.retirerItem("Pierre", 4) && inventaire.retirerItem("File", 5)){
             return true;
         }
         return false;
     }
+
+
 }

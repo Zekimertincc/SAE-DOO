@@ -1,5 +1,6 @@
 package fr.iut.groupe.junglequest.modele.item.equipement;
 import fr.iut.groupe.junglequest.modele.Ciblable;
+import fr.iut.groupe.junglequest.modele.item.Inventaire;
 import fr.iut.groupe.junglequest.modele.item.Item;
 import fr.iut.groupe.junglequest.modele.monde.Maths;
 import fr.iut.groupe.junglequest.modele.personnages.Joueur;
@@ -21,6 +22,8 @@ public abstract class Equipement extends Item {
         this.portee = portee;
         this.quantiteMax = 1;
     }
+
+    public abstract boolean seConstruit (Inventaire inventaire, Equipement e);
 
     public abstract int degatsBonus (String nomCible);
     public void calculerDegats(Ciblable cible, Joueur joueur){

@@ -2,28 +2,33 @@ package fr.iut.groupe.junglequest.modele.personnages;
 
 import fr.iut.groupe.junglequest.modele.item.Inventaire;
 import fr.iut.groupe.junglequest.modele.item.equipement.Equipement;
-import fr.iut.groupe.junglequest.modele.item.equipement.Recette;
 import javafx.scene.image.ImageView;
 import fr.iut.groupe.junglequest.modele.donnees.ConstantesJeu;
 
 public class Forgeron extends Personnage {
     private final ImageView sprite;
-    private Recette recette;
+    private Equipement equipementSelectionner;
 
     public Forgeron(double x, double y, ImageView sprite) {
         super(x, y, ConstantesJeu.LARGEUR_FORGERON, ConstantesJeu.HAUTEUR_FORGERON);
         this.sprite = sprite;
-        this.recette = null;
+        this.equipementSelectionner = null;
     }
 
-    public boolean estConstruction (Inventaire inventaire, Equipement p){
-        return recette.verificationConstructiion(inventaire, p);
+    public void estConstructable (Inventaire inventaire, Equipement equipementSelectionner){
+         if (equipementSelectionner.seConstruit(inventaire, equipementSelectionner)){
+             construction(inventaire, equipementSelectionner);
+         }
+    }
+    public void construction (Inventaire inventaire, Equipement equipementSelectionner){
+        inventaire.ajouterItem(equipementSelectionner);
     }
 
     // le joueur choisir une arme à construire
-    public void setRecette(Recette recette) {
-        this.recette = recette;
+    public void setRecette(Equipement equipement) {
+        this.equipementSelectionner = equipement;
     }
+
     public ImageView getSprite() {
         return sprite;
     }

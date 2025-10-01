@@ -9,9 +9,8 @@ public class Arc extends Arme{
     }
 
     @Override
-    public boolean verificationConstructiion(Inventaire inventaire, Equipement p) {
-        if (inventaire.retirerItem("Bois", 1) && inventaire.retirerItem("Pierre", 1)
-                && inventaire.retirerItem("File", 1)){
+    public boolean seConstruit(Inventaire inventaire, Equipement e) {
+        if (inventaire.retirerItem("Bois", 1) && inventaire.retirerItem("Pierre", 1) && inventaire.retirerItem("File", 1)){
             return true;
         }
         return false;

@@ -8,10 +8,10 @@ public class Bombe extends Arme {
         super("Bombe", 10, 5);
     }
 
+
     @Override
-    public boolean verificationConstructiion(Inventaire inventaire, Equipement p) {
-        if (inventaire.retirerItem("Bois", 3) && inventaire.retirerItem("Pierre", 5)
-                && inventaire.retirerItem("File", 16)){
+    public boolean seConstruit(Inventaire inventaire, Equipement e) {
+        if (inventaire.retirerItem("Bois", 2) && inventaire.retirerItem("Pierre", 10) && inventaire.retirerItem("File", 3)){
             return true;
         }
         return false;
