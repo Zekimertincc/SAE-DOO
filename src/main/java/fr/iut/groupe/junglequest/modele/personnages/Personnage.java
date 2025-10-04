@@ -148,4 +148,6 @@ public abstract class Personnage {
     public BooleanProperty estAuSolProperty() { return estAuSol; }
 
 
+    protected void setPointsDeVie(int i) {
+    }
 }

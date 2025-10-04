@@ -215,4 +215,21 @@ public class Loup extends Personnage {
     public void subirDegats(int quantite) {
         pointsDeVie.set(Math.max(0, pointsDeVie.get() - quantite));
     }
+    public boolean estMort() {
+        return getPointsDeVie() <= 0;
+    }
+
+
+    public void mettreAJourIAEtPhysique(fr.iut.groupe.junglequest.modele.carte.Carte carte,
+                                        fr.iut.groupe.junglequest.modele.personnages.Joueur joueur,
+                                        fr.iut.groupe.junglequest.controleur.moteur.MoteurPhysique moteur,
+                                        double largeurSprite, double hauteurSprite) {
+        if (estMort()) {
+            arreter();
+            return;
+        }
+        mettreAJourIA(joueur, carte);
+        moteur.mettreAJourPhysique(this, carte, largeurSprite, hauteurSprite);
+    }
+
 }
