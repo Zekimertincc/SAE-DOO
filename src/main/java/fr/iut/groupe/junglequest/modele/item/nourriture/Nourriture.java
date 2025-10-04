@@ -14,28 +14,19 @@ public abstract class Nourriture extends Item {
         this.vie = vie;
         this.quantiteMax = 10;
     }
-    // modifie la vie du joueur
+
+    public abstract void appliquerEffetSecondaire(Joueur joueur);
     public void utiliserSur(Joueur joueur) {
-        if (joueur.getPointsDeVie()<joueur.getVieMax()){
-           // joueur.gagnerVie(vie);
-        }
-        appliquerEffetSecondaire(joueur);
+        joueur.soigner(this.getVie());
+        this.appliquerEffetSecondaire(joueur);
     }
-    @Override
-    public void ajouter(Joueur joueur, Inventaire inventaire, Item item){
-        if (item instanceof Champignon){
-            ((Champignon) item).utiliserSur(joueur);
-        }else {
-            inventaire.ajouterItem(nom, 2);
-        }
-    }
+
+    public abstract void actionRecompense(Joueur joueur, Inventaire inventaire, Item item);
 
     @Override
     public int getQuantiteMax() {
         return this.quantiteMax;
     }
-
-    public abstract void appliquerEffetSecondaire(Joueur joueur);
 
     public int getVie() {
         return vie;

@@ -36,7 +36,7 @@ import fr.iut.groupe.junglequest.controleur.interfacefx.InventaireController;
 import fr.iut.groupe.junglequest.controleur.interfacefx.ParametresController;
 import fr.iut.groupe.junglequest.controleur.interfacefx.DialogueController;
 import fr.iut.groupe.junglequest.controleur.interfacefx.ForgeController;
-import fr.iut.groupe.junglequest.modele.farm.Ressource;
+import fr.iut.groupe.junglequest.modele.item.farm.Ressource;
 import java.io.IOException;
 
 public class ControleurJeu {

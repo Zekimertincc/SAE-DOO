@@ -3,7 +3,7 @@ package fr.iut.groupe.junglequest.modele.item.nourriture;
 import fr.iut.groupe.junglequest.modele.personnages.EtatTemporaire;
 import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 
-public class Poulet extends Nourriture {
+public class Poulet extends NourritureB {
     public Poulet() {
         super("Poulet", 2);
     }

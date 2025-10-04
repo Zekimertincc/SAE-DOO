@@ -1,8 +1,5 @@
 package fr.iut.groupe.junglequest.modele.item;
 
-import fr.iut.groupe.junglequest.modele.item.Inventaire;
-import fr.iut.groupe.junglequest.modele.farm.Farm;
-import fr.iut.groupe.junglequest.modele.item.nourriture.Nourriture;
 import fr.iut.groupe.junglequest.modele.monde.Maths;
 import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 
@@ -27,7 +24,7 @@ public class Coffre extends Recompense {
         if (distance < 10) {
             Item randomItem = randomItem();
                 if (!ouvert && randomItem != null){
-                    randomItem.ajouter(joueur, inventaire, randomItem);
+                    randomItem.actionRecompense(joueur, inventaire, randomItem);
                 }
         }
     }

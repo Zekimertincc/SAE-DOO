@@ -1,4 +1,4 @@
-package fr.iut.groupe.junglequest.modele.farm;
+package fr.iut.groupe.junglequest.modele.item.farm;
 
 import fr.iut.groupe.junglequest.modele.item.Inventaire;
 import fr.iut.groupe.junglequest.modele.item.Item;
@@ -12,7 +12,7 @@ public abstract class Farm extends Item {
         this.quantiteMax = 10;
     }
     @Override
-    public void ajouter (Joueur joueur, Inventaire inventaire, Item item){
+    public void actionRecompense(Joueur joueur, Inventaire inventaire, Item item){
         inventaire.ajouterItem(item.getNom(), 20);
     }
     @Override

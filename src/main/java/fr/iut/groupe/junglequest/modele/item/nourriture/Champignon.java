@@ -3,7 +3,7 @@ package fr.iut.groupe.junglequest.modele.item.nourriture;
 import fr.iut.groupe.junglequest.modele.personnages.EtatTemporaire;
 import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 
-public class Champignon extends Nourriture {
+public class Champignon extends NourritureM {
     public Champignon() {
         super("Champignon", -1);
     }

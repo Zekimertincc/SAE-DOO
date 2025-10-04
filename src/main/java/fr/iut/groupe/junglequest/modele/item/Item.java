@@ -8,7 +8,7 @@ public abstract class Item {
         this.nom = nom;
     }
 
-    public abstract void ajouter(Joueur joueur, Inventaire inventaire, Item item);
+    public abstract void actionRecompense(Joueur joueur, Inventaire inventaire, Item item);
 
     public abstract int getQuantiteMax();
 

@@ -1,4 +1,4 @@
-package fr.iut.groupe.junglequest.modele.farm;
+package fr.iut.groupe.junglequest.modele.item.farm;
 
 import javafx.scene.image.ImageView;
 

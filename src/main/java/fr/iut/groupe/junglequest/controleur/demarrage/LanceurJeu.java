@@ -27,7 +27,6 @@ import java.util.List;
 import fr.iut.groupe.junglequest.controleur.ControleurJeu;
 import fr.iut.groupe.junglequest.controleur.interfacefx.InventaireController;
 import fr.iut.groupe.junglequest.controleur.interfacefx.DialogueController;
-import fr.iut.groupe.junglequest.controleur.interfacefx.HacheEchangeController;
 import fr.iut.groupe.junglequest.controleur.interfacefx.ForgeController;
 import fr.iut.groupe.junglequest.modele.donnees.ConstantesJeu;
 
@@ -44,7 +43,7 @@ import fr.iut.groupe.junglequest.vue.utilitaire.BarreVie;
 import fr.iut.groupe.junglequest.vue.CarteAffichable;
 import fr.iut.groupe.junglequest.vue.personnages.VueJoueur;
 import fr.iut.groupe.junglequest.vue.personnages.VueLoup;
-import fr.iut.groupe.junglequest.modele.farm.Ressource;
+import fr.iut.groupe.junglequest.modele.item.farm.Ressource;
 
 public class LanceurJeu extends Application {
 
