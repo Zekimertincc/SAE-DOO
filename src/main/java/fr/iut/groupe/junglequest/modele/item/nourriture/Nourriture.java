@@ -1,5 +1,6 @@
 package fr.iut.groupe.junglequest.modele.item.nourriture;
 
+import fr.iut.groupe.junglequest.modele.item.Inventaire;
 import fr.iut.groupe.junglequest.modele.item.Item;
 import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 
@@ -19,6 +20,14 @@ public abstract class Nourriture extends Item {
            // joueur.gagnerVie(vie);
         }
         appliquerEffetSecondaire(joueur);
+    }
+    @Override
+    public void ajouter(Joueur joueur, Inventaire inventaire, Item item){
+        if (item instanceof Champignon){
+            ((Champignon) item).utiliserSur(joueur);
+        }else {
+            inventaire.ajouterItem(nom, 2);
+        }
     }
 
     @Override

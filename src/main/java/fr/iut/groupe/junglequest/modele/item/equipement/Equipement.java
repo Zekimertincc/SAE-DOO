@@ -29,7 +29,7 @@ public abstract class Equipement extends Item {
     public void calculerDegats(Ciblable cible, Joueur joueur){
         int degatsFinal = 0;
         if (Maths.distance(joueur.getX(), joueur.getY(), cible.getX(), cible.getY())< this.portee){
-            degatsFinal = this.degats + degatsBonus(cible.getNom());
+            degatsFinal = this.degats + this.degatsBonus(cible.getNom());
         }
         degatsAction(degatsFinal, cible, joueur);
     }
@@ -38,6 +38,10 @@ public abstract class Equipement extends Item {
         cible.subirDegats(degatsFinal);
         this.utiliser();
         joueur.changerNullEquipement();
+    }
+    @Override
+    public void ajouter(Joueur joueur, Inventaire inventaire, Item item){
+        inventaire.ajouterItem(item.getNom() , 1);
     }
 
     // reduit la durabilité de l'equipement
