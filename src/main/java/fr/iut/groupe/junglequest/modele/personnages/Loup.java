@@ -25,14 +25,11 @@ public class Loup extends Personnage {
      */
     private final double vitesseMarche = 0.8;
     private final double vitesseCourse = 1.3;
-
     private final Image walkImage;
     private final Image runImage;
     private final Image attackImage;
     private Image currentImage;
-
     private boolean enAttaque = false;
-
     /**
      * Direction prise lors du lancement d'une attaque : -1 pour la gauche,
      * 1 pour la droite.
@@ -43,24 +40,20 @@ public class Loup extends Personnage {
      * déplacer jusqu'à atteindre ce point afin d'éviter de dépasser un
      * joueur immobile.
      */
-
     private double cibleAttaqueX = 0;
-
     /**
      * Compteur gérant le temps d'attente avant une nouvelle attaque lorsque
      * le joueur est à portée.
      */
     private int delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
-
     private final Random random = new Random();
     private int dureeAction = 0;
-
     /**
      * Temps restant d'une éventuelle pause dans la poursuite du joueur.
      */
     private int pausePoursuite = 0;
 
-
+    private StrategieIA ia;
     public Loup(double x, double y, double largeur, double hauteur,
                 Image walkImage, Image runImage, Image attackImage, int degats) {
         super(x, y, largeur, hauteur);
@@ -70,29 +63,28 @@ public class Loup extends Personnage {
         this.currentImage = walkImage;
         this.degats = degats;
         this.pointsDeVie.set(ConstantesJeu.VIE_MAX_LOUP);
-
+        this.ia = new StrategieIALoup();
     }
-
     /**
      * Met à jour le déplacement du loup en fonction de la position du joueur.
      */
-    public void mettreAJourIA(Joueur joueur, Carte carte) {
-        double distance = joueur.getX() - this.getX();
+    public void mettreAJourComportement(Joueur joueur, Carte carte) {
+        ia.mettreAJour(this, joueur, carte);
+    }
+    public void gererPause() {
+        pausePoursuite--;
+        arreter();
+        currentImage = walkImage;
+    }
 
-        if (enAttaque) {
-            poursuivreAttaque();
-        } else if (pausePoursuite > 0) {
-            pausePoursuite--;
-            arreter();
-            currentImage = walkImage;
-        } else if (Math.abs(distance) <= ConstantesJeu.DISTANCE_ARRET_LOUP) {
+    public void gererInteractionAvecJoueur(double distance, Joueur joueur, Carte carte) {
+        if (Math.abs(distance) <= ConstantesJeu.DISTANCE_ARRET_LOUP) {
             gererApprocheAttaque(distance, joueur);
         } else {
             gererDeplacement(distance, joueur, carte);
         }
     }
-
-    private void poursuivreAttaque() {
+    public void poursuivreAttaque() {
         if (directionAttaque >= 0) {
             if (getX() < cibleAttaqueX) {
                 double step = Math.min(vitesseCourse, cibleAttaqueX - getX());
@@ -210,6 +202,9 @@ public class Loup extends Personnage {
 
     public IntegerProperty pointsDeVieProperty() {
         return pointsDeVie;
+    }
+    public int getPausePoursuite() {
+        return pausePoursuite;
     }
 
     public void subirDegats(int quantite) {

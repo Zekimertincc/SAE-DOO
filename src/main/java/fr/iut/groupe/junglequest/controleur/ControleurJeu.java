@@ -326,7 +326,7 @@ public class ControleurJeu {
         }
 
         if (!loupMort) {
-            loup.mettreAJourIA(joueur, carte);
+            loup.mettreAJourComportement(joueur, carte);
             moteur.mettreAJourPhysique(loup, carte,
                     vueLoup.getLargeur(), vueLoup.getHauteur());
         } else {
