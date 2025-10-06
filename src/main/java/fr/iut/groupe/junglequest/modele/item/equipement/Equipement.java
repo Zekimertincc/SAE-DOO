@@ -26,19 +26,19 @@ public abstract class Equipement extends Item {
     public abstract boolean seConstruit (Inventaire inventaire, Equipement e);
 
     public abstract int degatsBonus (String nomCible);
-    public void calculerDegats(Ciblable cible, Joueur joueur){
+    public int calculerDegats(Ciblable cible, Joueur joueur){
         int degatsFinal = 0;
         if (Maths.distance(joueur.getX(), joueur.getY(), cible.getX(), cible.getY())< this.portee){
             degatsFinal = this.degats + this.degatsBonus(cible.getNom());
         }
-        degatsAction(degatsFinal, cible, joueur);
+        degatsAction(cible, joueur);
+        return degatsFinal;
     }
-
-    public void degatsAction (int degatsFinal, Ciblable cible, Joueur joueur ){
-        cible.subirDegats(degatsFinal);
+    public void degatsAction (Ciblable cible, Joueur joueur ){
         this.utiliser();
         joueur.changerNullEquipement();
     }
+
     @Override
     public void actionRecompense(Joueur joueur, Inventaire inventaire, Item item){
         inventaire.ajouterItem(item.getNom() , 1);

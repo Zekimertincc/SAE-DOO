@@ -28,7 +28,8 @@ public class Joueur extends Personnage {
     }
 
     public void appliquerDegats(Ciblable cible) {
-        equipementActuel.calculerDegats(cible, this);
+        int degatsFinal = equipementActuel.calculerDegats(cible, this);
+        cible.subirDegats(degatsFinal);
     }
 
     public void changerNullEquipement() {
