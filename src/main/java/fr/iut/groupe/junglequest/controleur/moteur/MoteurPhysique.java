@@ -2,8 +2,8 @@ package fr.iut.groupe.junglequest.controleur.moteur;
 
 import fr.iut.groupe.junglequest.modele.donnees.ConstantesJeu;
 import fr.iut.groupe.junglequest.modele.carte.Carte;
-import fr.iut.groupe.junglequest.modele.personnages.Personnage;
 import fr.iut.groupe.junglequest.modele.bloc.TileType;
+import fr.iut.groupe.junglequest.modele.personnages.Personnage;
 
 /**
  * Gère les règles physiques élémentaires du jeu :

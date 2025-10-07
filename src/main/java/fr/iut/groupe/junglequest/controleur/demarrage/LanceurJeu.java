@@ -1,4 +1,5 @@
 package fr.iut.groupe.junglequest.controleur.demarrage;
+import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -27,13 +28,11 @@ import java.util.List;
 import fr.iut.groupe.junglequest.controleur.ControleurJeu;
 import fr.iut.groupe.junglequest.controleur.interfacefx.InventaireController;
 import fr.iut.groupe.junglequest.controleur.interfacefx.DialogueController;
-import fr.iut.groupe.junglequest.controleur.interfacefx.HacheEchangeController;
 import fr.iut.groupe.junglequest.controleur.interfacefx.ForgeController;
 import fr.iut.groupe.junglequest.modele.donnees.ConstantesJeu;
 
 import fr.iut.groupe.junglequest.modele.carte.Carte;
 import fr.iut.groupe.junglequest.modele.carte.ChargeurCarte;
-import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 import fr.iut.groupe.junglequest.modele.personnages.Loup;
 import fr.iut.groupe.junglequest.modele.personnages.Guide;
 import fr.iut.groupe.junglequest.modele.personnages.Forgeron;
@@ -45,9 +44,8 @@ import fr.iut.groupe.junglequest.vue.CarteAffichable;
 import fr.iut.groupe.junglequest.vue.personnages.VueJoueur;
 import fr.iut.groupe.junglequest.vue.personnages.VueLoup;
 import fr.iut.groupe.junglequest.modele.farm.Ressource;
-import fr.iut.groupe.junglequest.modele.Environnement;
 
-public class LanceurJeu extends Application {
+public class    LanceurJeu extends Application {
 
     private static MediaPlayer mediaPlayer;
 

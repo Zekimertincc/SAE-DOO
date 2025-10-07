@@ -6,7 +6,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import fr.iut.groupe.junglequest.modele.item.Inventaire;
 import fr.iut.groupe.junglequest.modele.donnees.ConstantesJeu;
-import fr.iut.groupe.junglequest.modele.donnees.ConstantesJeu;
 
 /**
  * Représente le joueur du jeu, héritant du comportement de base d’un personnage.

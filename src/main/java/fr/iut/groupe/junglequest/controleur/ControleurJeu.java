@@ -241,7 +241,7 @@ public class ControleurJeu {
         if (aAtterri) framesAtterrissageRestants = animation.getNbFramesAtterrissage();
 
         if (!loupMort) {
-            loup.mettreAJourIAEtPhysique(carte, joueur, moteur, vueLoup.getLargeur(), vueLoup.getHauteur());
+            loup.mettreAJourComportement( joueur,carte);
         } else {
             loup.arreter();
         }

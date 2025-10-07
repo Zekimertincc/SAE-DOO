@@ -1,7 +1,6 @@
 package fr.iut.groupe.junglequest.modele.item.equipement;
 
 import fr.iut.groupe.junglequest.modele.item.equipement.arme.Arc;
-import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 import fr.iut.groupe.junglequest.modele.Ciblable;
 import org.junit.jupiter.api.Test;
 
