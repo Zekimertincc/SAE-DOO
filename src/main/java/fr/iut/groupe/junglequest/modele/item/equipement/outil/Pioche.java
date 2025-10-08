@@ -2,10 +2,12 @@ package fr.iut.groupe.junglequest.modele.item.equipement.outil;
 
 import fr.iut.groupe.junglequest.modele.item.Inventaire;
 import fr.iut.groupe.junglequest.modele.item.equipement.Equipement;
+import fr.iut.groupe.junglequest.modele.item.equipement.condition.ConditionBonus;
+import fr.iut.groupe.junglequest.modele.item.equipement.condition.ConditionRoche;
 
 public class Pioche extends Outil {
     public Pioche() {
-        super("Pioche", 3, 2);
+        super("Pioche", 3, 2, new ConditionRoche());
     }
 
     @Override

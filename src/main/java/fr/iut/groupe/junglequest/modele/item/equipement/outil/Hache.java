@@ -2,10 +2,12 @@ package fr.iut.groupe.junglequest.modele.item.equipement.outil;
 
 import fr.iut.groupe.junglequest.modele.item.Inventaire;
 import fr.iut.groupe.junglequest.modele.item.equipement.Equipement;
+import fr.iut.groupe.junglequest.modele.item.equipement.condition.ConditionArbre;
+import fr.iut.groupe.junglequest.modele.item.equipement.condition.ConditionBonus;
 
 public class Hache extends Outil {
     public Hache() {
-        super("Hache", 3, 2);
+        super("Hache", 3, 2, new ConditionArbre());
     }
 
     @Override

@@ -3,6 +3,7 @@ package fr.iut.groupe.junglequest.modele.item.equipement.decorateur;
 import fr.iut.groupe.junglequest.modele.item.Inventaire;
 import fr.iut.groupe.junglequest.modele.item.equipement.Equipement;
 import fr.iut.groupe.junglequest.modele.item.equipement.arme.Arme;
+import fr.iut.groupe.junglequest.modele.item.equipement.condition.ConditionBonus;
 
 public abstract class DecorateurArme extends Arme {
 

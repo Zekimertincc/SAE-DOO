@@ -3,7 +3,7 @@ package fr.iut.groupe.junglequest.modele.item;
 import fr.iut.groupe.junglequest.modele.monde.Maths;
 import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 
-public class Coffre extends Recompense {
+public class Coffre extends     Recompense {
     private double x, y;
     private boolean ouvert; // false si le coffre n'est pas ouvert
 

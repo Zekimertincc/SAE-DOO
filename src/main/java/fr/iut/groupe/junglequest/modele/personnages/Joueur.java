@@ -34,13 +34,13 @@ public class Joueur extends Personnage {
 
     public void changerNullEquipement() {
         if (this.equipementActuel.estCasse()){
-            Couteau c = new Couteau();
+            Couteau c = new Couteau(null);
             setEquipementActuel(c);
         }
     }
 
-    private void setEquipementActuel(Couteau c) {
-        this.equipementActuel = c;
+    private void setEquipementActuel(Equipement equipement) {
+        this.equipementActuel = equipement;
     }
 
     public boolean estEnAttaque() {

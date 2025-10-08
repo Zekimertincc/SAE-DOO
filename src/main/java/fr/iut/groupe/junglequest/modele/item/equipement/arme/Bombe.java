@@ -2,6 +2,7 @@ package fr.iut.groupe.junglequest.modele.item.equipement.arme;
 
 import fr.iut.groupe.junglequest.modele.item.Inventaire;
 import fr.iut.groupe.junglequest.modele.item.equipement.Equipement;
+import fr.iut.groupe.junglequest.modele.item.equipement.condition.ConditionBonus;
 
 public class Bombe extends Arme {
     public Bombe() {
