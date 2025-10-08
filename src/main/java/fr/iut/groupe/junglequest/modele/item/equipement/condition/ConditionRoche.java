@@ -1,11 +1,12 @@
 package fr.iut.groupe.junglequest.modele.item.equipement.condition;
 
+import fr.iut.groupe.junglequest.modele.Ciblable;
 import fr.iut.groupe.junglequest.modele.item.equipement.Equipement;
 
 public class ConditionRoche implements ConditionBonus{
     @Override
-    public boolean verification(Equipement equipement) {
-        if (equipement.getNom().equals("Roche")){
+    public boolean verification(Ciblable cible) {
+        if (cible.getNom().equals("Roche")){
             return true;
         }
         return false;

@@ -33,7 +33,7 @@ public abstract class Equipement extends Item {
         int degatsFinal = 0;
         if (Maths.distance(joueur.getX(), joueur.getY(), cible.getX(), cible.getY())< this.portee){
             degatsFinal = this.degats;
-            if (conditionBonus.verification(this)){
+            if (conditionBonus.verification(cible)){
                 degatsFinal += conditionBonus.degatsBonus(this);
             }
         }

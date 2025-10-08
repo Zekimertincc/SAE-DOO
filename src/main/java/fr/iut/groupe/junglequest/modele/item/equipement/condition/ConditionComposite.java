@@ -1,5 +1,6 @@
 package fr.iut.groupe.junglequest.modele.item.equipement.condition;
 
+import fr.iut.groupe.junglequest.modele.Ciblable;
 import fr.iut.groupe.junglequest.modele.item.equipement.Equipement;
 import java.util.ArrayList;
 
@@ -11,13 +12,12 @@ public class ConditionComposite implements ConditionBonus{
     }
 
     @Override
-    public boolean verification(Equipement equipement) {
+    public boolean verification(Ciblable cible) {
         for (ConditionBonus c : listConditionBonus){
-            if (!verification(equipement)){
+            if (!c.verification(cible)){
                 return false;
             }
         }
-        degatsBonus(equipement);
         return true;
     }
 
