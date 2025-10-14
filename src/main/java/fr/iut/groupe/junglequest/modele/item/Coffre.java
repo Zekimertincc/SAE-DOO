@@ -1,6 +1,6 @@
 package fr.iut.groupe.junglequest.modele.item;
 
-import fr.iut.groupe.junglequest.modele.farm.Farm;
+import fr.iut.groupe.junglequest.modele.item.farm.Farm;
 import fr.iut.groupe.junglequest.modele.item.nourriture.Nourriture;
 import fr.iut.groupe.junglequest.modele.monde.Maths;
 import fr.iut.groupe.junglequest.modele.personnages.Joueur;

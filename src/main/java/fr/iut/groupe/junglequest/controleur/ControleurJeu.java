@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 import fr.iut.groupe.junglequest.modele.Environnement;
 import fr.iut.groupe.junglequest.modele.carte.Carte;
-import fr.iut.groupe.junglequest.modele.farm.Ressource;
+import fr.iut.groupe.junglequest.modele.item.farm.Ressource;
 import fr.iut.groupe.junglequest.modele.personnages.*;
 import fr.iut.groupe.junglequest.vue.VueBackground;
 import fr.iut.groupe.junglequest.vue.CarteAffichable;

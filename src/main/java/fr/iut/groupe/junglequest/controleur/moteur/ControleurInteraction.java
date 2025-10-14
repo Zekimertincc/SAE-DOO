@@ -1,7 +1,7 @@
 package fr.iut.groupe.junglequest.controleur.moteur;
 
 import fr.iut.groupe.junglequest.modele.Environnement;
-import fr.iut.groupe.junglequest.modele.farm.Ressource;
+import fr.iut.groupe.junglequest.modele.item.farm.Ressource;
 import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 import javafx.scene.image.ImageView;
 import java.util.Iterator;

@@ -25,8 +25,8 @@ public class Forgeron extends Personnage {
     }
 
     // le joueur choisir une arme à construire
-    public void setRecette(Equipement equipement) {
-        this.equipementSelectionner = equipement;
+    public void setEquipementSelectionner(Equipement equipementSelectionner) {
+        this.equipementSelectionner = equipementSelectionner;
     }
 
     public ImageView getSprite() {
