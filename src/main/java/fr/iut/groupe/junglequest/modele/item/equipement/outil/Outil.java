@@ -8,7 +8,7 @@ public abstract class Outil extends Equipement {
         super(nom, degats,15, portee, conditionBonus);
     }
     public abstract int degatsBonus (String nomCible);
-    public abstract boolean seConstruit (Inventaire inventaire, Equipement e);
+    public abstract boolean seConstruit (Equipement e);
 
     public void utiliser() {
         if (!estCasse()) {

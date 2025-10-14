@@ -1,16 +1,15 @@
 package fr.iut.groupe.junglequest.modele.item.equipement;
 
 import fr.iut.groupe.junglequest.modele.item.Inventaire;
-import fr.iut.groupe.junglequest.modele.item.equipement.condition.ConditionBonus;
 
 public class Couteau extends Equipement {
-    public Couteau(ConditionBonus conditionBonus) {
-        super("Couteau", 10, 100000, 50, conditionBonus);
+    public Couteau() {
+        super("Couteau", 10, 100000, 50, null);
     }
 
 
     @Override
-    public boolean seConstruit(Inventaire inventaire, Equipement e) {
+    public boolean seConstruit(Equipement e) {
         return false;
     }
 

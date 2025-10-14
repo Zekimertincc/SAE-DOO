@@ -2,13 +2,14 @@ package fr.iut.groupe.junglequest.modele.item.equipement.condition;
 
 import fr.iut.groupe.junglequest.modele.Ciblable;
 import fr.iut.groupe.junglequest.modele.item.equipement.Equipement;
+
 import java.util.ArrayList;
 
-public class ConditionComposite implements ConditionBonus{
+public class ConditionComposite implements ConditionBonus {
     private ArrayList<ConditionBonus> listConditionBonus;
 
-    public ConditionComposite (){
-        this.listConditionBonus = new ArrayList<>();
+    public ConditionComposite(ArrayList<ConditionBonus> listConditionBonus) {
+        this.listConditionBonus = listConditionBonus;
     }
 
     @Override
@@ -23,6 +24,10 @@ public class ConditionComposite implements ConditionBonus{
 
     @Override
     public int degatsBonus(Equipement equipement) {
-        return equipement.getDegats();
+        int degatsTotal = 0;
+        for (ConditionBonus c : listConditionBonus){
+            degatsTotal += c.degatsBonus(equipement);
+        }
+        return degatsTotal;
     }
 }

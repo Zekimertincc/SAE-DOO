@@ -14,6 +14,6 @@ public class ConditionRoche implements ConditionBonus{
 
     @Override
     public int degatsBonus(Equipement equipement) {
-        return equipement.getDegats();
+        return equipement.getDegats() + 10;
     }
 }

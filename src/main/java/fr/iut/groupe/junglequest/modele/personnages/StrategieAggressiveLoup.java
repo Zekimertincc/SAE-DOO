@@ -2,7 +2,7 @@ package fr.iut.groupe.junglequest.modele.personnages;
 
 import fr.iut.groupe.junglequest.modele.carte.Carte;
 
-public class StrategieIALoup implements StrategieIA {
+public class StrategieAggressiveLoup implements StrategieIA {
 
     @Override
     public void mettreAJour(Personnage ennemi, Joueur joueur, Carte carte) {

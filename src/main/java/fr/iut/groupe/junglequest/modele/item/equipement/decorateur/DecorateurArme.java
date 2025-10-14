@@ -21,8 +21,9 @@ public abstract class DecorateurArme extends Arme {
     public int degatsTotal() {
         return arme.getDegats()+ this.getDegats();
     }
+
     @Override
-    public boolean seConstruit(Inventaire inventaire, Equipement e) {
+    public boolean seConstruit(Equipement e) {
         return false;
     }
 

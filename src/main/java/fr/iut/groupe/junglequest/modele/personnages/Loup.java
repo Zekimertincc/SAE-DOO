@@ -1,5 +1,7 @@
 package fr.iut.groupe.junglequest.modele.personnages;
 
+import fr.iut.groupe.junglequest.modele.personnages.StrategieIA;
+import fr.iut.groupe.junglequest.modele.personnages.StrategieAggressiveLoup;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
@@ -53,7 +55,7 @@ public class Loup extends Personnage {
      */
     private int pausePoursuite = 0;
 
-    private StrategieIA ia;
+    private StrategieIA strategie;
     public Loup(double x, double y, double largeur, double hauteur,
                 Image walkImage, Image runImage, Image attackImage, int degats) {
         super(x, y, largeur, hauteur);
@@ -63,14 +65,18 @@ public class Loup extends Personnage {
         this.currentImage = walkImage;
         this.degats = degats;
         this.pointsDeVie.set(ConstantesJeu.VIE_MAX_LOUP);
-        this.ia = new StrategieIALoup();
+        this.strategie = new StrategieAggressiveLoup();
+
     }
     /**
      * Met à jour le déplacement du loup en fonction de la position du joueur.
      */
-    public void mettreAJourComportement(Joueur joueur, Carte carte) {
-        ia.mettreAJour(this, joueur, carte);
+    public void mettreAJourIA(Joueur joueur, Carte carte) {
+        if (strategie != null) {
+            strategie.mettreAJour(this, joueur, carte);
+        }
     }
+
     public void gererPause() {
         pausePoursuite--;
         arreter();
@@ -210,4 +216,22 @@ public class Loup extends Personnage {
     public void subirDegats(int quantite) {
         pointsDeVie.set(Math.max(0, pointsDeVie.get() - quantite));
     }
+
+    public void fuirDe(double positionJoueur) {
+        // Exemple simple : s'éloigne du joueur
+        if (this.getX() < positionJoueur) {
+            this.setX(this.getX() - 10); // se déplace vers la gauche
+        } else {
+            this.setX(this.getX() + 10); // se déplace vers la droite
+        }
+    }
+
+    public void setStrategie(StrategieIA strategie) {
+        this.strategie = strategie;
+    }
+
+    public void seReposer() {
+        this.arreter(); // stoppe le déplacement
+    }
+
 }

@@ -1,8 +1,8 @@
 package fr.iut.groupe.junglequest.vue.personnages;
 
+import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.image.ImageView;
-import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 
 /**
  * Vue graphique associée au joueur.

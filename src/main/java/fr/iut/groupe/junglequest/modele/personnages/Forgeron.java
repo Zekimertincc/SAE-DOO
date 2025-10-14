@@ -15,18 +15,20 @@ public class Forgeron extends Personnage {
         this.equipementSelectionner = null;
     }
 
-    public void estConstructable (Inventaire inventaire, Equipement equipementSelectionner){
-         if (equipementSelectionner.seConstruit(inventaire, equipementSelectionner)){
+    public void estConstructable (Equipement equipementSelectionner){
+        Inventaire inventaire = Inventaire.getInstance();
+         if (equipementSelectionner.seConstruit(equipementSelectionner)){
              construction(inventaire, equipementSelectionner);
          }
     }
+
     public void construction (Inventaire inventaire, Equipement equipementSelectionner){
         inventaire.ajouterItem(equipementSelectionner);
     }
 
     // le joueur choisir une arme à construire
-    public void setRecette(Equipement equipement) {
-        this.equipementSelectionner = equipement;
+    public void setEquipementSelectionner(Equipement equipementSelectionner) {
+        this.equipementSelectionner = equipementSelectionner;
     }
 
     public ImageView getSprite() {

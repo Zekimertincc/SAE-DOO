@@ -21,7 +21,7 @@ public class ParametresController implements Initializable {
     private Slider sliderSaut;
 
     private Stage stage;
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         sliderVitesse.setValue(ConstantesJeu.VITESSE_JOUEUR);
