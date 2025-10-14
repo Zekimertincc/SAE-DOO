@@ -1,5 +1,6 @@
 package fr.iut.groupe.junglequest.modele.item.farm;
 
+import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 import javafx.scene.image.ImageView;
 
 /**
@@ -41,7 +42,7 @@ public class Ressource {
     public double getY() {
         return y;
     }
-    public boolean interagir(fr.iut.groupe.junglequest.modele.personnages.Joueur joueur) {
+    public boolean interagir(Joueur joueur) {
         boolean peutCasser = getNom().equalsIgnoreCase("Arbre")
                 || joueur.getInventaire().contient("Hache", 1);
         if (peutCasser) {

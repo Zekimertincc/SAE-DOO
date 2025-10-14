@@ -5,12 +5,12 @@ import fr.iut.groupe.junglequest.modele.item.nourriture.Nourriture;
 import fr.iut.groupe.junglequest.modele.monde.Maths;
 import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 
-public class Coffre extends     Recompense {
+public class Coffre extends Recompense {
     private double x, y;
     private boolean ouvert; // false si le coffre n'est pas ouvert
 
-    public Coffre(Inventaire inventaire, double x, double y) {
-        super(inventaire);
+    public Coffre(double x, double y) {
+        super();
         this.x = x;
         this.y = y;
         this.ouvert = false;
@@ -21,17 +21,12 @@ public class Coffre extends     Recompense {
      * @param joueur pour avoir la distance entre le joueur et le coffre
      */
     public void interactionAvecCoffre(Joueur joueur) {
+        Inventaire inventaire = Inventaire.getInstance();
         double distance = Maths.distance(joueur.getX(), joueur.getY(), this.getX(), this.getY());
         if (distance < 10) {
             Item randomItem = randomItem();
                 if (ouvert && randomItem != null){
-                    if (randomItem instanceof Nourriture) {
-                        ((Nourriture) randomItem).utiliserSur(joueur);
-                    } else if (randomItem instanceof Farm){
-                        inventaire.ajouterItem(String.valueOf(randomItem), 20);
-                    } else{
-                        inventaire.ajouterItem(randomItem);
-                    }
+                    randomItem.actionRecompense(joueur, inventaire, randomItem);
                 }
         }
     }

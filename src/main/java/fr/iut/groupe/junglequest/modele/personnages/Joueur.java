@@ -40,7 +40,7 @@ public class Joueur extends Personnage {
 
     public void changerNullEquipement() {
         if (this.equipementActuel.estCasse()){
-            Couteau c = new Couteau(null);
+            Couteau c = new Couteau();
             setEquipementActuel(c);
         }
     }

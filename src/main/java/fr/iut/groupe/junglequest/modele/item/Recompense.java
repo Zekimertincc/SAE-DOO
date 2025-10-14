@@ -7,11 +7,9 @@ import java.util.Random;
 
 public class Recompense {
     private ArrayList<Item> listContenu;
-    protected Inventaire inventaire;
 
-    public Recompense(Inventaire inventaire) {
+    public Recompense() {
         this.listContenu = new ArrayList<>();
-        this.inventaire = inventaire;
     }
 
     // choisir un item dans le coffre

@@ -9,7 +9,6 @@ public abstract class Item {
     }
 
     public abstract void actionRecompense(Joueur joueur, Inventaire inventaire, Item item);
-
     public abstract int getQuantiteMax();
 
     public String getNom() {
