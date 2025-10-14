@@ -24,6 +24,10 @@ public class ConditionComposite implements ConditionBonus {
 
     @Override
     public int degatsBonus(Equipement equipement) {
-        return equipement.getDegats();
+        int degatsTotal = 0;
+        for (ConditionBonus c : listConditionBonus){
+            degatsTotal += c.degatsBonus(equipement);
+        }
+        return degatsTotal;
     }
 }
