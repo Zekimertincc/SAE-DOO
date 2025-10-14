@@ -23,7 +23,7 @@ public class Joueur extends Personnage {
         super(x, y, ConstantesJeu.TAILLE_SPRITE, ConstantesJeu.TAILLE_SPRITE);
         this.estEnAttaque = false;
         this.bouclierActif = false;
-        this.inventaire = new Inventaire();
+        this.inventaire = Inventaire.getInstance();
         this.pointsDeVie.set(ConstantesJeu.VIE_MAX_JOUEUR);
     }
 

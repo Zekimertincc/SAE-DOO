@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Environnement {
-
     private final Carte carte;
     private final Joueur joueur;
     private final Loup loup;

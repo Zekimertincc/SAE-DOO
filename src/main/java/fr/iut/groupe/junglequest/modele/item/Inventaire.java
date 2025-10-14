@@ -9,11 +9,17 @@ import java.util.Map;
  * Fournit des méthodes sûres pour ajouter, retirer et consulter les objets.
  */
 public class Inventaire {
-
+    public static Inventaire uniqueInstance = null;
     private final Map<String, Integer> items;
 
-    public Inventaire() {
+    private Inventaire() {
         this.items = new HashMap<>();
+    }
+    public static Inventaire getInstance(){
+        if (uniqueInstance == null){
+            uniqueInstance = new Inventaire();
+        }
+        return uniqueInstance;
     }
 
     /**
