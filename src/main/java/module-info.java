@@ -15,6 +15,8 @@ module fr.iut.groupe.junglequest {
     exports fr.iut.groupe.junglequest.vue.animation;
     exports fr.iut.groupe.junglequest.vue.utilitaire;
     opens fr.iut.groupe.junglequest.controleur.interfacefx to javafx.fxml;
+    exports fr.iut.groupe.junglequest.modele.observateurs;
+
 
 
 }

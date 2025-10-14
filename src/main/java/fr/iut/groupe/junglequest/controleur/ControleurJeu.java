@@ -241,7 +241,7 @@ public class ControleurJeu {
         if (aAtterri) framesAtterrissageRestants = animation.getNbFramesAtterrissage();
 
         if (!loupMort) {
-            loup.mettreAJourComportement( joueur,carte);
+            loup.mettreAJourIA(joueur, carte);
         } else {
             loup.arreter();
         }
@@ -340,4 +340,6 @@ public class ControleurJeu {
 
     public void setVueBackground(VueBackground vueBackground) { this.vueBackground = vueBackground; }
     public void setRessources(List<Ressource> ressources) { this.ressources = ressources; }
+
+
 }

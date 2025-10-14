@@ -27,7 +27,6 @@ public enum TileType {
     TileType(int... ids) {
         this.ids = ids;
     }
-
     /** Identifiant principal (le premier de la liste) */
     public int getId() {
         return ids[0];
