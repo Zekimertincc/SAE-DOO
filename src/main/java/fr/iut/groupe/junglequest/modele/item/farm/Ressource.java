@@ -41,4 +41,15 @@ public class Ressource {
     public double getY() {
         return y;
     }
+    public boolean interagir(fr.iut.groupe.junglequest.modele.personnages.Joueur joueur) {
+        boolean peutCasser = getNom().equalsIgnoreCase("Arbre")
+                || joueur.getInventaire().contient("Hache", 1);
+        if (peutCasser) {
+            getSprite().setVisible(false);
+            joueur.getInventaire().ajouterItem(getItemRecompense(), 1);
+            return true;
+        }
+        return false;
+    }
+
 }

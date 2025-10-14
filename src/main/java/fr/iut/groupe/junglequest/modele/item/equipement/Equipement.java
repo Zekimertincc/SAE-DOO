@@ -39,7 +39,7 @@ public abstract class Equipement extends Item {
         joueur.changerNullEquipement();
     }
 
-    @Override
+
     public void actionRecompense(Joueur joueur, Inventaire inventaire, Item item){
         inventaire.ajouterItem(item.getNom() , 1);
     }

@@ -1,5 +1,7 @@
 package fr.iut.groupe.junglequest.modele.item;
 
+import fr.iut.groupe.junglequest.modele.farm.Farm;
+import fr.iut.groupe.junglequest.modele.item.nourriture.Nourriture;
 import fr.iut.groupe.junglequest.modele.monde.Maths;
 import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 
@@ -13,7 +15,6 @@ public class Coffre extends Recompense {
         this.y = y;
         this.ouvert = false;
     }
-
     /**
      * ouvre un coffre si c'est de la nourriture ca l'utilise directement sur le joueur
      * Si c'est de du farm (bois, pierre ou file) alors 10 dans l'inventaire, sinon on met une arme
@@ -23,11 +24,18 @@ public class Coffre extends Recompense {
         double distance = Maths.distance(joueur.getX(), joueur.getY(), this.getX(), this.getY());
         if (distance < 10) {
             Item randomItem = randomItem();
-                if (!ouvert && randomItem != null){
-                    randomItem.actionRecompense(joueur, inventaire, randomItem);
+                if (ouvert && randomItem != null){
+                    if (randomItem instanceof Nourriture) {
+                        ((Nourriture) randomItem).utiliserSur(joueur);
+                    } else if (randomItem instanceof Farm){
+                        inventaire.ajouterItem(String.valueOf(randomItem), 20);
+                    } else{
+                        inventaire.ajouterItem(randomItem);
+                    }
                 }
         }
     }
+
     public boolean estOuvert() {
         return ouvert;
     }

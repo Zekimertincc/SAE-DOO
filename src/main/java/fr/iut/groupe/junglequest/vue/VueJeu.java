@@ -1,8 +1,8 @@
 package fr.iut.groupe.junglequest.vue;
 
+import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 import javafx.scene.layout.Pane;
 import fr.iut.groupe.junglequest.modele.carte.Carte;
-import fr.iut.groupe.junglequest.modele.personnages.Joueur;
 import fr.iut.groupe.junglequest.vue.personnages.VueJoueur;
 
 public class VueJeu extends Pane {

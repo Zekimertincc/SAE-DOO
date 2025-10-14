@@ -92,4 +92,46 @@ public class Joueur extends Personnage {
     public EtatTemporaire getEtatTemporaire() {
         return null;
     }
+    public void mourir() {
+        this.setPointsDeVie(0);
+        System.out.println("Le joueur est mort.");
+    }
+    public void setPointsDeVie(int i) {
+        this.pointsDeVie.set(i);
+    }
+
+    public void gererBouclier(boolean activer) {
+        if (activer && !estEnAttaque()) {
+            activerBouclier();
+        } else if (!activer) {
+            desactiverBouclier();
+        }
+    }
+
+    public void gererMouvement(boolean gauche, boolean droite) {
+        if (isBouclierActif()) {
+            // Bouclier açıkken hareket etmiyoruz; istersen burada hız kesebilirsin
+            arreter();
+            return;
+        }
+        if (gauche) {
+            deplacerGauche(ConstantesJeu.VITESSE_JOUEUR);
+        } else if (droite) {
+            deplacerDroite(ConstantesJeu.VITESSE_JOUEUR);
+        } else {
+            arreter();
+        }
+    }
+
+    public void gererSaut(boolean toucheSaut) {
+        if (toucheSaut && estAuSol() && !isBouclierActif()) {
+            sauter(ConstantesJeu.IMPULSION_SAUT);
+        }
+    }
+
+    /** İsteğe bağlı ama faydalı: tek yerden hasar alma */
+    public void encaisserDegats(int points) {
+        subirDegats(points);
+    }
+
 }
