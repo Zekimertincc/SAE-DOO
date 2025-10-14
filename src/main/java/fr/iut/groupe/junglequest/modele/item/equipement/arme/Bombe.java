@@ -10,7 +10,8 @@ public class Bombe extends Arme {
 
 
     @Override
-    public boolean seConstruit(Inventaire inventaire, Equipement e) {
+    public boolean seConstruit(Equipement e) {
+        Inventaire inventaire = Inventaire.getInstance();
         if (inventaire.retirerItem("Bois", 2) && inventaire.retirerItem("Pierre", 10) && inventaire.retirerItem("File", 3)){
             return true;
         }

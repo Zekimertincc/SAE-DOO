@@ -9,7 +9,7 @@ public abstract class Arme extends Equipement {
         super(nom, degats, 20, portee, new ConditionEnnemi());
     }
 
-    public abstract boolean seConstruit (Inventaire inventaire, Equipement e);
+    public abstract boolean seConstruit (Equipement e);
 
 //    @Override
 //    public int degatsBonus (String nomCible){

@@ -9,7 +9,7 @@ public class Couteau extends Equipement {
 
 
     @Override
-    public boolean seConstruit(Inventaire inventaire, Equipement e) {
+    public boolean seConstruit(Equipement e) {
         return false;
     }
 

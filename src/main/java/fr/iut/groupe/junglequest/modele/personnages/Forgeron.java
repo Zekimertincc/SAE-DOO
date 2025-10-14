@@ -15,11 +15,13 @@ public class Forgeron extends Personnage {
         this.equipementSelectionner = null;
     }
 
-    public void estConstructable (Inventaire inventaire, Equipement equipementSelectionner){
-         if (equipementSelectionner.seConstruit(inventaire, equipementSelectionner)){
+    public void estConstructable (Equipement equipementSelectionner){
+        Inventaire inventaire = Inventaire.getInstance();
+         if (equipementSelectionner.seConstruit(equipementSelectionner)){
              construction(inventaire, equipementSelectionner);
          }
     }
+
     public void construction (Inventaire inventaire, Equipement equipementSelectionner){
         inventaire.ajouterItem(equipementSelectionner);
     }

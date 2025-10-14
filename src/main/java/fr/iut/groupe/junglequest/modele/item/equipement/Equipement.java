@@ -26,7 +26,7 @@ public abstract class Equipement extends Item {
         this.conditionBonus = conditionBonus;
     }
 
-    public abstract boolean seConstruit (Inventaire inventaire, Equipement e);
+    public abstract boolean seConstruit (Equipement e);
 
 //    public abstract int degatsBonus (String nomCible);
     public int calculerDegats(Ciblable cible, Joueur joueur){
