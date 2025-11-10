@@ -85,7 +85,21 @@ public class Inventaire {
         return "Inventaire : " + items.toString();
     }
 
-    public void ajouterItem(Item randomItem) {
+    public void ajouterItem(Item item) {
+        if (item != null) {
+            ajouterItem(item.getNom(), 1);
+        }
+    }
 
+    public boolean peutAjouter(fr.iut.groupe.junglequest.modele.item.farm.RessourceModele ressource) {
+        // Pour l'instant, on considère qu'on peut toujours ajouter une ressource
+        // On pourrait ajouter une limite d'inventaire plus tard
+        return true;
+    }
+
+    public void ajouter(fr.iut.groupe.junglequest.modele.item.farm.RessourceModele ressource) {
+        if (ressource != null) {
+            ajouterItem(ressource.getItemRecompense(), 1);
+        }
     }
 }

@@ -1,317 +1,113 @@
 package fr.iut.groupe.junglequest.controleur.demarrage;
-import fr.iut.groupe.junglequest.modele.personnages.Joueur;
+
+import fr.iut.groupe.junglequest.controleur.VueJeuController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.animation.Animation;
-import javafx.util.Duration;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.Modality;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.net.URL;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
-import fr.iut.groupe.junglequest.controleur.ControleurJeu;
-import fr.iut.groupe.junglequest.controleur.interfacefx.InventaireController;
-import fr.iut.groupe.junglequest.controleur.interfacefx.DialogueController;
-import fr.iut.groupe.junglequest.controleur.interfacefx.ForgeController;
-import fr.iut.groupe.junglequest.modele.donnees.ConstantesJeu;
-
-import fr.iut.groupe.junglequest.modele.carte.Carte;
-import fr.iut.groupe.junglequest.modele.carte.ChargeurCarte;
-import fr.iut.groupe.junglequest.modele.personnages.Loup;
-import fr.iut.groupe.junglequest.modele.personnages.Guide;
-import fr.iut.groupe.junglequest.modele.personnages.Forgeron;
-import fr.iut.groupe.junglequest.vue.VueBackground;
-import fr.iut.groupe.junglequest.vue.utilitaire.ExtracteurSprites;
-import fr.iut.groupe.junglequest.vue.utilitaire.PositionFrame;
-import fr.iut.groupe.junglequest.vue.utilitaire.BarreVie;
-import fr.iut.groupe.junglequest.vue.CarteAffichable;
-import fr.iut.groupe.junglequest.vue.personnages.VueJoueur;
-import fr.iut.groupe.junglequest.vue.personnages.VueLoup;
-import fr.iut.groupe.junglequest.modele.item.farm.Ressource;
-
-public class    LanceurJeu extends Application {
+/**
+ * Point d'entrée de l'application JavaFX.
+ * 
+ * Architecture MVC - Rôle de LanceurJeu:
+ * 1. Initialiser JavaFX (Stage, Scene)
+ * 2. Charger le FXML principal (VueJeu.fxml)
+ * 3. Obtenir le contrôleur via FXML
+ * 4. Déléguer l'initialisation complète au contrôleur
+ * 
+ * Règle d'OR MVC:
+ * - Le contrôleur crée l'instance envVue et envModele
+ * - Le envModele crée l'instance terrain qui charge les données de la map, crée le joueur et les entités
+ * - Le envVue charge les images du terrain via le envModele, via un bind ou observable il récupère les entités
+ * 
+ * Cette classe:
+ * - NE contient PAS de logique métier
+ * - NE crée PAS les entités du jeu
+ * - NE charge PAS les images du jeu (sauf musique de fond)
+ * - Se limite au démarrage et à la configuration JavaFX
+ * 
+ * Design Patterns:
+ * - MVC Pattern: Séparation claire des responsabilités
+ * - FXML avec Controller: Injection automatique via @FXML
+ */
+public class LanceurJeu extends Application {
 
     private static MediaPlayer mediaPlayer;
 
+    /**
+     * Point d'entrée principal de l'application JavaFX.
+     * 
+     * Flux MVC simplifié:
+     * 1. Charger le FXML avec son contrôleur
+     * 2. Le contrôleur crée le Model (Environnement)
+     * 3. Le contrôleur crée la View (éléments visuels)
+     * 4. Le contrôleur relie Model et View via bindings/observers
+     */
     @Override
     public void start(Stage stage) {
-        System.out.println("Initialisation du jeu Jungle Quest...");
+        System.out.println("===== Démarrage de Jungle Quest =====");
+        
+        // Initialisation de la musique de fond
         initialiserMusique();
 
+        // Récupération des dimensions de l'écran
         Rectangle2D ecran = Screen.getPrimary().getBounds();
         double largeur = ecran.getWidth();
         double hauteur = ecran.getHeight();
 
-        Pane racine;
         try {
+            // Chargement du FXML avec injection automatique du contrôleur
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/fr/iut/groupe/junglequest/vue/VueJeu.fxml"));
-            racine = loader.load();
+                "/fr/iut/groupe/junglequest/vue/VueJeu.fxml"));
+            Pane racine = loader.load();
+            
+            // Récupération du contrôleur créé par FXML
+            VueJeuController controller = loader.getController();
+            
+            // Création de la scène
+            Scene scene = new Scene(racine, largeur, hauteur);
+            
+            // Binding du pauseOverlay sur les dimensions de la scène
+            if (controller.getRacine().lookup("#pauseOverlay") != null) {
+                Pane pauseOverlay = (Pane) controller.getRacine().lookup("#pauseOverlay");
+                pauseOverlay.prefWidthProperty().bind(scene.widthProperty());
+                pauseOverlay.prefHeightProperty().bind(scene.heightProperty());
+            }
+            
+            // Initialisation complète du contrôleur
+            // Le contrôleur va:
+            // 1. Créer l'Environnement (Model)
+            // 2. Créer les vues des entités
+            // 3. Établir les bindings
+            controller.initializationComplete(largeur, hauteur);
+            
+            // Configuration de la fenêtre
+            stage.setTitle("Jungle Quest");
+            stage.setScene(scene);
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
+            stage.show();
+            
+            System.out.println("===== Jungle Quest lancé avec succès =====");
+            
         } catch (IOException e) {
-            racine = new Pane();
-        }
-        Scene scene = new Scene(racine, largeur, hauteur);
-        Pane pauseOverlay = (Pane) scene.lookup("#pauseOverlay");
-        if (pauseOverlay != null) {
-            pauseOverlay.prefWidthProperty().bind(scene.widthProperty());
-            pauseOverlay.prefHeightProperty().bind(scene.heightProperty());
-        }
-
-        try {
-            int[][] grille = ChargeurCarte.chargerCarteDepuisCSV("/fr/iut/groupe/junglequest/cartes/jungle_map_calque1.csv");
-            Carte carte = new Carte(grille);
-            System.out.println("Carte chargée avec succès.");
-
-            InputStream tilesetStream = getClass().getResourceAsStream("/fr/iut/groupe/junglequest/images/tileset_jungle.png");
-            if (tilesetStream == null) {
-                throw new IOException("Ressource tileset_jungle.png introuvable");
-            }
-            Image tileset = new Image(tilesetStream);
-            if (tileset.isError()) System.err.println("Erreur de chargement du tileset.");
-            else System.out.println("Tileset jungle chargé.");
-
-
-            CarteAffichable carteAffichable = new CarteAffichable(carte, tileset, (int) largeur, (int) hauteur);
-            int largeurCartePx = carte.getLargeur() * ConstantesJeu.TAILLE_TUILE;
-            VueBackground vueBackground = new VueBackground((int) largeur, (int) hauteur, largeurCartePx);
-            System.out.println("Background dynamique initialisé.");
-
-            racine.getChildren().add(vueBackground);
-
-            System.out.println("Extraction des animations du personnage...");
-            InputStream personnageStream = getClass().getResourceAsStream("/fr/iut/groupe/junglequest/images/sprite1.png");
-            if (personnageStream == null) {
-                throw new IOException("Ressource sprite1.png introuvable");
-            }
-            Image personnage = new Image(personnageStream);
-            WritableImage[] idle = ExtracteurSprites.idle(personnage);
-            WritableImage[] attaque = ExtracteurSprites.attaque(personnage);
-            WritableImage[] marche = ExtracteurSprites.marche(personnage);
-            WritableImage[] accroupi = ExtracteurSprites.accroupi(personnage);
-            WritableImage[] preparationSaut = ExtracteurSprites.preparationSaut(personnage);
-            WritableImage[] volSaut = ExtracteurSprites.volSaut(personnage);
-            WritableImage[] sautReload = ExtracteurSprites.sautReload(personnage);
-            WritableImage[] chute = ExtracteurSprites.chute(personnage);
-            WritableImage[] atterrissage = ExtracteurSprites.atterrissage(personnage);
-            WritableImage[] degats = ExtracteurSprites.degats(personnage);
-            WritableImage[] mort = ExtracteurSprites.mort(personnage);
-            WritableImage[] sort = ExtracteurSprites.sort(personnage);
-            WritableImage[] bouclier = ExtracteurSprites.bouclier(personnage);
-            System.out.println("Animations extraites.");
-
-            double xInitial = 320;
-            int colonne = (int) (xInitial / ConstantesJeu.TAILLE_TUILE);
-            int ligneSol = carte.chercherLigneSol(colonne);
-            // La carte est stockée comme base en haut à gauche. Pour placer le
-            // personnage sur le sol trouvé, on se base directement sur l'indice de
-            // ligne plutôt que d'inverser par rapport à la hauteur de la carte.
-            double yInitial = ligneSol != -1 ? ligneSol * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.TAILLE_SPRITE : 56;
-            System.out.printf("Position initiale du joueur : (%.0f, %.0f)\n", xInitial, yInitial);
-
-            ImageView spriteJoueur = new ImageView(idle[0]);
-            spriteJoueur.setFitWidth(ConstantesJeu.TAILLE_SPRITE);
-            spriteJoueur.setFitHeight(ConstantesJeu.TAILLE_SPRITE);
-
-            Joueur joueur = new Joueur(xInitial, yInitial);
-            VueJoueur vueJoueur = new VueJoueur(joueur, spriteJoueur);
-            joueur.setEstAuSol(true);
-            racine.getChildren().addAll(carteAffichable, spriteJoueur);
-
-            // --- Guide et Forgeron ---
-            Image imgGuide = new Image(getClass().getResourceAsStream(
-                    "/fr/iut/groupe/junglequest/images/guide.png"));
-            WritableImage[] framesGuide = ExtracteurSprites.extraireLigne(
-                    imgGuide,
-                    ConstantesJeu.NB_FRAMES_GUIDE,
-                    ConstantesJeu.LARGEUR_GUIDE,
-                    ConstantesJeu.HAUTEUR_GUIDE);
-            ImageView spriteGuide = new ImageView(framesGuide[0]);
-            spriteGuide.setFitWidth(ConstantesJeu.LARGEUR_GUIDE);
-            spriteGuide.setFitHeight(ConstantesJeu.HAUTEUR_GUIDE);
-            double xGuide = ConstantesJeu.POSITION_GUIDE_X;
-            int colGuide = (int) (xGuide / ConstantesJeu.TAILLE_TUILE);
-            int ligneSolGuide = carte.chercherLigneSol(colGuide);
-            double yGuide = ligneSolGuide != -1
-                    ? ligneSolGuide * ConstantesJeu.TAILLE_TUILE - ConstantesJeu.HAUTEUR_GUIDE
-                    : yInitial;
-            Guide guide = new Guide(spriteGuide, xGuide, yGuide);
-            guide.setEstAuSol(true);
-            racine.getChildren().add(spriteGuide);
-            spriteGuide.setOnMouseClicked(e -> ouvrirDialogue());
-
-
-            // Animation du guide
-            final int[] indexGuide = {0};
-            Timeline animGuide = new Timeline(new KeyFrame(Duration.millis(150), event -> {
-                spriteGuide.setImage(framesGuide[indexGuide[0]]);
-                indexGuide[0] = (indexGuide[0] + 1) % framesGuide.length;
-            }));
-            animGuide.setCycleCount(Animation.INDEFINITE);
-            animGuide.play();
-
-            Image imgForgeron = new Image(getClass().getResourceAsStream(
-                    "/fr/iut/groupe/junglequest/images/forgeron.png"));
-            WritableImage[] framesForgeron = ExtracteurSprites.extraireLigne(
-                    imgForgeron,
-                    ConstantesJeu.NB_FRAMES_FORGERON,
-                    ConstantesJeu.LARGEUR_FORGERON,
-                    ConstantesJeu.HAUTEUR_FORGERON);
-            ImageView spriteForgeron = new ImageView(framesForgeron[0]);
-            spriteForgeron.setFitWidth(ConstantesJeu.LARGEUR_FORGERON);
-            spriteForgeron.setFitHeight(ConstantesJeu.HAUTEUR_FORGERON);
-            double xForgeron = ConstantesJeu.POSITION_FORGERON_X;
-            int colForgeron = (int) (xForgeron / ConstantesJeu.TAILLE_TUILE);
-            int ligneSolForgeron = carte.chercherLigneSol(colForgeron);
-            double yForgeron = 380;
-            Forgeron forgeron = new Forgeron(
-                    xForgeron,
-                    yForgeron,
-                    spriteForgeron);
-            forgeron.setEstAuSol(true);
-            racine.getChildren().add(spriteForgeron);
-            spriteForgeron.setOnMouseClicked(e -> ouvrirForge(joueur));
-
-            // Animation du forgeron
-            final int[] indexForgeron = {0};
-            Timeline animForgeron = new Timeline(new KeyFrame(Duration.millis(150), event -> {
-                spriteForgeron.setImage(framesForgeron[indexForgeron[0]]);
-                indexForgeron[0] = (indexForgeron[0] + 1) % framesForgeron.length;
-            }));
-            animForgeron.setCycleCount(Animation.INDEFINITE);
-            animForgeron.play();
-
-
-            Image imgLoupWalk = new Image(getClass().getResourceAsStream(
-                    "/fr/iut/groupe/junglequest/images/black_wolf_walk.png"));
-            Image imgLoupRun = new Image(getClass().getResourceAsStream(
-                    "/fr/iut/groupe/junglequest/images/black_wolf_run.png"));
-            Image imgLoupAttack = new Image(getClass().getResourceAsStream(
-                    "/fr/iut/groupe/junglequest/images/black_wolf_attack.png"));
-            ImageView spriteLoup = new ImageView(imgLoupWalk);
-            spriteLoup.setFitWidth(imgLoupWalk.getWidth());
-            spriteLoup.setFitHeight(imgLoupWalk.getHeight());
-            double xLoup = 1500;
-            int colLoup = (int) (xLoup / ConstantesJeu.TAILLE_TUILE);
-            int ligneSolLoup = carte.chercherLigneSol(colLoup);
-            // Même principe que pour le joueur : placement direct par rapport à
-            // l'indice de ligne trouvé.
-            double yLoup = ligneSolLoup != -1
-                    ? ligneSolLoup * ConstantesJeu.TAILLE_TUILE - imgLoupWalk.getHeight()
-                    : 56;
-            // Le loup inflige désormais 20 points de dégâts par attaque
-            Loup loup = new Loup(xLoup, yLoup, imgLoupWalk.getWidth(), imgLoupWalk.getHeight(),
-                    imgLoupWalk, imgLoupRun, imgLoupAttack, 20);
-            VueLoup vueLoup = new VueLoup(loup, spriteLoup, imgLoupWalk, imgLoupRun, imgLoupAttack);
-
-            loup.setEstAuSol(true);
-            racine.getChildren().add(spriteLoup);
-
-            // --- Ressources proches du loup ---
-            Image arbreImg = new Image(getClass().getResourceAsStream(
-                    "/fr/iut/groupe/junglequest/images/arbre.png"));
-            Image canneImg = new Image(getClass().getResourceAsStream(
-                    "/fr/iut/groupe/junglequest/images/canne.png"));
-            Image rocheImg = new Image(getClass().getResourceAsStream(
-                    "/fr/iut/groupe/junglequest/images/roche.png"));
-
-            List<Ressource> ressources = new ArrayList<>();
-            double baseX = xLoup - 100;
-
-            for (int i = 0; i < 2; i++) {
-                double xR = baseX + i * 40;
-                int col = (int) (xR / ConstantesJeu.TAILLE_TUILE);
-                int ligne = carte.chercherLigneSol(col);
-                double yR = ligne != -1 ? ligne * ConstantesJeu.TAILLE_TUILE - 64 : 56;
-                ImageView iv = new ImageView(arbreImg);
-                iv.setFitWidth(64);
-                iv.setFitHeight(64);
-                iv.setViewOrder(-1);
-                racine.getChildren().add(iv);
-                ressources.add(new Ressource("Arbre", "Bois", iv, xR, yR));
-            }
-
-            for (int i = 0; i < 2; i++) {
-                double xR = baseX + 80 + i * 40;
-                int col = (int) (xR / ConstantesJeu.TAILLE_TUILE);
-                int ligne = carte.chercherLigneSol(col);
-                double yR = ligne != -1 ? ligne * ConstantesJeu.TAILLE_TUILE - 64 : 56;
-                ImageView iv = new ImageView(canneImg);
-                iv.setFitWidth(64);
-                iv.setFitHeight(64);
-                iv.setViewOrder(-1);
-                racine.getChildren().add(iv);
-                ressources.add(new Ressource("Canne", "Bois", iv, xR, yR));
-            }
-
-            for (int i = 0; i < 2; i++) {
-                double xR = baseX + 160 + i * 40;
-                int col = (int) (xR / ConstantesJeu.TAILLE_TUILE);
-                int ligne = carte.chercherLigneSol(col);
-                double yR = ligne != -1 ? ligne * ConstantesJeu.TAILLE_TUILE - 64 : 56;
-                ImageView iv = new ImageView(rocheImg);
-                iv.setFitWidth(64);
-                iv.setFitHeight(64);
-                iv.setViewOrder(-1);
-                racine.getChildren().add(iv);
-                ressources.add(new Ressource("Roche", "Bois", iv, xR, yR));
-            }
-
-            BarreVie barreVieLoup = new BarreVie(ConstantesJeu.TAILLE_SPRITE * 1.5, 4);
-
-            barreVieLoup.setViewOrder(-9);
-            racine.getChildren().add(barreVieLoup);
-            javafx.scene.control.Label labelVieLoup = new javafx.scene.control.Label(Integer.toString(loup.getPointsDeVie()));
-            labelVieLoup.setTextFill(javafx.scene.paint.Color.WHITE);
-            labelVieLoup.setViewOrder(-9);
-            racine.getChildren().add(labelVieLoup);
-
-            BarreVie barreVie = new BarreVie(ConstantesJeu.TAILLE_SPRITE * 1.5, 4);
-
-            barreVie.setViewOrder(-9);
-            racine.getChildren().add(barreVie);
-            javafx.scene.control.Label labelVie = new javafx.scene.control.Label(Integer.toString(joueur.getPointsDeVie()));
-            labelVie.setTextFill(javafx.scene.paint.Color.WHITE);
-            labelVie.setViewOrder(-9);
-            racine.getChildren().add(labelVie);
-            InventaireController inventaireCtrl = afficherInventaire(racine, joueur, largeur, hauteur);
-
-            ControleurJeu controleurJeu = new ControleurJeu(scene, carte, carteAffichable, joueur, vueJoueur,
-                    loup, vueLoup, guide, forgeron, inventaireCtrl, barreVie, labelVie, barreVieLoup, labelVieLoup, pauseOverlay,
-                    idle, marche, attaque, preparationSaut, volSaut, sautReload,
-                    chute, atterrissage, degats, mort, sort, accroupi, bouclier);
-
-            controleurJeu.setVueBackground(vueBackground);
-            controleurJeu.setRessources(ressources);
-
-        } catch (IOException e) {
-            System.err.println("Erreur critique : " + e.getMessage());
+            System.err.println("Erreur critique lors du démarrage: " + e.getMessage());
             e.printStackTrace();
         }
-
-        stage.setTitle("Jungle Quest");
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.setFullScreenExitHint("");
-        stage.show();
-        System.out.println("Jeu lancé avec succès.");
     }
 
+    /**
+     * Initialise et lance la musique de fond du jeu.
+     * C'est une responsabilité acceptable pour LanceurJeu car c'est une configuration globale.
+     */
     private void initialiserMusique() {
         try {
             URL ressourceAudio = getClass().getResource("/fr/iut/groupe/junglequest/sons/musique_jeu.mp3");
@@ -326,73 +122,5 @@ public class    LanceurJeu extends Application {
         } catch (Exception e) {
             System.err.println("Erreur musique : " + e.getMessage());
         }
-    }
-
-    private InventaireController afficherInventaire (Pane racine, Joueur joueur, double largeur, double hauteur) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr/iut/groupe/junglequest/vue/interface/Inventaire.fxml"));
-            Node inventaireUI = loader.load();
-            InventaireController inventaireController = loader.getController();
-            inventaireController.setInventaire(joueur.getInventaire());
-            inventaireUI.setLayoutX(10);
-            inventaireUI.setLayoutY(10);
-            inventaireUI.setViewOrder(-10);
-            racine.getChildren().add(inventaireUI);
-            System.out.println("Interface d'inventaire chargée.");
-            return inventaireController;
-        } catch (IOException e) {
-            System.err.println("Inventaire UI non chargé : " + e.getMessage());
-            return null;
-        }
-    }
-    private void ouvrirDialogue() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr/iut/groupe/junglequest/vue/interface/dialogue.fxml"));
-            Pane root = loader.load();
-            Stage stage = new Stage();
-            stage.initOwner(null);
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.setScene(new Scene(root));
-            DialogueController controller = loader.getController();
-            controller.setStage(stage);
-            controller.setMessage("Bonjour voyageur !");
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Dialogue non chargé : " + e.getMessage());
-        }
-    }
-
-    private void ouvrirForge(Joueur joueur) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr/iut/groupe/junglequest/vue/interface/Forge.fxml"));
-            Pane root = loader.load();
-            Stage stage = new Stage();
-            stage.initOwner(null);
-            stage.setScene(new Scene(root));
-            ForgeController controller = loader.getController();
-            controller.setStage(stage);
-            controller.setJoueur(joueur);
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Forge non chargée : " + e.getMessage());
-        }
-    }
-
-    private List<PositionFrame> creerListeFrames(int debutCol, int ligne, int finCol, int ligneFin) {
-        List<PositionFrame> frames = new ArrayList<>();
-        for (int l = ligne; l <= ligneFin; l++) {
-            int start = (l == ligne) ? debutCol : 0;
-            int end = (l == ligneFin) ? finCol : 7;
-            for (int c = start; c <= end; c++) {
-                frames.add(new PositionFrame(c, l));
-            }
-        }
-        return frames;
-    }
-
-    private List<PositionFrame> concatFrames(List<PositionFrame> a, List<PositionFrame> b) {
-        List<PositionFrame> result = new ArrayList<>(a);
-        result.addAll(b);
-        return result;
     }
 }

@@ -1,22 +1,39 @@
 package fr.iut.groupe.junglequest.modele.personnages;
 
-import fr.iut.groupe.junglequest.modele.personnages.StrategieIA;
-import fr.iut.groupe.junglequest.modele.personnages.StrategieAggressiveLoup;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.image.Image;
 import java.util.Random;
 import fr.iut.groupe.junglequest.modele.donnees.ConstantesJeu;
 import fr.iut.groupe.junglequest.modele.monde.AStar;
 import fr.iut.groupe.junglequest.modele.carte.Carte;
+import fr.iut.groupe.junglequest.modele.personnages.strategies.*;
 
 /**
  * Représente un ennemi de type loup.
+ * 
+ * Architecture MVC:
+ * - Pure Model - NO UI elements (no ImageView, no Image)
+ * - Contains only game logic and state
+ * - Animation state is represented as String (not Image)
+ * - View components handle actual image rendering
  */
 public class Loup extends Personnage {
 
     private final int degats;
     private final IntegerProperty pointsDeVie = new SimpleIntegerProperty();
+    private boolean estMort = false;
+    
+    // Getters pour Strategy pattern
+    public int getDirectionAttaque() { return directionAttaque; }
+    public double getCibleAttaqueX() { return cibleAttaqueX; }
+    public int getDelaiAvantAttaque() { return delaiAvantAttaque; }
+    public void setDelaiAvantAttaque(int delai) { this.delaiAvantAttaque = delai; }
+    public int getDureeAction() { return dureeAction; }
+    public Random getRandom() { return random; }
+    public boolean estMort() { return estMort; }
+    public String getAnimationState() { return animationState; }
+    public void setAnimationState(String state) { this.animationState = state; }
+    
     /**
      * Rayon de détection du joueur (en pixels).
      */
@@ -27,10 +44,9 @@ public class Loup extends Personnage {
      */
     private final double vitesseMarche = 0.8;
     private final double vitesseCourse = 1.3;
-    private final Image walkImage;
-    private final Image runImage;
-    private final Image attackImage;
-    private Image currentImage;
+    
+    // Animation state (Model representation - View will use this to select Image)
+    private String animationState = "walk";
     private boolean enAttaque = false;
     /**
      * Direction prise lors du lancement d'une attaque : -1 pour la gauche,
@@ -55,19 +71,27 @@ public class Loup extends Personnage {
      */
     private int pausePoursuite = 0;
 
-    private StrategieIA strategie;
-    public Loup(double x, double y, double largeur, double hauteur,
-                Image walkImage, Image runImage, Image attackImage, int degats) {
+    private ComportementLoup strategie;
+    
+    /**
+     * Constructeur du loup avec toutes ses caractéristiques
+     * @param x Position X initiale
+     * @param y Position Y initiale
+     * @param largeur Largeur du sprite
+     * @param hauteur Hauteur du sprite
+     * @param degats Dégâts infligés
+     */
+    public Loup(double x, double y, double largeur, double hauteur, int degats) {
         super(x, y, largeur, hauteur);
-        this.walkImage = walkImage;
-        this.runImage = runImage;
-        this.attackImage = attackImage;
-        this.currentImage = walkImage;
         this.degats = degats;
         this.pointsDeVie.set(ConstantesJeu.VIE_MAX_LOUP);
-        this.strategie = new StrategieAggressiveLoup();
-
+        this.strategie = new ComportementAgressif();
+        this.animationState = "walk";
     }
+    public void setDureeAction(int duree) {
+        this.dureeAction = duree;
+    }
+
     /**
      * Met à jour le déplacement du loup en fonction de la position du joueur.
      */
@@ -80,7 +104,7 @@ public class Loup extends Personnage {
     public void gererPause() {
         pausePoursuite--;
         arreter();
-        currentImage = walkImage;
+        animationState = "walk";
     }
 
     public void gererInteractionAvecJoueur(double distance, Joueur joueur, Carte carte) {
@@ -128,7 +152,7 @@ public class Loup extends Personnage {
             suivreChemin(joueur, carte);
             delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
         } else {
-            currentImage = walkImage;
+            animationState = "walk";
             if (dureeAction <= 0) {
                 int action = random.nextInt(3);
                 if (action == 0) {
@@ -156,7 +180,7 @@ public class Loup extends Personnage {
         if (chemin.size() > 1) {
             int[] next = chemin.get(1);
             double cibleX = next[0] * ConstantesJeu.TAILLE_TUILE;
-            currentImage = runImage;
+            animationState = "run";
             if (cibleX > getX()) {
                 deplacerDroite(vitesseCourse);
             } else if (cibleX < getX()) {
@@ -165,7 +189,7 @@ public class Loup extends Personnage {
                 arreter();
             }
         } else {
-            currentImage = runImage;
+            animationState = "run";
             if (joueur.getX() > getX()) {
                 deplacerDroite(vitesseCourse);
             } else {
@@ -180,10 +204,6 @@ public class Loup extends Personnage {
     public int getDegats() {
         return degats;
     }
-    public Image getWalkImage() { return walkImage; }
-    public Image getRunImage() { return runImage; }
-    public Image getAttackImage() { return attackImage; }
-    public Image getCurrentImage() { return currentImage; }
 
     public boolean estEnAttaque() { return enAttaque; }
 
@@ -193,13 +213,13 @@ public class Loup extends Personnage {
         // toute la séquence d'attaque.
         directionAttaque = estVersGauche() ? -1 : 1;
         cibleAttaqueX = positionJoueurX;
-        currentImage = attackImage;
+        animationState = "attack";
     }
 
     public void finAttaque() {
         enAttaque = false;
         directionAttaque = 0;
-        currentImage = walkImage;
+        animationState = "walk";
         pausePoursuite = random.nextInt(60) + 50;
     }
     public int getPointsDeVie() {
@@ -226,7 +246,11 @@ public class Loup extends Personnage {
         }
     }
 
-    public void setStrategie(StrategieIA strategie) {
+    /**
+     * Change la stratégie de comportement du loup (Strategy Pattern)
+     * @param strategie La nouvelle stratégie à appliquer
+     */
+    public void setStrategie(ComportementLoup strategie) {
         this.strategie = strategie;
     }
 

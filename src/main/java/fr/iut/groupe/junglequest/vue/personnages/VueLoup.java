@@ -7,6 +7,11 @@ import fr.iut.groupe.junglequest.modele.personnages.Loup;
 
 /**
  * Vue graphique du loup. Gère son sprite et les images utilisées pour les différentes animations.
+ * 
+ * Architecture MVC:
+ * - View class handles rendering based on Model state
+ * - Reads animationState from Loup model
+ * - Selects appropriate image based on state
  */
 public class VueLoup {
     private final Loup loup;
@@ -41,4 +46,27 @@ public class VueLoup {
 
     public double getLargeur() { return sprite.getFitWidth(); }
     public double getHauteur() { return sprite.getFitHeight(); }
+    
+    /**
+     * Met à jour l'animation du loup en fonction de l'état du modèle.
+     * Lit l'animationState du Loup et sélectionne l'image appropriée.
+     */
+    public void mettreAJourAnimation() {
+        String state = loup.getAnimationState();
+        Image newImage = null;
+        
+        switch (state) {
+            case "walk" -> newImage = walkImage;
+            case "run" -> newImage = runImage;
+            case "attack" -> newImage = attackImage;
+            default -> newImage = walkImage; // Default to walk
+        }
+        
+        if (newImage != null && sprite.getImage() != newImage) {
+            sprite.setImage(newImage);
+        }
+        
+        // Update direction based on facing direction
+        sprite.setScaleX(loup.estVersGauche() ? -1 : 1);
+    }
 }

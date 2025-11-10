@@ -4,7 +4,8 @@ package fr.iut.groupe.junglequest.modele.donnees;
  * Cette classe contient toutes les constantes générales du jeu :
  * physiques, visuelles ou temporelles.
  */
-public final class ConstantesJeu {
+public class ConstantesJeu {
+    public static final int FORCE_JOUEUR = 10;
 
     // --- Dimensions ---
     /** Taille (en pixels) d’une tuile de la carte */

@@ -5,16 +5,19 @@ import fr.iut.groupe.junglequest.modele.item.Item;
 import fr.iut.groupe.junglequest.modele.item.equipement.condition.ConditionBonus;
 import fr.iut.groupe.junglequest.modele.monde.Maths;
 import fr.iut.groupe.junglequest.modele.personnages.Joueur;
-import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 
+/**
+ * Equipement abstrait (Model - MVC)
+ * 
+ * Architecture MVC:
+ * - NO ImageView or Node (removed - these are View concerns)
+ * - Contains only game logic and data
+ * - View components create their own visuals based on this data
+ */
 public abstract class Equipement extends Item {
     protected int degats, durabilite, portee;
     private int quantiteMax; // 1 max par type dans l'inventaire
     private ConditionBonus conditionBonus;
-
-    private transient ImageView imageView;
-    private transient Node vueNode;
 
 
     public Equipement(String nom, int degats, int durabilite, int portee, ConditionBonus conditionBonus) {
@@ -71,18 +74,9 @@ public abstract class Equipement extends Item {
     public int getPortee() {
         return portee;
     }
-    public void setImageView(ImageView iv) {
-        this.imageView = iv;
-    }
-    public ImageView getImageView() {
-        return imageView;
-    }
 
-    public void setVueNode(Node vueNode) {
-        this.vueNode = vueNode;
-    }
-    public Node getVueNode() {
-        return vueNode;
+    public double getBonusAttaque() {
+        return 1.0; // Default bonus multiplier
     }
 
 }

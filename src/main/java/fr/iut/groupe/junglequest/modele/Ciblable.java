@@ -5,4 +5,9 @@ public interface Ciblable {
     double getX();
     double getY();
     String getNom();
+    int getPointsDeVie();
+    void setPointsDeVie(int points);
+    int getForce();
+    int getPorteeAttaque();
+    int calculerDegats(Ciblable cible);
 }

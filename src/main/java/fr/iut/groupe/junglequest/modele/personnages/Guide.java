@@ -1,17 +1,33 @@
 package fr.iut.groupe.junglequest.modele.personnages;
 
-import javafx.scene.image.ImageView;
 import fr.iut.groupe.junglequest.modele.donnees.ConstantesJeu;
 
+/**
+ * Guide NPC - Personnage non joueur qui fournit des informations au joueur
+ * 
+ * Architecture MVC:
+ * - Cette classe est dans le Model, elle ne contient PAS d'éléments visuels
+ * - Les éléments visuels (sprites, animations) sont gérés par la Vue
+ * - La communication avec la Vue se fait via la position et les propriétés
+ */
 public class Guide extends Personnage {
-    private final ImageView sprite;
-
-    public Guide(ImageView sprite, double x, double y) {
+    
+    /**
+     * Constructeur du Guide
+     * 
+     * @param x Position X du guide
+     * @param y Position Y du guide
+     */
+    public Guide(double x, double y) {
         super(x, y, ConstantesJeu.LARGEUR_GUIDE, ConstantesJeu.HAUTEUR_GUIDE);
-        this.sprite = sprite;
     }
-
-    public ImageView getSprite() {
-        return sprite;
+    
+    /**
+     * Message de dialogue du guide
+     * 
+     * @return Le message à afficher
+     */
+    public String getMessageDialogue() {
+        return "Bonjour voyageur ! Bienvenue dans la jungle.";
     }
 }

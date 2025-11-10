@@ -1,8 +1,12 @@
 module fr.iut.groupe.junglequest {
+    // Dépendances JavaFX
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.media;
     requires javafx.graphics;
+    
+    // Exports pour accès externe
+    exports fr.iut.groupe.junglequest;
     exports fr.iut.groupe.junglequest.vue.fenetre;
     exports fr.iut.groupe.junglequest.controleur.demarrage;
     exports fr.iut.groupe.junglequest.controleur;
@@ -14,9 +18,13 @@ module fr.iut.groupe.junglequest {
     exports fr.iut.groupe.junglequest.modele.bloc;
     exports fr.iut.groupe.junglequest.vue.animation;
     exports fr.iut.groupe.junglequest.vue.utilitaire;
-    opens fr.iut.groupe.junglequest.controleur.interfacefx to javafx.fxml;
+    exports fr.iut.groupe.junglequest.vue.personnages;
     exports fr.iut.groupe.junglequest.modele.observateurs;
-
-
-
+    exports fr.iut.groupe.junglequest.modele;
+    exports fr.iut.groupe.junglequest.modele.item.farm;
+    
+    // Opens pour FXML (injection via @FXML)
+    opens fr.iut.groupe.junglequest.controleur to javafx.fxml;
+    opens fr.iut.groupe.junglequest.controleur.interfacefx to javafx.fxml;
+    opens fr.iut.groupe.junglequest.controleur.demarrage to javafx.fxml;
 }
