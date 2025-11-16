@@ -1,26 +1,29 @@
 package fr.iut.groupe.junglequest.modele.personnages;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+// import javafx.beans.property.IntegerProperty; // Supprimé
+// import javafx.beans.property.SimpleIntegerProperty; // Supprimé
 import java.util.Random;
 import fr.iut.groupe.junglequest.modele.donnees.ConstantesJeu;
 import fr.iut.groupe.junglequest.modele.monde.AStar;
 import fr.iut.groupe.junglequest.modele.carte.Carte;
 import fr.iut.groupe.junglequest.modele.personnages.strategies.*;
 
-/**
- * Représente un ennemi de type loup.
- * 
- * Architecture MVC:
- * - Pure Model - NO UI elements (no ImageView, no Image)
- * - Contains only game logic and state
- * - Animation state is represented as String (not Image)
- * - View components handle actual image rendering
- */
-public class Loup extends Personnage {
+// Imports pour le Pattern Observer (ajoutés)
+import fr.iut.groupe.junglequest.modele.observateurs.SujetObserve;
+import fr.iut.groupe.junglequest.modele.observateurs.SujetObserveImpl;
+import fr.iut.groupe.junglequest.modele.observateurs.Observateur;
+import fr.iut.groupe.junglequest.modele.observateurs.TypeChangement;
+
+// Représente un ennemi de type loup.
+// Implémente SujetObserve pour notifier la vue (ex: barre de vie).
+public class Loup extends Personnage implements SujetObserve {
+
+    // Délégué pour le Pattern Observer
+    private final SujetObserveImpl sujetObserve = new SujetObserveImpl();
 
     private final int degats;
-    private final IntegerProperty pointsDeVie = new SimpleIntegerProperty();
+    // Remplacement de IntegerProperty par int
+    private int pointsDeVie;
     private boolean estMort = false;
     
     // Getters pour Strategy pattern
@@ -34,79 +37,59 @@ public class Loup extends Personnage {
     public String getAnimationState() { return animationState; }
     public void setAnimationState(String state) { this.animationState = state; }
     
-    /**
-     * Rayon de détection du joueur (en pixels).
-     */
+    // Rayon de détection du joueur (en pixels).
     private final double zoneDetection = 450;
 
-    /**
-     * Vitesse horizontale du loup.
-     */
+    // Vitesse horizontale du loup.
     private final double vitesseMarche = 0.8;
     private final double vitesseCourse = 1.3;
     
-    // Animation state (Model representation - View will use this to select Image)
+    // État de l'animation (pour la Vue)
     private String animationState = "walk";
     private boolean enAttaque = false;
-    /**
-     * Direction prise lors du lancement d'une attaque : -1 pour la gauche,
-     * 1 pour la droite.
-     */
+    // Direction prise lors du lancement d'une attaque
     private int directionAttaque = 0;
-    /**
-     * Position visée lors du début de l'attaque. Le loup continue de se
-     * déplacer jusqu'à atteindre ce point afin d'éviter de dépasser un
-     * joueur immobile.
-     */
+    // Position visée lors du début de l'attaque.
     private double cibleAttaqueX = 0;
-    /**
-     * Compteur gérant le temps d'attente avant une nouvelle attaque lorsque
-     * le joueur est à portée.
-     */
+    // Compteur gérant le temps d'attente avant une nouvelle attaque.
     private int delaiAvantAttaque = ConstantesJeu.DELAI_AVANT_ATTAQUE_LOUP;
     private final Random random = new Random();
     private int dureeAction = 0;
-    /**
-     * Temps restant d'une éventuelle pause dans la poursuite du joueur.
-     */
+    // Temps restant d'une éventuelle pause dans la poursuite du joueur.
     private int pausePoursuite = 0;
 
     private ComportementLoup strategie;
     
-    /**
-     * Constructeur du loup avec toutes ses caractéristiques
-     * @param x Position X initiale
-     * @param y Position Y initiale
-     * @param largeur Largeur du sprite
-     * @param hauteur Hauteur du sprite
-     * @param degats Dégâts infligés
-     */
+    // Constructeur du loup avec toutes ses caractéristiques
     public Loup(double x, double y, double largeur, double hauteur, int degats) {
         super(x, y, largeur, hauteur);
         this.degats = degats;
-        this.pointsDeVie.set(ConstantesJeu.VIE_MAX_LOUP);
+        // assignation directe de l'entier
+        this.pointsDeVie = ConstantesJeu.VIE_MAX_LOUP;
         this.strategie = new ComportementAgressif();
         this.animationState = "walk";
     }
+
+    // Définit la durée d'une action de patrouille
     public void setDureeAction(int duree) {
         this.dureeAction = duree;
     }
 
-    /**
-     * Met à jour le déplacement du loup en fonction de la position du joueur.
-     */
+    // Met à jour le déplacement du loup en fonction de la position du joueur.
     public void mettreAJourIA(Joueur joueur, Carte carte) {
         if (strategie != null) {
             strategie.mettreAJour(this, joueur, carte);
         }
     }
 
+    // Gère la pause du loup après une attaque
     public void gererPause() {
         pausePoursuite--;
         arreter();
         animationState = "walk";
     }
 
+    // Gère l'interaction (poursuite ou attaque) avec le joueur
     public void gererInteractionAvecJoueur(double distance, Joueur joueur, Carte carte) {
         if (Math.abs(distance) <= ConstantesJeu.DISTANCE_ARRET_LOUP) {
             gererApprocheAttaque(distance, joueur);
@@ -114,6 +97,8 @@ public class Loup extends Personnage {
             gererDeplacement(distance, joueur, carte);
         }
     }
+    
+    // Continue le mouvement de charge lors d'une attaque
     public void poursuivreAttaque() {
         if (directionAttaque >= 0) {
             if (getX() < cibleAttaqueX) {
@@ -132,6 +117,7 @@ public class Loup extends Personnage {
         }
     }
 
+    // Gère le loup lorsqu'il est proche du joueur (prêt à attaquer)
     private void gererApprocheAttaque(double distance, Joueur joueur) {
         arreter();
         if (delaiAvantAttaque > 0) {
@@ -147,6 +133,7 @@ public class Loup extends Personnage {
         }
     }
 
+    // Gère le déplacement du loup (patrouille ou poursuite)
     private void gererDeplacement(double distance, Joueur joueur, Carte carte) {
         if (Math.abs(distance) <= zoneDetection) {
             suivreChemin(joueur, carte);
@@ -170,6 +157,7 @@ public class Loup extends Personnage {
         }
     }
 
+    // Utilise A* pour trouver le chemin vers le joueur
     private void suivreChemin(Joueur joueur, fr.iut.groupe.junglequest.modele.carte.Carte carte) {
         int startX = (int) (getX() / ConstantesJeu.TAILLE_TUILE);
         int startY = (int) (getY() / ConstantesJeu.TAILLE_TUILE);
@@ -198,64 +186,89 @@ public class Loup extends Personnage {
         }
     }
 
-    /**
-     * Dégâts infligés au joueur lors d'un contact.
-     */
+    // Dégâts infligés au joueur lors d'un contact.
     public int getDegats() {
         return degats;
     }
 
+    // Vérifie si le loup est en train d'attaquer
     public boolean estEnAttaque() { return enAttaque; }
 
+    // Déclenche l'état d'attaque
     public void attaquer(double positionJoueurX) {
         enAttaque = true;
-        // On enregistre la direction actuelle pour la conserver durant
-        // toute la séquence d'attaque.
         directionAttaque = estVersGauche() ? -1 : 1;
         cibleAttaqueX = positionJoueurX;
         animationState = "attack";
     }
 
+    // Termine l'état d'attaque et déclenche une pause
     public void finAttaque() {
         enAttaque = false;
         directionAttaque = 0;
         animationState = "walk";
         pausePoursuite = random.nextInt(60) + 50;
     }
-    public int getPointsDeVie() {
-        return pointsDeVie.get();
-    }
 
-    public IntegerProperty pointsDeVieProperty() {
+    // Retourne les points de vie actuels
+    public int getPointsDeVie() {
         return pointsDeVie;
     }
+
+    // La méthode ...Property() n'est plus nécessaire
+    // public IntegerProperty pointsDeVieProperty() {
+    //     return pointsDeVie;
+    // }
+    
+    // Retourne le temps de pause restant
     public int getPausePoursuite() {
         return pausePoursuite;
     }
 
+    // Inflige des dégâts au loup et notifie les observateurs
     public void subirDegats(int quantite) {
-        pointsDeVie.set(Math.max(0, pointsDeVie.get() - quantite));
+        this.pointsDeVie = Math.max(0, this.pointsDeVie - quantite);
+        notifierObservateurs(TypeChangement.POINTS_DE_VIE);
     }
 
+    // Fait fuir le loup (utilisé par ComportementPassif)
     public void fuirDe(double positionJoueur) {
-        // Exemple simple : s'éloigne du joueur
         if (this.getX() < positionJoueur) {
-            this.setX(this.getX() - 10); // se déplace vers la gauche
+            this.setX(this.getX() - 10);
         } else {
-            this.setX(this.getX() + 10); // se déplace vers la droite
+            this.setX(this.getX() + 10);
         }
     }
 
-    /**
-     * Change la stratégie de comportement du loup (Strategy Pattern)
-     * @param strategie La nouvelle stratégie à appliquer
-     */
+    // Change la stratégie de comportement du loup (Strategy Pattern)
     public void setStrategie(ComportementLoup strategie) {
         this.strategie = strategie;
     }
 
+    // Arrête le loup (utilisé par ComportementPassif)
     public void seReposer() {
-        this.arreter(); // stoppe le déplacement
+        this.arreter();
     }
 
+
+    // Implémentation du Pattern Observer
+    
+    
+    // Ajoute un observateur
+    @Override
+    public void ajouterObservateur(Observateur obs) {
+        sujetObserve.ajouterObservateur(obs);
+    }
+
+    // Retire un observateur
+    @Override
+    public void retirerObservateur(Observateur obs) {
+        sujetObserve.retirerObservateur(obs);
+    }
+
+    // Notifie les observateurs d'un changement
+    @Override
+    public void notifierObservateurs(TypeChangement type) {
+        sujetObserve.notifierObservateurs(type);
+    }
 }
