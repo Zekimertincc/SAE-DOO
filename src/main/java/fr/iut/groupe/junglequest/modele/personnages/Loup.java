@@ -8,7 +8,7 @@ import fr.iut.groupe.junglequest.modele.monde.AStar;
 import fr.iut.groupe.junglequest.modele.carte.Carte;
 import fr.iut.groupe.junglequest.modele.personnages.strategies.*;
 
-// Imports pour le Pattern Observer (ajoutés)
+
 import fr.iut.groupe.junglequest.modele.observateurs.SujetObserve;
 import fr.iut.groupe.junglequest.modele.observateurs.SujetObserveImpl;
 import fr.iut.groupe.junglequest.modele.observateurs.Observateur;
