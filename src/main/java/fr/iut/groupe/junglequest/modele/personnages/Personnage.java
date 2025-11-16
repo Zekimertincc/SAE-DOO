@@ -1,22 +1,18 @@
 package fr.iut.groupe.junglequest.modele.personnages;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 
-/**
- * Classe abstraite représentant un personnage générique avec position, vitesse et sprite.
- * Elle sert de base commune pour le joueur et d'autres entités futures.
- */
+// Classe  représentant un personnage générique avec position, vitesse et sprite.
+// Elle sert de base commune pour le joueur et d'autres entités futures.
+// Cette classe est 100% pur Java, sans dépendance à JavaFX.
+
 public abstract class Personnage {
 
-    protected final DoubleProperty x = new SimpleDoubleProperty();
-    protected final DoubleProperty y = new SimpleDoubleProperty();
-    protected final DoubleProperty vitesseX = new SimpleDoubleProperty();
-    protected final DoubleProperty vitesseY = new SimpleDoubleProperty();
-    protected final BooleanProperty versGauche = new SimpleBooleanProperty();
-    protected final BooleanProperty estAuSol = new SimpleBooleanProperty();
+    protected double x;
+    protected double y;
+    protected double vitesseX;
+    protected double vitesseY;
+    protected boolean versGauche;
+    protected boolean estAuSol;
 
     private double largeur;
     private double hauteur;
@@ -24,130 +20,116 @@ public abstract class Personnage {
     public Personnage(double x, double y, double largeur, double hauteur) {
         this.largeur = largeur;
         this.hauteur = hauteur;
-        this.x.set(x);
-        this.y.set(y);
-        this.vitesseX.set(0);
-        this.vitesseY.set(0);
-        this.versGauche.set(false);
-        this.estAuSol.set(false);
+        this.x = x;
+        this.y = y;
+        this.vitesseX = 0;
+        this.vitesseY = 0;
+        this.versGauche = false;
+        this.estAuSol = false;
     }
 
-    /**
-     * Met à jour la position en fonction des vitesses actuelles.
-     */
+    
+    // Met à jour la position en fonction des vitesses actuelles.
+     
     public void mettreAJourPosition() {
-        x.set(x.get() + vitesseX.get());
-        y.set(y.get() + vitesseY.get());
+        this.x += this.vitesseX;
+        this.y += this.vitesseY;
     }
 
-    /**
-     * Applique la gravité si le personnage n'est pas au sol.
-     */
+    
+    // Applique la gravité si le personnage n'est pas au sol.
+     
     public void appliquerGravite(double gravite, double vitesseChuteMax) {
-        if (!estAuSol.get()) {
-            vitesseY.set(Math.min(vitesseY.get() + gravite, vitesseChuteMax));
+        if (!this.estAuSol) {
+            this.vitesseY = Math.min(this.vitesseY + gravite, vitesseChuteMax);
         }
     }
 
-    /**
-     * Pose le personnage au sol à une hauteur précise.
-     */
+    
+    //Pose le personnage au sol à une hauteur précise.
+     
     public void poserAuSol(double ySol) {
-        y.set(ySol);
-        vitesseY.set(0);
-        estAuSol.set(true);
+        this.y = ySol;
+        this.vitesseY = 0;
+        this.estAuSol = true;
     }
 
-    /**
-     * Lance un saut si le personnage est au sol.
-     */
+    
+    // Lance un saut si le personnage est au sol.
+
     public void sauter(double impulsion) {
-        if (estAuSol.get()) {
-            vitesseY.set(-impulsion);
-            estAuSol.set(false);
+        if (this.estAuSol) {
+            this.vitesseY = -impulsion;
+            this.estAuSol = false;
         }
     }
 
-    /**
-     * Déplace vers la gauche.
-     */
+    
+    // Déplace vers la gauche.
+    
     public void deplacerGauche(double vitesse) {
-        vitesseX.set(-vitesse);
-        versGauche.set(true);
+        this.vitesseX = -vitesse;
+        this.versGauche = true;
     }
 
-    /**
-     * Déplace vers la droite.
-     */
+    
+    // Déplace vers la droite.
     public void deplacerDroite(double vitesse) {
-        vitesseX.set(vitesse);
-        versGauche.set(false);
+        this.vitesseX = vitesse;
+        this.versGauche = false;
     }
 
-    /**
-     * Arrête le mouvement horizontal.
-     */
+    
+     //Arrête le mouvement horizontal.
+     
     public void arreter() {
-        vitesseX.set(0);
+        this.vitesseX = 0;
     }
 
-    // --- Getters utiles ---
+    // Getters utiles
 
     public double getLargeur() { return largeur; }
-
     public double getHauteur() { return hauteur; }
 
-    public double getX() { return x.get(); }
-
-    public double getY() { return y.get(); }
-
-    public double getVitesseY() { return vitesseY.get(); }
-    public double getVitesseX() { return vitesseX.get(); }
-    public boolean estAuSol() { return estAuSol.get(); }
-
-    public boolean estVersGauche() { return versGauche.get(); }
+    public double getX() { return x; }
+    public double getY() { return y; }
+    public double getVitesseY() { return vitesseY; }
+    public double getVitesseX() { return vitesseX; }
+    public boolean estAuSol() { return estAuSol; }
+    public boolean estVersGauche() { return versGauche; }
 
     public void setEstAuSol(boolean auSol) {
-        this.estAuSol.set(auSol);
+        this.estAuSol = auSol;
     }
 
-    /**
-     * Positionne le personnage horizontalement.
-     */
+    
+    // Positionne le personnage horizontalement.
+     
     public void setX(double x) {
-        this.x.set(x);
+        this.x = x;
     }
 
-    /**
-     * Positionne le personnage verticalement.
-     */
+    
+    // Positionne le personnage verticalement.
+     
     public void setY(double y) {
-        this.y.set(y);
+        this.y = y;
     }
 
-    /**
-     * Modifie la vitesse horizontale du personnage.
-     */
+    
+    // Modifie la vitesse horizontale du personnage.
+     
     public void setVitesseX(double vitesseX) {
-        this.vitesseX.set(vitesseX);
+        this.vitesseX = vitesseX;
     }
 
-    /**
-     * Modifie la vitesse verticale du personnage.
-     */
+    
+    // Modifie la vitesse verticale du personnage.
+    
     public void setVitesseY(double vitesseY) {
-        this.vitesseY.set(vitesseY);
+        this.vitesseY = vitesseY;
     }
-
-    // --- Properties ---
-    public DoubleProperty xProperty() { return x; }
-    public DoubleProperty yProperty() { return y; }
-    public DoubleProperty vitesseXProperty() { return vitesseX; }
-    public DoubleProperty vitesseYProperty() { return vitesseY; }
-    public BooleanProperty versGaucheProperty() { return versGauche; }
-    public BooleanProperty estAuSolProperty() { return estAuSol; }
-
-
+    
     protected void setPointsDeVie(int i) {
     }
 }
