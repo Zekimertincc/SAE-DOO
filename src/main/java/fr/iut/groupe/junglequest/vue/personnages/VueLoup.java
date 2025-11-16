@@ -1,18 +1,13 @@
 package fr.iut.groupe.junglequest.vue.personnages;
 
-import javafx.beans.property.DoubleProperty;
+// import javafx.beans.property.DoubleProperty; // Supprimé
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import fr.iut.groupe.junglequest.modele.personnages.Loup;
 
-/**
- * Vue graphique du loup. Gère son sprite et les images utilisées pour les différentes animations.
- * 
- * Architecture MVC:
- * - View class handles rendering based on Model state
- * - Reads animationState from Loup model
- * - Selects appropriate image based on state
- */
+// Vue graphique du loup. Gère son sprite et les images utilisées pour les différentes animations.
+//
+
 public class VueLoup {
     private final Loup loup;
     private final ImageView sprite;
@@ -28,29 +23,28 @@ public class VueLoup {
         this.attackImage = attackImage;
     }
 
+    // Retourne le sprite (ImageView) du loup
     public ImageView getSprite() {
         return sprite;
     }
 
+    // Retourne l'image de marche
     public Image getWalkImage() { return walkImage; }
+    // Retourne l'image de course
     public Image getRunImage() { return runImage; }
+    // Retourne l'image d'attaque
     public Image getAttackImage() { return attackImage; }
 
-    /**
-     * Lie la position du sprite aux coordonnées du loup en tenant compte de l'offset.
-     */
-    public void lierPosition(DoubleProperty offsetX, DoubleProperty offsetY) {
-        sprite.xProperty().bind(loup.xProperty().subtract(offsetX));
-        sprite.yProperty().bind(loup.yProperty().subtract(offsetY));
-    }
-
+    // La position est maintenant gérée directement par VueJeuController.
+    //
+    
+    // Retourne la largeur du sprite
     public double getLargeur() { return sprite.getFitWidth(); }
+    // Retourne la hauteur du sprite
     public double getHauteur() { return sprite.getFitHeight(); }
     
-    /**
-     * Met à jour l'animation du loup en fonction de l'état du modèle.
-     * Lit l'animationState du Loup et sélectionne l'image appropriée.
-     */
+    // Met à jour l'animation du loup en fonction de l'état du modèle.
+    // Lit l'animationState du Loup et sélectionne l'image appropriée.
     public void mettreAJourAnimation() {
         String state = loup.getAnimationState();
         Image newImage = null;
@@ -59,14 +53,14 @@ public class VueLoup {
             case "walk" -> newImage = walkImage;
             case "run" -> newImage = runImage;
             case "attack" -> newImage = attackImage;
-            default -> newImage = walkImage; // Default to walk
+            default -> newImage = walkImage; // Par défaut : marche
         }
         
         if (newImage != null && sprite.getImage() != newImage) {
             sprite.setImage(newImage);
         }
         
-        // Update direction based on facing direction
+        // Met à jour la direction en fonction de l'orientation du modèle
         sprite.setScaleX(loup.estVersGauche() ? -1 : 1);
     }
 }
