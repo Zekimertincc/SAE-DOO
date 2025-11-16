@@ -20,8 +20,8 @@ import fr.iut.groupe.junglequest.controleur.commandes.*;
 import fr.iut.groupe.junglequest.modele.donnees.ConstantesJeu;
 
 import javafx.animation.AnimationTimer;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+// import javafx.beans.property.DoubleProperty; // Supprimé
+// import javafx.beans.property.SimpleDoubleProperty; // Supprimé
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -46,30 +46,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/**
- * Contrôleur principal de la vue du jeu (Controller - MVC)
- * 
- * Architecture MVC avec JavaFX:
- * - Utilise @FXML pour l'injection automatique des composants UI
- * - Le contrôleur connaît le Model (Environnement) et la Vue (Pane racine + composants)
- * - Le contrôleur coordonne les interactions entre Model et View
- * - Le contrôleur NE contient PAS de logique métier (déléguée au Model)
- * 
- * Flux d'initialisation (RÈGLE D'OR):
- * 1. Le contrôleur crée l'instance envModele (via Factory)
- * 2. Le envModele crée le terrain, le joueur et les entités
- * 3. Le contrôleur crée l'envVue (éléments visuels)
- * 4. La envVue charge les images via bindings/observers sur envModele
- * 5. La envVue récupère les entités du modèle et crée leurs vues
- * 
- * Design Patterns:
- * - Observer Pattern: Le contrôleur observe les changements du modèle
- * - Command Pattern: Actions utilisateur encapsulées en commandes
- * - MVC Pattern: Séparation claire Model-View-Controller
- */
+// Contrôleur principal de la vue du jeu
+//
+// Architecture MVC avec JavaFX:
+// - Utilise @FXML pour l'injection automatique des composants UI
+// - Le contrôleur connaît le Model (Environnement) et la Vue (Pane racine + composants)
+// - Le contrôleur coordonne les interactions entre Model et View
+// - Le contrôleur NE contient PAS de logique métier (déléguée au Model)
+//
 public class VueJeuController implements Initializable, Observateur {
-    
-    // ========== Composants FXML (injection automatique) ==========
     
     @FXML
     private Pane racine;
@@ -77,11 +62,7 @@ public class VueJeuController implements Initializable, Observateur {
     @FXML
     private Pane pauseOverlay;
     
-    // ========== Model ==========
-    
     private Environnement environnement;
-    
-    // ========== View ==========
     
     private CarteAffichable carteAffichable;
     private VueBackground vueBackground;
@@ -108,9 +89,9 @@ public class VueJeuController implements Initializable, Observateur {
     private GestionAnimation gestionAnimation; // Animation state manager (must persist between frames)
     private MoteurPhysique moteurPhysique;
     
-    // Propriétés de caméra pour le scrolling
-    private final DoubleProperty offsetXProperty = new SimpleDoubleProperty();
-    private final DoubleProperty offsetYProperty = new SimpleDoubleProperty();
+    // Propriétés de caméra pour le scrolling (types Java purs)
+    private double offsetX = 0;
+    private double offsetY = 0;
     
     // État du jeu
     private boolean enPause = false;
@@ -126,31 +107,16 @@ public class VueJeuController implements Initializable, Observateur {
     private int delaiDegats = 0;
     private boolean toucheAccroupi = false;
     
-    /**
-     * Initialisation du contrôleur (appelée automatiquement par JavaFX après @FXML)
-     * 
-     * RÈGLE D'OR MVC:
-     * 1. Créer EnvModele (Model)
-     * 2. EnvModele crée terrain + entités
-     * 3. Créer EnvVue (View) en écoutant Model
-     * 4. EnvVue charge images et crée vues des entités
-     */
+    // Initialisation du contrôleur (appelée automatiquement par JavaFX après @FXML)
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("===== Initialisation VueJeuController =====");
         
-        // Récupération des dimensions
-        // Note: Les dimensions seront mises à jour dans initializationComplete()
         this.vueRessources = new ArrayList<>();
     }
     
-    /**
-     * Initialisation complète une fois la scène disponible.
-     * Cette méthode est appelée par LanceurJeu après le chargement FXML.
-     * 
-     * @param largeur Largeur de l'écran
-     * @param hauteur Hauteur de l'écran
-     */
+    // Initialisation complète une fois la scène disponible.
+    // Cette méthode est appelée par LanceurJeu après le chargement FXML.
     public void initializationComplete(double largeur, double hauteur) {
         this.largeurEcran = largeur;
         this.hauteurEcran = hauteur;
@@ -162,6 +128,10 @@ public class VueJeuController implements Initializable, Observateur {
             
             // Observer Pattern: S'abonner aux changements du modèle
             environnement.ajouterObservateur(this);
+            // S'abonner aussi au loup (pour sa barre de vie)
+            if (environnement.getLoup() != null) {
+                environnement.getLoup().ajouterObservateur(this);
+            }
             
             // ===== ÉTAPE 2: Créer EnvVue =====
             System.out.println("Étape 2: Création de la vue");
@@ -183,10 +153,8 @@ public class VueJeuController implements Initializable, Observateur {
         }
     }
     
-    /**
-     * Crée tous les éléments visuels (EnvVue).
-     * La vue récupère les données du modèle et crée les composants graphiques.
-     */
+    // Crée tous les éléments visuels (EnvVue).
+    // La vue récupère les données du modèle et crée les composants graphiques.
     private void creerVue() throws IOException {
         // 1. Chargement des images du terrain via le modèle
         InputStream tilesetStream = getClass().getResourceAsStream(
@@ -206,21 +174,21 @@ public class VueJeuController implements Initializable, Observateur {
         
         // 3. Création du background
         int largeurCartePx = environnement.getCarte().getLargeur() * ConstantesJeu.TAILLE_TUILE;
-        vueBackground = new VueBackground((int) largeurEcran, (int) hauteurEcran, largeurCartePx);
+        vueBackground = new VueBackground(largeurCartePx, largeurEcran, hauteurEcran);
         
         // 4. Ajout du background et de la carte
         racine.getChildren().addAll(vueBackground, carteAffichable);
         
-        // 5. Création de la vue du joueur via binding avec le modèle
+        // 5. Création de la vue du joueur
         creerVueJoueur();
         
-        // 6. Création des vues des NPCs via binding avec le modèle
+        // 6. Création des vues des NPCs
         creerVueNPCs();
         
-        // 7. Création de la vue du loup via binding avec le modèle
+        // 7. Création de la vue du loup
         creerVueLoup();
         
-        // 8. Création des vues des ressources via binding avec le modèle
+        // 8. Création des vues des ressources
         creerVueRessources();
         
         // 9. Création des barres de vie
@@ -232,9 +200,7 @@ public class VueJeuController implements Initializable, Observateur {
         System.out.println("Vue créée avec succès");
     }
     
-    /**
-     * Crée la vue du joueur avec ses animations
-     */
+    // Crée la vue du joueur avec ses animations
     private void creerVueJoueur() throws IOException {
         InputStream personnageStream = getClass().getResourceAsStream(
             "/fr/iut/groupe/junglequest/images/sprite1.png");
@@ -249,20 +215,15 @@ public class VueJeuController implements Initializable, Observateur {
         spriteJoueur.setFitHeight(ConstantesJeu.TAILLE_SPRITE);
         
         vueJoueur = new VueJoueur(environnement.getJoueur(), spriteJoueur);
-        vueJoueur.lierPosition(offsetXProperty, offsetYProperty);
+        
+        // Le binding de position est retiré, géré dans mettreAJourAffichage
+        // vueJoueur.lierPosition(offsetXProperty, offsetYProperty);
         
         racine.getChildren().add(spriteJoueur);
         System.out.println("Vue joueur créée");
     }
     
-    /**
-     * Crée les vues des NPCs (Guide, Forgeron)
-     * 
-     * Architecture MVC:
-     * - Les NPCs sont créés dans le Model (Environnement)
-     * - Les sprites sont créés ici dans la Vue
-     * - Les sprites suivent la position des NPCs du Model
-     */
+    // Crée les vues des NPCs (Guide, Forgeron)
     private void creerVueNPCs() throws IOException {
         // Guide
         Guide guide = environnement.getGuide();
@@ -321,9 +282,7 @@ public class VueJeuController implements Initializable, Observateur {
         System.out.println("Vues NPCs créées");
     }
     
-    /**
-     * Crée la vue du loup
-     */
+    // Crée la vue du loup
     private void creerVueLoup() throws IOException {
         Image imgLoupWalk = new Image(getClass().getResourceAsStream(
             "/fr/iut/groupe/junglequest/images/black_wolf_walk.png"));
@@ -337,15 +296,15 @@ public class VueJeuController implements Initializable, Observateur {
         spriteLoup.setFitHeight(imgLoupWalk.getHeight());
         
         vueLoup = new VueLoup(environnement.getLoup(), spriteLoup, imgLoupWalk, imgLoupRun, imgLoupAttack);
-        vueLoup.lierPosition(offsetXProperty, offsetYProperty);
+        
+        // Le binding de position est retiré
+        // vueLoup.lierPosition(offsetXProperty, offsetYProperty);
         
         racine.getChildren().add(spriteLoup);
         System.out.println("Vue loup créée");
     }
     
-    /**
-     * Crée les vues des ressources via binding avec le modèle
-     */
+    // Crée les vues des ressources
     private void creerVueRessources() throws IOException {
         // Chargement des images des ressources
         Image arbreImg = new Image(getClass().getResourceAsStream(
@@ -365,7 +324,10 @@ public class VueJeuController implements Initializable, Observateur {
             };
             
             VueRessource vueRessource = new VueRessource(ressourceModele, img);
-            vueRessource.lierPosition(offsetXProperty, offsetYProperty);
+            
+            // Le binding de position est retiré
+            // vueRessource.lierPosition(offsetXProperty, offsetYProperty);
+            
             vueRessources.add(vueRessource);
             racine.getChildren().add(vueRessource.getSprite());
         }
@@ -373,37 +335,33 @@ public class VueJeuController implements Initializable, Observateur {
         System.out.println("Vues ressources créées: " + vueRessources.size());
     }
     
-    /**
-     * Crée les barres de vie avec binding sur les propriétés du modèle
-     */
+    // Crée les barres de vie SANS binding
     private void creerBarresVie() {
         // Barre de vie du joueur
         barreVieJoueur = new BarreVie(ConstantesJeu.TAILLE_SPRITE * 1.5, 4);
         barreVieJoueur.setViewOrder(-9);
-        barreVieJoueur.ratioProperty().bind(
-            environnement.getJoueur().pointsDeVieProperty()
-                .divide((double) ConstantesJeu.VIE_MAX_JOUEUR)
-        );
         
         labelVieJoueur = new Label();
-        labelVieJoueur.textProperty().bind(
-            environnement.getJoueur().pointsDeVieProperty().asString()
-        );
+
+        // Initialisation manuelle des valeurs
+        int pdvJoueur = environnement.getJoueur().getPointsDeVie();
+        barreVieJoueur.setRatio((double) pdvJoueur / ConstantesJeu.VIE_MAX_JOUEUR);
+        labelVieJoueur.setText(String.valueOf(pdvJoueur));
+        
         labelVieJoueur.setTextFill(javafx.scene.paint.Color.WHITE);
         labelVieJoueur.setViewOrder(-9);
         
         // Barre de vie du loup
         barreVieLoup = new BarreVie(ConstantesJeu.TAILLE_SPRITE * 1.5, 4);
         barreVieLoup.setViewOrder(-9);
-        barreVieLoup.ratioProperty().bind(
-            environnement.getLoup().pointsDeVieProperty()
-                .divide((double) ConstantesJeu.VIE_MAX_LOUP)
-        );
         
         labelVieLoup = new Label();
-        labelVieLoup.textProperty().bind(
-            environnement.getLoup().pointsDeVieProperty().asString()
-        );
+
+        // Initialisation manuelle des valeurs
+        int pdvLoup = environnement.getLoup().getPointsDeVie();
+        barreVieLoup.setRatio((double) pdvLoup / ConstantesJeu.VIE_MAX_LOUP);
+        labelVieLoup.setText(String.valueOf(pdvLoup));
+        
         labelVieLoup.setTextFill(javafx.scene.paint.Color.WHITE);
         labelVieLoup.setViewOrder(-9);
         
@@ -412,12 +370,10 @@ public class VueJeuController implements Initializable, Observateur {
             barreVieLoup, labelVieLoup
         );
         
-        System.out.println("Barres de vie créées avec bindings");
+        System.out.println("Barres de vie créées (sans bindings)");
     }
     
-    /**
-     * Crée l'interface d'inventaire
-     */
+    // Crée l'interface d'inventaire
     private void creerInterfaceInventaire() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
@@ -437,15 +393,12 @@ public class VueJeuController implements Initializable, Observateur {
         }
     }
     
-    /**
-     * Initialise les gestionnaires (animations, physique, clavier, événements).
-     * Remplace l'ancien ControleurJeu avec son constructeur massif.
-     */
+    // Initialise les gestionnaires (animations, physique, clavier, événements).
     private void initialiserGestionnaires() throws IOException {
-        // 1. Gestionnaire d'animations (remplace le passage de 13 tableaux!)
+        // 1. Gestionnaire d'animations
         animationManager = AnimationManager.create("/fr/iut/groupe/junglequest/images/sprite1.png");
         
-        // 2. Création de l'objet de gestion d'animations (IMPORTANT: créé une seule fois!)
+        // 2. Création de l'objet de gestion d'animations
         gestionAnimation = new GestionAnimation(
             animationManager.getIdle(),
             animationManager.getMarche(),
@@ -474,17 +427,16 @@ public class VueJeuController implements Initializable, Observateur {
         System.out.println("Gestionnaires initialisés (Animation, Physique, Clavier)");
     }
     
-    /**
-     * Configure les événements de la scène (souris, clavier).
-     */
+    // Configure les événements de la scène (souris, clavier).
     private void configurerEvenementsScene() {
         Scene scene = racine.getScene();
         
         // Clic gauche → attaque / récolte ressource
         scene.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY && !enPause) {
-                double xMonde = e.getX() + offsetXProperty.get();
-                double yMonde = e.getY() + offsetYProperty.get();
+                // Utilisation des variables offsetX/Y
+                double xMonde = e.getX() + offsetX;
+                double yMonde = e.getY() + offsetY;
                 
                 // Interaction avec ressources
                 for (VueRessource vr : vueRessources) {
@@ -527,10 +479,7 @@ public class VueJeuController implements Initializable, Observateur {
         });
     }
     
-    /**
-     * Démarre la boucle de jeu principale.
-     * Utilise AnimationTimer pour les mises à jour à chaque frame.
-     */
+    // Démarre la boucle de jeu principale.
     private void demarrerBoucleJeu() {
         gameLoop = new AnimationTimer() {
             @Override
@@ -542,14 +491,7 @@ public class VueJeuController implements Initializable, Observateur {
         System.out.println("Boucle de jeu démarrée");
     }
     
-    /**
-     * Boucle principale du jeu - Met à jour tous les éléments à chaque frame.
-     * 
-     * Architecture MVC:
-     * - Le Controller coordonne les mises à jour
-     * - La logique métier est dans le Model (Joueur, Loup, Environnement)
-     * - L'affichage est mis à jour dans la View
-     */
+    // Boucle principale du jeu - Met à jour tous les éléments à chaque frame.
     private void mettreAJourJeu() {
         if (enPause) return;
         
@@ -604,10 +546,7 @@ public class VueJeuController implements Initializable, Observateur {
         mettreAJourAnimations();
     }
     
-    /**
-     * Gère les entrées clavier via Command Pattern.
-     * Délègue les actions au modèle (Joueur).
-     */
+    // Gère les entrées clavier via Command Pattern.
     private void gererClavierEtInventaire() {
         // Command Pattern: Encapsulation de la gestion clavier
         Commande gestionClavier = new CommandeGestionClavier(
@@ -626,30 +565,35 @@ public class VueJeuController implements Initializable, Observateur {
         toucheAccroupi = clavier.estAppuyee(KeyCode.CONTROL);
     }
     
-    /**
-     * Met à jour l'affichage de tous les éléments visuels.
-     * Gère le scrolling de la caméra et le positionnement des sprites.
-     */
+    // Met à jour l'affichage de tous les éléments visuels.
+    // Gère le scrolling de la caméra et le positionnement des sprites.
     private void mettreAJourAffichage() {
         Joueur joueur = environnement.getJoueur();
         
         // Calcul du scroll de la caméra (centré sur le joueur)
-        double offsetX = Math.max(0, Math.min(
+        offsetX = Math.max(0, Math.min(
             joueur.getX() - largeurEcran / 2,
             environnement.getCarte().getLargeur() * ConstantesJeu.TAILLE_TUILE - largeurEcran
         ));
-        double offsetY = Math.max(0, Math.min(
+        offsetY = Math.max(0, Math.min(
             joueur.getY() - hauteurEcran / 2,
             environnement.getCarte().getHauteur() * ConstantesJeu.TAILLE_TUILE - hauteurEcran
         ));
-        
-        offsetXProperty.set(offsetX);
-        offsetYProperty.set(offsetY);
         
         // Mise à jour de l'affichage de la carte et du background
         carteAffichable.redessiner(offsetX, offsetY);
         if (vueBackground != null) {
             vueBackground.mettreAJourScroll(offsetX);
+        }
+
+        // Mise à jour manuelle de la position des sprites
+        if (vueJoueur != null) {
+            vueJoueur.getSprite().setX(joueur.getX() - offsetX);
+            vueJoueur.getSprite().setY(joueur.getY() - offsetY);
+        }
+        if (vueLoup != null) {
+            vueLoup.getSprite().setX(environnement.getLoup().getX() - offsetX);
+            vueLoup.getSprite().setY(environnement.getLoup().getY() - offsetY);
         }
         
         // Positionnement des NPCs relatif à la caméra
@@ -664,24 +608,18 @@ public class VueJeuController implements Initializable, Observateur {
         
         // Mise à jour des vues de ressources
         for (VueRessource vr : vueRessources) {
-            vr.mettreAJour();
+            vr.getSprite().setX(vr.getModele().getX() - offsetX);
+            vr.getSprite().setY(vr.getModele().getY() - offsetY);
+            vr.mettreAJour(); // Gère la visibilité
         }
     }
     
-    /**
-     * Met à jour les animations du joueur et du loup.
-     * Utilise AnimationManager et le Command Pattern pour le joueur.
-     * Met à jour directement le loup via VueLoup.
-     * 
-     * IMPORTANT: gestionAnimation est réutilisé à chaque frame pour conserver
-     * les compteurs d'animation (frameIdle, compteurMarche, etc.)
-     */
+    // Met à jour les animations du joueur et du loup.
     private void mettreAJourAnimations() {
         // Animation du joueur via Command Pattern
-        // IMPORTANT: Réutilisation de gestionAnimation pour ne pas réinitialiser les compteurs!
         Commande animationJoueur = new CommandeAnimationJoueur(
             environnement.getJoueur(),
-            gestionAnimation, // Utilise l'instance persistante au lieu d'en créer une nouvelle
+            gestionAnimation, 
             vueJoueur.getSprite(),
             toucheAccroupi,
             delaiDegats,
@@ -698,34 +636,51 @@ public class VueJeuController implements Initializable, Observateur {
         }
     }
     
-    /**
-     * Observer Pattern: Notifié des changements dans le modèle
-     * 
-     * @param sujet Le sujet qui a changé
-     * @param type Le type de changement survenu
-     */
+    // Observer Pattern: Notifié des changements dans le modèle
     @Override
     public void mettreAJour(SujetObserve sujet, TypeChangement type) {
+        
+        // Gestion des mises à jour de PV (remplace les bindings)
+        if (sujet == environnement.getJoueur() && type == TypeChangement.POINTS_DE_VIE) {
+            int pdv = environnement.getJoueur().getPointsDeVie();
+            double ratio = (double) pdv / ConstantesJeu.VIE_MAX_JOUEUR;
+            
+            barreVieJoueur.setRatio(ratio);
+            labelVieJoueur.setText(String.valueOf(pdv));
+        }
+        
+        if (sujet == environnement.getLoup() && type == TypeChangement.POINTS_DE_VIE) {
+            int pdv = environnement.getLoup().getPointsDeVie();
+            double ratio = (double) pdv / ConstantesJeu.VIE_MAX_LOUP;
+            
+            barreVieLoup.setRatio(ratio);
+            labelVieLoup.setText(String.valueOf(pdv));
+        }
+
         switch (type) {
-            case RESSOURCE_RECOLTEE -> {
+            case RESSOURCE_RECOLTEE: {
                 // Mettre à jour l'affichage des ressources
                 for (VueRessource vr : vueRessources) {
                     vr.mettreAJour();
                 }
+                break; 
             }
-            case COMBAT -> {
+            case COMBAT: {
                 // Gérer les effets visuels de combat
+                break; 
             }
-            case DIALOGUE -> {
+            case DIALOGUE: {
                 // Ouvrir la fenêtre de dialogue
+                break; 
             }
-            default -> {
-                // Autres types de changements
+            default: {
+                // Autres types de changements (POSITION, ETAT, etc.)
+                // La boucle principale (mettreAJourAffichage) gère déjà la position.
+                break; 
             }
         }
     }
     
-    // ========== Getters ==========
     
     public Pane getRacine() {
         return racine;
@@ -735,4 +690,3 @@ public class VueJeuController implements Initializable, Observateur {
         return environnement;
     }
 }
-
